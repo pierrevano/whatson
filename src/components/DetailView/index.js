@@ -17,6 +17,7 @@ import { getLanguage } from "utils/useLanguage";
 import queryString from "query-string";
 import { useStorageString } from "utils/useStorageString";
 import { getParameters } from "utils/getParameters";
+import config from "utils/config";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -61,8 +62,11 @@ const getDetailTitle = (kindURL, title) => `${getTitleFromURL(kindURL)} ${title 
 const DetailView = ({ id, kindURL }) => {
   const kind = getKindByURL(kindURL);
 
-  const cors_url = "https://cors-sites-aafe82ad9d0c.fly.dev/";
-  const base_render = "https://whatson-api.onrender.com/";
+  const base = config.base;
+  const api = config.api;
+
+  const cors_url = config.cors_url;
+  const base_render = config.base_render;
 
   const queryStringParsed = queryString.parse(window.location.search);
   let ratings_filters_query = queryStringParsed.ratings_filters;
@@ -72,14 +76,14 @@ const DetailView = ({ id, kindURL }) => {
     if (typeof ratings_filters_query !== "undefined") setRatingsFilters(ratings_filters_query);
   });
 
-  const parameters = getParameters("", undefined, ratings_filters, ratings_filters_query);
+  const parameters = getParameters("", undefined, "", undefined, ratings_filters, ratings_filters_query, "", undefined);
 
   const { data: data_from_render } = useFetch([`${cors_url}${base_render}/${kind}/${id}`, `${parameters}`].join(""));
 
   const allocine = data_from_render?.allocine?.id;
   const score = data_from_render?.ratings_average;
 
-  const { error, loading, data } = useFetch([`https://api.themoviedb.org/3/${kind}/${id}`, `?api_key=${process.env.REACT_APP_TMDB_KEY}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
+  const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
   const title = data?.title;
   const image = data?.poster_path || data?.profile_path;
