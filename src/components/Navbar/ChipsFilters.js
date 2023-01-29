@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MultiSelect } from "primereact/multiselect";
-import "primereact/resources/themes/vela-green/theme.css";
+import "primereact/resources/themes/lara-dark-teal/theme.css";
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import "./multiselectStyle.css";
@@ -9,7 +9,7 @@ import { useStorageString } from "utils/useStorageString";
 const ChipsDoc = () => {
   const allocineCritics = { name: "AlloCiné critics", code: "allocine_critics" };
   const allocineUsers = { name: "AlloCiné users", code: "allocine_users" };
-  const betaseriesUsers = { name: "Betaseries users", code: "betaseries_users" };
+  const betaseriesUsers = { name: "BetaSeries users", code: "betaseries_users" };
   const imdbUsers = { name: "IMDb users", code: "imdb_users" };
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -24,7 +24,7 @@ const ChipsDoc = () => {
   }
 
   return (
-    <div className="card flex justify-content-center">
+    <div className="card">
       <MultiSelect
         value={selectedItems}
         options={items}
