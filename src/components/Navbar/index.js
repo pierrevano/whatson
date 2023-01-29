@@ -5,6 +5,7 @@ import Link from "components/Link";
 import Container from "components/Container";
 import { Heart, Search } from "components/Icon";
 import Item from "./Item";
+import ChipsDoc from "./ChipsFilters";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -51,12 +52,13 @@ const Navbar = () => (
     <Wrapper>
       <Logo tabIndex={0} to="/">
         <span role="img" aria-label="logo">
-          <img src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
+          <img style={{ maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
         </span>
       </Logo>
       <Location>
         {({ location: { pathname } }) => (
           <Flex>
+            <ChipsDoc></ChipsDoc>
             <Item to="/favorites" active={pathname === "/favorites"}>
               <Heart filled={pathname === "/favorites"} style={{ transform: "translateY(1px)" }} />
             </Item>

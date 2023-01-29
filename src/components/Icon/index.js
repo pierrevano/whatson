@@ -7,5 +7,4 @@ export Movie from "./Movie";
 export Person from "./Person";
 export RottenTomatoes from "./RottenTomatoes";
 export Search from "./Search";
-export Theaters from "./Theaters";
 export TV from "./TV";

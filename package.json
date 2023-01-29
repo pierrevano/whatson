@@ -9,6 +9,8 @@
     "griding": "^0.1.2",
     "minireset.css": "^0.0.4",
     "prettier": "^2.8.3",
+    "primeicons": "^6.0.1",
+    "primereact": "^9.0.0-beta.1",
     "query-string": "^8.1.0",
     "react": "16.8.1",
     "react-dom": "16.8.1",
