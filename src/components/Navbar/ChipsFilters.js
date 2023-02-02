@@ -3,7 +3,6 @@ import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/lara-dark-teal/theme.css";
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
-import "./multiselectStyle.css";
 import { useStorageString } from "utils/useStorageString";
 
 const ChipsDoc = () => {

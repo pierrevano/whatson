@@ -55,7 +55,7 @@ const Button = ({ kindURL, id }) => {
         <Heart filled={isFavorite} size={16} strokeWidth={2.5} />
       </Left>
       <Right>
-        <Text weight={500}>{isFavorite ? "Added" : "Add to favourites"}</Text>
+        <Text weight={500}>{isFavorite ? "Added" : "Add to favorites"}</Text>
       </Right>
     </Wrapper>
   );

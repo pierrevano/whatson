@@ -6,6 +6,9 @@ import Container from "components/Container";
 import { Heart, Search } from "components/Icon";
 import Item from "./Item";
 import ChipsDoc from "./ChipsFilters";
+import AutocompleteTheaters from "./AutocompleteTheaters";
+import Pin from "components/Icon/Pin";
+import Star from "components/Icon/Star";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -47,6 +50,67 @@ const Flex = styled.div`
   align-items: center;
 `;
 
+const linkStyle = `
+  display: block;
+  text-decoration: none;
+  color: currentColor;
+  margin: -0.75rem;
+  padding: 0.75rem;
+  border-radius: 2rem;
+  user-select: none;
+  cursor: pointer;
+  margin-right: 0rem;
+  &:last-child {
+    margin-right: -0.75rem;
+  }
+`;
+
+const StyledLink = styled.a`
+  background: none;
+  border: none;
+  appearance: none;
+  ${linkStyle}
+  &:focus {
+    ${(p) => p.theme.focusShadow}
+  }
+`;
+
+const StyledLinkInput = styled(StyledLink)`
+  padding: 0.063rem 0.75rem;
+  margin-left: 0.25rem;
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const StyledLinkIcons = styled(StyledLink)`
+  @media (min-width: 600px) {
+    display: none;
+  }
+`;
+
+const displayRatingsFilters = () => {
+  if (document.querySelector(".theatersSearch").style.display === "block") {
+    document.querySelector(".theatersSearch").style.display = "none";
+    document.querySelector(".ratingsFilters").style.display = "block";
+  } else if (document.querySelector(".ratingsFilters").style.display === "none" || document.querySelector(".ratingsFilters").style.display === "") {
+    document.querySelector(".ratingsFilters").style.display = "block";
+  } else {
+    document.querySelector(".ratingsFilters").style.display = "none";
+  }
+};
+
+const displayTheatersInput = () => {
+  if (document.querySelector(".ratingsFilters").style.display === "block") {
+    document.querySelector(".ratingsFilters").style.display = "none";
+    document.querySelector(".theatersSearch").style.display = "block";
+  } else if (document.querySelector(".theatersSearch").style.display === "none" || document.querySelector(".theatersSearch").style.display === "") {
+    document.querySelector(".theatersSearch").style.display = "block";
+  } else {
+    document.querySelector(".theatersSearch").style.display = "none";
+  }
+};
+
 const Navbar = () => (
   <StickyContainer>
     <Wrapper>
@@ -58,7 +122,18 @@ const Navbar = () => (
       <Location>
         {({ location: { pathname } }) => (
           <Flex>
-            <ChipsDoc></ChipsDoc>
+            <StyledLinkInput className="ratingsFilters">
+              <ChipsDoc></ChipsDoc>
+            </StyledLinkInput>
+            <StyledLinkInput className="theatersSearch">
+              <AutocompleteTheaters></AutocompleteTheaters>
+            </StyledLinkInput>
+            <StyledLinkIcons>
+              <Star onClick={displayRatingsFilters} style={{ margin: "-0.75rem -0.35rem -0.75rem 0.1rem" }}></Star>
+            </StyledLinkIcons>
+            <StyledLinkIcons>
+              <Pin onClick={displayTheatersInput} style={{ transform: "translateY(1px)" }}></Pin>
+            </StyledLinkIcons>
             <Item to="/favorites" active={pathname === "/favorites"}>
               <Heart filled={pathname === "/favorites"} style={{ transform: "translateY(1px)" }} />
             </Item>

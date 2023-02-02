@@ -5,7 +5,7 @@ import { Row, Cell } from "griding";
 import { getTitleFromURL, getKindByURL } from "utils/kind";
 import Container from "components/Container";
 import Loader from "components/Loader";
-import { Arrow, AlloCine } from "components/Icon";
+import { Arrow, Star } from "components/Icon";
 import Text from "components/Text";
 import Button from "components/Button";
 import ToggleButton from "components/ToggleButton";
@@ -124,7 +124,7 @@ const DetailView = ({ id, kindURL }) => {
               </Text>
               <div style={{ display: "flex", margin: "1rem -0.5rem" }}>
                 {!!allocine && (
-                  <Button allocine={allocine} background="#28A745" logo={<AlloCine color="#181818" />}>
+                  <Button allocine={allocine} kindURL={kindURL} background="#28A745" logo={<Star filled={true} color="#181818" />}>
                     {!!score && `${score.toFixed(2)}/5`}
                   </Button>
                 )}

@@ -31,8 +31,15 @@ const Right = styled.div`
   padding: 0.6rem;
 `;
 
-const Button = ({ logo, background, children, allocine }) => (
-  <Wrapper tabIndex={0} href={`https://www.allocine.fr/film/fichefilm_gen_cfilm=${allocine}.html`} target={"_blank"}>
+const getAllocineLink = (allocine, kindURL) => {
+  const baseURL = "https://www.allocine.fr";
+  if (kindURL === "movies") return `${baseURL}/film/fichefilm_gen_cfilm=${allocine}.html`;
+  if (kindURL === "tv") return `${baseURL}/series/ficheserie_gen_cserie=${allocine}.html`;
+  return `${baseURL}/film/fichefilm_gen_cfilm=${allocine}.html`;
+};
+
+const Button = ({ logo, background, children, allocine, kindURL }) => (
+  <Wrapper tabIndex={0} href={getAllocineLink(allocine, kindURL)} target={"_blank"}>
     {logo && <Left background={background}>{logo}</Left>}
     {children && (
       <Right>
