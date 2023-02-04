@@ -148,6 +148,18 @@ const GlobalStyle = createGlobalStyle`
     .p-chips .p-chips-multiple-container .p-chips-token {
       background: rgba(40, 167, 69, 0.16) !important;
     }
+
+    .p-float-label .p-placeholder,
+    .p-float-label input::placeholder,
+    .p-float-label .p-inputtext::placeholder {
+        opacity: 1 !important;
+    }
+
+    .theatersSearch {
+      @media (min-width: 600px) {
+        margin-left: -0.25rem !important;
+      }
+    }
 	`}
 `;
 

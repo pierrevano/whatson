@@ -4,6 +4,7 @@ const config = {
 
   cors_url: "https://cors-sites-aafe82ad9d0c.fly.dev/",
   base_render: "https://whatson-api.onrender.com/",
+  base_render_website: "https://whatson.onrender.com/",
 };
 
 export default config;
