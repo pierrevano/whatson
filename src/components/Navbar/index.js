@@ -119,7 +119,7 @@ const Navbar = () => (
     <Wrapper>
       <Logo tabIndex={0} to="/">
         <span role="img" aria-label="logo">
-          <img style={{ maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
+          <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
         </span>
       </Logo>
       <Location>

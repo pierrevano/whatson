@@ -152,7 +152,11 @@ const GlobalStyle = createGlobalStyle`
     .p-float-label .p-placeholder,
     .p-float-label input::placeholder,
     .p-float-label .p-inputtext::placeholder {
-        opacity: 1 !important;
+      opacity: 1 !important;
+    }
+
+    .p-float-label > label {
+      left: 0.25rem !important;
     }
 
     .ratingsFilters {
