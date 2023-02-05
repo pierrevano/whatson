@@ -9,6 +9,8 @@ import ChipsDoc from "./ChipsFilters";
 import AutocompleteTheaters from "./AutocompleteTheaters";
 import Pin from "components/Icon/Pin";
 import Star from "components/Icon/Star";
+import Trash from "components/Icon/Trash";
+import { callConfirmAlert } from "utils/clearLocalStorage";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -59,7 +61,7 @@ const linkStyle = `
   border-radius: 2rem;
   user-select: none;
   cursor: pointer;
-  margin-right: 0rem;
+  margin-right: 0.5rem;
   &:last-child {
     margin-right: -0.75rem;
   }
@@ -76,15 +78,16 @@ const StyledLink = styled.a`
 `;
 
 const StyledLinkInput = styled(StyledLink)`
-  padding: 0.063rem 0.75rem;
-  margin-left: 0.25rem;
-  @media (max-width: 600px) {
+  padding: 1px 12px;
+  margin-left: 8px;
+  margin-right: 8px;
+  @media (max-width: 700px) {
     display: none;
   }
 `;
 
 const StyledLinkIcons = styled(StyledLink)`
-  @media (min-width: 600px) {
+  @media (min-width: 700px) {
     display: none;
   }
 `;
@@ -128,14 +131,17 @@ const Navbar = () => (
             <StyledLinkInput className="theatersSearch">
               <AutocompleteTheaters></AutocompleteTheaters>
             </StyledLinkInput>
+            <StyledLink>
+              <Trash onClick={callConfirmAlert} style={{ marginRight: "-10px" }}></Trash>
+            </StyledLink>
             <StyledLinkIcons>
-              <Star onClick={displayRatingsFilters} style={{ margin: "-0.75rem -0.35rem -0.75rem 0.1rem" }}></Star>
+              <Star onClick={displayRatingsFilters} style={{ marginRight: "-10px" }}></Star>
             </StyledLinkIcons>
             <StyledLinkIcons>
-              <Pin onClick={displayTheatersInput} style={{ transform: "translateY(1px)" }}></Pin>
+              <Pin onClick={displayTheatersInput} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
             </StyledLinkIcons>
             <Item to="/favorites" active={pathname === "/favorites"}>
-              <Heart filled={pathname === "/favorites"} style={{ transform: "translateY(1px)" }} />
+              <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} />
             </Item>
             <Item to="/search" active={pathname === "/search"}>
               <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} />

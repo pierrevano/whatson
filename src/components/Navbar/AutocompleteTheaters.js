@@ -19,12 +19,13 @@ const AutocompleteTheaters = () => {
   const internalId = (value) => {
     const nodeArray = data?.values?.theaters?.map((item) => item?.node);
     const nodeArrayFiltered = nodeArray.filter((node) => node.name.trim() === value);
-    setTheaterName(nodeArrayFiltered[0].name);
+    setTheaterName(nodeArrayFiltered[0].name.trim());
 
     return nodeArrayFiltered[0].internalId;
   };
 
-  const theatersLabel = `${theater_name} is active`;
+  let theatersLabel = "";
+  if (theater_name !== "") theatersLabel = `${theater_name} is active`;
 
   return (
     <div className="card">
