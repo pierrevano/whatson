@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Location } from "@reach/router";
 import Link from "components/Link";
@@ -10,7 +10,9 @@ import AutocompleteTheaters from "./AutocompleteTheaters";
 import Pin from "components/Icon/Pin";
 import Star from "components/Icon/Star";
 import Trash from "components/Icon/Trash";
-import { callConfirmAlert } from "utils/clearLocalStorage";
+import { clearAndReload } from "utils/clearLocalStorage";
+import { ConfirmDialog } from "primereact/confirmdialog";
+import { Toast } from "primereact/toast";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -114,43 +116,55 @@ const displayTheatersInput = () => {
   }
 };
 
-const Navbar = () => (
-  <StickyContainer>
-    <Wrapper>
-      <Logo tabIndex={0} to="/">
-        <span role="img" aria-label="logo">
-          <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
-        </span>
-      </Logo>
-      <Location>
-        {({ location: { pathname } }) => (
-          <Flex>
-            <StyledLinkInput className="ratingsFilters">
-              <ChipsDoc></ChipsDoc>
-            </StyledLinkInput>
-            <StyledLinkInput className="theatersSearch">
-              <AutocompleteTheaters></AutocompleteTheaters>
-            </StyledLinkInput>
-            <StyledLink>
-              <Trash onClick={callConfirmAlert} style={{ marginRight: "-10px" }}></Trash>
-            </StyledLink>
-            <StyledLinkIcons>
-              <Star onClick={displayRatingsFilters} style={{ marginRight: "-10px" }}></Star>
-            </StyledLinkIcons>
-            <StyledLinkIcons>
-              <Pin onClick={displayTheatersInput} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
-            </StyledLinkIcons>
-            <Item to="/favorites" active={pathname === "/favorites"}>
-              <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} />
-            </Item>
-            <Item to="/search" active={pathname === "/search"}>
-              <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} />
-            </Item>
-          </Flex>
-        )}
-      </Location>
-    </Wrapper>
-  </StickyContainer>
-);
+const Navbar = () => {
+  const [visible, setVisible] = useState(false);
+  const toast = useRef(null);
+
+  const accept = () => {
+    toast.current.show({ severity: "info", summary: "Confirmation", detail: "You preferences have been cleared.", life: 3000 });
+    setTimeout(clearAndReload, 3000);
+  };
+
+  return (
+    <StickyContainer>
+      <Wrapper>
+        <Logo tabIndex={0} to="/">
+          <span role="img" aria-label="logo">
+            <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
+          </span>
+        </Logo>
+        <Location>
+          {({ location: { pathname } }) => (
+            <Flex>
+              <StyledLinkInput className="ratingsFilters">
+                <ChipsDoc></ChipsDoc>
+              </StyledLinkInput>
+              <StyledLinkInput className="theatersSearch">
+                <AutocompleteTheaters></AutocompleteTheaters>
+              </StyledLinkInput>
+              <StyledLink>
+                <Toast ref={toast} />
+                <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Clear my preferences" accept={accept} />
+                <Trash onClick={() => setVisible(true)} icon="pi pi-check" label="Confirm" style={{ marginRight: "-10px" }}></Trash>
+              </StyledLink>
+              <StyledLinkIcons>
+                <Star onClick={displayRatingsFilters} style={{ marginRight: "-10px" }}></Star>
+              </StyledLinkIcons>
+              <StyledLinkIcons>
+                <Pin onClick={displayTheatersInput} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
+              </StyledLinkIcons>
+              <Item to="/favorites" active={pathname === "/favorites"}>
+                <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} />
+              </Item>
+              <Item to="/search" active={pathname === "/search"}>
+                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} />
+              </Item>
+            </Flex>
+          )}
+        </Location>
+      </Wrapper>
+    </StickyContainer>
+  );
+};
 
 export default Navbar;

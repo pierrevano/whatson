@@ -104,10 +104,42 @@ const GlobalStyle = createGlobalStyle`
       margin-right: 0.75rem !important;
     }
 
-    .p-checkbox .p-checkbox-box.p-highlight {
+    .p-dialog .p-dialog-header {
+      padding: 1.5rem 2.5rem 2rem 2.5rem !important;
+    }
+    .p-dialog .p-dialog-content {
+      padding: 0 2.5rem 2rem 2.5rem !important;
+    }
+
+    .p-checkbox .p-checkbox-box.p-highlight,
+    .p-button {
       border-color: #28a745 !important;
       background: #28a745 !important;
     }
+    .p-button.p-button-text {
+      background-color: transparent !important;
+      color: #28a745 !important;
+      border-color: transparent !important;
+    }
+    .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+      box-shadow: 0 0 0 0.2rem rgb(40 167 69 / 50%) !important;
+    }
+    .p-button:focus {
+      box-shadow: 0 0 0 2px #1c2127, 0 0 0 4px rgb(40 167 69 / 70%), 0 1px 2px 0 rgb(0 0 0 / 0%) !important;
+    }
+    .p-toast .p-toast-message.p-toast-message-info {
+        background: #031307 !important;
+        border: solid #28a745 !important;
+        border-width: 0 0 0 6px !important;
+        color: #28a745 !important;
+    }
+    .p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon, .p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
+      color: #28a745 !important;
+    }
+    .p-toast {
+      opacity: 1 !important;
+    }
+
     .p-checkbox .p-checkbox-box.p-highlight:not(.p-disabled):hover {
       border-color: #12a133 !important;
       background: #12a133 !important;
@@ -157,6 +189,10 @@ const GlobalStyle = createGlobalStyle`
 
     .p-float-label > label {
       left: 0.25rem !important;
+    }
+
+    .p-dialog.p-confirm-dialog .p-confirm-dialog-message {
+      margin-left: 0 !important;
     }
 
     .ratingsFilters {
