@@ -13,6 +13,9 @@ import Trash from "components/Icon/Trash";
 import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
+import Cross from "components/Icon/Cross";
+import MediaQuery from "react-responsive";
+import ClickAwayListener from "react-click-away-listener";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -81,11 +84,7 @@ const StyledLink = styled.a`
 
 const StyledLinkInput = styled(StyledLink)`
   padding: 1px 12px;
-  margin-left: 8px;
-  margin-right: 8px;
-  @media (max-width: 700px) {
-    display: none;
-  }
+  margin: -0.75rem 8px;
 `;
 
 const StyledLinkIcons = styled(StyledLink)`
@@ -94,25 +93,60 @@ const StyledLinkIcons = styled(StyledLink)`
   }
 `;
 
-const displayRatingsFilters = () => {
-  if (document.querySelector(".theatersSearch").style.display === "block") {
-    document.querySelector(".theatersSearch").style.display = "none";
-    document.querySelector(".ratingsFilters").style.display = "block";
-  } else if (document.querySelector(".ratingsFilters").style.display === "none" || document.querySelector(".ratingsFilters").style.display === "") {
-    document.querySelector(".ratingsFilters").style.display = "block";
-  } else {
-    document.querySelector(".ratingsFilters").style.display = "none";
-  }
+const config = {
+  ratingsSelector: ".ratings-filters",
+  theatersSelector: ".theaters-search",
+  crossIconParentSelector: ".cross-icon-parent",
+  navbarDiv: ".navbar-div",
 };
 
-const displayTheatersInput = () => {
-  if (document.querySelector(".ratingsFilters").style.display === "block") {
-    document.querySelector(".ratingsFilters").style.display = "none";
-    document.querySelector(".theatersSearch").style.display = "block";
-  } else if (document.querySelector(".theatersSearch").style.display === "none" || document.querySelector(".theatersSearch").style.display === "") {
-    document.querySelector(".theatersSearch").style.display = "block";
-  } else {
-    document.querySelector(".theatersSearch").style.display = "none";
+const displayRatingsOrTheaters = (notSelector) => {
+  const navbarDivSelectors = `.navbar-div a:not(${notSelector})`;
+  const navbarDiv = config.navbarDiv;
+  const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
+  const flexGrowElement = document.querySelector(navbarDiv);
+  navbarDivElements.forEach((element) => {
+    element.classList.toggle("display-none");
+  });
+  flexGrowElement.classList.toggle("flex-grow");
+};
+
+const cancel = () => {
+  const ratingsSelector = config.ratingsSelector;
+  const theatersSelector = config.theatersSelector;
+  const crossIconParentSelector = config.crossIconParentSelector;
+
+  const ratingsFilters = document.querySelector(ratingsSelector);
+  const theatersSearch = document.querySelector(theatersSelector);
+
+  const ratingsAndCrossSelector = `${ratingsSelector},${crossIconParentSelector}`;
+  const theatersAndCrossSelector = `${theatersSelector},${crossIconParentSelector}`;
+  const ratingsFiltersAndCross = document.querySelectorAll(ratingsAndCrossSelector);
+  const theatersSearchAndCross = document.querySelectorAll(theatersAndCrossSelector);
+
+  const navbarDiv = config.navbarDiv;
+
+  const removeClasses = (notSelector) => {
+    const navbarDivSelectors = `.navbar-div a:not(${notSelector})`;
+    const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
+    navbarDivElements.forEach((element) => {
+      element.classList.remove("display-none");
+    });
+    const flexGrowElement = document.querySelector(navbarDiv);
+    flexGrowElement.classList.remove("flex-grow");
+  };
+
+  if (ratingsFilters.classList.contains("display-none")) {
+    removeClasses(ratingsSelector);
+    theatersSearchAndCross.forEach((element) => {
+      element.classList.add("display-none");
+    });
+  }
+  if (theatersSearch.classList.contains("display-none")) {
+    removeClasses(theatersSelector);
+    ratingsFiltersAndCross.forEach((element) => {
+      element.classList.add("display-none");
+    });
   }
 };
 
@@ -121,7 +155,7 @@ const Navbar = () => {
   const toast = useRef(null);
 
   const accept = () => {
-    toast.current.show({ severity: "info", summary: "Confirmation", detail: "You preferences have been cleared.", life: 3000 });
+    toast.current.show({ severity: "info", summary: "Confirmation", detail: "Enjoy your fresh start!", life: 3000 });
     setTimeout(clearAndReload, 3000);
   };
 
@@ -135,23 +169,38 @@ const Navbar = () => {
         </Logo>
         <Location>
           {({ location: { pathname } }) => (
-            <Flex>
-              <StyledLinkInput className="ratingsFilters">
-                <ChipsDoc></ChipsDoc>
-              </StyledLinkInput>
-              <StyledLinkInput className="theatersSearch">
-                <AutocompleteTheaters></AutocompleteTheaters>
-              </StyledLinkInput>
+            <Flex className="navbar-div">
+              <MediaQuery minWidth={700}>
+                <ClickAwayListener onClickAway={() => window.location.reload()}>
+                  <StyledLinkInput className="ratings-filters">
+                    <ChipsDoc></ChipsDoc>
+                  </StyledLinkInput>
+                </ClickAwayListener>
+                <StyledLinkInput className="theaters-search">
+                  <AutocompleteTheaters></AutocompleteTheaters>
+                </StyledLinkInput>
+              </MediaQuery>
+              <MediaQuery maxWidth={700}>
+                <StyledLinkInput className="ratings-filters display-none">
+                  <ChipsDoc></ChipsDoc>
+                </StyledLinkInput>
+                <StyledLinkInput className="theaters-search display-none">
+                  <AutocompleteTheaters></AutocompleteTheaters>
+                </StyledLinkInput>
+              </MediaQuery>
               <StyledLink>
                 <Toast ref={toast} />
                 <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Clear my preferences" accept={accept} />
                 <Trash onClick={() => setVisible(true)} icon="pi pi-check" label="Confirm" style={{ marginRight: "-10px" }}></Trash>
               </StyledLink>
               <StyledLinkIcons>
-                <Star onClick={displayRatingsFilters} style={{ marginRight: "-10px" }}></Star>
+                <Star onClick={() => displayRatingsOrTheaters(".theaters-search")} style={{ marginRight: "-10px" }}></Star>
               </StyledLinkIcons>
               <StyledLinkIcons>
-                <Pin onClick={displayTheatersInput} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
+                <Pin onClick={() => displayRatingsOrTheaters(".ratings-filters")} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
+              </StyledLinkIcons>
+              <StyledLinkIcons className="cross-icon-parent display-none">
+                <Cross onClick={cancel}></Cross>
               </StyledLinkIcons>
               <Item to="/favorites" active={pathname === "/favorites"}>
                 <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} />

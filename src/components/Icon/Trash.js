@@ -1,7 +1,7 @@
 import React from "react";
 
 const Trash = ({ size = 23, filled = false, color = "currentColor", strokeWidth = "2", style, ...props }) => (
-  <svg className="trashIcon" viewBox="0 0 512 512" strokeLinecap="square" strokeLinejoin="square" width={size} height={size} style={{ display: "block", ...style }} xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg className="trash-icon" viewBox="0 0 512 512" strokeLinecap="square" strokeLinejoin="square" width={size} height={size} style={{ display: "block", ...style }} xmlns="http://www.w3.org/2000/svg" {...props}>
     <g>
       <path fill={"#FFF"} d="M88.594,464.731C90.958,491.486,113.368,512,140.234,512h231.523c26.858,0,49.276-20.514,51.641-47.269 l25.642-335.928H62.952L88.594,464.731z M420.847,154.93l-23.474,307.496c-1.182,13.37-12.195,23.448-25.616,23.448H140.234 c-13.42,0-24.434-10.078-25.591-23.132L91.145,154.93H420.847z" />
       <path fill={"#FFF"} d="M182.954,435.339c5.877-0.349,10.35-5.4,9.992-11.269l-10.137-202.234c-0.358-5.876-5.401-10.349-11.278-9.992 c-5.877,0.357-10.35,5.409-9.993,11.277l10.137,202.234C172.033,431.231,177.085,435.696,182.954,435.339z" />

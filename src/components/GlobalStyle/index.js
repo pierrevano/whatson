@@ -36,6 +36,17 @@ const GlobalStyle = createGlobalStyle`
     .card {
       display: inline-grid !important;
     }
+    .card,
+    .ratings-filters,
+    .theaters-search,
+    .p-multiselect,
+    .p-autocomplete,
+    .p-autocomplete input {
+      @media (max-width: 700px) {
+        width: 100% !important;
+        flex-grow: 1 !important;
+      }
+    }
 
     .p-multiselect-items-wrapper {
       max-height: 500px !important;
@@ -58,8 +69,6 @@ const GlobalStyle = createGlobalStyle`
     .p-inputtext,
     .p-multiselect {
       @media (max-width: 700px) {
-        min-width: 5rem !important;
-        width: 105% !important;
         margin: 0 -0.3rem 0 0 !important;
       }
     }
@@ -110,6 +119,9 @@ const GlobalStyle = createGlobalStyle`
     .p-dialog .p-dialog-content {
       padding: 0 2.5rem 2rem 2.5rem !important;
     }
+    .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+      box-shadow: 0 0 0 0.2rem rgb(40 167 69 / 50%) !important;
+    }
 
     .p-checkbox .p-checkbox-box.p-highlight,
     .p-button {
@@ -121,19 +133,19 @@ const GlobalStyle = createGlobalStyle`
       color: #28a745 !important;
       border-color: transparent !important;
     }
-    .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
-      box-shadow: 0 0 0 0.2rem rgb(40 167 69 / 50%) !important;
-    }
     .p-button:focus {
-      box-shadow: 0 0 0 2px #1c2127, 0 0 0 4px rgb(40 167 69 / 70%), 0 1px 2px 0 rgb(0 0 0 / 0%) !important;
+      box-shadow: 0 0 0 2px #1c2127, 0 0 0 4px rgb(40 167 69 / 70%),
+        0 1px 2px 0 rgb(0 0 0 / 0%) !important;
     }
+
     .p-toast .p-toast-message.p-toast-message-info {
-        background: #031307 !important;
-        border: solid #28a745 !important;
-        border-width: 0 0 0 6px !important;
-        color: #28a745 !important;
+      background: #031307 !important;
+      border: solid #28a745 !important;
+      border-width: 0 0 0 6px !important;
+      color: #28a745 !important;
     }
-    .p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon, .p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
+    .p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon,
+    .p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
       color: #28a745 !important;
     }
     .p-toast {
@@ -195,29 +207,46 @@ const GlobalStyle = createGlobalStyle`
       margin-left: 0 !important;
     }
 
-    .ratingsFilters {
-      @media (max-width: 700px) {
-        margin-right: 13px !important;
-      }
-    }
-
-    .theatersSearch {
+    .theaters-search {
       @media (min-width: 700px) {
         margin-left: -10px !important;
       }
     }
 
-    .trashIcon {
+    .ratings-filters,
+    .theaters-search {
+      @media (max-width: 700px) {
+        margin: -0.75rem 0 !important;
+      }
+    }
+
+    .trash-icon {
       @media (min-width: 700px) {
         margin-left: -9px !important;
         margin-right: -3px !important;
       }
     }
 
-    .trashIcon {
+    .trash-icon {
       @media (max-width: 700px) {
         margin-left: 3px !important;
       }
+    }
+
+    .cross-icon-parent {
+      @media (max-width: 700px) {
+        margin-right: -0.75rem !important;
+        transform: translateY(1px) !important;
+      }
+    }
+
+    .flex-grow {
+      width: 100% !important;
+      flex-grow: 1 !important;
+    }
+
+    .display-none {
+      display: none !important;
     }
 
     // React confirm alert style
