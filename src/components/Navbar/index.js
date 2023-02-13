@@ -15,7 +15,7 @@ import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import Cross from "components/Icon/Cross";
 import MediaQuery from "react-responsive";
-import ClickAwayListener from "react-click-away-listener";
+import CheckMark from "components/Icon/CheckMark";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -96,13 +96,16 @@ const StyledLinkIcons = styled(StyledLink)`
 const config = {
   ratingsSelector: ".ratings-filters",
   theatersSelector: ".theaters-search",
-  crossIconParentSelector: ".cross-icon-parent",
+  checkMarkSelector: ".check-mark",
+  crossMarkSelector: ".cross-mark",
   navbarDiv: ".navbar-div",
 };
 
+const navbarDiv = config.navbarDiv;
+const checkMarkSelector = config.checkMarkSelector;
+
 const displayRatingsOrTheaters = (notSelector) => {
-  const navbarDivSelectors = `.navbar-div a:not(${notSelector})`;
-  const navbarDiv = config.navbarDiv;
+  const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector})`;
   const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
   const flexGrowElement = document.querySelector(navbarDiv);
   navbarDivElements.forEach((element) => {
@@ -114,20 +117,18 @@ const displayRatingsOrTheaters = (notSelector) => {
 const cancel = () => {
   const ratingsSelector = config.ratingsSelector;
   const theatersSelector = config.theatersSelector;
-  const crossIconParentSelector = config.crossIconParentSelector;
+  const crossMarkSelector = config.crossMarkSelector;
 
   const ratingsFilters = document.querySelector(ratingsSelector);
   const theatersSearch = document.querySelector(theatersSelector);
 
-  const ratingsAndCrossSelector = `${ratingsSelector},${crossIconParentSelector}`;
-  const theatersAndCrossSelector = `${theatersSelector},${crossIconParentSelector}`;
+  const ratingsAndCrossSelector = `${ratingsSelector},${crossMarkSelector}`;
+  const theatersAndCrossSelector = `${theatersSelector},${crossMarkSelector}`;
   const ratingsFiltersAndCross = document.querySelectorAll(ratingsAndCrossSelector);
   const theatersSearchAndCross = document.querySelectorAll(theatersAndCrossSelector);
 
-  const navbarDiv = config.navbarDiv;
-
   const removeClasses = (notSelector) => {
-    const navbarDivSelectors = `.navbar-div a:not(${notSelector})`;
+    const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector})`;
     const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
     navbarDivElements.forEach((element) => {
       element.classList.remove("display-none");
@@ -171,11 +172,9 @@ const Navbar = () => {
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
               <MediaQuery minWidth={700}>
-                <ClickAwayListener onClickAway={() => window.location.reload()}>
-                  <StyledLinkInput className="ratings-filters">
-                    <ChipsDoc></ChipsDoc>
-                  </StyledLinkInput>
-                </ClickAwayListener>
+                <StyledLinkInput className="ratings-filters">
+                  <ChipsDoc></ChipsDoc>
+                </StyledLinkInput>
                 <StyledLinkInput className="theaters-search">
                   <AutocompleteTheaters></AutocompleteTheaters>
                 </StyledLinkInput>
@@ -199,7 +198,10 @@ const Navbar = () => {
               <StyledLinkIcons>
                 <Pin onClick={() => displayRatingsOrTheaters(".ratings-filters")} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
               </StyledLinkIcons>
-              <StyledLinkIcons className="cross-icon-parent display-none">
+              <StyledLinkIcons className="check-mark display-none">
+                <CheckMark onClick={() => window.location.reload()}></CheckMark>
+              </StyledLinkIcons>
+              <StyledLinkIcons className="cross-mark display-none">
                 <Cross onClick={cancel}></Cross>
               </StyledLinkIcons>
               <Item to="/favorites" active={pathname === "/favorites"}>

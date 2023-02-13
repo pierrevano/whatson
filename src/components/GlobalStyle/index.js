@@ -233,7 +233,8 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
-    .cross-icon-parent {
+    .check-mark,
+    .cross-mark {
       @media (max-width: 700px) {
         margin-right: -0.75rem !important;
         transform: translateY(1px) !important;

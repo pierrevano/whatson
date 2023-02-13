@@ -5,6 +5,21 @@ import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import { useStorageString } from "utils/useStorageString";
 
+const config = {
+  ratingsSelector: ".ratings-filters",
+  theatersSelector: ".theaters-search",
+  checkMarkSelector: ".check-mark",
+  crossMarkSelector: ".cross-mark",
+  navbarDiv: ".navbar-div",
+};
+
+const displayCheckMark = () => {
+  const crossMarkSelector = config.crossMarkSelector;
+  const checkMarkSelector = config.checkMarkSelector;
+  document.querySelector(crossMarkSelector).classList.add("display-none");
+  document.querySelector(checkMarkSelector).classList.remove("display-none");
+};
+
 const ChipsDoc = () => {
   const allocineCritics = { name: "AlloCiné critics", code: "allocine_critics" };
   const allocineUsers = { name: "AlloCiné users", code: "allocine_users" };
@@ -28,6 +43,8 @@ const ChipsDoc = () => {
         value={selectedItems}
         options={items}
         onChange={(e) => {
+          displayCheckMark();
+
           const valuesArray = e.value;
 
           const ratingsFiltersArray = [];
