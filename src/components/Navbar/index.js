@@ -184,6 +184,9 @@ const Navbar = () => {
               <StyledLinkInput className="ratings-filters display-none">
                 <ChipsDoc></ChipsDoc>
               </StyledLinkInput>
+              <StyledLink className="check-mark display-none">
+                <CheckMark onClick={() => window.location.reload()}></CheckMark>
+              </StyledLink>
               <StyledLinkInput className="theaters-search display-none">
                 <AutocompleteTheaters></AutocompleteTheaters>
               </StyledLinkInput>
@@ -197,9 +200,6 @@ const Navbar = () => {
               </StyledLinkIcons>
               <StyledLinkIcons>
                 <Pin onClick={() => displayRatingsOrTheaters(".ratings-filters")} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
-              </StyledLinkIcons>
-              <StyledLinkIcons className="check-mark display-none">
-                <CheckMark onClick={() => window.location.reload()}></CheckMark>
               </StyledLinkIcons>
               <StyledLinkIcons className="cross-mark display-none">
                 <Cross onClick={cancel}></Cross>

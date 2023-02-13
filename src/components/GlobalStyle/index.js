@@ -238,6 +238,12 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
+    .check-mark {
+      @media (min-width: 700px) {
+        margin-right: -0.25rem !important;
+      }
+    }
+
     .flex-grow {
       width: 100% !important;
       flex-grow: 1 !important;
