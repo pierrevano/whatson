@@ -116,6 +116,9 @@ const GlobalStyle = createGlobalStyle`
     .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
       box-shadow: 0 0 0 0.2rem rgb(40 167 69 / 50%) !important;
     }
+    .p-dialog-header-icons {
+      transform: translateY(2px) !important;
+    }
 
     .p-checkbox .p-checkbox-box.p-highlight,
     .p-button {
