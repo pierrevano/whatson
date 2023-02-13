@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Location } from "@reach/router";
 import Link from "components/Link";
@@ -14,8 +14,8 @@ import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import Cross from "components/Icon/Cross";
-import MediaQuery from "react-responsive";
 import CheckMark from "components/Icon/CheckMark";
+import useWindowDimensions from "utils/useWindowDimensions";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -103,6 +103,9 @@ const config = {
 
 const navbarDiv = config.navbarDiv;
 const checkMarkSelector = config.checkMarkSelector;
+const ratingsSelector = config.ratingsSelector;
+const theatersSelector = config.theatersSelector;
+const crossMarkSelector = config.crossMarkSelector;
 
 const displayRatingsOrTheaters = (notSelector) => {
   const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector})`;
@@ -115,10 +118,6 @@ const displayRatingsOrTheaters = (notSelector) => {
 };
 
 const cancel = () => {
-  const ratingsSelector = config.ratingsSelector;
-  const theatersSelector = config.theatersSelector;
-  const crossMarkSelector = config.crossMarkSelector;
-
   const ratingsFilters = document.querySelector(ratingsSelector);
   const theatersSearch = document.querySelector(theatersSelector);
 
@@ -160,6 +159,17 @@ const Navbar = () => {
     setTimeout(clearAndReload, 3000);
   };
 
+  const { width } = useWindowDimensions();
+  useEffect(() => {
+    if (width > 700) {
+      const ratingsAndTheatersSelectors = `${ratingsSelector},${theatersSelector}`;
+      const ratingsAndTheaters = document.querySelectorAll(ratingsAndTheatersSelectors);
+      ratingsAndTheaters.forEach((element) => {
+        element.classList.remove("display-none");
+      });
+    }
+  });
+
   return (
     <StickyContainer>
       <Wrapper>
@@ -171,22 +181,12 @@ const Navbar = () => {
         <Location>
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
-              <MediaQuery minWidth={700}>
-                <StyledLinkInput className="ratings-filters">
-                  <ChipsDoc></ChipsDoc>
-                </StyledLinkInput>
-                <StyledLinkInput className="theaters-search">
-                  <AutocompleteTheaters></AutocompleteTheaters>
-                </StyledLinkInput>
-              </MediaQuery>
-              <MediaQuery maxWidth={700}>
-                <StyledLinkInput className="ratings-filters display-none">
-                  <ChipsDoc></ChipsDoc>
-                </StyledLinkInput>
-                <StyledLinkInput className="theaters-search display-none">
-                  <AutocompleteTheaters></AutocompleteTheaters>
-                </StyledLinkInput>
-              </MediaQuery>
+              <StyledLinkInput className="ratings-filters display-none">
+                <ChipsDoc></ChipsDoc>
+              </StyledLinkInput>
+              <StyledLinkInput className="theaters-search display-none">
+                <AutocompleteTheaters></AutocompleteTheaters>
+              </StyledLinkInput>
               <StyledLink>
                 <Toast ref={toast} />
                 <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Clear my preferences" accept={accept} />
