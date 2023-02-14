@@ -80,7 +80,7 @@ const GlobalStyle = createGlobalStyle`
     .p-multiselect .p-multiselect-trigger {
       color: rgba(255, 255, 255, 0.8) !important;
     }
-    .p-multiselect .p-multiselect-label:not(.p-placeholder) {
+    .p-inputwrapper-filled.p-multiselect.p-multiselect-chip .p-multiselect-label {
       padding: 0.375rem 0.75rem !important;
     }
 
