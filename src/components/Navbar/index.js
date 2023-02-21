@@ -199,7 +199,13 @@ const Navbar = () => {
                 <Star onClick={() => displayRatingsOrTheaters(".theaters-search")} style={{ marginRight: "-10px" }}></Star>
               </StyledLinkIcons>
               <StyledLinkIcons>
-                <Pin onClick={() => displayRatingsOrTheaters(".ratings-filters")} style={{ marginRight: "-4px", transform: "translateY(1px)" }}></Pin>
+                <Pin
+                  onClick={() => {
+                    displayRatingsOrTheaters(".ratings-filters");
+                    document.getElementById("ac").focus();
+                  }}
+                  style={{ marginRight: "-4px", transform: "translateY(1px)" }}
+                ></Pin>
               </StyledLinkIcons>
               <StyledLinkIcons className="cross-mark display-none">
                 <Cross onClick={cancel}></Cross>
