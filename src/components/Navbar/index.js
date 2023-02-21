@@ -196,7 +196,13 @@ const Navbar = () => {
                 <Trash onClick={() => setVisible(true)} icon="pi pi-check" label="Confirm" style={{ marginRight: "-10px" }}></Trash>
               </StyledLink>
               <StyledLinkIcons>
-                <Star onClick={() => displayRatingsOrTheaters(".theaters-search")} style={{ marginRight: "-10px" }}></Star>
+                <Star
+                  onClick={() => {
+                    displayRatingsOrTheaters(".theaters-search");
+                    document.querySelector(".p-multiselect-trigger").click();
+                  }}
+                  style={{ marginRight: "-10px" }}
+                ></Star>
               </StyledLinkIcons>
               <StyledLinkIcons>
                 <Pin
