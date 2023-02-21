@@ -46,6 +46,12 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     if (typeof seasons_number_query !== "undefined") setSeasonsNumber(seasons_number_query);
   });
 
+  useEffect(() => {
+    if (ratings_filters !== "" && !document.querySelector(".p-inputwrapper").classList.contains("p-inputwrapper-filled")) {
+      document.querySelector(".p-inputwrapper").classList.add("p-inputwrapper-filled");
+    }
+  });
+
   let { loading, data, error } = useFetch(getDataURL(kindURL, search, page, cinema_id, item_type, ratings_filters, seasons_number));
   if (data?.results?.length > 0) data = data?.results;
 
