@@ -103,7 +103,8 @@ const GlobalStyle = createGlobalStyle`
     .p-multiselect-panel .p-multiselect-header .p-multiselect-close {
       color: rgba(255, 255, 255, 0.8) !important;
     }
-    .p-multiselect-panel .p-multiselect-header .p-multiselect-close:focus {
+    .p-multiselect-panel .p-multiselect-header .p-multiselect-close:focus,
+    .p-sidebar .p-sidebar-header .p-sidebar-close:focus {
       box-shadow: 0 0 0 0.1rem rgba(40, 167, 69, 0.5) !important;
     }
     .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
@@ -116,7 +117,8 @@ const GlobalStyle = createGlobalStyle`
       margin-right: 0.75rem !important;
     }
 
-    .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+    .p-dialog .p-dialog-header .p-dialog-header-icon:focus,
+    .p-sidebar .p-sidebar-header .p-sidebar-icon:focus {
       box-shadow: 0 0 0 0.2rem rgb(40 167 69 / 50%) !important;
     }
     .p-dialog-header-icons {
@@ -205,6 +207,23 @@ const GlobalStyle = createGlobalStyle`
 
     .p-dialog.p-confirm-dialog .p-confirm-dialog-message {
       margin-left: 0 !important;
+    }
+
+    .p-sidebar {
+      background: #181818 !important;
+    }
+    .p-sidebar-content h1,
+    .p-sidebar-content button {
+      color: #FFF !important;
+    }
+    .p-sidebar-content h1 {
+      font-size: 1.5em !important;
+    }
+    .p-sidebar-content button {
+      background-color: #181818 !important;
+      border: none !important;
+      border-bottom: 1px solid #FFF !important;
+      cursor: pointer !important;
     }
 
     .theaters-search {

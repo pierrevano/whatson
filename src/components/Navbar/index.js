@@ -16,6 +16,8 @@ import { Toast } from "primereact/toast";
 import Cross from "components/Icon/Cross";
 import CheckMark from "components/Icon/CheckMark";
 import useWindowDimensions from "utils/useWindowDimensions";
+import useLongPress from "utils/useLongPress";
+import { Sidebar } from "primereact/sidebar";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -170,14 +172,36 @@ const Navbar = () => {
     }
   });
 
+  const onLongPress = () => setVisibleLeft(true);
+  const onClick = () => window.location.reload();
+  const defaultOptions = {
+    shouldPreventDefault: true,
+    delay: 500,
+  };
+  const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
+
+  const [visibleLeft, setVisibleLeft] = useState(false);
+
   return (
     <StickyContainer>
       <Wrapper>
         <Logo tabIndex={0} to="/">
-          <span role="img" aria-label="logo">
+          <span role="img" aria-label="logo" {...longPressEvent}>
             <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
           </span>
         </Logo>
+        <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)}>
+          <h1>
+            <strong>Switch to</strong>
+          </h1>
+          <br />
+          <span className="pi pi-ticket" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
+          <button onClick={() => (window.location.search = "item_type=movie")}>Movies</button>
+          <br />
+          <br />
+          <span className="pi pi-video" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
+          <button onClick={() => (window.location.search = "item_type=tvshow")}>TV Shows</button>
+        </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
