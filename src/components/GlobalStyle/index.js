@@ -217,7 +217,10 @@ const GlobalStyle = createGlobalStyle`
       color: #FFF !important;
     }
     .p-sidebar-content h1 {
-      font-size: 1.5em !important;
+      font-size: 2em !important;
+    }
+    .p-sidebar-content span {
+      font-size: 1.2em !important;
     }
     .p-sidebar-content span:nth-child(even) {
       background-color: #181818 !important;

@@ -192,11 +192,25 @@ const Navbar = () => {
           </h1>
           <br />
           <span className="pi pi-ticket" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
-          <span onClick={() => (window.location.search = "item_type=movie")}>Movies</span>
+          <span
+            onClick={() => {
+              localStorage.setItem("item_type", "movie");
+              window.location.reload();
+            }}
+          >
+            Movies
+          </span>
           <br />
           <br />
           <span className="pi pi-video" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
-          <span onClick={() => (window.location.search = "item_type=tvshow")}>TV Shows</span>
+          <span
+            onClick={() => {
+              localStorage.setItem("item_type", "tvshow");
+              window.location.reload();
+            }}
+          >
+            TV Shows
+          </span>
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
