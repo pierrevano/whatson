@@ -16,8 +16,8 @@ import { Toast } from "primereact/toast";
 import Cross from "components/Icon/Cross";
 import CheckMark from "components/Icon/CheckMark";
 import useWindowDimensions from "utils/useWindowDimensions";
-import useLongPress from "utils/useLongPress";
 import { Sidebar } from "primereact/sidebar";
+import Menu from "components/Icon/Menu";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -32,6 +32,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 `;
 
 const Logo = styled(Link)`
@@ -96,21 +97,23 @@ const StyledLinkIcons = styled(StyledLink)`
 `;
 
 const config = {
-  ratingsSelector: ".ratings-filters",
-  theatersSelector: ".theaters-search",
   checkMarkSelector: ".check-mark",
   crossMarkSelector: ".cross-mark",
+  menuSelector: ".menu-icon",
   navbarDiv: ".navbar-div",
+  ratingsSelector: ".ratings-filters",
+  theatersSelector: ".theaters-search",
 };
 
-const navbarDiv = config.navbarDiv;
 const checkMarkSelector = config.checkMarkSelector;
+const crossMarkSelector = config.crossMarkSelector;
+const menuSelector = config.menuSelector;
+const navbarDiv = config.navbarDiv;
 const ratingsSelector = config.ratingsSelector;
 const theatersSelector = config.theatersSelector;
-const crossMarkSelector = config.crossMarkSelector;
 
 const displayRatingsOrTheaters = (notSelector) => {
-  const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector})`;
+  const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector}), ${menuSelector}`;
   const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
   const flexGrowElement = document.querySelector(navbarDiv);
   navbarDivElements.forEach((element) => {
@@ -129,7 +132,7 @@ const cancel = () => {
   const theatersSearchAndCross = document.querySelectorAll(theatersAndCrossSelector);
 
   const removeClasses = (notSelector) => {
-    const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector})`;
+    const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector}), ${menuSelector}`;
     const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
     navbarDivElements.forEach((element) => {
       element.classList.remove("display-none");
@@ -172,39 +175,32 @@ const Navbar = () => {
     }
   });
 
-  const onLongPress = () => setVisibleLeft(true);
-  const onClick = () => window.location.reload();
-  const defaultOptions = {
-    shouldPreventDefault: true,
-    delay: 500,
-  };
-  const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
-
   const [visibleLeft, setVisibleLeft] = useState(false);
 
   return (
     <StickyContainer>
       <Wrapper>
         <Logo tabIndex={0} to="/">
-          <span role="img" aria-label="logo" {...longPressEvent}>
+          <span role="img" aria-label="logo" style={{ transform: "translateY(1px)" }}>
             <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
           </span>
         </Logo>
+        <Menu onClick={() => setVisibleLeft(true)} style={{ position: "absolute", marginLeft: "40px", transform: "translateY(1px)", cursor: "pointer" }}></Menu>
         <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)}>
           <h1>
             <strong>Switch to</strong>
           </h1>
           <br />
           <span className="pi pi-ticket" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
-          <button onClick={() => (window.location.search = "item_type=movie")}>Movies</button>
+          <span onClick={() => (window.location.search = "item_type=movie")}>Movies</span>
           <br />
           <br />
           <span className="pi pi-video" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
-          <button onClick={() => (window.location.search = "item_type=tvshow")}>TV Shows</button>
+          <span onClick={() => (window.location.search = "item_type=tvshow")}>TV Shows</span>
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
-            <Flex className="navbar-div">
+            <Flex className="navbar-div" style={{ marginLeft: "60px" }}>
               <StyledLinkInput className="ratings-filters display-none">
                 <ChipsDoc></ChipsDoc>
               </StyledLinkInput>

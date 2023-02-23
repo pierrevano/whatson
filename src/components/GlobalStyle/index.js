@@ -219,7 +219,7 @@ const GlobalStyle = createGlobalStyle`
     .p-sidebar-content h1 {
       font-size: 1.5em !important;
     }
-    .p-sidebar-content button {
+    .p-sidebar-content span:nth-child(even) {
       background-color: #181818 !important;
       border: none !important;
       border-bottom: 1px solid #FFF !important;
@@ -269,6 +269,7 @@ const GlobalStyle = createGlobalStyle`
     .flex-grow {
       width: 100% !important;
       flex-grow: 1 !important;
+      margin-left: 0 !important;
     }
 
     .display-none {
