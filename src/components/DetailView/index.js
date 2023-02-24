@@ -85,7 +85,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
-  const title = data?.title;
+  const title = data?.title || data?.name;
   const image = data?.poster_path || data?.profile_path;
 
   useEffect(
