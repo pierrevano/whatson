@@ -204,7 +204,15 @@ const Navbar = () => {
                 <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} />
               </Item>
               <Item to="/search" active={pathname === "/search"}>
-                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} />
+                <Search
+                  onClick={() => {
+                    setTimeout(() => {
+                      document.getElementById("searchInput").focus();
+                    }, 100);
+                  }}
+                  filled={pathname === "/search"}
+                  style={{ transform: "translateY(-1px)" }}
+                />
               </Item>
             </Flex>
           )}
