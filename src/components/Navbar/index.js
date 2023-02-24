@@ -18,6 +18,7 @@ import CheckMark from "components/Icon/CheckMark";
 import useWindowDimensions from "utils/useWindowDimensions";
 import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
+import { displayRatingsOrTheaters, cancel } from "./DisplayFilters";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -96,64 +97,13 @@ const StyledLinkIcons = styled(StyledLink)`
   }
 `;
 
-const config = {
-  checkMarkSelector: ".check-mark",
-  crossMarkSelector: ".cross-mark",
-  menuSelector: ".menu-icon",
-  navbarDiv: ".navbar-div",
+const configSelectors = {
   ratingsSelector: ".ratings-filters",
   theatersSelector: ".theaters-search",
 };
 
-const checkMarkSelector = config.checkMarkSelector;
-const crossMarkSelector = config.crossMarkSelector;
-const menuSelector = config.menuSelector;
-const navbarDiv = config.navbarDiv;
-const ratingsSelector = config.ratingsSelector;
-const theatersSelector = config.theatersSelector;
-
-const displayRatingsOrTheaters = (notSelector) => {
-  const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector}), ${menuSelector}`;
-  const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
-  const flexGrowElement = document.querySelector(navbarDiv);
-  navbarDivElements.forEach((element) => {
-    element.classList.toggle("display-none");
-  });
-  flexGrowElement.classList.toggle("flex-grow");
-};
-
-const cancel = () => {
-  const ratingsFilters = document.querySelector(ratingsSelector);
-  const theatersSearch = document.querySelector(theatersSelector);
-
-  const ratingsAndCrossSelector = `${ratingsSelector},${crossMarkSelector}`;
-  const theatersAndCrossSelector = `${theatersSelector},${crossMarkSelector}`;
-  const ratingsFiltersAndCross = document.querySelectorAll(ratingsAndCrossSelector);
-  const theatersSearchAndCross = document.querySelectorAll(theatersAndCrossSelector);
-
-  const removeClasses = (notSelector) => {
-    const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector}), ${menuSelector}`;
-    const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
-    navbarDivElements.forEach((element) => {
-      element.classList.remove("display-none");
-    });
-    const flexGrowElement = document.querySelector(navbarDiv);
-    flexGrowElement.classList.remove("flex-grow");
-  };
-
-  if (ratingsFilters.classList.contains("display-none")) {
-    removeClasses(ratingsSelector);
-    theatersSearchAndCross.forEach((element) => {
-      element.classList.add("display-none");
-    });
-  }
-  if (theatersSearch.classList.contains("display-none")) {
-    removeClasses(theatersSelector);
-    ratingsFiltersAndCross.forEach((element) => {
-      element.classList.add("display-none");
-    });
-  }
-};
+const ratingsSelector = configSelectors.ratingsSelector;
+const theatersSelector = configSelectors.theatersSelector;
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
@@ -214,7 +164,7 @@ const Navbar = () => {
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
-            <Flex className="navbar-div" style={{ marginLeft: "60px" }}>
+            <Flex className="navbar-div">
               <StyledLinkInput className="ratings-filters display-none">
                 <ChipsDoc></ChipsDoc>
               </StyledLinkInput>

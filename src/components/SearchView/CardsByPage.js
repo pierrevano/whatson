@@ -58,8 +58,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [ref, inView] = useInView();
 
   const getDefaultItemType = (item_type_query, seasons_number_query) => {
-    if (item_type_query === "tvshow" || typeof seasons_number_query !== "undefined") return "tv";
-    if (item_type_query === "movie") return "movies";
+    if (item_type === "tvshow" || item_type_query === "tvshow" || typeof seasons_number_query !== "undefined") return "tv";
+    if (item_type === "movie" || item_type_query === "movie") return "movies";
     return "movies";
   };
 
