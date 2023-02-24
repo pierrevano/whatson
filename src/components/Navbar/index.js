@@ -15,7 +15,6 @@ import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import Cross from "components/Icon/Cross";
 import CheckMark from "components/Icon/CheckMark";
-import useWindowDimensions from "utils/useWindowDimensions";
 import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
 import { displayRatingsOrTheaters, cancel } from "./DisplayFilters";
@@ -97,14 +96,6 @@ const StyledLinkIcons = styled(StyledLink)`
   }
 `;
 
-const configSelectors = {
-  ratingsSelector: ".ratings-filters",
-  theatersSelector: ".theaters-search",
-};
-
-const ratingsSelector = configSelectors.ratingsSelector;
-const theatersSelector = configSelectors.theatersSelector;
-
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const toast = useRef(null);
@@ -114,16 +105,14 @@ const Navbar = () => {
     setTimeout(clearAndReload, 3000);
   };
 
-  const { width } = useWindowDimensions();
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    if (width > 700) {
-      const ratingsAndTheatersSelectors = `${ratingsSelector},${theatersSelector}`;
-      const ratingsAndTheaters = document.querySelectorAll(ratingsAndTheatersSelectors);
-      ratingsAndTheaters.forEach((element) => {
-        element.classList.remove("display-none");
-      });
-    }
-  });
+    window.screen.width <= 700 ? setIsMobile(true) : setIsMobile(false);
+  }, []);
+  function detectWindowSize() {
+    window.innerWidth <= 700 ? setIsMobile(true) : setIsMobile(false);
+  }
+  window.onresize = detectWindowSize;
 
   const [visibleLeft, setVisibleLeft] = useState(false);
 
@@ -165,13 +154,13 @@ const Navbar = () => {
         <Location>
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
-              <StyledLinkInput className="ratings-filters display-none">
+              <StyledLinkInput className={isMobile ? "ratings-filters display-none" : "ratings-filters"}>
                 <ChipsDoc></ChipsDoc>
               </StyledLinkInput>
               <StyledLink className="check-mark display-none">
                 <CheckMark onClick={() => window.location.reload()}></CheckMark>
               </StyledLink>
-              <StyledLinkInput className="theaters-search display-none">
+              <StyledLinkInput className={isMobile ? "theaters-search display-none" : "theaters-search"}>
                 <AutocompleteTheaters></AutocompleteTheaters>
               </StyledLinkInput>
               <StyledLink>
@@ -204,15 +193,7 @@ const Navbar = () => {
                 <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} />
               </Item>
               <Item to="/search" active={pathname === "/search"}>
-                <Search
-                  onClick={() => {
-                    setTimeout(() => {
-                      document.getElementById("searchInput").focus();
-                    }, 100);
-                  }}
-                  filled={pathname === "/search"}
-                  style={{ transform: "translateY(-1px)" }}
-                />
+                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} />
               </Item>
             </Flex>
           )}

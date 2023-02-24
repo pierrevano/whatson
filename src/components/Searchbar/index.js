@@ -69,7 +69,7 @@ const Searchbar = ({ kindURL, value, onChange, ...props }) => (
   <Container {...props}>
     <Wrapper>
       <Loupe />
-      <Input id="searchInput" placeholder={`Search for ${getPlaceholder(kindURL)}...`} autoFocus={true} value={value} onChange={onChange} />
+      <Input placeholder={`Search for ${getPlaceholder(kindURL)}...`} autoFocus={true} value={value} onChange={onChange} />
     </Wrapper>
   </Container>
 );
