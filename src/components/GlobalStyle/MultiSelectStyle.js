@@ -214,6 +214,11 @@ const MultiSelectStyle = `
       margin: -0.75rem 0 !important;
     }
   }
+  .ratings-filters {
+    @media (max-width: 700px) {
+      padding: 1px 8px 1px 12px !important;
+    }
+  }
 
   .trash-icon {
     @media (min-width: 700px) {

@@ -124,7 +124,7 @@ const Navbar = () => {
             <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
           </span>
         </Logo>
-        <Menu onClick={() => setVisibleLeft(true)} style={{ position: "absolute", marginLeft: "40px", transform: "translateY(1px)", cursor: "pointer" }}></Menu>
+        <Menu onClick={() => setVisibleLeft(true)} style={{ position: "absolute", marginLeft: "35px", transform: "translateY(1px)", cursor: "pointer" }}></Menu>
         <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)}>
           <h1>
             <strong>Switch to</strong>
