@@ -25,12 +25,13 @@
   },
   "scripts": {
     "dev": "rescripts start",
-    "build": "npm run prettier && rescripts build",
+    "build": "npm run clear:babel-cache && npm run prettier && rescripts build",
     "postbuild": "react-snap && cp build/index.html build/404.html && cp build/index.html build/200.html",
     "eject": "rescripts eject",
     "prettier": "prettier --write .",
     "surge": "surge build whatson-dev.surge.sh",
-    "update": "rm -rf node_modules package-lock.json && npm i --legacy-peer-deps"
+    "update": "rm -rf node_modules package-lock.json && npm i --legacy-peer-deps",
+    "clear:babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
   },
   "prettier": {
     "printWidth": 1000
