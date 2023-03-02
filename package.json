@@ -25,7 +25,7 @@
   },
   "scripts": {
     "dev": "rescripts start",
-    "build": "npm run update && npm run prettier && rescripts build",
+    "build": "npm run prettier && rescripts build",
     "postbuild": "react-snap && cp build/index.html build/404.html && cp build/index.html build/200.html",
     "eject": "rescripts eject",
     "prettier": "prettier --write .",
