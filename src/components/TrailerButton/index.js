@@ -1,8 +1,7 @@
 import React from "react";
-import styled, { css } from "styled-components";
-import { useFavoriteState } from "utils/favorites";
+import styled from "styled-components";
 import Text from "components/Text";
-import { Heart } from "components/Icon";
+import { Movie, TV } from "components/Icon";
 
 const Wrapper = styled.button`
   background: none;
@@ -21,18 +20,11 @@ const Wrapper = styled.button`
   cursor: pointer;
   &:hover {
     color: ${(p) => p.theme.colors.white};
-    background: ${(p) => p.theme.colors.red};
-    box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.red};
+    background: ${(p) => p.theme.colors.blue};
+    box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.blue};
   }
-  ${(p) =>
-    p.isFavorite &&
-    css`
-      color: ${(p) => p.theme.colors.white};
-      background: ${(p) => p.theme.colors.red};
-      box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.red};
-    `}
   &:focus {
-    box-shadow: inset 0 0 0 0.125rem ${(p) => p.theme.colors.red};
+    box-shadow: inset 0 0 0 0.125rem ${(p) => p.theme.colors.blue};
   }
 `;
 
@@ -50,15 +42,20 @@ const Right = styled.div`
   padding: 0.5rem 0.5rem 0.5rem 0;
 `;
 
-const Button = ({ kindURL, id }) => {
-  const [isFavorite, { toggle }] = useFavoriteState(kindURL + "/" + id);
+function MovieOrTV(props) {
+  const isMovieOrTV = props.isMovieOrTV;
+  if (isMovieOrTV === "tv") return <TV style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />;
+  return <Movie size={16} strokeWidth={2.5} />;
+}
+
+const Button = ({ kindURL }) => {
   return (
-    <Wrapper isFavorite={isFavorite} onClick={toggle}>
+    <Wrapper>
       <Left>
-        <Heart filled={isFavorite} size={16} strokeWidth={2.5} />
+        <MovieOrTV isMovieOrTV={kindURL} size={16} strokeWidth={2.5} />
       </Left>
       <Right>
-        <Text weight={500}>{isFavorite ? "Added" : "Add to favorites"}</Text>
+        <Text weight={500}>Watch trailer</Text>
       </Right>
     </Wrapper>
   );

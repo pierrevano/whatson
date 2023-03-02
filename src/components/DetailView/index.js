@@ -9,6 +9,7 @@ import { Arrow, Star } from "components/Icon";
 import Text from "components/Text";
 import Button from "components/Button";
 import ToggleButton from "components/ToggleButton";
+import TrailerButton from "components/TrailerButton";
 import InfoScreen from "components/InfoScreen";
 import Meta from "./Meta";
 import Info from "./Info";
@@ -18,6 +19,8 @@ import queryString from "query-string";
 import { useStorageString } from "utils/useStorageString";
 import { getParameters } from "utils/getParameters";
 import config from "utils/config";
+import { Dialog } from "primereact/dialog";
+import ReactPlayer from "react-player/file";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -82,6 +85,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const allocine = data_from_render?.allocine?.id;
   const score = data_from_render?.ratings_average;
+  const trailer = data_from_render?.allocine?.trailer;
 
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
@@ -108,6 +112,8 @@ const DetailView = ({ id, kindURL }) => {
 
   const [randomData] = useState(() => getRandomError(errorMessage));
 
+  const [visiblePopup, setVisiblePopup] = useState(false);
+
   return (
     <Wrapper error={error}>
       <Container>
@@ -122,13 +128,19 @@ const DetailView = ({ id, kindURL }) => {
               <Text weight={600} xs={2} sm={3} md={4} xg={5}>
                 {title}
               </Text>
-              <div style={{ display: "flex", margin: "1rem -0.5rem" }}>
+              <div style={{ display: "flex", margin: "1rem -0.5rem", flexWrap: "wrap" }}>
                 {!!allocine && (
                   <Button allocine={allocine} kindURL={kindURL} background="#28A745" logo={<Star filled={true} color="#181818" />}>
                     {!!score && `${score.toFixed(2)}/5`}
                   </Button>
                 )}
                 <ToggleButton kindURL={kindURL} id={id} />
+                <div onClick={() => setVisiblePopup(true)}>
+                  <TrailerButton kindURL={kindURL} />
+                </div>
+                <Dialog header="Trailer" visible={visiblePopup} style={{ width: "50vw" }} breakpoints={{ "960px": "75vw", "641px": "100vw" }} onHide={() => setVisiblePopup(false)}>
+                  <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />
+                </Dialog>
               </div>
               <Info kind={kind} {...data} />
             </Cell>

@@ -5,6 +5,7 @@ export const maxWidth = "1180px";
 export const colors = {
   red: "#FF4040",
   green: "#28A745",
+  blue: "#007BFF",
   dark: "#181818",
   grey: "#1B2329",
   midGrey: "#353F4C",

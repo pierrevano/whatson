@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Container from "components/Container";
 import Link from "components/Link";
-import { Github } from "components/Icon";
+import { GitHub } from "components/Icon";
 
 const Wrapper = styled.div`
   padding: 1.5rem 0;
@@ -38,7 +38,7 @@ const Footer = () => (
     <Wrapper>
       <Anchor to="/about">about</Anchor>
       <Anchor to="https://github.com/pierrevano/whatson" style={{ padding: "0.375rem" }}>
-        <Github />
+        <GitHub />
       </Anchor>
       <Anchor to="https://pierrevano.github.io">pierreschelde</Anchor>
     </Wrapper>
