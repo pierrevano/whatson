@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
       }
       @media (max-width: 641px) {
         width: 100vw !important;
-        height: 31vh !important;
+        height: 51vh !important;
       }
     }
     #dialog-player .p-dialog-header {
@@ -70,7 +70,7 @@ const GlobalStyle = createGlobalStyle`
         height: 40vh !important;
       }
       @media (max-width: 641px) {
-        height: 30vh !important;
+        height: 50vh !important;
       }
     }
 
