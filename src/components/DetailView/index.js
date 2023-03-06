@@ -20,7 +20,7 @@ import { useStorageString } from "utils/useStorageString";
 import { getParameters } from "utils/getParameters";
 import config from "utils/config";
 import { Dialog } from "primereact/dialog";
-import ReactPlayer from "react-player/file";
+import ReactPlayer from "react-player";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -135,10 +135,12 @@ const DetailView = ({ id, kindURL }) => {
                   </Button>
                 )}
                 <ToggleButton kindURL={kindURL} id={id} />
-                <div onClick={() => setVisiblePopup(true)}>
-                  <TrailerButton kindURL={kindURL} />
-                </div>
-                <Dialog header="Trailer" visible={visiblePopup} style={{ width: "50vw" }} breakpoints={{ "960px": "75vw", "641px": "100vw" }} onHide={() => setVisiblePopup(false)}>
+                {!!trailer && (
+                  <div onClick={() => setVisiblePopup(true)}>
+                    <TrailerButton kindURL={kindURL} />
+                  </div>
+                )}
+                <Dialog id="dialog-player" header="Trailer" visible={visiblePopup} onHide={() => setVisiblePopup(false)}>
                   <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />
                 </Dialog>
               </div>
