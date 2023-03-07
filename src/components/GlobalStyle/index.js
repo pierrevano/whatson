@@ -75,10 +75,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     .p-component-overlay-enter {
-      background-color: rgba(0, 0, 0, 0.9) !important;
-    }
-    .p-component-overlay-leave {
-      background-color: transparent !important;
+      animation: unset !important;
+      background-color: rgba(0, 0, 0, 0.95) !important;
     }
 
     // Multiselect style

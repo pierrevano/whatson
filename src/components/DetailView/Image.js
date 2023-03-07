@@ -15,7 +15,8 @@ const Wrapper = styled(AspectRatio)`
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: ${(p) => p.theme.colors.dark};
   }
 `;
 

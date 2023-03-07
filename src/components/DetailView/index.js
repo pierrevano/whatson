@@ -114,6 +114,13 @@ const DetailView = ({ id, kindURL }) => {
 
   const [visiblePopup, setVisiblePopup] = useState(false);
 
+  const dialogMaskBackground = (visibleMask) => {
+    setTimeout(() => {
+      const parentNodeClasslist = document.getElementById("dialog-player").parentNode.classList;
+      visibleMask ? parentNodeClasslist.add("p-component-overlay-enter") : parentNodeClasslist.remove("p-component-overlay-enter");
+    }, 100);
+  };
+
   return (
     <Wrapper error={error}>
       <Container>
@@ -136,11 +143,24 @@ const DetailView = ({ id, kindURL }) => {
                 )}
                 <ToggleButton kindURL={kindURL} id={id} />
                 {!!trailer && (
-                  <div onClick={() => setVisiblePopup(true)}>
+                  <div
+                    onClick={() => {
+                      setVisiblePopup(true);
+                      dialogMaskBackground(true);
+                    }}
+                  >
                     <TrailerButton kindURL={kindURL} />
                   </div>
                 )}
-                <Dialog id="dialog-player" header="Trailer" visible={visiblePopup} onHide={() => setVisiblePopup(false)}>
+                <Dialog
+                  id="dialog-player"
+                  header="Trailer"
+                  visible={visiblePopup}
+                  onHide={() => {
+                    setVisiblePopup(false);
+                    dialogMaskBackground(false);
+                  }}
+                >
                   <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />
                 </Dialog>
               </div>

@@ -26,17 +26,15 @@
   "scripts": {
     "dev": "rescripts start",
     "build": "npm run prettier && rescripts build",
-    "postbuild": "react-snap && cp build/index.html build/404.html && cp build/index.html build/200.html",
+    "postbuild": "cp build/index.html build/404.html && cp build/index.html build/200.html",
     "eject": "rescripts eject",
     "prettier": "prettier --write .",
-    "surge": "surge build whatson-dev.surge.sh",
+    "surge": "npm run build && surge build whatson-dev.surge.sh",
+    "teardown": "surge teardown whatson-dev.surge.sh",
     "update": "rm -rf node_modules package-lock.json && npm i --legacy-peer-deps"
   },
   "prettier": {
     "printWidth": 1000
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "rescripts": [
     "env"
@@ -54,13 +52,6 @@
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@rescripts/cli": "^0.0.10",
     "@rescripts/rescript-env": "^0.0.5",
-    "@vitordino/react-snap": "^1.24.0-alpha.0",
     "babel-plugin-preval": "^3.0.1"
-  },
-  "reactSnap": {
-    "exclude": [
-      "/movies/*",
-      "/search"
-    ]
   }
 }
