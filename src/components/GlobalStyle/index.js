@@ -74,7 +74,7 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
-    .p-component-overlay-enter {
+    .p-dialog-mask.p-component-overlay-enter {
       animation: unset !important;
       background-color: rgba(0, 0, 0, 0.95) !important;
     }
