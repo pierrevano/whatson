@@ -21,6 +21,7 @@ import { getParameters } from "utils/getParameters";
 import config from "utils/config";
 import { Dialog } from "primereact/dialog";
 import ReactPlayer from "react-player";
+import LogoButton from "components/LogoButton";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -86,6 +87,7 @@ const DetailView = ({ id, kindURL }) => {
   const allocine = data_from_render?.allocine?.id;
   const score = data_from_render?.ratings_average;
   const trailer = data_from_render?.allocine?.trailer;
+  const platforms_links = data_from_render?.betaseries?.platforms_links;
 
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
@@ -163,6 +165,9 @@ const DetailView = ({ id, kindURL }) => {
                 >
                   <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />
                 </Dialog>
+                {platforms_links?.map((platform) => (
+                  <LogoButton name={platform.name} link_url={platform.link_url} />
+                ))}
               </div>
               <Info kind={kind} {...data} />
             </Cell>
