@@ -21,7 +21,7 @@ import { getParameters } from "utils/getParameters";
 import config from "utils/config";
 import { Dialog } from "primereact/dialog";
 import ReactPlayer from "react-player";
-import LogoButton from "components/LogoButton";
+import PlatformLinks from "components/PlatformLinks";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -166,7 +166,7 @@ const DetailView = ({ id, kindURL }) => {
                   <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />
                 </Dialog>
                 {platforms_links?.map((platform) => (
-                  <LogoButton name={platform.name} link_url={platform.link_url} />
+                  <PlatformLinks name={platform.name} link_url={platform.link_url} />
                 ))}
               </div>
               <Info kind={kind} {...data} />

@@ -17,6 +17,9 @@ const Wrapper = styled.a`
   @media (max-width: 980px) {
     margin: 1rem 0.5rem 0 0.5rem;
   }
+  @media (min-width: 981px) {
+    margin-top: 0;
+  }
   cursor: pointer;
   &:hover {
     color: ${(p) => p.theme.colors.white};
@@ -42,9 +45,9 @@ const Right = styled.div`
   padding: 0.563rem 0.875rem 0.563rem 0;
 `;
 
-const LogoButton = ({ name, link_url }) => {
+const PlatformLinks = ({ name, link_url }) => {
   return (
-    <Wrapper tabIndex={0} href={link_url} target={"_blank"} style={{ marginTop: "0" }}>
+    <Wrapper href={link_url} target={"_blank"}>
       <Left>
         <TV style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />
       </Left>
@@ -55,4 +58,4 @@ const LogoButton = ({ name, link_url }) => {
   );
 };
 
-export default LogoButton;
+export default PlatformLinks;
