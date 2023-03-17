@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import TV from "components/Icon/TV";
 import Text from "components/Text";
+import Eye from "components/Icon/Eye";
 
-const Wrapper = styled.a`
+const Wrapper = styled.button`
   background: none;
   border: none;
   display: inline-flex;
@@ -35,21 +35,21 @@ const Left = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.813rem 0.5rem 0.813rem 0.875rem;
+  padding: 0.75rem 0.5rem;
 `;
 
 const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.563rem 0.875rem 0.563rem 0;
+  padding: 0.5rem 0.5rem 0.5rem 0;
 `;
 
-const PlatformLinks = ({ name, link_url }) => {
+const PlatformLinks = ({ name, linkURL }) => {
   return (
-    <Wrapper href={link_url} target={"_blank"}>
+    <Wrapper onClick={() => window.open(linkURL, "_blank", "noreferrer")}>
       <Left>
-        <TV style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />
+        <Eye style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />
       </Left>
       <Right>
         <Text>{name}</Text>

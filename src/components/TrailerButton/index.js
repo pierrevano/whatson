@@ -48,9 +48,9 @@ function MovieOrTV(props) {
   return <Movie size={16} strokeWidth={2.5} />;
 }
 
-const Button = ({ kindURL }) => {
+const TrailerButton = ({ kindURL, setVisiblePopupAndDialogMaskBackground }) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={setVisiblePopupAndDialogMaskBackground}>
       <Left>
         <MovieOrTV isMovieOrTV={kindURL} size={16} strokeWidth={2.5} />
       </Left>
@@ -61,4 +61,4 @@ const Button = ({ kindURL }) => {
   );
 };
 
-export default Button;
+export default TrailerButton;

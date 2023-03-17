@@ -123,6 +123,11 @@ const DetailView = ({ id, kindURL }) => {
     }, 100);
   };
 
+  const setVisiblePopupAndDialogMaskBackground = () => {
+    setVisiblePopup(true);
+    dialogMaskBackground(true);
+  };
+
   return (
     <Wrapper error={error}>
       <Container>
@@ -139,21 +144,12 @@ const DetailView = ({ id, kindURL }) => {
               </Text>
               <div style={{ display: "flex", margin: "1rem -0.5rem", flexWrap: "wrap" }}>
                 {!!allocine && (
-                  <Button allocine={allocine} kindURL={kindURL} background="#28A745" logo={<Star filled={true} color="#181818" />}>
+                  <Button allocine={allocine} kindURL={kindURL} background="#28A745" logo={<Star size={11} filled={true} color="#181818" />}>
                     {!!score && `${score.toFixed(2)}/5`}
                   </Button>
                 )}
                 <ToggleButton kindURL={kindURL} id={id} />
-                {!!trailer && (
-                  <div
-                    onClick={() => {
-                      setVisiblePopup(true);
-                      dialogMaskBackground(true);
-                    }}
-                  >
-                    <TrailerButton kindURL={kindURL} />
-                  </div>
-                )}
+                {!!trailer && <TrailerButton kindURL={kindURL} setVisiblePopupAndDialogMaskBackground={setVisiblePopupAndDialogMaskBackground} />}
                 <Dialog
                   id="dialog-player"
                   header="Trailer"
@@ -166,7 +162,7 @@ const DetailView = ({ id, kindURL }) => {
                   <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />
                 </Dialog>
                 {platforms_links?.map((platform) => (
-                  <PlatformLinks name={platform.name} link_url={platform.link_url} />
+                  <PlatformLinks name={platform.name} linkURL={platform.link_url} />
                 ))}
               </div>
               <Info kind={kind} {...data} />

@@ -50,7 +50,7 @@ const Right = styled.div`
   padding: 0.5rem 0.5rem 0.5rem 0;
 `;
 
-const Button = ({ kindURL, id }) => {
+const ToggleButton = ({ kindURL, id }) => {
   const [isFavorite, { toggle }] = useFavoriteState(kindURL + "/" + id);
   return (
     <Wrapper isFavorite={isFavorite} onClick={toggle}>
@@ -64,4 +64,4 @@ const Button = ({ kindURL, id }) => {
   );
 };
 
-export default Button;
+export default ToggleButton;
