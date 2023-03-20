@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import reset from "minireset.css";
 import MultiSelectStyle from "./MultiSelectStyle";
 import ReactConfirmStyle from "./ReactConfirmStyle";
+import OverlayPanelStyle from "./OverlayPanelStyle";
 
 const GlobalStyle = createGlobalStyle`
 	${reset}
@@ -84,6 +85,9 @@ const GlobalStyle = createGlobalStyle`
 
     // React confirm alert style
     ${ReactConfirmStyle}
+
+    // Overlay panel style
+    ${OverlayPanelStyle}
 	`}
 `;
 

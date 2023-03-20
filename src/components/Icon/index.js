@@ -1,6 +1,7 @@
 export Arrow from "./Arrow";
 export CheckMark from "./CheckMark";
 export Cross from "./Cross";
+export Eye from "./Eye";
 export Github from "./Github";
 export Heart from "./Heart";
 export HeartBreak from "./HeartBreak";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import LazyImage from "react-lazy-progressive-image";
 import { useFavoriteState } from "utils/favorites";
@@ -6,6 +6,9 @@ import Link from "components/Link";
 import AspectRatio from "components/AspectRatio";
 import Text from "components/Text";
 import { Heart, Movie, Person, TV } from "components/Icon";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
 
 const Wrapper = styled.div`
   background: none;
@@ -144,6 +147,27 @@ const LoadMore = styled(Text)`
   }
 `;
 
+const config = {
+  baseURLPublicAssets: "https://whatson-public.surge.sh",
+
+  allocine_users: {
+    image: "allocine-logo.png",
+    name: "AlloCiné users",
+  },
+  allocine_critics: {
+    image: "allocine-logo.png",
+    name: "AlloCiné critics",
+  },
+  betaseries: {
+    image: "betaseries-logo.png",
+    name: "BetaSeries users",
+  },
+  imdb: {
+    image: "imdb-logo.png",
+    name: "IMDb users",
+  },
+};
+
 const getKindURL = (input) => {
   if (input === "movie") return "movies";
   if (input === "person") return "people";
@@ -153,9 +177,113 @@ const getKindURL = (input) => {
 const Card = ({ id, loading, error, loadMore, ...props }) => {
   const kind = props?.media_type;
   const kindURL = getKindURL(props?.media_type) || props.kindURL;
+
+  const allocine_url = props?.allocine?.url;
+  const allocine_users_rating = props?.allocine?.users_rating;
+  const allocine_critics_rating = props?.allocine?.critics_rating;
+
+  const betaseries_url = props?.betaseries?.url;
+  const betaseries_users_rating = props?.betaseries?.users_rating;
+
+  const imdb_url = props?.imdb?.url;
+  const imdb_users_rating = props?.imdb?.users_rating;
+
   const ratings_average = props?.ratings_average;
   let image = props?.poster_path || props?.profile_path || props?.image;
   if (image && image.startsWith("/")) image = `https://image.tmdb.org/t/p/w300/${image}`;
+
+  const op = useRef(null);
+
+  const data = [
+    {
+      image: config.allocine_users.image,
+      name: config.allocine_users.name,
+      rating: allocine_users_rating,
+    },
+    {
+      image: config.allocine_critics.image,
+      name: config.allocine_critics.name,
+      rating: allocine_critics_rating,
+    },
+    {
+      image: config.betaseries.image,
+      name: config.betaseries.name,
+      rating: betaseries_users_rating,
+    },
+    {
+      image: config.imdb.image,
+      name: config.imdb.name,
+      rating: imdb_users_rating / 2,
+    },
+  ];
+
+  const logoBody = (rowData) => {
+    const baseURLPublicAssets = config.baseURLPublicAssets;
+    const image = rowData.image;
+    const name = rowData.name;
+
+    return (
+      <div className="flex align-items-center p-overlaypanel-logo">
+        <img alt={name} src={`${baseURLPublicAssets}/${image}`} />
+      </div>
+    );
+  };
+
+  const ratingBody = (rowData) => {
+    const rating = rowData.rating;
+
+    if (rating > 0)
+      return (
+        <span className="rating_value">
+          <span>★</span> {rating}
+          <span>/5</span>
+        </span>
+      );
+    return "/";
+  };
+
+  const editURL = (url) => {
+    const first_regex = /(_gen_cfilm=|_gen_cserie=)/;
+    const second_regex = /\.html$/;
+
+    return url.replace(first_regex, "-").replace(second_regex, "");
+  };
+
+  const nameBody = (rowData) => {
+    const name = rowData.name;
+    const rating = rowData.rating;
+
+    let link;
+    if (name === "AlloCiné users" && rating > 0) {
+      link = (
+        <a href={`${editURL(allocine_url)}/critiques/`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "AlloCiné critics" && rating > 0) {
+      link = (
+        <a href={`${editURL(allocine_url)}/critiques/presse/`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "BetaSeries users" && rating > 0) {
+      link = (
+        <a href={betaseries_url} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "IMDb users" && rating > 0) {
+      link = (
+        <a href={imdb_url} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else {
+      link = name;
+    }
+
+    return <div className="flex align-items-center">{link}</div>;
+  };
 
   return (
     <Wrapper error={error} {...props}>
@@ -186,8 +314,15 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
         {!loadMore && (
           <Overlay>
             {ratings_average > 0 && (
-              <Info>
+              <Info className="rating_details" onClick={(e) => op.current.toggle(e)}>
                 <span style={{ color: "#28A745" }}>★</span> {ratings_average.toFixed(1)}
+                <OverlayPanel ref={op}>
+                  <DataTable value={data} size="small">
+                    <Column body={logoBody} />
+                    <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
+                    <Column field="rating" header="Rating" body={ratingBody} />
+                  </DataTable>
+                </OverlayPanel>
               </Info>
             )}
             <div style={{ display: "flex", alignItems: "center" }}>{id && <FavoriteButton kindURL={kindURL} id={id} />}</div>
