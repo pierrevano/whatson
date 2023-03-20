@@ -193,6 +193,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   if (image && image.startsWith("/")) image = `https://image.tmdb.org/t/p/w300/${image}`;
 
   const op = useRef(null);
+  const isMounted = useRef(false);
 
   const data = [
     {
@@ -314,7 +315,18 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
         {!loadMore && (
           <Overlay>
             {ratings_average > 0 && (
-              <Info className="rating_details" onClick={(e) => op.current.toggle(e)}>
+              <Info
+                className="rating_details"
+                onClick={(e) => {
+                  if (isMounted.current && data) {
+                    op.current.hide(e);
+                    isMounted.current = false;
+                  } else {
+                    op.current.show(e);
+                    isMounted.current = true;
+                  }
+                }}
+              >
                 <span style={{ color: "#28A745" }}>★</span> {ratings_average.toFixed(1)}
                 <OverlayPanel ref={op}>
                   <DataTable value={data} size="small">
