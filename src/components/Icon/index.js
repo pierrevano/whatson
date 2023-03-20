@@ -11,5 +11,4 @@ export Person from "./Person";
 export Pin from "./Pin";
 export Search from "./Search";
 export Star from "./Star";
-export Trash from "./Trash";
 export TV from "./TV";

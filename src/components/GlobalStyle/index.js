@@ -75,6 +75,9 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
+    .p-sidebar-mask + .p-dialog-mask.p-component-overlay-enter {
+      background-color: rgba(0, 0, 0, 0.4) !important;
+    }
     .p-dialog-mask.p-component-overlay-enter {
       animation: unset !important;
       background-color: rgba(0, 0, 0, 0.95) !important;

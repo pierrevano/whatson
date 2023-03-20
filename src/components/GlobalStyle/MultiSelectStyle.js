@@ -220,16 +220,10 @@ const MultiSelectStyle = `
     }
   }
 
-  .trash-icon {
+  .navbar-div .heart-icon {
     @media (min-width: 700px) {
       margin-left: -9px !important;
-      margin-right: -3px !important;
-    }
-  }
-
-  .trash-icon {
-    @media (max-width: 700px) {
-      margin-left: 3px !important;
+      margin-right: -9px !important;
     }
   }
 

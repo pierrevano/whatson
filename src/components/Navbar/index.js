@@ -9,7 +9,6 @@ import ChipsDoc from "./ChipsFilters";
 import AutocompleteTheaters from "./AutocompleteTheaters";
 import Pin from "components/Icon/Pin";
 import Star from "components/Icon/Star";
-import Trash from "components/Icon/Trash";
 import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
@@ -98,6 +97,8 @@ const StyledLinkIcons = styled(StyledLink)`
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const [visibleLeft, setVisibleLeft] = useState(false);
+
   const toast = useRef(null);
 
   const accept = () => {
@@ -114,8 +115,6 @@ const Navbar = () => {
   }
   window.onresize = detectWindowSize;
 
-  const [visibleLeft, setVisibleLeft] = useState(false);
-
   return (
     <StickyContainer>
       <Wrapper>
@@ -125,7 +124,7 @@ const Navbar = () => {
           </span>
         </Logo>
         <Menu onClick={() => setVisibleLeft(true)} style={{ position: "absolute", marginLeft: "35px", transform: "translateY(1px)", cursor: "pointer" }}></Menu>
-        <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)}>
+        <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)} style={{ position: "relative" }}>
           <h1>
             <strong>Switch to</strong>
           </h1>
@@ -150,6 +149,12 @@ const Navbar = () => {
           >
             TV Shows
           </span>
+          <span className="pi pi-trash" style={{ position: "absolute", bottom: "22px", left: "20px" }}></span>
+          <span style={{ position: "absolute", bottom: "20px", left: "50px" }} onClick={() => setVisible(true)}>
+            Reset Preferences
+          </span>
+          <Toast ref={toast} />
+          <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Clear my preferences" accept={accept} />
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
@@ -163,11 +168,6 @@ const Navbar = () => {
               <StyledLinkInput className={isMobile ? "theaters-search display-none" : "theaters-search"}>
                 <AutocompleteTheaters></AutocompleteTheaters>
               </StyledLinkInput>
-              <StyledLink>
-                <Toast ref={toast} />
-                <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Clear my preferences" accept={accept} />
-                <Trash onClick={() => setVisible(true)} icon="pi pi-check" label="Confirm" style={{ marginRight: "-10px" }}></Trash>
-              </StyledLink>
               <StyledLinkIcons>
                 <Star
                   onClick={() => {
