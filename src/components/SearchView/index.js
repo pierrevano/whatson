@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ReactGA from "react-ga4";
 import styled from "styled-components";
 import { Row } from "griding";
 import { useStorageString } from "utils/useStorageString";
@@ -20,6 +21,8 @@ const Searchbar = styled(Search)`
   top: 0.875rem;
   z-index: 3;
 `;
+
+ReactGA.initialize("G-3WQW5G3BM8");
 
 /* eslint-disable no-mixed-operators */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
