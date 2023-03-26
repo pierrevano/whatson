@@ -9,6 +9,7 @@ import { Heart, Movie, Person, TV } from "components/Icon";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
+import { useImageSize } from "react-image-size";
 
 const Wrapper = styled.div`
   background: none;
@@ -189,8 +190,14 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const imdb_users_rating = props?.imdb?.users_rating;
 
   const ratings_average = props?.ratings_average;
+
   let image = props?.poster_path || props?.profile_path || props?.image;
   if (image && image.startsWith("/")) image = `https://image.tmdb.org/t/p/w300/${image}`;
+
+  const [dimensions] = useImageSize(image);
+  const width = dimensions?.width > 1000 ? parseInt(dimensions?.width / 2) : dimensions?.width;
+  const height = dimensions?.width > 1000 ? parseInt(dimensions?.height / 2) : dimensions?.height;
+  if (image && image.startsWith("http") && dimensions?.width > 1000) image = `${image.split("net")[0]}net/c_${width}_${height}${image.split("net")[1]}`;
 
   const op = useRef(null);
   const isMounted = useRef(false);
@@ -293,7 +300,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       <OverflowHidden>
         {image && (
           <LazyImage placeholder={`${image}`} src={`${image}`}>
-            {(src, loading) => <Image src={src} loading={+loading} />}
+            {(src, loading) => <Image src={src} width={width} height={height} loading={+loading} />}
           </LazyImage>
         )}
       </OverflowHidden>
