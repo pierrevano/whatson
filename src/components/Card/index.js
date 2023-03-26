@@ -194,10 +194,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   let image = props?.poster_path || props?.profile_path || props?.image;
   if (image && image.startsWith("http")) image = image.split("/")[6];
 
-  const [dimensions] = useImageSize(image);
-  const width = dimensions?.width > 1000 ? parseInt(dimensions?.width / 2) : dimensions?.width;
-  const height = dimensions?.width > 1000 ? parseInt(dimensions?.height / 2) : dimensions?.height;
-
   const op = useRef(null);
   const isMounted = useRef(false);
 
@@ -292,6 +288,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     return <div className="flex align-items-center">{link}</div>;
   };
 
+  const [dimensions] = useImageSize(`https://image.tmdb.org/t/p/w300/${image}`);
+
   return (
     <Wrapper error={error} {...props}>
       <AspectRatio ratio={0.75} />
@@ -299,7 +297,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       <OverflowHidden>
         {image && (
           <LazyImage placeholder={`https://image.tmdb.org/t/p/w45/${image}`} src={`https://image.tmdb.org/t/p/w300/${image}`}>
-            {(src, loading) => <Image src={src} width={width} height={height} loading={+loading} />}
+            {(src, loading) => <Image src={src} width={dimensions?.width} height={dimensions?.height} loading={+loading} />}
           </LazyImage>
         )}
       </OverflowHidden>
