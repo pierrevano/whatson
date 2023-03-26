@@ -191,7 +191,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const ratings_average = props?.ratings_average;
 
-  const image = props?.poster_path || props?.profile_path || props?.image;
+  let image = props?.poster_path || props?.profile_path || props?.image;
+  if (image && image.startsWith("http")) image = image.split("/")[6];
 
   const [dimensions] = useImageSize(image);
   const width = dimensions?.width > 1000 ? parseInt(dimensions?.width / 2) : dimensions?.width;
