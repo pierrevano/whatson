@@ -191,13 +191,12 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const ratings_average = props?.ratings_average;
 
-  let image = props?.poster_path || props?.profile_path || props?.image;
-  if (image && image.startsWith("/")) image = `https://image.tmdb.org/t/p/w300/${image}`;
+  const imageEndURL = props?.poster_path || props?.profile_path || props?.image;
+  const image = `https://image.tmdb.org/t/p/w300/${imageEndURL}`;
 
   const [dimensions] = useImageSize(image);
   const width = dimensions?.width > 1000 ? parseInt(dimensions?.width / 2) : dimensions?.width;
   const height = dimensions?.width > 1000 ? parseInt(dimensions?.height / 2) : dimensions?.height;
-  if (image && image.startsWith("http") && dimensions?.width > 1000) image = `${image.split("net")[0]}net/c_${width}_${height}${image.split("net")[1]}`;
 
   const op = useRef(null);
   const isMounted = useRef(false);
