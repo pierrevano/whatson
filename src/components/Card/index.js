@@ -191,8 +191,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const ratings_average = props?.ratings_average;
 
-  const imageEndURL = props?.poster_path || props?.profile_path || props?.image;
-  const image = `https://image.tmdb.org/t/p/w300/${imageEndURL}`;
+  const image = props?.poster_path || props?.profile_path || props?.image;
 
   const [dimensions] = useImageSize(image);
   const width = dimensions?.width > 1000 ? parseInt(dimensions?.width / 2) : dimensions?.width;
@@ -298,7 +297,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       {!(loading || error || loadMore) && <Anchor to={`/${kindURL}/${id}`} tabIndex={0} />}
       <OverflowHidden>
         {image && (
-          <LazyImage placeholder={`${image}`} src={`${image}`}>
+          <LazyImage placeholder={`https://image.tmdb.org/t/p/w45/${image}`} src={`https://image.tmdb.org/t/p/w300/${image}`}>
             {(src, loading) => <Image src={src} width={width} height={height} loading={+loading} />}
           </LazyImage>
         )}
