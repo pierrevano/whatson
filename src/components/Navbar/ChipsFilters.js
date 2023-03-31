@@ -25,40 +25,69 @@ const ChipsDoc = () => {
   const allocineUsers = { name: "AlloCiné users", code: "allocine_users" };
   const betaseriesUsers = { name: "BetaSeries users", code: "betaseries_users" };
   const imdbUsers = { name: "IMDb users", code: "imdb_users" };
+  const ratings = {
+    name: "Ratings",
+    items: [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers],
+  };
+
+  const one = { name: "1", code: "1" };
+  const two = { name: "2", code: "2" };
+  const three = { name: "3", code: "3" };
+  const four = { name: "4+", code: "4" };
+  const seasons = {
+    name: "Seasons numbers",
+    items: [one, two, three, four],
+  };
+
+  const [item_type] = useStorageString("item_type", "");
+  const groupedItems = item_type && item_type === "tvshow" ? [ratings, seasons] : [ratings];
+  const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
+  const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
 
   const [selectedItems, setSelectedItems] = useState([]);
-  const items = [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers];
-
-  const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   if (selectedItems.length === 0) {
     if (ratings_filters.includes("allocine_critics")) selectedItems.push(allocineCritics);
     if (ratings_filters.includes("allocine_users")) selectedItems.push(allocineUsers);
     if (ratings_filters.includes("betaseries_users")) selectedItems.push(betaseriesUsers);
     if (ratings_filters.includes("imdb_users")) selectedItems.push(imdbUsers);
+
+    if (seasons_number.includes("1")) selectedItems.push(one);
+    if (seasons_number.includes("2")) selectedItems.push(two);
+    if (seasons_number.includes("3")) selectedItems.push(three);
+    if (seasons_number.includes("4")) selectedItems.push(four);
   }
+
+  const groupedItemTemplate = (option) => {
+    return (
+      <div className="flex align-items-center">
+        <div>{option.name}</div>
+      </div>
+    );
+  };
+
+  const onChangeFunction = (e) => {
+    displayCheckMark();
+
+    const valuesArray = e.value;
+
+    const ratingsFiltersArray = [];
+    const seasonsNumberArray = [];
+    valuesArray.forEach((element) => {
+      if (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users") {
+        ratingsFiltersArray.push(element.code);
+      } else {
+        seasonsNumberArray.push(element.code);
+      }
+    });
+
+    setSelectedItems(e.value);
+    setRatingsFilters(ratingsFiltersArray.join(","));
+    setSeasonsNumber(seasonsNumberArray.join(","));
+  };
 
   return (
     <div className="card">
-      <MultiSelect
-        value={selectedItems}
-        options={items}
-        onChange={(e) => {
-          displayCheckMark();
-
-          const valuesArray = e.value;
-
-          const ratingsFiltersArray = [];
-          valuesArray.forEach((element) => {
-            ratingsFiltersArray.push(element.code);
-          });
-
-          setSelectedItems(e.value);
-          setRatingsFilters(ratingsFiltersArray.join(","));
-        }}
-        optionLabel="name"
-        placeholder="Select your ratings filters"
-        display="chip"
-      />
+      <MultiSelect value={selectedItems} options={groupedItems} optionLabel="name" onChange={(e) => onChangeFunction(e)} optionGroupLabel="name" optionGroupChildren="items" optionGroupTemplate={groupedItemTemplate} placeholder="Select your filters" display="chip" />
     </div>
   );
 };
