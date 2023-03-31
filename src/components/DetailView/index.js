@@ -22,6 +22,8 @@ import config from "utils/config";
 import { Dialog } from "primereact/dialog";
 import ReactPlayer from "react-player";
 import PlatformLinks from "components/PlatformLinks";
+import { useImageSize } from "react-image-size";
+import { getImageResized } from "utils/getImageResized";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -84,6 +86,11 @@ const DetailView = ({ id, kindURL }) => {
 
   const { data: data_from_render } = useFetch([`${cors_url}${base_render}/${kind}/${id}`, `${parameters}`].join(""));
 
+  const image = data_from_render?.image;
+  const [dimensions] = useImageSize(image);
+  const { width, height } = getImageResized(kind, dimensions?.width, dimensions?.height, image);
+  const imagePlaceholder = getImageResized(kind, dimensions?.width, dimensions?.height, image).image;
+
   const allocine = data_from_render?.allocine?.id;
   const score = data_from_render?.ratings_average;
   const trailer = data_from_render?.allocine?.trailer;
@@ -92,7 +99,6 @@ const DetailView = ({ id, kindURL }) => {
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
   const title = data?.title || data?.name;
-  const image = data?.poster_path || data?.profile_path;
 
   useEffect(
     () => {
@@ -168,7 +174,7 @@ const DetailView = ({ id, kindURL }) => {
               <Info kind={kind} {...data} />
             </Cell>
             <Cell xs={12} sm={12} md={5} lg={5}>
-              <Image kind={kind} alt={`poster for: ${title}`} image={image} />
+              <Image kind={kind} alt={`poster for: ${title}`} image={image} imagePlaceholder={imagePlaceholder} width={width} height={height} />
             </Cell>
           </Row>
         )}

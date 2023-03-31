@@ -37,11 +37,11 @@ const NoImage = styled.div`
   color: ${(p) => p.theme.colors.midGrey};
 `;
 
-const Image = ({ image, kind }) => (
+const Image = ({ imagePlaceholder, image, kind, width, height }) => (
   <Wrapper ratio={image ? 0.75 : 1}>
     {image ? (
-      <LazyImage placeholder={`https://image.tmdb.org/t/p/w300/${image}`} src={`https://image.tmdb.org/t/p/w1280/${image}`}>
-        {(src, loading) => <Img src={src} loading={+loading} />}
+      <LazyImage placeholder={`${imagePlaceholder}`} src={`${image}`}>
+        {(src, loading) => <Img src={src} width={width} height={height} loading={+loading} />}
       </LazyImage>
     ) : (
       <NoImage>
