@@ -99,12 +99,12 @@ const DetailView = ({ id, kindURL }) => {
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
   const title = data?.title || data?.name;
-		
-		if (kind === "person") {
-			image = data?.poster_path || data?.profile_path;
-			image = `https://image.tmdb.org/t/p/w1280/${image}`;
-			imagePlaceholder = `https://image.tmdb.org/t/p/w300/${image}`;
-		}
+
+  if (kind === "person") {
+    image = data?.poster_path || data?.profile_path;
+    image = `https://image.tmdb.org/t/p/w1280/${image}`;
+    imagePlaceholder = `https://image.tmdb.org/t/p/w300/${image}`;
+  }
 
   useEffect(
     () => {
