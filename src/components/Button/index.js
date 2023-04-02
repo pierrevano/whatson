@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Text from "components/Text";
 
-const Wrapper = styled.a`
+const Wrapper = styled.div`
   display: inline-flex;
   color: currentColor;
   text-decoration: none;
@@ -17,6 +17,7 @@ const Wrapper = styled.a`
   &:focus {
     box-shadow: inset 0 0 0 0.125rem ${(p) => p.theme.colors.green};
   }
+  cursor: pointer;
 `;
 
 const Left = styled.div`
@@ -34,15 +35,8 @@ const Right = styled.div`
   padding: 0.6rem;
 `;
 
-const getAllocineLink = (allocine, kindURL) => {
-  const baseURL = "https://www.allocine.fr";
-  if (kindURL === "movies") return `${baseURL}/film/fichefilm_gen_cfilm=${allocine}.html`;
-  if (kindURL === "tv") return `${baseURL}/series/ficheserie_gen_cserie=${allocine}.html`;
-  return `${baseURL}/film/fichefilm_gen_cfilm=${allocine}.html`;
-};
-
-const Button = ({ logo, background, children, allocine, kindURL }) => (
-  <Wrapper tabIndex={0} href={getAllocineLink(allocine, kindURL)} target={"_blank"}>
+const Button = ({ logo, background, children, displayRatingsDetails }) => (
+  <Wrapper onClick={displayRatingsDetails} tabIndex={0}>
     {logo && <Left background={background}>{logo}</Left>}
     {children && (
       <Right>

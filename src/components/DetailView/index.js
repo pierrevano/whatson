@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useFetch } from "react-hooks-fetch";
 import { Row, Cell } from "griding";
@@ -24,6 +24,9 @@ import ReactPlayer from "react-player";
 import PlatformLinks from "components/PlatformLinks";
 import { useImageSize } from "react-image-size";
 import { getImageResized } from "utils/getImageResized";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -65,6 +68,27 @@ const BackLink = styled.button`
 
 const getDetailTitle = (kindURL, title) => `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
+const detailsConfig = {
+  baseURLPublicAssets: "https://whatson-public.surge.sh",
+
+  allocine_users: {
+    image: "allocine-logo.png",
+    name: "AlloCiné users",
+  },
+  allocine_critics: {
+    image: "allocine-logo.png",
+    name: "AlloCiné critics",
+  },
+  betaseries: {
+    image: "betaseries-logo.png",
+    name: "BetaSeries users",
+  },
+  imdb: {
+    image: "imdb-logo.png",
+    name: "IMDb users",
+  },
+};
+
 const DetailView = ({ id, kindURL }) => {
   const kind = getKindByURL(kindURL);
 
@@ -92,7 +116,18 @@ const DetailView = ({ id, kindURL }) => {
   let imagePlaceholder = getImageResized(kind, dimensions?.width, dimensions?.height, image).image;
 
   const allocine = data_from_render?.allocine?.id;
-  const score = data_from_render?.ratings_average;
+
+  const allocine_url = data_from_render?.allocine?.url;
+  const allocine_users_rating = data_from_render?.allocine?.users_rating;
+  const allocine_critics_rating = data_from_render?.allocine?.critics_rating;
+
+  const betaseries_url = data_from_render?.betaseries?.url;
+  const betaseries_users_rating = data_from_render?.betaseries?.users_rating;
+
+  const imdb_url = data_from_render?.imdb?.url;
+  const imdb_users_rating = data_from_render?.imdb?.users_rating;
+
+  const ratings_average = data_from_render?.ratings_average;
   const trailer = data_from_render?.allocine?.trailer;
   const platforms_links = data_from_render?.betaseries?.platforms_links;
 
@@ -140,6 +175,110 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackground(true);
   };
 
+  const op = useRef(null);
+  const isMounted = useRef(false);
+
+  const detailsData = [
+    {
+      image: detailsConfig.allocine_users.image,
+      name: detailsConfig.allocine_users.name,
+      rating: allocine_users_rating,
+    },
+    {
+      image: detailsConfig.allocine_critics.image,
+      name: detailsConfig.allocine_critics.name,
+      rating: allocine_critics_rating,
+    },
+    {
+      image: detailsConfig.betaseries.image,
+      name: detailsConfig.betaseries.name,
+      rating: betaseries_users_rating,
+    },
+    {
+      image: detailsConfig.imdb.image,
+      name: detailsConfig.imdb.name,
+      rating: imdb_users_rating / 2,
+    },
+  ];
+
+  const logoBody = (rowData) => {
+    const baseURLPublicAssets = detailsConfig.baseURLPublicAssets;
+    const image = rowData.image;
+    const name = rowData.name;
+
+    return (
+      <div className="flex align-items-center p-overlaypanel-logo">
+        <img alt={name} src={`${baseURLPublicAssets}/${image}`} />
+      </div>
+    );
+  };
+
+  const ratingBody = (rowData) => {
+    const rating = rowData.rating;
+
+    if (rating > 0)
+      return (
+        <span className="rating_value">
+          <span>★</span> {rating}
+          <span>/5</span>
+        </span>
+      );
+    return "/";
+  };
+
+  const editURL = (url) => {
+    const first_regex = /(_gen_cfilm=|_gen_cserie=)/;
+    const second_regex = /\.html$/;
+
+    return url.replace(first_regex, "-").replace(second_regex, "");
+  };
+
+  const nameBody = (rowData) => {
+    const name = rowData.name;
+    const rating = rowData.rating;
+
+    let link;
+    if (name === "AlloCiné users" && rating > 0) {
+      link = (
+        <a href={`${editURL(allocine_url)}/critiques/`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "AlloCiné critics" && rating > 0) {
+      link = (
+        <a href={`${editURL(allocine_url)}/critiques/presse/`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "BetaSeries users" && rating > 0) {
+      link = (
+        <a href={betaseries_url} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "IMDb users" && rating > 0) {
+      link = (
+        <a href={imdb_url} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else {
+      link = name;
+    }
+
+    return <div className="flex align-items-center">{link}</div>;
+  };
+
+  const displayRatingsDetails = (e) => {
+    if (isMounted.current && data) {
+      op.current.hide(e);
+      isMounted.current = false;
+    } else {
+      op.current.show(e);
+      isMounted.current = true;
+    }
+  };
+
   return (
     <Wrapper error={error}>
       <Container>
@@ -156,8 +295,15 @@ const DetailView = ({ id, kindURL }) => {
               </Text>
               <div style={{ display: "flex", margin: "1rem -0.5rem", flexWrap: "wrap", maxWidth: "539px" }}>
                 {!!allocine && (
-                  <Button allocine={allocine} kindURL={kindURL} background="#28A745" logo={<Star size={11} filled={true} color="#181818" />}>
-                    {!!score && `${score.toFixed(2)}/5`}
+                  <Button displayRatingsDetails={displayRatingsDetails} background="#28A745" logo={<Star size={11} filled={true} color="#181818" />}>
+                    {!!ratings_average && `${ratings_average.toFixed(2)}/5`}
+                    <OverlayPanel ref={op}>
+                      <DataTable value={detailsData} size="small">
+                        <Column body={logoBody} />
+                        <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
+                        <Column field="rating" header="Rating" body={ratingBody} />
+                      </DataTable>
+                    </OverlayPanel>
                   </Button>
                 )}
                 <ToggleButton kindURL={kindURL} id={id} />
