@@ -86,10 +86,10 @@ const DetailView = ({ id, kindURL }) => {
 
   const { data: data_from_render } = useFetch([`${cors_url}${base_render}/${kind}/${id}`, `${parameters}`].join(""));
 
-  const image = data_from_render?.image;
+  let image = data_from_render?.image;
   const [dimensions] = useImageSize(image);
   const { width, height } = getImageResized(kind, dimensions?.width, dimensions?.height, image);
-  const imagePlaceholder = getImageResized(kind, dimensions?.width, dimensions?.height, image).image;
+  let imagePlaceholder = getImageResized(kind, dimensions?.width, dimensions?.height, image).image;
 
   const allocine = data_from_render?.allocine?.id;
   const score = data_from_render?.ratings_average;
@@ -99,6 +99,12 @@ const DetailView = ({ id, kindURL }) => {
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
   const title = data?.title || data?.name;
+		
+		if (kind === "person") {
+			image = data?.poster_path || data?.profile_path;
+			image = `https://image.tmdb.org/t/p/w1280/${image}`;
+			imagePlaceholder = `https://image.tmdb.org/t/p/w300/${image}`;
+		}
 
   useEffect(
     () => {
