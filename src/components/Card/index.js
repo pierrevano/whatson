@@ -172,8 +172,11 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const ratings_average = props?.ratings_average;
 
   let image = props?.poster_path || props?.profile_path || props?.image;
-  if (image && image.startsWith("/")) image = `https://image.tmdb.org/t/p/w300/${image}`;
-  const placeholder = props?.placeholder;
+  let placeholder = props?.placeholder;
+  if (image && image.startsWith("/")) {
+    image = `https://image.tmdb.org/t/p/w300/${image}`;
+    placeholder = `https://image.tmdb.org/t/p/w300/${image}`;
+  }
   const [dimensions] = useImageSize(placeholder);
 
   const op = useRef(null);
