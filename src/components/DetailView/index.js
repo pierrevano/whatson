@@ -115,8 +115,8 @@ const DetailView = ({ id, kindURL }) => {
 
   if (kind === "person") {
     image = data?.poster_path || data?.profile_path;
-    image = `https://image.tmdb.org/t/p/w1280/${image}`;
-    placeholder = `https://image.tmdb.org/t/p/w300/${image}`;
+    image = `https://image.tmdb.org/t/p/w1280${image}`;
+    placeholder = `https://image.tmdb.org/t/p/w300${image}`;
   }
 
   useEffect(

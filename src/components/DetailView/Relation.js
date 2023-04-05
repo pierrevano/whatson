@@ -54,7 +54,7 @@ const Relation = ({ id, kind, name, poster_path, profile_path, character, title,
   const main = name || title || character;
   return (
     <Wrapper to={url} {...props}>
-      <Avatar>{image ? <img alt={main} src={`https://image.tmdb.org/t/p/w45/${image}`} /> : <div>{(main || " ")[0]}</div>}</Avatar>
+      <Avatar>{image ? <img alt={main} src={`https://image.tmdb.org/t/p/w45${image}`} /> : <div>{(main || " ")[0]}</div>}</Avatar>
       <Main>{main}</Main>
     </Wrapper>
   );

@@ -174,8 +174,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   let image = props?.poster_path || props?.profile_path || props?.image;
   let placeholder = props?.placeholder;
   if (image && image.startsWith("/")) {
-    image = `https://image.tmdb.org/t/p/w300/${image}`;
-    placeholder = `https://image.tmdb.org/t/p/w300/${image}`;
+    image = `https://image.tmdb.org/t/p/w300${image}`;
+    placeholder = `https://image.tmdb.org/t/p/w300${image}`;
   }
   const [dimensions] = useImageSize(placeholder);
 
