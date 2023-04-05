@@ -23,10 +23,10 @@ import { Dialog } from "primereact/dialog";
 import ReactPlayer from "react-player";
 import PlatformLinks from "components/PlatformLinks";
 import { useImageSize } from "react-image-size";
-import { getImageResized } from "utils/getImageResized";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { getRatingsDetails } from "utils/getRatingsDetails";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -68,27 +68,6 @@ const BackLink = styled.button`
 
 const getDetailTitle = (kindURL, title) => `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
-const detailsConfig = {
-  baseURLPublicAssets: "https://whatson-public.surge.sh",
-
-  allocine_users: {
-    image: "allocine-logo.png",
-    name: "AlloCiné users",
-  },
-  allocine_critics: {
-    image: "allocine-logo.png",
-    name: "AlloCiné critics",
-  },
-  betaseries: {
-    image: "betaseries-logo.png",
-    name: "BetaSeries users",
-  },
-  imdb: {
-    image: "imdb-logo.png",
-    name: "IMDb users",
-  },
-};
-
 const DetailView = ({ id, kindURL }) => {
   const kind = getKindByURL(kindURL);
 
@@ -112,8 +91,7 @@ const DetailView = ({ id, kindURL }) => {
 
   let image = data_from_render?.image;
   const [dimensions] = useImageSize(image);
-  const { width, height } = getImageResized(kind, dimensions?.width, dimensions?.height, image);
-  let imagePlaceholder = getImageResized(kind, dimensions?.width, dimensions?.height, image).image;
+  let placeholder = data_from_render?.placeholder;
 
   const allocine = data_from_render?.allocine?.id;
 
@@ -138,7 +116,7 @@ const DetailView = ({ id, kindURL }) => {
   if (kind === "person") {
     image = data?.poster_path || data?.profile_path;
     image = `https://image.tmdb.org/t/p/w1280/${image}`;
-    imagePlaceholder = `https://image.tmdb.org/t/p/w300/${image}`;
+    placeholder = `https://image.tmdb.org/t/p/w300/${image}`;
   }
 
   useEffect(
@@ -178,99 +156,10 @@ const DetailView = ({ id, kindURL }) => {
   const op = useRef(null);
   const isMounted = useRef(false);
 
-  const detailsData = [
-    {
-      image: detailsConfig.allocine_users.image,
-      name: detailsConfig.allocine_users.name,
-      rating: allocine_users_rating,
-    },
-    {
-      image: detailsConfig.allocine_critics.image,
-      name: detailsConfig.allocine_critics.name,
-      rating: allocine_critics_rating,
-    },
-    {
-      image: detailsConfig.betaseries.image,
-      name: detailsConfig.betaseries.name,
-      rating: betaseries_users_rating,
-    },
-    {
-      image: detailsConfig.imdb.image,
-      name: detailsConfig.imdb.name,
-      rating: imdb_users_rating / 2,
-    },
-  ];
-
-  const logoBody = (rowData) => {
-    const baseURLPublicAssets = detailsConfig.baseURLPublicAssets;
-    const image = rowData.image;
-    const name = rowData.name;
-
-    return (
-      <div className="flex align-items-center p-overlaypanel-logo">
-        <img alt={name} src={`${baseURLPublicAssets}/${image}`} />
-      </div>
-    );
-  };
-
-  const ratingBody = (rowData) => {
-    const rating = rowData.rating;
-
-    if (rating > 0)
-      return (
-        <span className="rating_value">
-          <span>★</span> {rating}
-          <span>/5</span>
-        </span>
-      );
-    return "/";
-  };
-
-  const editURL = (url) => {
-    const first_regex = /(_gen_cfilm=|_gen_cserie=)/;
-    const second_regex = /\.html$/;
-
-    return url.replace(first_regex, "-").replace(second_regex, "");
-  };
-
-  const nameBody = (rowData) => {
-    const name = rowData.name;
-    const rating = rowData.rating;
-
-    let link;
-    if (name === "AlloCiné users" && rating > 0) {
-      link = (
-        <a href={`${editURL(allocine_url)}/critiques/`} target={"_blank"}>
-          {name}
-        </a>
-      );
-    } else if (name === "AlloCiné critics" && rating > 0) {
-      link = (
-        <a href={`${editURL(allocine_url)}/critiques/presse/`} target={"_blank"}>
-          {name}
-        </a>
-      );
-    } else if (name === "BetaSeries users" && rating > 0) {
-      link = (
-        <a href={betaseries_url} target={"_blank"}>
-          {name}
-        </a>
-      );
-    } else if (name === "IMDb users" && rating > 0) {
-      link = (
-        <a href={imdb_url} target={"_blank"}>
-          {name}
-        </a>
-      );
-    } else {
-      link = name;
-    }
-
-    return <div className="flex align-items-center">{link}</div>;
-  };
+  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating);
 
   const displayRatingsDetails = (e) => {
-    if (isMounted.current && data) {
+    if (isMounted.current && detailsData) {
       op.current.hide(e);
       isMounted.current = false;
     } else {
@@ -326,7 +215,7 @@ const DetailView = ({ id, kindURL }) => {
               <Info kind={kind} {...data} />
             </Cell>
             <Cell xs={12} sm={12} md={5} lg={5}>
-              <Image kind={kind} alt={`poster for: ${title}`} image={image} imagePlaceholder={imagePlaceholder} width={width} height={height} />
+              <Image kind={kind} alt={`poster for: ${title}`} image={image} placeholder={placeholder} height={dimensions?.height} width={dimensions?.width} />
             </Cell>
           </Row>
         )}

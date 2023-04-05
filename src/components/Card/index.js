@@ -10,7 +10,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { useImageSize } from "react-image-size";
-import { getImageResized } from "utils/getImageResized";
+import { getRatingsDetails } from "utils/getRatingsDetails";
 
 const Wrapper = styled.div`
   background: none;
@@ -149,27 +149,6 @@ const LoadMore = styled(Text)`
   }
 `;
 
-const config = {
-  baseURLPublicAssets: "https://whatson-public.surge.sh",
-
-  allocine_users: {
-    image: "allocine-logo.png",
-    name: "AlloCiné users",
-  },
-  allocine_critics: {
-    image: "allocine-logo.png",
-    name: "AlloCiné critics",
-  },
-  betaseries: {
-    image: "betaseries-logo.png",
-    name: "BetaSeries users",
-  },
-  imdb: {
-    image: "imdb-logo.png",
-    name: "IMDb users",
-  },
-};
-
 const getKindURL = (input) => {
   if (input === "movie") return "movies";
   if (input === "person") return "people";
@@ -194,103 +173,22 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   let image = props?.poster_path || props?.profile_path || props?.image;
   if (image && image.startsWith("/")) image = `https://image.tmdb.org/t/p/w300/${image}`;
-
-  const [dimensions] = useImageSize(image);
-  const { width, height } = getImageResized(kind, dimensions?.width, dimensions?.height, image);
-  image = getImageResized(kind, dimensions?.width, dimensions?.height, image).image;
+  const placeholder = props?.placeholder;
+  const [dimensions] = useImageSize(placeholder);
 
   const op = useRef(null);
   const isMounted = useRef(false);
 
-  const data = [
-    {
-      image: config.allocine_users.image,
-      name: config.allocine_users.name,
-      rating: allocine_users_rating,
-    },
-    {
-      image: config.allocine_critics.image,
-      name: config.allocine_critics.name,
-      rating: allocine_critics_rating,
-    },
-    {
-      image: config.betaseries.image,
-      name: config.betaseries.name,
-      rating: betaseries_users_rating,
-    },
-    {
-      image: config.imdb.image,
-      name: config.imdb.name,
-      rating: imdb_users_rating / 2,
-    },
-  ];
+  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating);
 
-  const logoBody = (rowData) => {
-    const baseURLPublicAssets = config.baseURLPublicAssets;
-    const image = rowData.image;
-    const name = rowData.name;
-
-    return (
-      <div className="flex align-items-center p-overlaypanel-logo">
-        <img alt={name} src={`${baseURLPublicAssets}/${image}`} />
-      </div>
-    );
-  };
-
-  const ratingBody = (rowData) => {
-    const rating = rowData.rating;
-
-    if (rating > 0)
-      return (
-        <span className="rating_value">
-          <span>★</span> {rating}
-          <span>/5</span>
-        </span>
-      );
-    return "/";
-  };
-
-  const editURL = (url) => {
-    const first_regex = /(_gen_cfilm=|_gen_cserie=)/;
-    const second_regex = /\.html$/;
-
-    return url.replace(first_regex, "-").replace(second_regex, "");
-  };
-
-  const nameBody = (rowData) => {
-    const name = rowData.name;
-    const rating = rowData.rating;
-
-    let link;
-    if (name === "AlloCiné users" && rating > 0) {
-      link = (
-        <a href={`${editURL(allocine_url)}/critiques/`} target={"_blank"}>
-          {name}
-        </a>
-      );
-    } else if (name === "AlloCiné critics" && rating > 0) {
-      link = (
-        <a href={`${editURL(allocine_url)}/critiques/presse/`} target={"_blank"}>
-          {name}
-        </a>
-      );
-    } else if (name === "BetaSeries users" && rating > 0) {
-      link = (
-        <a href={betaseries_url} target={"_blank"}>
-          {name}
-        </a>
-      );
-    } else if (name === "IMDb users" && rating > 0) {
-      link = (
-        <a href={imdb_url} target={"_blank"}>
-          {name}
-        </a>
-      );
+  const displayRatingsDetails = (e) => {
+    if (isMounted.current && detailsData) {
+      op.current.hide(e);
+      isMounted.current = false;
     } else {
-      link = name;
+      op.current.show(e);
+      isMounted.current = true;
     }
-
-    return <div className="flex align-items-center">{link}</div>;
   };
 
   return (
@@ -299,8 +197,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       {!(loading || error || loadMore) && <Anchor to={`/${kindURL}/${id}`} tabIndex={0} />}
       <OverflowHidden>
         {image && (
-          <LazyImage placeholder={`${image}`} src={`${image}`}>
-            {(src, loading) => <Image src={src} width={width} height={height} loading={+loading} />}
+          <LazyImage placeholder={placeholder} src={placeholder}>
+            {(src, loading) => <Image src={src} height={dimensions?.height} width={dimensions?.width} loading={+loading} />}
           </LazyImage>
         )}
       </OverflowHidden>
@@ -322,21 +220,10 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
         {!loadMore && (
           <Overlay>
             {ratings_average > 0 && (
-              <Info
-                className="rating_details"
-                onClick={(e) => {
-                  if (isMounted.current && data) {
-                    op.current.hide(e);
-                    isMounted.current = false;
-                  } else {
-                    op.current.show(e);
-                    isMounted.current = true;
-                  }
-                }}
-              >
+              <Info className="rating_details" onClick={displayRatingsDetails}>
                 <span style={{ color: "#28A745" }}>★</span> {ratings_average.toFixed(1)}
                 <OverlayPanel ref={op}>
-                  <DataTable value={data} size="small">
+                  <DataTable value={detailsData} size="small">
                     <Column body={logoBody} />
                     <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
                     <Column field="rating" header="Rating" body={ratingBody} />
