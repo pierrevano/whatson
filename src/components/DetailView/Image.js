@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import LazyImage from "react-lazy-progressive-image";
 import { Movie, TV, Person } from "components/Icon";
@@ -37,20 +37,33 @@ const NoImage = styled.div`
   color: ${(p) => p.theme.colors.midGrey};
 `;
 
-const Image = ({ placeholder, image, kind, width, height }) => (
-  <Wrapper ratio={image ? 0.75 : 1}>
-    {image ? (
-      <LazyImage placeholder={placeholder} src={image}>
-        {(src, loading) => <Img src={src} width={width} height={height} loading={+loading} />}
-      </LazyImage>
-    ) : (
-      <NoImage>
-        {kind === "movie" && <Movie size={96} strokeWidth={1.125} />}
-        {kind === "tv" && <TV size={96} strokeWidth={1.125} />}
-        {kind === "person" && <Person size={96} strokeWidth={1.125} />}
-      </NoImage>
-    )}
-  </Wrapper>
-);
+const Image = ({ placeholder, image, kind }) => {
+  const [height, setHeight] = useState(3000);
+  const [width, setWidth] = useState(2000);
+  const imgEl = useRef(null);
+
+  useEffect(() => {
+    if (imgEl.current) {
+      setHeight(imgEl.current.clientHeight);
+      setWidth(imgEl.current.clientWidth);
+    }
+  }, [imgEl, image]);
+
+  return (
+    <Wrapper ratio={image ? 0.75 : 1}>
+      {image ? (
+        <LazyImage placeholder={placeholder} src={image}>
+          {(src, loading) => <Img ref={imgEl} src={src} width={width} height={height} loading={+loading} />}
+        </LazyImage>
+      ) : (
+        <NoImage>
+          {kind === "movie" && <Movie size={96} strokeWidth={1.125} />}
+          {kind === "tv" && <TV size={96} strokeWidth={1.125} />}
+          {kind === "person" && <Person size={96} strokeWidth={1.125} />}
+        </NoImage>
+      )}
+    </Wrapper>
+  );
+};
 
 export default Image;

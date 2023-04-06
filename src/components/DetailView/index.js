@@ -22,7 +22,6 @@ import config from "utils/config";
 import { Dialog } from "primereact/dialog";
 import ReactPlayer from "react-player";
 import PlatformLinks from "components/PlatformLinks";
-import { useImageSize } from "react-image-size";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -90,7 +89,6 @@ const DetailView = ({ id, kindURL }) => {
   const { data: data_from_render } = useFetch([`${cors_url}${base_render}/${kind}/${id}`, `${parameters}`].join(""));
 
   let image = data_from_render?.image;
-  const [dimensions] = useImageSize(image);
   let placeholder = data_from_render?.placeholder;
 
   const allocine = data_from_render?.allocine?.id;
@@ -215,7 +213,7 @@ const DetailView = ({ id, kindURL }) => {
               <Info kind={kind} {...data} />
             </Cell>
             <Cell xs={12} sm={12} md={5} lg={5}>
-              <Image kind={kind} alt={`poster for: ${title}`} image={image} placeholder={placeholder} height={dimensions?.height} width={dimensions?.width} />
+              <Image kind={kind} alt={`poster for: ${title}`} image={image} placeholder={placeholder} />
             </Cell>
           </Row>
         )}

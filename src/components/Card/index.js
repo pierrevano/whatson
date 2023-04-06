@@ -201,7 +201,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       setHeight(imgEl.current.clientHeight);
       setWidth(imgEl.current.clientWidth);
     }
-  }, []);
+  }, [imgEl, placeholder]);
 
   return (
     <Wrapper error={error} {...props}>
