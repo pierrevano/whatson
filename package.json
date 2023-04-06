@@ -16,7 +16,6 @@
     "react-dom": "16.8.1",
     "react-ga4": "^2.1.0",
     "react-hooks-fetch": "^0.5.1",
-    "react-image-size": "^2.0.2",
     "react-intersection-observer": "^8.0.5",
     "react-lazy-progressive-image": "^1.4.0",
     "react-player": "^2.11.2",

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import LazyImage from "react-lazy-progressive-image";
 import { useFavoriteState } from "utils/favorites";
@@ -9,7 +9,6 @@ import { Heart, Movie, Person, TV } from "components/Icon";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { useImageSize } from "react-image-size";
 import { getRatingsDetails } from "utils/getRatingsDetails";
 
 const Wrapper = styled.div`
@@ -177,7 +176,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     image = `https://image.tmdb.org/t/p/w300${image}`;
     placeholder = `https://image.tmdb.org/t/p/w300${image}`;
   }
-  const [dimensions] = useImageSize(placeholder);
 
   const op = useRef(null);
   const isMounted = useRef(false);
@@ -194,6 +192,17 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     }
   };
 
+  const [height, setHeight] = useState(750);
+  const [width, setWidth] = useState(500);
+  const imgEl = useRef(null);
+
+  useEffect(() => {
+    if (imgEl.current) {
+      setHeight(imgEl.current.clientHeight);
+      setWidth(imgEl.current.clientWidth);
+    }
+  }, []);
+
   return (
     <Wrapper error={error} {...props}>
       <AspectRatio ratio={0.75} />
@@ -201,7 +210,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       <OverflowHidden>
         {image && (
           <LazyImage placeholder={placeholder} src={placeholder}>
-            {(src, loading) => <Image src={src} height={dimensions?.height} width={dimensions?.width} loading={+loading} />}
+            {(src, loading) => <Image ref={imgEl} src={src} height={height} width={width} loading={+loading} />}
           </LazyImage>
         )}
       </OverflowHidden>
