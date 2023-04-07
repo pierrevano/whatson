@@ -158,6 +158,15 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const kind = props?.media_type;
   const kindURL = getKindURL(props?.media_type) || props.kindURL;
 
+  const title = props?.title;
+
+  let image = props?.poster_path || props?.profile_path || props?.image;
+  let placeholder = props?.placeholder;
+  if (image && image.startsWith("/")) {
+    image = `https://image.tmdb.org/t/p/w300${image}`;
+    placeholder = `https://image.tmdb.org/t/p/w300${image}`;
+  }
+
   const allocine_url = props?.allocine?.url;
   const allocine_users_rating = props?.allocine?.users_rating;
   const allocine_critics_rating = props?.allocine?.critics_rating;
@@ -169,13 +178,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const imdb_users_rating = props?.imdb?.users_rating;
 
   const ratings_average = props?.ratings_average;
-
-  let image = props?.poster_path || props?.profile_path || props?.image;
-  let placeholder = props?.placeholder;
-  if (image && image.startsWith("/")) {
-    image = `https://image.tmdb.org/t/p/w300${image}`;
-    placeholder = `https://image.tmdb.org/t/p/w300${image}`;
-  }
 
   const op = useRef(null);
   const isMounted = useRef(false);
@@ -210,7 +212,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       <OverflowHidden>
         {image && (
           <LazyImage placeholder={placeholder} src={placeholder}>
-            {(src, loading) => <Image ref={imgEl} src={src} height={height} width={width} loading={+loading} />}
+            {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
           </LazyImage>
         )}
       </OverflowHidden>

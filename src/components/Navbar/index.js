@@ -8,7 +8,7 @@ import Item from "./Item";
 import ChipsDoc from "./ChipsFilters";
 import AutocompleteTheaters from "./AutocompleteTheaters";
 import Pin from "components/Icon/Pin";
-import Star from "components/Icon/Star";
+import Filter from "components/Icon/Filter";
 import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
@@ -74,7 +74,8 @@ const linkStyle = `
   }
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled.div`
+  cursor: pointer;
   background: none;
   border: none;
   appearance: none;
@@ -120,7 +121,7 @@ const Navbar = () => {
       <Wrapper>
         <Logo tabIndex={0} to="/">
           <span role="img" aria-label="logo" style={{ transform: "translateY(1px)" }}>
-            <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo"></img>
+            <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo" width="24px" height="24px"></img>
           </span>
         </Logo>
         <Menu onClick={() => setVisibleLeft(true)} style={{ position: "absolute", marginLeft: "35px", transform: "translateY(1px)", cursor: "pointer" }}></Menu>
@@ -169,13 +170,13 @@ const Navbar = () => {
                 <AutocompleteTheaters></AutocompleteTheaters>
               </StyledLinkInput>
               <StyledLinkIcons>
-                <Star
+                <Filter
                   onClick={() => {
                     displayRatingsOrTheaters(".theaters-search");
                     document.querySelector(".p-multiselect-trigger").click();
                   }}
-                  style={{ marginRight: "-10px" }}
-                ></Star>
+                  style={{ marginRight: "-4px" }}
+                ></Filter>
               </StyledLinkIcons>
               <StyledLinkIcons>
                 <Pin

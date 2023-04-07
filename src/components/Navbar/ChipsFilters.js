@@ -4,6 +4,8 @@ import "primereact/resources/themes/lara-dark-teal/theme.css";
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import { useStorageString } from "utils/useStorageString";
+import Star from "components/Icon/Star";
+import NumbersFilter from "components/Icon/NumbersFilter";
 
 const config = {
   ratingsSelector: ".ratings-filters",
@@ -59,8 +61,9 @@ const ChipsDoc = () => {
 
   const groupedItemTemplate = (option) => {
     return (
-      <div className="flex align-items-center">
-        <div>{option.name}</div>
+      <div className="flex align-items-center" style={{ transform: "translateY(-2px)" }}>
+        {option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter>}
+        {option.name}
       </div>
     );
   };
