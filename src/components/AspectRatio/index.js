@@ -18,6 +18,13 @@ const Inner = styled.div`
   flex-direction: column;
 `;
 
+/**
+ * A component that maintains a given aspect ratio for its children.
+ * @param {number} [ratio=1] - The aspect ratio to maintain.
+ * @param {ReactNode} children - The child elements to render.
+ * @param {Object} props - Additional props to pass to the component.
+ * @returns The component with the given aspect ratio and children.
+ */
 const AspectRatio = ({ ratio = 1, children, ...props }) => (
   <Outer ratio={ratio} {...props}>
     <Inner>{children}</Inner>

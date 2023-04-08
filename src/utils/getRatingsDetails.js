@@ -1,5 +1,14 @@
 import React from "react";
 
+/**
+ * Returns an array of objects containing details about the ratings of a movie or TV show
+ * from various sources such as AlloCiné, BetaSeries, and IMDb.
+ * @param {string} allocine_url - The URL of the movie or TV show on AlloCiné.
+ * @param {string} betaseries_url - The URL of the movie or TV show on BetaSeries.
+ * @param {string} imdb_url - The URL of the movie or TV show on IMDb.
+ * @param {number} allocine_users_rating - The rating of the movie or TV show by AlloCiné users.
+ * @param {number} allocine_critics_rating - The rating of the movie or
+ */
 export const getRatingsDetails = (allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating) => {
   const detailsConfig = {
     baseURLPublicAssets: "https://whatson-public.surge.sh",

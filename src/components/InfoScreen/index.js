@@ -21,6 +21,14 @@ const Emoji = styled.div`
   margin: 0.5em;
 `;
 
+/**
+ * A component that displays information in a styled wrapper.
+ * @param {string} emoji - The emoji to display in the component.
+ * @param {string} title - The title to display in the component.
+ * @param {string} description - The description to display in the component.
+ * @param {object} props - Additional props to pass to the component.
+ * @returns A styled wrapper component that displays the given information.
+ */
 const InfoScreen = ({ emoji, title, description, ...props }) => (
   <Wrapper {...props}>
     {emoji && <Emoji>{emoji}</Emoji>}

@@ -53,6 +53,11 @@ const Rating = styled(Text)`
 	`}
 `;
 
+/**
+ * A functional component that renders metadata for a given data object.
+ * @param {object} data - the data object to render metadata for
+ * @returns A JSX element that displays the metadata.
+ */
 const Meta = (data) => (
   <Wrapper style={{ margin: "1.5rem 0" }}>
     <SeparatedText sm={1} color={(p) => p.theme.colors.lightGrey || ""}>

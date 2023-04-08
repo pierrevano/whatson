@@ -1,5 +1,9 @@
 import createStorage from "context-storage";
 
+/**
+ * Creates a storage provider and hook for managing a set of favorites.
+ * @returns {[Provider, useStorage]} - A tuple containing the storage provider and the useStorage hook.
+ */
 const [Provider, useStorage] = createStorage(
   "favorites",
   new Set(),

@@ -4,6 +4,10 @@ import { AutoComplete } from "primereact/autocomplete";
 import config from "utils/config";
 import { useStorageString } from "utils/useStorageString";
 
+/**
+ * A component that provides an autocomplete feature for selecting a cinema/theater.
+ * @returns A React component that renders an autocomplete input field.
+ */
 const AutocompleteTheaters = () => {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);

@@ -23,6 +23,10 @@ const Anchor = styled(Link)`
   }
 `;
 
+/**
+ * A functional component that renders the About page of the app.
+ * @returns JSX element that displays information about the app.
+ */
 const AboutPage = () => {
   useEffect(() => {
     document.title = "About";

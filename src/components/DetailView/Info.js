@@ -4,6 +4,12 @@ import Section from "./Section";
 import Relation from "./Relation";
 import Toggle from "./Toggle";
 
+/**
+ * A functional component that displays information about a movie or person.
+ * @param {string} kind - The type of information being displayed (movie or person).
+ * @param {Object} data - An object containing the data to be displayed.
+ * @returns A JSX element that displays the information.
+ */
 const Info = ({ kind, ...data }) => {
   const [sliceActors, setSliceActors] = useState(4);
   const [sliceDirectors, setSliceDirectors] = useState(4);

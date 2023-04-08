@@ -14,6 +14,11 @@ const navbarDiv = configSelectors.navbarDiv;
 const ratingsSelector = configSelectors.ratingsSelector;
 const theatersSelector = configSelectors.theatersSelector;
 
+/**
+ * Toggles the display of either the ratings or theaters in the navbar.
+ * @param {string} notSelector - The CSS selector for the element(s) to exclude from the toggle.
+ * @returns None
+ */
 const displayRatingsOrTheaters = (notSelector) => {
   const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector}), ${menuSelector}`;
   const navbarDivElements = document.querySelectorAll(navbarDivSelectors);
@@ -24,6 +29,10 @@ const displayRatingsOrTheaters = (notSelector) => {
   flexGrowElement.classList.toggle("flex-grow");
 };
 
+/**
+ * Cancels the current action and removes any filters or search bars that are currently displayed.
+ * @returns None
+ */
 const cancel = () => {
   const ratingsFilters = document.querySelector(ratingsSelector);
   const theatersSearch = document.querySelector(theatersSelector);

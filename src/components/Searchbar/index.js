@@ -65,6 +65,14 @@ const getPlaceholder = (kindURL) => {
   return "movies, tv shows or people";
 };
 
+/**
+ * A search bar component that takes in a kindURL, value, onChange, and other props.
+ * @param {string} kindURL - The URL of the kind of search being performed.
+ * @param {string} value - The current value of the search bar.
+ * @param {function} onChange - The function to call when the search bar value changes.
+ * @param {object} props - Additional props to pass to the component.
+ * @returns A search bar component with a loupe icon and input field.
+ */
 const Searchbar = ({ kindURL, value, onChange, ...props }) => (
   <Container {...props}>
     <Wrapper>

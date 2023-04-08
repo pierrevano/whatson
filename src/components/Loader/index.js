@@ -14,6 +14,10 @@ const Wrapper = styled.div`
   pointer-events: none;
 `;
 
+/**
+ * A loader component that displays a spinning animation.
+ * @returns A React component that displays a spinning animation.
+ */
 const Loader = () => (
   <Wrapper>
     <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="#fff">

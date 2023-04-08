@@ -8,6 +8,11 @@ const FavoritesView = lazy(() => import("components/FavoritesView"));
 const DetailView = lazy(() => import("components/DetailView"));
 const AboutPage = lazy(() => import("components/AboutPage"));
 
+/**
+ * The main component of the application. Renders the navbar, footer, and the main content
+ * of the app using React Router.
+ * @returns A React Fragment containing the navbar, main content, and footer.
+ */
 const App = () => (
   <Fragment>
     <Navbar />

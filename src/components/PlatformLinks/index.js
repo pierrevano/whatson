@@ -45,6 +45,12 @@ const Right = styled.div`
   padding: 0.5rem 0.5rem 0.5rem 0;
 `;
 
+/**
+ * A functional component that renders a clickable link to a platform.
+ * @param {string} name - The name of the platform.
+ * @param {string} linkURL - The URL of the platform.
+ * @returns A clickable link to the platform.
+ */
 const PlatformLinks = ({ name, linkURL }) => {
   return (
     <Wrapper onClick={() => window.open(linkURL, "_blank", "noreferrer")}>

@@ -67,6 +67,13 @@ const BackLink = styled.button`
 
 const getDetailTitle = (kindURL, title) => `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
+/**
+ * A component that displays detailed information about a movie or TV show.
+ * @param {Object} props - The props object.
+ * @param {string} props.id - The ID of the movie or TV show.
+ * @param {string} props.kindURL - The URL of the kind of media (movie or TV show).
+ * @returns A JSX element that displays the detailed information.
+ */
 const DetailView = ({ id, kindURL }) => {
   const kind = getKindByURL(kindURL);
 
@@ -104,8 +111,8 @@ const DetailView = ({ id, kindURL }) => {
   const imdb_users_rating = data_from_render?.imdb?.users_rating;
 
   const ratings_average = data_from_render?.ratings_average;
-  const trailer = data_from_render?.allocine?.trailer;
-  const platforms_links = data_from_render?.betaseries?.platforms_links;
+  const trailer = data_from_render?.trailer;
+  const platforms_links = data_from_render?.platforms_links;
 
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 

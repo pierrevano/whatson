@@ -14,6 +14,12 @@ const Anchor = styled(Link)`
   }
 `;
 
+/**
+ * Renders an InfoScreen component with a title based on the given kind prop.
+ * @param {string} kind - The type of search to perform (movies, people, or tv).
+ * @param {Object} props - Additional props to pass to the InfoScreen component.
+ * @returns An InfoScreen component with a title based on the given kind prop.
+ */
 const Info = ({ kind, ...props }) => {
   if (kind === "movies") return <InfoScreen title="Search for movies" {...props} />;
   if (kind === "people") return <InfoScreen title="Search for people" {...props} />;

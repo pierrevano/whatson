@@ -17,6 +17,10 @@ const Wrapper = styled.div`
 
 const getTitle = (length) => `${!length ? "no favorites" : `${length} ${length > 1 ? `favorites` : `favorite`}`}`;
 
+/**
+ * A functional component that displays a list of favorite movies, TV shows, or people.
+ * @returns A JSX element that displays the list of favorites.
+ */
 const SearchView = () => {
   const [favoritesSet] = useFavorites();
   const favorites = [...favoritesSet] || [];

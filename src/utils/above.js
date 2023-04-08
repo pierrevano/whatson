@@ -11,6 +11,11 @@ export const utility = (breakpoints) =>
     return acc;
   }, {});
 
+/**
+ * Returns a function that generates a CSS media query for screens above a certain width.
+ * @param {string} label - The label for the breakpoint to target.
+ * @returns A function that generates a CSS media query.
+ */
 export const above =
   (label) =>
   (...args) =>

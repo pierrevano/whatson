@@ -34,6 +34,13 @@ const Button = styled.button`
   }
 `;
 
+/**
+ * A functional component that renders a button or a link based on whether it is active or not.
+ * @param {boolean} active - A boolean value indicating whether the component is active or not.
+ * @param {string} to - The URL to link to if the component is not active.
+ * @param {ReactNode} children - The child elements to render inside the component.
+ * @returns A button or a link component based on the value of the active prop.
+ */
 const Item = ({ active, to, children }) => {
   if (active)
     return (

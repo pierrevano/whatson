@@ -96,6 +96,10 @@ const StyledLinkIcons = styled(StyledLink)`
   }
 `;
 
+/**
+ * A functional component that renders the navbar of the website.
+ * @returns {JSX.Element} - The JSX code that renders the navbar.
+ */
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const [visibleLeft, setVisibleLeft] = useState(false);

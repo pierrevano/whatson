@@ -34,6 +34,16 @@ const InfiniteScroll = ({ page, setPage }) => {
   return null;
 };
 
+/**
+ * Renders a list of cards based on the search query and page number.
+ * @param {Object} props - The props object.
+ * @param {string} props.search - The search query.
+ * @param {number} props.page - The current page number.
+ * @param {function} props.setPage - The function to set the current page number.
+ * @param {boolean} props.isLastPage - A boolean indicating if the current page is the last page.
+ * @param {string} props.kindURL - The kind of URL to fetch data from.
+ * @returns The list of cards to be rendered.
+ */
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [cinema_id, setCinemaId] = useStorageString("cinema_id", "");
   const [item_type, setItemType] = useStorageString("item_type", "");
@@ -101,6 +111,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   if (!data?.length) return null;
 
   const totalPages = data?.total_pages;
+
   return (
     <Fragment>
       {data?.map((entry) => (

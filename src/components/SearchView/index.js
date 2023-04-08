@@ -22,9 +22,20 @@ const Searchbar = styled(Search)`
   z-index: 3;
 `;
 
+/**
+ * Initializes Google Analytics with the provided tracking ID.
+ * @param {string} trackingID - The tracking ID provided by Google Analytics.
+ * @returns None
+ */
 ReactGA.initialize("G-3WQW5G3BM8");
 
 /* eslint-disable no-mixed-operators */
+/**
+ * A component that displays a search bar and a list of cards based on the search query and page number.
+ * @param {boolean} [isSearchable=true] - Whether or not the component should display a search bar.
+ * @param {string} [kindURL="multi"] - The type of content to display (e.g. movies, people, search, tv).
+ * @returns A React component that displays a search bar and a list of cards based on the search query and page number.
+ */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
   useEffect(() => {
     setTimeout(() => {

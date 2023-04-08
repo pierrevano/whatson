@@ -33,6 +33,10 @@ const Anchor = styled(Link)`
   }
 `;
 
+/**
+ * A functional component that renders the footer of the page.
+ * @returns {JSX.Element} - The JSX code that renders the footer.
+ */
 const Footer = () => (
   <Container>
     <Wrapper>

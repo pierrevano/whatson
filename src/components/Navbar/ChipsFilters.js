@@ -22,6 +22,11 @@ const displayCheckMark = () => {
   document.querySelector(checkMarkSelector).classList.remove("display-none");
 };
 
+/**
+ * A component that displays a multi-select dropdown menu for selecting filters for a movie or TV show.
+ * The available filters include ratings from various sources and season numbers.
+ * @returns A JSX element that displays the multi-select dropdown menu.
+ */
 const ChipsDoc = () => {
   const allocineCritics = { name: "AlloCiné critics", code: "allocine_critics" };
   const allocineUsers = { name: "AlloCiné users", code: "allocine_users" };
@@ -61,7 +66,7 @@ const ChipsDoc = () => {
 
   const groupedItemTemplate = (option) => {
     return (
-      <div className="flex align-items-center" style={{ transform: "translateY(-2px)" }}>
+      <div className="flex align-items-center" style={option.name === "Ratings" ? { transform: "translateY(-2px)" } : { transform: "translateY(-4px)" }}>
         {option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter>}
         {option.name}
       </div>

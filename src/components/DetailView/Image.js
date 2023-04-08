@@ -37,6 +37,13 @@ const NoImage = styled.div`
   color: ${(p) => p.theme.colors.midGrey};
 `;
 
+/**
+ * A component that displays an image with a placeholder and optional fallback icons.
+ * @param {string} placeholder - The URL of the placeholder image to display while the main image is loading.
+ * @param {string} image - The URL of the main image to display.
+ * @param {string} kind - The type of image being displayed (e.g. "movie", "tv", "person").
+ * @returns A React component that displays the image with the specified placeholder and fallback icons.
+ */
 const Image = ({ placeholder, image, kind }) => {
   const [height, setHeight] = useState(3000);
   const [width, setWidth] = useState(2000);

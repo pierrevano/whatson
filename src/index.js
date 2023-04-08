@@ -9,6 +9,10 @@ import App from "./App";
 import { register } from "serviceWorker";
 import { Provider as FavoritesProvider } from "utils/favorites";
 
+/**
+ * A wrapper component that provides the theme, grid, and favorites context to the App component.
+ * @returns The App component wrapped in the necessary context providers and global styles.
+ */
 const Wrapper = () => (
   <ThemeProvider theme={theme}>
     <GridProvider columns={theme.columns} breakpoints={theme.breakpoints}>
