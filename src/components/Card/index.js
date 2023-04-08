@@ -222,7 +222,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       <OverflowHidden>
         {image && (
           <LazyImage placeholder={placeholder} src={placeholder}>
-            {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
+            {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} aria-label={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
           </LazyImage>
         )}
       </OverflowHidden>
