@@ -151,10 +151,10 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackground(true);
   };
 
+  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating);
+
   const op = useRef(null);
   const isMounted = useRef(false);
-
-  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating);
 
   const displayRatingsDetails = (e) => {
     if (isMounted.current && detailsData) {

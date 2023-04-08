@@ -27,6 +27,7 @@ const AboutPage = () => {
   useEffect(() => {
     document.title = "About";
   });
+
   return (
     <Wrapper>
       <Container>
