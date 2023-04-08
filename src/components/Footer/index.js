@@ -20,10 +20,10 @@ const Anchor = styled(Link)`
   padding: 0.5rem;
   border-radius: 0.125rem;
   font-weight: 500;
-  color: ${(p) => p.theme.colors.grey};
+  color: ${(p) => p.theme.colors.lightGrey};
   &:hover,
   &:focus {
-    color: ${(p) => p.theme.colors.lightGrey};
+    color: ${(p) => p.theme.colors.white};
   }
   &:focus {
     ${(p) => p.theme.focusShadow}

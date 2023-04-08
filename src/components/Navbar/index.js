@@ -195,10 +195,10 @@ const Navbar = () => {
                 <Cross onClick={cancel}></Cross>
               </StyledLinkIcons>
               <Item to="/favorites" active={pathname === "/favorites"}>
-                <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} />
+                <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} aria-label="View or edit your favorites" />
               </Item>
               <Item to="/search" active={pathname === "/search"}>
-                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} />
+                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} aria-label="Search for a movie, tv show or person" />
               </Item>
             </Flex>
           )}

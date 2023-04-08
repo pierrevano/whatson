@@ -129,11 +129,11 @@ const NoImage = styled.div`
   color: ${(p) => p.theme.colors.midGrey};
 `;
 
-const FavoriteButton = ({ kindURL, id }) => {
+const FavoriteButton = ({ kindURL, id, title }) => {
   const [isFavorite, { toggle }] = useFavoriteState(kindURL + "/" + id);
   return (
     // eslint-disable-next-line no-sequences
-    <HeartWrapper isFavorite={isFavorite} onClick={toggle}>
+    <HeartWrapper isFavorite={isFavorite} onClick={toggle} aria-label={`favorite: ${title}`}>
       <StyledHeart filled={isFavorite} />
     </HeartWrapper>
   );
@@ -255,7 +255,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
                 </OverlayPanel>
               </Info>
             )}
-            <div style={{ display: "flex", alignItems: "center" }}>{id && <FavoriteButton kindURL={kindURL} id={id} />}</div>
+            <div style={{ display: "flex", alignItems: "center" }}>{id && <FavoriteButton kindURL={kindURL} id={id} title={title} />}</div>
           </Overlay>
         )}
       </AbsoluteFill>
