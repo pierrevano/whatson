@@ -13,10 +13,10 @@ import { Link as ReachLink } from "@reach/router";
  * @param {string} [props.className] - The CSS class name to apply to the link.
  * @param
  */
-const Link = ({ to, children, className, style, target }) => {
+const Link = ({ to, children, className, style, target, ariaLabel }) => {
   const href = (to || {}).pathname || (typeof to === "string" ? to : "/");
   const props = { className, style, children, target };
-  if (/^[./]/.test(href)) return <ReachLink {...props} to={to} />;
+  if (/^[./]/.test(href)) return <ReachLink {...props} to={to} aria-label={ariaLabel} />;
   return <a {...props} href={href} target="_blank" rel="noopener noreferrer" />;
 };
 

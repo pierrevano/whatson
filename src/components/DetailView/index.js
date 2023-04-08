@@ -220,7 +220,7 @@ const DetailView = ({ id, kindURL }) => {
               <Info kind={kind} {...data} />
             </Cell>
             <Cell xs={12} sm={12} md={5} lg={5}>
-              <Image kind={kind} alt={`poster for: ${title}`} aria-label={`poster for: ${title}`} image={image} placeholder={placeholder} />
+              <Image kind={kind} alt={`poster for: ${title}`} image={image} placeholder={placeholder} />
             </Cell>
           </Row>
         )}

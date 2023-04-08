@@ -218,11 +218,11 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   return (
     <Wrapper error={error} {...props}>
       <AspectRatio ratio={0.75} />
-      {!(loading || error || loadMore) && <Anchor to={`/${kindURL}/${id}`} tabIndex={0} />}
+      {!(loading || error || loadMore) && <Anchor to={`/${kindURL}/${id}`} tabIndex={0} ariaLabel={`poster for: ${title}`} />}
       <OverflowHidden>
         {image && (
           <LazyImage placeholder={placeholder} src={placeholder}>
-            {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} aria-label={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
+            {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
           </LazyImage>
         )}
       </OverflowHidden>
