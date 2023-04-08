@@ -28,7 +28,18 @@ const Info = ({ kind, ...props }) => {
     <InfoScreen
       title={
         <span>
-          Search for <Anchor to="/movies">movies</Anchor>, <Anchor to="/tv">tv shows</Anchor> or <Anchor to="/people">people</Anchor>
+          Search for{" "}
+          <Anchor to="/movies" ariaLabel="Search for movies">
+            movies
+          </Anchor>
+          ,{" "}
+          <Anchor to="/tv" ariaLabel="Search for tv shows">
+            tv shows
+          </Anchor>{" "}
+          or{" "}
+          <Anchor to="/people" ariaLabel="Search for people">
+            people
+          </Anchor>
         </span>
       }
       {...props}
