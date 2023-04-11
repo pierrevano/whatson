@@ -175,9 +175,10 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     image = `https://image.tmdb.org/t/p/w300${image}`;
   }
 
-  const getPlaceholder = (width, height) => {
-    let placeholder = `${image.split("net")[0]}net/c_${width * 2}_${height * 2}${image.split("net")[1]}`;
-    if (image && image.startsWith("/")) placeholder = `https://image.tmdb.org/t/p/w300${image}`;
+  const getPlaceholder = (image, width, height) => {
+    const compression = 1.5;
+    let placeholder = `${image.split("net")[0]}net/c_${width * compression}_${height * compression}${image.split("net")[1]}`;
+    if (image && image.startsWith("https://image.tmdb.org")) placeholder = `https://image.tmdb.org/t/p/w300${image}`;
     return placeholder;
   };
 
@@ -225,7 +226,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       {!(loading || error || loadMore) && <Anchor to={`/${kindURL}/${id}`} tabIndex={0} ariaLabel={`poster for: ${title}`} />}
       <OverflowHidden>
         {image && (
-          <LazyImage placeholder={getPlaceholder(width, height)} src={getPlaceholder(width, height)}>
+          <LazyImage placeholder={getPlaceholder(image, width, height)} src={getPlaceholder(image, width, height)}>
             {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
           </LazyImage>
         )}
