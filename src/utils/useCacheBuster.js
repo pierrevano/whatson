@@ -34,7 +34,7 @@ const useCacheBuster = () => {
         if (meta?.version) {
           const metaVersion = parseVersion(meta.version);
           const packageVersion = parseVersion(version);
-          localStorage.setItem("version", { metaVersion: metaVersion, packageVersion: packageVersion });
+          localStorage.setItem("version", JSON.stringify({ metaVersion: metaVersion, packageVersion: packageVersion }));
           if (packageVersion < metaVersion) {
             if (window?.location?.reload) {
               refreshCacheAndReload();
