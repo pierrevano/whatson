@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "dependencies": {
     "@reach/router": "^1.2.1",
@@ -25,10 +25,11 @@
     "typeface-roboto": "^0.0.54"
   },
   "scripts": {
-    "dev": "rescripts start",
     "build": "npm run prettier && rescripts build",
-    "postbuild": "cp build/index.html build/404.html && cp build/index.html build/200.html",
+    "dev": "rescripts start",
     "eject": "rescripts eject",
+    "postbuild": "cp build/index.html build/404.html && cp build/index.html build/200.html",
+    "prebuild": "node ./build-version",
     "prettier": "prettier --write .",
     "surge": "npm run build && surge build whatson-dev.surge.sh",
     "teardown": "surge teardown whatson-dev.surge.sh",

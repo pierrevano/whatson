@@ -177,7 +177,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const getPlaceholder = (image, width, height) => {
     const compression = 1.5;
-    let placeholder = `${image.split("net")[0]}net/c_${width * compression}_${height * compression}${image.split("net")[1]}`;
+    let placeholder = `${image.split("net")[0]}net/c_${parseInt(width * compression)}_${parseInt(height * compression)}${image.split("net")[1]}`;
     if (image && image.startsWith("https://image.tmdb.org")) placeholder = `https://image.tmdb.org/t/p/w300${image}`;
     return placeholder;
   };

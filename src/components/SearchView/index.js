@@ -8,6 +8,7 @@ import Search from "components/Searchbar";
 import Container from "components/Container";
 import CardsByPage from "./CardsByPage";
 import Info from "./Info";
+import useCacheBuster from "utils/useCacheBuster";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -37,6 +38,8 @@ ReactGA.initialize("G-3WQW5G3BM8");
  * @returns A React component that displays a search bar and a list of cards based on the search query and page number.
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
+  useCacheBuster();
+
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0);
