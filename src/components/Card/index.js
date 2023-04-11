@@ -171,11 +171,15 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const title = props?.title;
 
   let image = props?.poster_path || props?.profile_path || props?.image;
-  let placeholder = props?.placeholder;
   if (image && image.startsWith("/")) {
     image = `https://image.tmdb.org/t/p/w300${image}`;
-    placeholder = `https://image.tmdb.org/t/p/w300${image}`;
   }
+
+  const getPlaceholder = (width, height) => {
+    let placeholder = `${image.split("net")[0]}net/c_${width * 2}_${height * 2}${image.split("net")[1]}`;
+    if (image && image.startsWith("/")) placeholder = `https://image.tmdb.org/t/p/w300${image}`;
+    return placeholder;
+  };
 
   const allocine_url = props?.allocine?.url;
   const allocine_users_rating = props?.allocine?.users_rating;
@@ -213,7 +217,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       setHeight(imgEl.current.clientHeight);
       setWidth(imgEl.current.clientWidth);
     }
-  }, [imgEl, placeholder]);
+  }, [imgEl]);
 
   return (
     <Wrapper error={error} {...props}>
@@ -221,7 +225,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       {!(loading || error || loadMore) && <Anchor to={`/${kindURL}/${id}`} tabIndex={0} ariaLabel={`poster for: ${title}`} />}
       <OverflowHidden>
         {image && (
-          <LazyImage placeholder={placeholder} src={placeholder}>
+          <LazyImage placeholder={getPlaceholder(width, height)} src={getPlaceholder(width, height)}>
             {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
           </LazyImage>
         )}

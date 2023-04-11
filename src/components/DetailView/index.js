@@ -96,7 +96,7 @@ const DetailView = ({ id, kindURL }) => {
   const { data: data_from_render } = useFetch([`${cors_url}${base_render}/${kind}/${id}`, `${parameters}`].join(""));
 
   let image = data_from_render?.image;
-  let placeholder = data_from_render?.placeholder;
+  let placeholder = image;
 
   const allocine = data_from_render?.allocine?.id;
 
@@ -118,7 +118,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const title = data?.title || data?.name;
 
-  if (kind === "person") {
+  if (kind === "person" || (image && image.startsWith("/"))) {
     image = data?.poster_path || data?.profile_path;
     image = `https://image.tmdb.org/t/p/w1280${image}`;
     placeholder = `https://image.tmdb.org/t/p/w300${image}`;
