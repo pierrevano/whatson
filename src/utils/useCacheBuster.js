@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useStorageString } from "./useStorageString";
+import { version } from "../../package.json";
 
 /**
  * Refreshes the cache and reloads the current page.
@@ -19,24 +19,25 @@ const refreshCacheAndReload = () => {
 };
 
 /**
- * A custom React hook that checks for updates to the app version and refreshes the cache if necessary.
+ * A custom React hook that fetches a meta.json file and compares the version number
+ * to the current package version. If the package version is less than the meta version,
+ * the page is reloaded to ensure the latest version is used.
  * @returns {null}
  */
 const useCacheBuster = () => {
   const parseVersion = (str) => +str.replace(/\D/g, "");
-  const [version, setVersion] = useStorageString("version", "1.0.0");
-  console.log(`Current What's on? app version: ${version}`);
 
   useEffect(() => {
     fetch(`/meta.json?v=${+new Date()}`, { cache: "no-cache" })
       .then((response) => response.json())
       .then((meta) => {
         if (meta?.version) {
-          const metaVersion = meta.version;
-          if (parseVersion(version) < parseVersion(metaVersion)) {
+          const metaVersion = parseVersion(meta.version);
+          const packageVersion = parseVersion(version);
+          if (packageVersion < metaVersion) {
             if (window?.location?.reload) {
-              setVersion(metaVersion);
               refreshCacheAndReload();
+              window.location.reload();
             }
           }
         }
@@ -44,7 +45,7 @@ const useCacheBuster = () => {
       .catch((error) => {
         console.error("something went wrong fetching meta.json", error);
       });
-  }, [version, setVersion]);
+  }, []);
 
   return null;
 };

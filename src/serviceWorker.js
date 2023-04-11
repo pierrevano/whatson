@@ -34,7 +34,6 @@ function registerValidSW(swUrl, config) {
         installingWorker.onstatechange = () => {
           if (installingWorker.state === "installed") {
             if (navigator.serviceWorker.controller) {
-              console.log("New content is available and will be used when all tabs for this page are closed. See http://bit.ly/CRA-PWA.");
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
