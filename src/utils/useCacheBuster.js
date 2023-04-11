@@ -20,8 +20,8 @@ const refreshCacheAndReload = () => {
 
 /**
  * A custom React hook that fetches a meta.json file and compares the version number
- * to the current package version. If the package version is less than the meta version,
- * the page is reloaded to ensure the latest version is used.
+ * to the current package version. If the meta.json version is greater than the package
+ * version, the page is reloaded to update the cache.
  * @returns {null}
  */
 const useCacheBuster = () => {
@@ -37,6 +37,7 @@ const useCacheBuster = () => {
           if (packageVersion < metaVersion) {
             if (window?.location?.reload) {
               refreshCacheAndReload();
+              localStorage.setItem("version", metaVersion);
               window.location.reload();
             }
           }
