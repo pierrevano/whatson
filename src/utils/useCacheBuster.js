@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useStorageString } from "./useStorageString";
 
 const useCacheBuster = () => {
   const parseVersion = (str) => +str.replace(/\D/g, "");
@@ -10,8 +11,8 @@ const useCacheBuster = () => {
       .then((response) => response.json())
       .then((meta) => {
         if (meta?.version) {
-          const metaVersion = parseVersion(meta.version);
-          if (version < metaVersion) {
+          const metaVersion = meta.version;
+          if (parseVersion(version) < parseVersion(metaVersion)) {
             if (window?.location?.reload) {
               setVersion(metaVersion);
               window.location.reload(true);
@@ -22,7 +23,7 @@ const useCacheBuster = () => {
       .catch((error) => {
         console.error("something went wrong fetching meta.json", error);
       });
-  }, []);
+  }, [version, setVersion]);
 
   return null;
 };
