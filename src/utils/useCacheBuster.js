@@ -3,6 +3,8 @@ import { version } from "../../package.json";
 
 const useCacheBuster = () => {
   const parseVersion = (str) => +str.replace(/\D/g, "");
+  const packageVersion = parseVersion(version);
+  console.log(`Current What's on? app version: ${packageVersion}`);
 
   useEffect(() => {
     fetch(`/meta.json?v=${+new Date()}`, { cache: "no-cache" })
@@ -10,7 +12,6 @@ const useCacheBuster = () => {
       .then((meta) => {
         if (meta?.version) {
           const metaVersion = parseVersion(meta.version);
-          const packageVersion = parseVersion(version);
           if (packageVersion < metaVersion) {
             if (window?.location?.reload) {
               window.location.reload();
