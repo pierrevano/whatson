@@ -80,9 +80,6 @@ const DetailView = ({ id, kindURL }) => {
   const base = config.base;
   const api = config.api;
 
-  const cors_url = config.cors_url;
-  const base_render = config.base_render;
-
   const queryStringParsed = queryString.parse(window.location.search);
   let ratings_filters_query = queryStringParsed.ratings_filters;
 
@@ -93,7 +90,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const parameters = getParameters("", undefined, "", undefined, ratings_filters, ratings_filters_query, "", undefined);
 
-  const { data: data_from_render } = useFetch([`${cors_url}${base_render}/${kind}/${id}`, `${parameters}`].join(""));
+  const { data: data_from_render } = useFetch([`${config.cors_url}/${config.base_render}/${kind}/${id}`, `${parameters}`].join(""));
 
   let image = data_from_render?.image;
   let placeholder = image;

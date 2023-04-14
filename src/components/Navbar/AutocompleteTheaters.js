@@ -12,10 +12,9 @@ const AutocompleteTheaters = () => {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);
 
-  const cors_url = config.cors_url;
   const [theater_name, setTheaterName] = useStorageString("theater_name", "");
 
-  const { data } = useFetch(`${cors_url}https://www.allocine.fr/_/localization_city/${encodeURI(value)}`);
+  const { data } = useFetch(`${config.cors_url}/https://www.allocine.fr/_/localization_city/${encodeURI(value)}`);
 
   const name = () => setItems(data?.values?.theaters?.map((item) => item?.node?.name.trim()));
   const setAndReload = (value) => {
