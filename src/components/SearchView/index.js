@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ReactGA from "react-ga4";
 import styled from "styled-components";
 import { Row } from "griding";
 import { useStorageString } from "utils/useStorageString";
@@ -9,6 +8,8 @@ import Container from "components/Container";
 import CardsByPage from "./CardsByPage";
 import Info from "./Info";
 import useCacheBuster from "utils/useCacheBuster";
+import useScript from "utils/useScript";
+import config from "utils/config";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -23,13 +24,6 @@ const Searchbar = styled(Search)`
   z-index: 3;
 `;
 
-/**
- * Initializes Google Analytics with the provided tracking ID.
- * @param {string} trackingID - The tracking ID provided by Google Analytics.
- * @returns None
- */
-ReactGA.initialize("G-3WQW5G3BM8");
-
 /* eslint-disable no-mixed-operators */
 /**
  * A component that displays a search bar and a list of cards based on the search query and page number.
@@ -39,6 +33,7 @@ ReactGA.initialize("G-3WQW5G3BM8");
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
   useCacheBuster();
+  useScript(config.base_beamanalytics, config.beamanalytics_token);
 
   useEffect(() => {
     setTimeout(() => {

@@ -50,7 +50,7 @@ export const getRatingsDetails = (allocine_url, betaseries_url, imdb_url, alloci
     {
       image: detailsConfig.imdb.image,
       name: detailsConfig.imdb.name,
-      rating: imdb_users_rating / 2,
+      rating: imdb_users_rating,
     },
   ];
 
@@ -68,12 +68,13 @@ export const getRatingsDetails = (allocine_url, betaseries_url, imdb_url, alloci
 
   const ratingBody = (rowData) => {
     const rating = rowData.rating;
+    const maxRating = rowData.name === "IMDb users" ? 10 : 5;
 
     if (rating > 0)
       return (
         <span className="rating_value">
           <span>★</span> {rating}
-          <span>/5</span>
+          <span>/{maxRating}</span>
         </span>
       );
     return "/";
