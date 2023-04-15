@@ -22,19 +22,16 @@ const displayCheckMark = () => {
   document.querySelector(checkMarkSelector).classList.remove("display-none");
 };
 
-/**
- * A component that displays a multi-select dropdown menu for selecting filters for a movie or TV show.
- * The available filters include ratings from various sources and season numbers.
- * @returns A JSX element that displays the multi-select dropdown menu.
- */
 const ChipsDoc = () => {
   const allocineCritics = { name: "AlloCiné critics", code: "allocine_critics" };
   const allocineUsers = { name: "AlloCiné users", code: "allocine_users" };
   const betaseriesUsers = { name: "BetaSeries users", code: "betaseries_users" };
   const imdbUsers = { name: "IMDb users", code: "imdb_users" };
+  const metacriticCritics = { name: "Metacritic critics", code: "metacritic_critics" };
+  const metacriticUsers = { name: "Metacritic users", code: "metacritic_users" };
   const ratings = {
     name: "Ratings",
-    items: [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers],
+    items: [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers, metacriticCritics, metacriticUsers],
   };
 
   const one = { name: "1", code: "1" };
@@ -57,6 +54,8 @@ const ChipsDoc = () => {
     if (ratings_filters.includes("allocine_users")) selectedItems.push(allocineUsers);
     if (ratings_filters.includes("betaseries_users")) selectedItems.push(betaseriesUsers);
     if (ratings_filters.includes("imdb_users")) selectedItems.push(imdbUsers);
+    if (ratings_filters.includes("metacritic_critics")) selectedItems.push(metacriticCritics);
+    if (ratings_filters.includes("metacritic_users")) selectedItems.push(metacriticUsers);
 
     if (seasons_number.includes("1")) selectedItems.push(one);
     if (seasons_number.includes("2")) selectedItems.push(two);
@@ -81,7 +80,7 @@ const ChipsDoc = () => {
     const ratingsFiltersArray = [];
     const seasonsNumberArray = [];
     valuesArray.forEach((element) => {
-      if (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users") {
+      if (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "metacritic_critics" || element.code === "metacritic_users") {
         ratingsFiltersArray.push(element.code);
       } else {
         seasonsNumberArray.push(element.code);

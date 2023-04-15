@@ -90,7 +90,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const parameters = getParameters("", undefined, "", undefined, ratings_filters, ratings_filters_query, "", undefined);
 
-  const { data: data_from_render } = useFetch([`${config.cors_url}/${config.base_render}/${kind}/${id}`, `${parameters}`].join(""));
+  const { data: data_from_render } = useFetch([`${config.cors_url}/${config.base_render_api}/${kind}/${id}`, `${parameters}`].join(""));
 
   let image = data_from_render?.image;
   let placeholder = image;
@@ -106,6 +106,10 @@ const DetailView = ({ id, kindURL }) => {
 
   const imdb_url = data_from_render?.imdb?.url;
   const imdb_users_rating = data_from_render?.imdb?.users_rating;
+
+  const metacritic_url = data_from_render?.metacritic?.url;
+  const metacritic_users_rating = data_from_render?.metacritic?.users_rating;
+  const metacritic_critics_rating = data_from_render?.metacritic?.critics_rating;
 
   const ratings_average = data_from_render?.ratings_average;
   const trailer = data_from_render?.trailer;
@@ -155,7 +159,7 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackground(true);
   };
 
-  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating);
+  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating);
 
   const op = useRef(null);
   const isMounted = useRef(false);

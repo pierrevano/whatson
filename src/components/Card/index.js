@@ -192,9 +192,13 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const imdb_url = props?.imdb?.url;
   const imdb_users_rating = props?.imdb?.users_rating;
 
+  const metacritic_url = props?.metacritic?.url;
+  const metacritic_users_rating = props?.metacritic?.users_rating;
+  const metacritic_critics_rating = props?.metacritic?.critics_rating;
+
   const ratings_average = props?.ratings_average;
 
-  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating);
+  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating);
 
   const op = useRef(null);
   const isMounted = useRef(false);

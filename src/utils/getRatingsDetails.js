@@ -1,18 +1,8 @@
 import React from "react";
+import config from "./config";
 
-/**
- * Returns an array of objects containing details about the ratings of a movie or TV show
- * from various sources such as AlloCiné, BetaSeries, and IMDb.
- * @param {string} allocine_url - The URL of the movie or TV show on AlloCiné.
- * @param {string} betaseries_url - The URL of the movie or TV show on BetaSeries.
- * @param {string} imdb_url - The URL of the movie or TV show on IMDb.
- * @param {number} allocine_users_rating - The rating of the movie or TV show by AlloCiné users.
- * @param {number} allocine_critics_rating - The rating of the movie or
- */
-export const getRatingsDetails = (allocine_url, betaseries_url, imdb_url, allocine_users_rating, allocine_critics_rating, betaseries_users_rating, imdb_users_rating) => {
+export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating) => {
   const detailsConfig = {
-    baseURLPublicAssets: "https://whatson-public.surge.sh",
-
     allocine_users: {
       image: "allocine-logo.png",
       name: "AlloCiné users",
@@ -28,6 +18,14 @@ export const getRatingsDetails = (allocine_url, betaseries_url, imdb_url, alloci
     imdb: {
       image: "imdb-logo.png",
       name: "IMDb users",
+    },
+    metacritic_users: {
+      image: "metacritic-logo.png",
+      name: "Metacritic users",
+    },
+    metacritic_critics: {
+      image: "metacritic-logo.png",
+      name: "Metacritic critics",
     },
   };
 
@@ -52,23 +50,37 @@ export const getRatingsDetails = (allocine_url, betaseries_url, imdb_url, alloci
       name: detailsConfig.imdb.name,
       rating: imdb_users_rating,
     },
+    {
+      image: detailsConfig.metacritic_users.image,
+      name: detailsConfig.metacritic_users.name,
+      rating: metacritic_users_rating,
+    },
+    {
+      image: detailsConfig.metacritic_critics.image,
+      name: detailsConfig.metacritic_critics.name,
+      rating: metacritic_critics_rating,
+    },
   ];
 
   const logoBody = (rowData) => {
-    const baseURLPublicAssets = detailsConfig.baseURLPublicAssets;
     const image = rowData.image;
     const name = rowData.name;
 
     return (
       <div className="flex align-items-center p-overlaypanel-logo">
-        <img alt={name} src={`${baseURLPublicAssets}/${image}`} />
+        <img alt={name} src={`${config.base_render}/${image}`} />
       </div>
     );
   };
 
   const ratingBody = (rowData) => {
     const rating = rowData.rating;
-    const maxRating = rowData.name === "IMDb users" ? 10 : 5;
+    let maxRating = 5;
+    if (rowData.name === "IMDb users" || rowData.name === "Metacritic users") {
+      maxRating = 10;
+    } else if (rowData.name === "Metacritic critics") {
+      maxRating = 100;
+    }
 
     if (rating > 0)
       return (
@@ -113,6 +125,18 @@ export const getRatingsDetails = (allocine_url, betaseries_url, imdb_url, alloci
     } else if (name === "IMDb users" && rating > 0) {
       link = (
         <a href={imdb_url} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "Metacritic users" && rating > 0) {
+      link = (
+        <a href={`${metacritic_url}/user-reviews`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "Metacritic critics" && rating > 0) {
+      link = (
+        <a href={`${metacritic_url}/critic-reviews`} target={"_blank"}>
           {name}
         </a>
       );

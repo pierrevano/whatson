@@ -23,7 +23,7 @@ const getDataURL = (kindURL, search, page, cinema_id, item_type, ratings_filters
   const parameters = getParameters(cinema_id, cinema_id_query, item_type, item_type_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query);
 
   if (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tv") return `${base}/search/${getKindByURL(kindURL)}?api_key=${api}&query=${search}&page=${page}`;
-  return `${config.cors_url}/${config.base_render}/${parameters}`;
+  return `${config.cors_url}/${config.base_render_api}/${parameters}`;
 };
 
 const InfiniteScroll = ({ page, setPage }) => {

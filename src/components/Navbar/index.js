@@ -17,6 +17,7 @@ import CheckMark from "components/Icon/CheckMark";
 import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
 import { displayRatingsOrTheaters, cancel } from "./DisplayFilters";
+import config from "utils/config";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -125,7 +126,7 @@ const Navbar = () => {
       <Wrapper>
         <Logo tabIndex={0} to="/">
           <span role="img" aria-label="logo" style={{ transform: "translateY(1px)" }}>
-            <img style={{ marginTop: "5px", maxWidth: "24px" }} src="https://whatson-public.surge.sh/logo.png" alt="logo" width="24px" height="24px"></img>
+            <img style={{ marginTop: "5px", maxWidth: "24px" }} src={config.base_render + "/logo.png"} alt="logo" width="24px" height="24px"></img>
           </span>
         </Logo>
         <Menu onClick={() => setVisibleLeft(true)} style={{ position: "absolute", marginLeft: "35px", transform: "translateY(1px)", cursor: "pointer" }}></Menu>
