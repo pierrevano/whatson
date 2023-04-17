@@ -57,10 +57,12 @@ const ChipsDoc = () => {
     if (ratings_filters.includes("metacritic_critics")) selectedItems.push(metacriticCritics);
     if (ratings_filters.includes("metacritic_users")) selectedItems.push(metacriticUsers);
 
-    if (seasons_number.includes("1")) selectedItems.push(one);
-    if (seasons_number.includes("2")) selectedItems.push(two);
-    if (seasons_number.includes("3")) selectedItems.push(three);
-    if (seasons_number.includes("4")) selectedItems.push(four);
+    if (item_type && item_type === "tvshow") {
+      if (seasons_number.includes("1")) selectedItems.push(one);
+      if (seasons_number.includes("2")) selectedItems.push(two);
+      if (seasons_number.includes("3")) selectedItems.push(three);
+      if (seasons_number.includes("4")) selectedItems.push(four);
+    }
   }
 
   const groupedItemTemplate = (option) => {
