@@ -11,6 +11,7 @@ import { getParameters } from "utils/getParameters";
 import config from "utils/config";
 
 const queryStringParsed = queryString.parse(window.location.search);
+
 const cinema_id_query = queryStringParsed.cinema_id;
 const item_type_query = queryStringParsed.item_type;
 const ratings_filters_query = queryStringParsed.ratings_filters;

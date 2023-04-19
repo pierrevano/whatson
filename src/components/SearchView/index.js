@@ -10,6 +10,7 @@ import Info from "./Info";
 import useCacheBuster from "utils/useCacheBuster";
 import useScript from "utils/useScript";
 import config from "utils/config";
+import queryString from "query-string";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -33,7 +34,16 @@ const Searchbar = styled(Search)`
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
   useCacheBuster();
-  useScript(config.base_beamanalytics, config.beamanalytics_token);
+
+  const queryStringParsed = queryString.parse(window.location.search);
+
+  const beamanalytics_query = queryStringParsed.beamanalytics;
+  const [beamanalytics, setBeamanalytics] = useStorageString("beamanalytics", "true");
+  useEffect(() => {
+    if (typeof beamanalytics_query !== "undefined") setBeamanalytics(beamanalytics_query);
+  });
+
+  useScript(beamanalytics, config.base_beamanalytics, config.beamanalytics_token);
 
   useEffect(() => {
     setTimeout(() => {

@@ -1,19 +1,21 @@
 import { useEffect } from "react";
 
-const useScript = (url, token) => {
+const useScript = (beamanalytics, url, token) => {
   useEffect(() => {
-    const script = document.createElement("script");
+    if (beamanalytics === "true") {
+      const script = document.createElement("script");
 
-    script.src = url;
-    script.async = true;
-    script.setAttribute("data-token", token);
+      script.src = url;
+      script.async = true;
+      script.setAttribute("data-token", token);
 
-    document.body.appendChild(script);
+      document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [url, token]);
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [beamanalytics, url, token]);
 };
 
 export default useScript;

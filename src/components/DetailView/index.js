@@ -81,8 +81,8 @@ const DetailView = ({ id, kindURL }) => {
   const api = config.api;
 
   const queryStringParsed = queryString.parse(window.location.search);
-  let ratings_filters_query = queryStringParsed.ratings_filters;
 
+  let ratings_filters_query = queryStringParsed.ratings_filters;
   const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   useEffect(() => {
     if (typeof ratings_filters_query !== "undefined") setRatingsFilters(ratings_filters_query);
