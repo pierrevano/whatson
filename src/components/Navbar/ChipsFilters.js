@@ -63,6 +63,7 @@ const ChipsDoc = () => {
       if (seasons_number.includes("2")) selectedItems.push(two);
       if (seasons_number.includes("3")) selectedItems.push(three);
       if (seasons_number.includes("4")) selectedItems.push(four);
+      if (seasons_number.includes("5")) selectedItems.push(five);
     }
   }
 
