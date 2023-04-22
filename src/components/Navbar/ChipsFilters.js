@@ -37,10 +37,11 @@ const ChipsDoc = () => {
   const one = { name: "1", code: "1" };
   const two = { name: "2", code: "2" };
   const three = { name: "3", code: "3" };
-  const four = { name: "4+", code: "4" };
+  const four = { name: "4", code: "4" };
+  const five = { name: "5+", code: "5" };
   const seasons = {
     name: "Seasons numbers",
-    items: [one, two, three, four],
+    items: [one, two, three, four, five],
   };
 
   const [item_type] = useStorageString("item_type", "");
