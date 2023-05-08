@@ -125,7 +125,7 @@ const Navbar = () => {
     <StickyContainer>
       <Wrapper>
         <Logo tabIndex={0} to="/">
-          <span role="img" aria-label="logo" style={{ transform: "translateY(1px)" }}>
+          <span role="img" aria-label="logo" style={{ transform: "translateY(1px)" }} onClick={() => (window.location.href = "/")}>
             <img style={{ marginTop: "5px", maxWidth: "24px" }} src={config.base_render + "/logo.png"} alt="logo" width="24px" height="24px"></img>
           </span>
         </Logo>
