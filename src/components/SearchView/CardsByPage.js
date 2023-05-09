@@ -24,7 +24,7 @@ const getDataURL = (kindURL, search, page, cinema_id, item_type, ratings_filters
   const parameters = getParameters(cinema_id, cinema_id_query, item_type, item_type_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query);
 
   if (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tv") return `${base}/search/${getKindByURL(kindURL)}?api_key=${api}&query=${search}&page=${page}`;
-  return `${config.cors_url}/${config.base_render_api}/${parameters}`;
+  return `${config.cors_url}/${config.base_render_api}/${parameters}&page=${page}`;
 };
 
 const InfiniteScroll = ({ page, setPage }) => {
@@ -61,7 +61,6 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   });
 
   let { loading, data, error } = useFetch(getDataURL(kindURL, search, page, cinema_id, item_type, ratings_filters, seasons_number));
-  if (data?.results?.length > 0) data = data?.results;
 
   const [ref, inView] = useInView();
 
@@ -99,20 +98,20 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
         </Cell>
       ));
 
-  if (data && !data?.length && search !== "")
+  if (data && !data?.results?.length && search !== "")
     return (
       <Cell xs={12}>
         <InfoScreen emoji="😕" title={`No results found for ${search}`} description="let’s try another one" />
       </Cell>
     );
 
-  if (!data?.length) return null;
+  if (!data?.results?.length) return null;
 
   const totalPages = data?.total_pages;
 
   return (
     <Fragment>
-      {data?.map((entry) => (
+      {data?.results?.map((entry) => (
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
           <Card kindURL={kindURL === "search" || kindURL === "movies" || kindURL === "people" || kindURL === "tv" ? kindURL : getDefaultItemType(item_type_query, seasons_number_query)} {...entry} />
         </Cell>
