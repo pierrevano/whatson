@@ -188,7 +188,7 @@ const DetailView = ({ id, kindURL }) => {
               <Text weight={600} xs={2} sm={3} md={4} xg={5}>
                 {title}
               </Text>
-              <div style={{ display: "flex", margin: "1rem -0.5rem", flexWrap: "wrap", maxWidth: "539px" }}>
+              <div className="platform-links" style={{ display: "flex", margin: "1rem -0.5rem", flexWrap: "wrap", maxWidth: "539px" }}>
                 {!!allocine && (
                   <Button displayRatingsDetails={displayRatingsDetails} background="#28A745" logo={<Star size={11} filled={true} color="#181818" />}>
                     {!!ratings_average && `${ratings_average.toFixed(2)}/5`}

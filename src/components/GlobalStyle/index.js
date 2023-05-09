@@ -83,6 +83,12 @@ const GlobalStyle = createGlobalStyle`
       background-color: rgba(0, 0, 0, 0.95) !important;
     }
 
+    .platform-links button:not(:nth-of-type(1)):not(:nth-of-type(2)) {
+      @media (min-width: 981px) {
+        margin-top: 0 !important;
+      }
+    }
+
     // Multiselect style
     ${MultiSelectStyle}
 

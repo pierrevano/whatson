@@ -17,9 +17,6 @@ const Wrapper = styled.button`
   @media (max-width: 980px) {
     margin: 1rem 0.5rem 0 0.5rem;
   }
-  @media (min-width: 981px) {
-    margin-top: 0;
-  }
   cursor: pointer;
   &:hover {
     color: ${(p) => p.theme.colors.white};
