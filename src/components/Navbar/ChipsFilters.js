@@ -6,6 +6,7 @@ import "primeicons/primeicons.css";
 import { useStorageString } from "utils/useStorageString";
 import Star from "components/Icon/Star";
 import NumbersFilter from "components/Icon/NumbersFilter";
+import TV from "components/Icon/TV";
 
 const config = {
   ratingsSelector: ".ratings-filters",
@@ -44,10 +45,21 @@ const ChipsDoc = () => {
     items: [one, two, three, four, five],
   };
 
+  const canceled = { name: "Canceled", code: "canceled" };
+  const ended = { name: "Ended", code: "ended" };
+  const ongoing = { name: "Ongoing", code: "ongoing" };
+  const pilot = { name: "Pilot", code: "pilot" };
+  const soon = { name: "Soon", code: "soon" };
+  const status = {
+    name: "Status",
+    items: [canceled, ended, ongoing, pilot, soon],
+  };
+
   const [item_type] = useStorageString("item_type", "");
-  const groupedItems = item_type && item_type === "tvshow" ? [ratings, seasons] : [ratings];
+  const groupedItems = item_type && item_type === "tvshow" ? [ratings, seasons, status] : [ratings];
   const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
+  const [status_value, setStatusValue] = useStorageString("status", "");
 
   const [selectedItems, setSelectedItems] = useState([]);
   if (selectedItems.length === 0) {
@@ -64,13 +76,19 @@ const ChipsDoc = () => {
       if (seasons_number.includes("3")) selectedItems.push(three);
       if (seasons_number.includes("4")) selectedItems.push(four);
       if (seasons_number.includes("5")) selectedItems.push(five);
+
+      if (status_value.includes("canceled")) selectedItems.push(canceled);
+      if (status_value.includes("ended")) selectedItems.push(ended);
+      if (status_value.includes("ongoing")) selectedItems.push(ongoing);
+      if (status_value.includes("pilot")) selectedItems.push(pilot);
+      if (status_value.includes("soon")) selectedItems.push(soon);
     }
   }
 
   const groupedItemTemplate = (option) => {
     return (
       <div className="flex align-items-center" style={option.name === "Ratings" ? { transform: "translateY(-2px)" } : { transform: "translateY(-4px)" }}>
-        {option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter>}
+        {option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : option.name === "Seasons numbers" ? <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter> : <TV strokeWidth={3} style={{ display: "inline-block", transform: "translateY(14px)", marginTop: "-17px", marginRight: "10.5px", width: "25px" }}></TV>}
         {option.name}
       </div>
     );
@@ -83,17 +101,21 @@ const ChipsDoc = () => {
 
     const ratingsFiltersArray = [];
     const seasonsNumberArray = [];
+    const statusValueArray = [];
     valuesArray.forEach((element) => {
       if (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "metacritic_critics" || element.code === "metacritic_users") {
         ratingsFiltersArray.push(element.code);
-      } else {
+      } else if (element.code === "1" || element.code === "2" || element.code === "3" || element.code === "4" || element.code === "5") {
         seasonsNumberArray.push(element.code);
+      } else {
+        statusValueArray.push(element.code);
       }
     });
 
     setSelectedItems(e.value);
     setRatingsFilters(ratingsFiltersArray.join(","));
     setSeasonsNumber(seasonsNumberArray.join(","));
+    setStatusValue(statusValueArray.join(","));
   };
 
   return (
