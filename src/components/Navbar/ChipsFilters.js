@@ -6,7 +6,7 @@ import "primeicons/primeicons.css";
 import { useStorageString } from "utils/useStorageString";
 import Star from "components/Icon/Star";
 import NumbersFilter from "components/Icon/NumbersFilter";
-import TV from "components/Icon/TV";
+import Calendar from "components/Icon/Calendar";
 
 const config = {
   ratingsSelector: ".ratings-filters",
@@ -87,8 +87,8 @@ const ChipsDoc = () => {
 
   const groupedItemTemplate = (option) => {
     return (
-      <div className="flex align-items-center" style={option.name === "Ratings" ? { transform: "translateY(-2px)" } : { transform: "translateY(-4px)" }}>
-        {option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : option.name === "Seasons numbers" ? <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter> : <TV strokeWidth={3} style={{ display: "inline-block", transform: "translateY(14px)", marginTop: "-17px", marginRight: "10.5px", width: "25px" }}></TV>}
+      <div className="flex align-items-center" style={option.name === "Ratings" ? { transform: "translateY(-2px)" } : option.name === "Seasons numbers" ? { transform: "translateY(-4px)", marginTop: "-6px" } : { transform: "translateY(-4px)", marginTop: "-4px" }}>
+        {option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : option.name === "Seasons numbers" ? <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter> : <Calendar strokeWidth={3} style={{ display: "inline-block", transform: "translateY(6px)", marginRight: "9px" }}></Calendar>}
         {option.name}
       </div>
     );
