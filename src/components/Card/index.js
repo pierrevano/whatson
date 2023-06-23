@@ -63,6 +63,17 @@ const Overlay = styled.div`
   display: flex;
   flex-direction: column-reverse;
   justify-content: space-between;
+  background: ${(p) => p.theme.colors.overlay};
+  box-shadow: 0 0.25rem 2rem 0 rgba(5, 10, 13, 0.3);
+  border-radius: 0 0 0.1875rem 0.1875rem;
+`;
+
+const OverlayRatings = styled.div`
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
   background: none;
   box-shadow: 0 0.25rem 2rem 0 rgba(5, 10, 13, 0.3);
   border-radius: 0 0 0.1875rem 0.1875rem;
@@ -108,12 +119,25 @@ const StyledHeart = styled(Heart)`
 
 const Info = styled.div`
   color: currentColor;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  padding: 0.75rem;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 1;
+`;
+
+const InfoRatings = styled.div`
+  color: currentColor;
   position: absolute;
   top: 0;
   padding: 0.75rem;
   background: #181818;
   border-radius: 24px;
-  margin: 7px;
+  margin: 0.6rem;
   padding: 5px;
   width: 60px;
   text-align: center;
@@ -252,8 +276,20 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
         )}
         {!loadMore && (
           <Overlay>
+            {title && (
+              <Info>
+                <Text xs={0} sm={1} weight={500} style={{ marginBottom: "0.25em" }}>
+                  {title}
+                </Text>
+              </Info>
+            )}
+            <div style={{ display: "flex", alignItems: "center" }}>{id && <FavoriteButton kindURL={kindURL} id={id} title={title} />}</div>
+          </Overlay>
+        )}
+        {!loadMore && (
+          <OverlayRatings>
             {ratings_average > 0 && (
-              <Info className="rating_details" onClick={displayRatingsDetails}>
+              <InfoRatings className="rating_details" onClick={displayRatingsDetails}>
                 <span style={{ color: "#28A745" }}>★</span> {ratings_average.toFixed(1)}
                 <OverlayPanel ref={op}>
                   <DataTable value={detailsData} size="small">
@@ -262,10 +298,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
                     <Column field="rating" header="Rating" body={ratingBody} />
                   </DataTable>
                 </OverlayPanel>
-              </Info>
+              </InfoRatings>
             )}
-            <div style={{ display: "flex", alignItems: "center" }}>{id && <FavoriteButton kindURL={kindURL} id={id} title={title} />}</div>
-          </Overlay>
+          </OverlayRatings>
         )}
       </AbsoluteFill>
     </Wrapper>
