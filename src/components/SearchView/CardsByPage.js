@@ -101,7 +101,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
         </Cell>
       ));
 
-  if (data && !data?.results?.length && search !== "")
+  if (data && !data?.results?.length && search !== "" && kindURL === "search")
     return (
       <Cell xs={12}>
         <InfoScreen emoji="😕" title={`No results found for ${search}`} description="let’s try another one" />
