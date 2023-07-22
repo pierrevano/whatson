@@ -90,6 +90,10 @@ const MultiSelectStyle = `
     margin-right: 0.75rem !important;
   }
 
+  .p-multiselect-panel .p-multiselect-items .p-multiselect-item-group:first-child {
+    padding: 0.55rem 1.25rem !important;
+  }
+
   .p-dialog .p-dialog-header .p-dialog-header-icon:focus,
   .p-sidebar .p-sidebar-header .p-sidebar-icon:focus {
     box-shadow: 0 0 0 0.2rem rgb(40 167 69 / 50%) !important;

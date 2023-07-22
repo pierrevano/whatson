@@ -14,15 +14,16 @@ const queryStringParsed = queryString.parse(window.location.search);
 
 const cinema_id_query = queryStringParsed.cinema_id;
 const item_type_query = queryStringParsed.item_type;
+const popularity_filters_query = queryStringParsed.popularity_filters;
 const ratings_filters_query = queryStringParsed.ratings_filters;
 const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
-const getDataURL = (kindURL, search, page, cinema_id, item_type, ratings_filters, seasons_number, status) => {
+const getDataURL = (kindURL, search, page, cinema_id, item_type, popularity_filters, ratings_filters, seasons_number, status) => {
   const base = config.base;
   const api = config.api;
 
-  const parameters = getParameters(cinema_id, cinema_id_query, item_type, item_type_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query, status, status_query);
+  const parameters = getParameters(cinema_id, cinema_id_query, item_type, item_type_query, popularity_filters, popularity_filters_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query, status, status_query);
 
   if (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tv") return `${base}/search/${getKindByURL(kindURL)}?api_key=${api}&query=${search}&page=${page}`;
   return `${config.cors_url}/${config.base_render_api}/${parameters}&page=${page}`;
@@ -46,12 +47,14 @@ const InfiniteScroll = ({ page, setPage }) => {
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [cinema_id, setCinemaId] = useStorageString("cinema_id", "");
   const [item_type, setItemType] = useStorageString("item_type", "");
+  const [popularity_filters, setPopularityFilters] = useStorageString("popularity_filters", "");
   const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
   const [status_value, setStatusValue] = useStorageString("status", "");
   useEffect(() => {
     if (typeof cinema_id_query !== "undefined") setCinemaId(cinema_id_query);
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
+    if (typeof popularity_filters_query !== "undefined") setPopularityFilters(popularity_filters_query);
     if (typeof ratings_filters_query !== "undefined") setRatingsFilters(ratings_filters_query);
     if (typeof seasons_number_query !== "undefined") setSeasonsNumber(seasons_number_query);
     if (typeof status_query !== "undefined") setStatusValue(status_query);
@@ -63,12 +66,12 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     }
   });
 
-  let { loading, data, error } = useFetch(getDataURL(kindURL, search, page, cinema_id, item_type, ratings_filters, seasons_number, status_value));
+  let { loading, data, error } = useFetch(getDataURL(kindURL, search, page, cinema_id, item_type, popularity_filters, ratings_filters, seasons_number, status_value));
 
   const [ref, inView] = useInView();
 
-  const getDefaultItemType = (item_type_query, seasons_number_query, status_query) => {
-    if (item_type === "tvshow" || item_type_query === "tvshow" || typeof seasons_number_query !== "undefined" || typeof status_query !== "undefined") return "tv";
+  const getDefaultItemType = (item_type_query, popularity_filters_query, seasons_number_query, status_query) => {
+    if (item_type === "tvshow" || item_type_query === "tvshow" || typeof popularity_filters_query !== "undefined" || typeof seasons_number_query !== "undefined" || typeof status_query !== "undefined") return "tv";
     if (item_type === "movie" || item_type_query === "movie") return "movies";
     return "movies";
   };

@@ -7,6 +7,7 @@ import { useStorageString } from "utils/useStorageString";
 import Star from "components/Icon/Star";
 import NumbersFilter from "components/Icon/NumbersFilter";
 import Calendar from "components/Icon/Calendar";
+import Trophy from "components/Icon/Trophy";
 
 const config = {
   ratingsSelector: ".ratings-filters",
@@ -24,6 +25,14 @@ const displayCheckMark = () => {
 };
 
 const ChipsDoc = () => {
+  const allocinePopularity = { name: "AlloCiné popularity", code: "allocine_popularity" };
+  const imdbPopularity = { name: "IMDb popularity", code: "imdb_popularity" };
+  const nonePopularity = { name: "Only ratings", code: "none" };
+  const popularity = {
+    name: "Popularity",
+    items: [allocinePopularity, imdbPopularity, nonePopularity],
+  };
+
   const allocineCritics = { name: "AlloCiné critics", code: "allocine_critics" };
   const allocineUsers = { name: "AlloCiné users", code: "allocine_users" };
   const betaseriesUsers = { name: "BetaSeries users", code: "betaseries_users" };
@@ -56,7 +65,8 @@ const ChipsDoc = () => {
   };
 
   const [item_type] = useStorageString("item_type", "");
-  const groupedItems = item_type && item_type === "tvshow" ? [ratings, seasons, status] : [ratings];
+  const groupedItems = item_type && item_type === "tvshow" ? [popularity, ratings, seasons, status] : [ratings];
+  const [popularity_filters, setPopularityFilters] = useStorageString("popularity_filters", "");
   const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
   const [status_value, setStatusValue] = useStorageString("status", "");
@@ -71,6 +81,10 @@ const ChipsDoc = () => {
     if (ratings_filters.includes("metacritic_users")) selectedItems.push(metacriticUsers);
 
     if (item_type && item_type === "tvshow") {
+      if (popularity_filters.includes("allocine_popularity")) selectedItems.push(allocinePopularity);
+      if (popularity_filters.includes("imdb_popularity")) selectedItems.push(imdbPopularity);
+      if (popularity_filters.includes("none")) selectedItems.push(nonePopularity);
+
       if (seasons_number.includes("1")) selectedItems.push(one);
       if (seasons_number.includes("2")) selectedItems.push(two);
       if (seasons_number.includes("3")) selectedItems.push(three);
@@ -87,8 +101,8 @@ const ChipsDoc = () => {
 
   const groupedItemTemplate = (option) => {
     return (
-      <div className="flex align-items-center" style={option.name === "Ratings" ? { transform: "translateY(-2px)" } : option.name === "Seasons numbers" ? { transform: "translateY(-4px)", marginTop: "-6px" } : { transform: "translateY(-4px)", marginTop: "-4px" }}>
-        {option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : option.name === "Seasons numbers" ? <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter> : <Calendar strokeWidth={3} style={{ display: "inline-block", transform: "translateY(6px)", marginLeft: "-1px", marginRight: "9px" }}></Calendar>}
+      <div className="flex align-items-center" style={option.name === "Popularity" ? { transform: "translateY(-5px)" } : option.name === "Ratings" ? { transform: "translateY(-2px)" } : option.name === "Seasons numbers" ? { transform: "translateY(-4px)", marginTop: "-6px" } : { transform: "translateY(-4px)", marginTop: "-4px" }}>
+        {option.name === "Popularity" ? <Trophy style={{ display: "inline-block", transform: "translateY(7px)", marginLeft: "-2px", marginRight: "8px" }}></Trophy> : option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : option.name === "Seasons numbers" ? <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter> : <Calendar strokeWidth={3} style={{ display: "inline-block", transform: "translateY(6px)", marginLeft: "-1px", marginRight: "9px" }}></Calendar>}
         {option.name}
       </div>
     );
@@ -99,11 +113,14 @@ const ChipsDoc = () => {
 
     const valuesArray = e.value;
 
+    const popularityFiltersArray = [];
     const ratingsFiltersArray = [];
     const seasonsNumberArray = [];
     const statusValueArray = [];
     valuesArray.forEach((element) => {
-      if (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "metacritic_critics" || element.code === "metacritic_users") {
+      if (element.code === "allocine_popularity" || element.code === "imdb_popularity" || element.code === "none") {
+        popularityFiltersArray.push(element.code);
+      } else if (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "metacritic_critics" || element.code === "metacritic_users") {
         ratingsFiltersArray.push(element.code);
       } else if (element.code === "1" || element.code === "2" || element.code === "3" || element.code === "4" || element.code === "5") {
         seasonsNumberArray.push(element.code);
@@ -113,6 +130,7 @@ const ChipsDoc = () => {
     });
 
     setSelectedItems(e.value);
+    setPopularityFilters(popularityFiltersArray.join(","));
     setRatingsFilters(ratingsFiltersArray.join(","));
     setSeasonsNumber(seasonsNumberArray.join(","));
     setStatusValue(statusValueArray.join(","));

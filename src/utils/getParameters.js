@@ -1,4 +1,4 @@
-export const getParameters = (cinema_id, cinema_id_query, item_type, item_type_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query, status, status_query) => {
+export const getParameters = (cinema_id, cinema_id_query, item_type, item_type_query, popularity_filters, popularity_filters_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query, status, status_query) => {
   let parameters = "";
 
   if (cinema_id !== "") {
@@ -29,6 +29,14 @@ export const getParameters = (cinema_id, cinema_id_query, item_type, item_type_q
     parameters += `status=${status}&`;
   } else if (typeof status_query !== "undefined") {
     parameters += `status=${status_query}&`;
+  } else {
+    parameters += "";
+  }
+
+  if (popularity_filters !== "") {
+    parameters += `popularity_filters=${popularity_filters}&`;
+  } else if (typeof popularity_filters_query !== "undefined") {
+    parameters += `popularity_filters=${popularity_filters_query}&`;
   } else {
     parameters += "";
   }
