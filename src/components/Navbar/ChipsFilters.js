@@ -65,7 +65,7 @@ const ChipsDoc = () => {
   };
 
   const [item_type] = useStorageString("item_type", "");
-  const groupedItems = item_type && item_type === "tvshow" ? [popularity, ratings, seasons, status] : [ratings];
+  const groupedItems = item_type && item_type === "tvshow" ? [popularity, ratings, seasons, status] : [popularity, ratings];
   const [popularity_filters, setPopularityFilters] = useStorageString("popularity_filters", "");
   const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
