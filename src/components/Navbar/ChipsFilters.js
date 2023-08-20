@@ -80,11 +80,11 @@ const ChipsDoc = () => {
     if (ratings_filters.includes("metacritic_critics")) selectedItems.push(metacriticCritics);
     if (ratings_filters.includes("metacritic_users")) selectedItems.push(metacriticUsers);
 
-    if (item_type && item_type === "tvshow") {
-      if (popularity_filters.includes("allocine_popularity")) selectedItems.push(allocinePopularity);
-      if (popularity_filters.includes("imdb_popularity")) selectedItems.push(imdbPopularity);
-      if (popularity_filters.includes("none")) selectedItems.push(nonePopularity);
+    if (popularity_filters.includes("allocine_popularity")) selectedItems.push(allocinePopularity);
+    if (popularity_filters.includes("imdb_popularity")) selectedItems.push(imdbPopularity);
+    if (popularity_filters.includes("none")) selectedItems.push(nonePopularity);
 
+    if (item_type && item_type === "tvshow") {
       if (seasons_number.includes("1")) selectedItems.push(one);
       if (seasons_number.includes("2")) selectedItems.push(two);
       if (seasons_number.includes("3")) selectedItems.push(three);
