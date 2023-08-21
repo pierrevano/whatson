@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "private": false,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
