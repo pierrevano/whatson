@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/lara-dark-teal/theme.css";
 import "primereact/resources/primereact.css";
@@ -8,29 +8,22 @@ import Star from "components/Icon/Star";
 import NumbersFilter from "components/Icon/NumbersFilter";
 import Calendar from "components/Icon/Calendar";
 import Trophy from "components/Icon/Trophy";
-
-const config = {
-  ratingsSelector: ".ratings-filters",
-  theatersSelector: ".theaters-search",
-  checkMarkSelector: ".check-mark",
-  crossMarkSelector: ".cross-mark",
-  navbarDiv: ".navbar-div",
-};
-
-const displayCheckMark = () => {
-  const crossMarkSelector = config.crossMarkSelector;
-  const checkMarkSelector = config.checkMarkSelector;
-  document.querySelector(crossMarkSelector).classList.add("display-none");
-  document.querySelector(checkMarkSelector).classList.remove("display-none");
-};
+import config from "./config";
+import initializeLocalStorage from "./initializeLocalStorage";
 
 const ChipsDoc = () => {
+  const displayCheckMark = () => {
+    const crossMarkSelector = config.crossMarkSelector;
+    const checkMarkSelector = config.checkMarkSelector;
+    document.querySelector(crossMarkSelector).classList.add("display-none");
+    document.querySelector(checkMarkSelector).classList.remove("display-none");
+  };
+
   const allocinePopularity = { name: "AlloCiné popularity", code: "allocine_popularity" };
   const imdbPopularity = { name: "IMDb popularity", code: "imdb_popularity" };
-  const nonePopularity = { name: "Only ratings", code: "none" };
   const popularity = {
     name: "Popularity",
-    items: [allocinePopularity, imdbPopularity, nonePopularity],
+    items: [allocinePopularity, imdbPopularity],
   };
 
   const allocineCritics = { name: "AlloCiné critics", code: "allocine_critics" };
@@ -64,40 +57,77 @@ const ChipsDoc = () => {
     items: [canceled, ended, ongoing, pilot, soon],
   };
 
+  initializeLocalStorage();
+
   const [item_type] = useStorageString("item_type", "");
+
   const groupedItems = item_type && item_type === "tvshow" ? [popularity, ratings, seasons, status] : [popularity, ratings];
+
+  const defaultPopularityFilters = config.popularity.split(",");
+  const defaultRatingsFilters = config.ratings.split(",");
+  const defaultSeasonsNumber = config.seasons.split(",");
+  const defaultStatusValue = config.status.split(",");
+
   const [popularity_filters, setPopularityFilters] = useStorageString("popularity_filters", "");
   const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
   const [status_value, setStatusValue] = useStorageString("status", "");
 
-  const [selectedItems, setSelectedItems] = useState([]);
-  if (selectedItems.length === 0) {
-    if (ratings_filters.includes("allocine_critics")) selectedItems.push(allocineCritics);
-    if (ratings_filters.includes("allocine_users")) selectedItems.push(allocineUsers);
-    if (ratings_filters.includes("betaseries_users")) selectedItems.push(betaseriesUsers);
-    if (ratings_filters.includes("imdb_users")) selectedItems.push(imdbUsers);
-    if (ratings_filters.includes("metacritic_critics")) selectedItems.push(metacriticCritics);
-    if (ratings_filters.includes("metacritic_users")) selectedItems.push(metacriticUsers);
+  const [selectedItems, setSelectedItems] = useState(() => {
+    const selectedItems = [];
 
-    if (popularity_filters.includes("allocine_popularity")) selectedItems.push(allocinePopularity);
-    if (popularity_filters.includes("imdb_popularity")) selectedItems.push(imdbPopularity);
-    if (popularity_filters.includes("none")) selectedItems.push(nonePopularity);
+    const filterLookup = {
+      allocine_popularity: allocinePopularity,
+      imdb_popularity: imdbPopularity,
+
+      allocine_critics: allocineCritics,
+      allocine_users: allocineUsers,
+      betaseries_users: betaseriesUsers,
+      imdb_users: imdbUsers,
+      metacritic_critics: metacriticCritics,
+      metacritic_users: metacriticUsers,
+
+      1: one,
+      2: two,
+      3: three,
+      4: four,
+      5: five,
+
+      canceled: canceled,
+      ended: ended,
+      ongoing: ongoing,
+      pilot: pilot,
+      soon: soon,
+    };
+
+    defaultRatingsFilters.forEach((filter) => {
+      if (!ratings_filters || ratings_filters.includes(filter)) {
+        selectedItems.push(filterLookup[filter]);
+      }
+    });
+
+    defaultPopularityFilters.forEach((filter) => {
+      if (!popularity_filters || popularity_filters.includes(filter)) {
+        selectedItems.push(filterLookup[filter]);
+      }
+    });
 
     if (item_type && item_type === "tvshow") {
-      if (seasons_number.includes("1")) selectedItems.push(one);
-      if (seasons_number.includes("2")) selectedItems.push(two);
-      if (seasons_number.includes("3")) selectedItems.push(three);
-      if (seasons_number.includes("4")) selectedItems.push(four);
-      if (seasons_number.includes("5")) selectedItems.push(five);
+      defaultSeasonsNumber.forEach((filter) => {
+        if (!seasons_number || seasons_number.includes(filter)) {
+          selectedItems.push(filterLookup[filter]);
+        }
+      });
 
-      if (status_value.includes("canceled")) selectedItems.push(canceled);
-      if (status_value.includes("ended")) selectedItems.push(ended);
-      if (status_value.includes("ongoing")) selectedItems.push(ongoing);
-      if (status_value.includes("pilot")) selectedItems.push(pilot);
-      if (status_value.includes("soon")) selectedItems.push(soon);
+      defaultStatusValue.forEach((filter) => {
+        if (!status_value || status_value.includes(filter)) {
+          selectedItems.push(filterLookup[filter]);
+        }
+      });
     }
-  }
+
+    return selectedItems;
+  });
 
   const groupedItemTemplate = (option) => {
     return (
@@ -107,6 +137,27 @@ const ChipsDoc = () => {
       </div>
     );
   };
+
+  const handlePopularityFiltersUpdate = useCallback(
+    (filters) => {
+      if (filters === "none") return;
+
+      const filtersArray = filters.split(",");
+      if (filtersArray.length === 1 && filtersArray[0] === "") {
+        setPopularityFilters("none");
+      } else {
+        if (filtersArray.length > 1) {
+          const newFiltersArray = filtersArray.filter((filter) => filter !== "none");
+          setPopularityFilters(newFiltersArray.join(","));
+        }
+      }
+    },
+    [setPopularityFilters]
+  );
+
+  useEffect(() => {
+    handlePopularityFiltersUpdate(popularity_filters);
+  }, [popularity_filters, handlePopularityFiltersUpdate]);
 
   const onChangeFunction = (e) => {
     displayCheckMark();
@@ -118,7 +169,7 @@ const ChipsDoc = () => {
     const seasonsNumberArray = [];
     const statusValueArray = [];
     valuesArray.forEach((element) => {
-      if (element.code === "allocine_popularity" || element.code === "imdb_popularity" || element.code === "none") {
+      if (element.code === "allocine_popularity" || element.code === "imdb_popularity") {
         popularityFiltersArray.push(element.code);
       } else if (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "metacritic_critics" || element.code === "metacritic_users") {
         ratingsFiltersArray.push(element.code);
