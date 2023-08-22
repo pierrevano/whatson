@@ -3,8 +3,7 @@ import { useFetch } from "react-hooks-fetch";
 import { AutoComplete } from "primereact/autocomplete";
 import config from "utils/config";
 import { useStorageString } from "utils/useStorageString";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import Cross from "components/Icon/Cross";
 
 /**
  * A component that provides an autocomplete feature for selecting a cinema/theater.
@@ -42,8 +41,8 @@ const AutocompleteTheaters = () => {
           {theater_name && (
             <>
               <span>{theater_name} is active</span>
-              <span onClick={clearLocalStorageAndReload} style={{ marginLeft: "5px", cursor: "pointer", pointerEvents: "all" }}>
-                <FontAwesomeIcon icon={faTimesCircle} />
+              <span onClick={clearLocalStorageAndReload} style={{ marginLeft: "5px", cursor: "pointer", pointerEvents: "all", opacity: "0.6" }}>
+                <Cross height={12} width={12} style={{ transform: "translateY(2px)" }}></Cross>
               </span>
             </>
           )}
