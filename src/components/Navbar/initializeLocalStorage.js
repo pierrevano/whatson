@@ -9,6 +9,10 @@ function initializeLocalStorage() {
     localStorage.setItem("ratings_filters", config.ratings);
   }
 
+  if (!localStorage.getItem("minimum_ratings")) {
+    localStorage.setItem("minimum_ratings", config.minimum_ratings);
+  }
+
   if (!localStorage.getItem("seasons_number")) {
     localStorage.setItem("seasons_number", config.seasons);
   }
