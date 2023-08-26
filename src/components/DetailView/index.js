@@ -111,6 +111,9 @@ const DetailView = ({ id, kindURL }) => {
   const metacritic_users_rating = data_from_render?.metacritic?.users_rating;
   const metacritic_critics_rating = data_from_render?.metacritic?.critics_rating;
 
+  const mojo_ranking = data_from_render?.mojo?.rank;
+  const mojo_url = data_from_render?.mojo?.url;
+
   const ratings_average = data_from_render?.ratings_average;
   const trailer = data_from_render?.trailer;
   const platforms_links = data_from_render?.platforms_links;
@@ -159,7 +162,7 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackground(true);
   };
 
-  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating);
+  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankingBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, mojo_ranking, mojo_url);
 
   const op = useRef(null);
   const isMounted = useRef(false);
@@ -197,6 +200,11 @@ const DetailView = ({ id, kindURL }) => {
                         <Column body={logoBody} />
                         <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
                         <Column field="rating" header="Rating" body={ratingBody} />
+                      </DataTable>
+                      <DataTable value={mojoDetailsData} size="small">
+                        <Column body={logoBody} />
+                        <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
+                        <Column field="ranking" header="Ranking" body={rankingBody} />
                       </DataTable>
                     </OverlayPanel>
                   </Button>

@@ -216,13 +216,16 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const imdb_url = props?.imdb?.url;
   const imdb_users_rating = props?.imdb?.users_rating;
 
+  const mojo_ranking = props?.mojo?.rank;
+  const mojo_url = props?.mojo?.url;
+
   const metacritic_url = props?.metacritic?.url;
   const metacritic_users_rating = props?.metacritic?.users_rating;
   const metacritic_critics_rating = props?.metacritic?.critics_rating;
 
   const ratings_average = props?.ratings_average;
 
-  const { detailsData, logoBody, nameBody, ratingBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating);
+  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankingBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, mojo_ranking, mojo_url);
 
   const op = useRef(null);
   const isMounted = useRef(false);
@@ -296,6 +299,11 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
                     <Column body={logoBody} />
                     <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
                     <Column field="rating" header="Rating" body={ratingBody} />
+                  </DataTable>
+                  <DataTable value={mojoDetailsData} size="small">
+                    <Column body={logoBody} />
+                    <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
+                    <Column field="ranking" header="Ranking" body={rankingBody} />
                   </DataTable>
                 </OverlayPanel>
               </InfoRatings>
