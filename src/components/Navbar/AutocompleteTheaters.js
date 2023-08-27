@@ -23,7 +23,7 @@ const AutocompleteTheaters = () => {
 
   const { data } = useFetch(`${config.cors_url}/https://www.allocine.fr/_/localization_city/${encodeURI(value)}`);
 
-  const name = () => setItems(data?.values?.theaters?.map((item) => item?.node?.name.trim()));
+  const name = () => setItems(data?.values?.theaters?.map((item) => `${item?.node?.name.trim()} (${item?.node?.location?.zip})`));
   const setAndReload = (value) => {
     const nodeArray = data?.values?.theaters?.map((item) => item?.node);
     const nodeArrayFiltered = nodeArray.filter((node) => node.name.trim() === value);
