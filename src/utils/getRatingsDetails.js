@@ -160,7 +160,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
           {name}
         </a>
       );
-    } else if (name === "Mojo ranking" && ranking > 0) {
+    } else if (name === "Mojo worldwide" && ranking > 0) {
       link = (
         <a href={`${mojo_url}`} target={"_blank"}>
           {name}
