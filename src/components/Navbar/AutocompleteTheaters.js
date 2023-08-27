@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useFetch } from "react-hooks-fetch";
 import { AutoComplete } from "primereact/autocomplete";
 import config from "utils/config";
@@ -10,28 +10,32 @@ import Cross from "components/Icon/Cross";
  * @returns A React component that renders an autocomplete input field.
  */
 const AutocompleteTheaters = () => {
-  const clearLocalStorageAndReload = () => {
+  const [theater_name, setTheaterName] = useStorageString("theater_name", "");
+
+  const clearLocalStorageAndReload = useCallback(() => {
     setTheaterName("");
     localStorage.removeItem("cinema_id");
     window.location.reload();
-  };
+  }, [setTheaterName]);
 
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);
 
-  const [theater_name, setTheaterName] = useStorageString("theater_name", "");
-
   const { data } = useFetch(`${config.cors_url}/https://www.allocine.fr/_/localization_city/${encodeURI(value)}`);
 
-  const name = () => setItems(data?.values?.theaters?.map((item) => `${item?.node?.name.trim()} (${item?.node?.location?.zip})`));
-  const setAndReload = (value) => {
-    const nodeArray = data?.values?.theaters?.map((item) => item?.node);
-    const nodeArrayFiltered = nodeArray.filter((node) => node.name.trim() === value);
-    setTheaterName(nodeArrayFiltered[0].name.trim());
-    localStorage.setItem("cinema_id", nodeArrayFiltered[0].internalId);
+  const name = useCallback(() => setItems(data?.values?.theaters?.map((item) => `${item?.node?.name.trim()} (${item?.node?.location?.zip})`)), [data]);
 
-    window.location.reload();
-  };
+  const setAndReload = useCallback(
+    (value) => {
+      const nodeArray = data?.values?.theaters?.map((item) => item?.node);
+      const nodeArrayFiltered = nodeArray.filter((node) => node.name.trim() === value.split("(")[0].trim());
+      setTheaterName(nodeArrayFiltered[0]?.name.trim());
+      localStorage.setItem("cinema_id", nodeArrayFiltered[0]?.internalId);
+
+      window.location.reload();
+    },
+    [data, setTheaterName]
+  );
 
   return (
     <div className="card">

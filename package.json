@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "private": false,
   "dependencies": {
     "@reach/router": "^1.2.1",
