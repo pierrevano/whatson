@@ -29,7 +29,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     },
     mojo_box_office: {
       image: "mojo-logo.png",
-      name: "Mojo ranking",
+      name: "Mojo worldwide",
     },
   };
 
