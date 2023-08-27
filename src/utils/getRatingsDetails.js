@@ -1,7 +1,7 @@
 import React from "react";
 import config from "./config";
 
-export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, mojo_ranking, mojo_url) => {
+export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, mojo_rank, mojo_url) => {
   const detailsConfig = {
     allocine_users: {
       image: "allocine-logo.png",
@@ -70,7 +70,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     {
       image: detailsConfig.mojo_box_office.image,
       name: detailsConfig.mojo_box_office.name,
-      ranking: mojo_ranking,
+      rank: mojo_rank,
     },
   ];
 
@@ -104,10 +104,19 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     return "/";
   };
 
-  const rankingBody = (rowData) => {
-    const ranking = rowData.ranking;
+  const rankBody = (rowData) => {
+    const rank = rowData.rank;
 
-    if (ranking > 0) return <span className="ranking_value">{ranking}</span>;
+    if (rank > 0) {
+      return (
+        <span className="rank_value">
+          <span role="img" aria-label="trophy">
+            🏆
+          </span>{" "}
+          {rank}
+        </span>
+      );
+    }
     return "/";
   };
 
@@ -121,7 +130,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
   const nameBody = (rowData) => {
     const name = rowData.name;
     const rating = rowData.rating;
-    const ranking = rowData.ranking;
+    const rank = rowData.rank;
 
     let link;
     if (name === "AlloCiné users" && rating > 0) {
@@ -160,7 +169,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
           {name}
         </a>
       );
-    } else if (name === "Mojo worldwide" && ranking > 0) {
+    } else if (name === "Mojo worldwide" && rank > 0) {
       link = (
         <a href={`${mojo_url}`} target={"_blank"}>
           {name}
@@ -179,6 +188,6 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     logoBody,
     nameBody,
     ratingBody,
-    rankingBody,
+    rankBody,
   };
 };

@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": false,
   "dependencies": {
     "@reach/router": "^1.2.1",
@@ -24,7 +24,7 @@
     "typeface-roboto": "^0.0.54"
   },
   "scripts": {
-    "build": "npm run prettier && rescripts build",
+    "build": "npm run prettier && rescripts build && git add . && git cz && git push origin main",
     "dev": "rescripts start",
     "eject": "rescripts eject",
     "postbuild": "cp build/index.html build/404.html && cp build/index.html build/200.html",
