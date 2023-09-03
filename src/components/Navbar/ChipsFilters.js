@@ -41,11 +41,14 @@ const ChipsDoc = () => {
   const minZero = { name: "0", code: "0", origin: "minimum_ratings" };
   const minOne = { name: "1", code: "1", origin: "minimum_ratings" };
   const minTwo = { name: "2", code: "2", origin: "minimum_ratings" };
+  const minTwoAndHalf = { name: "2.5", code: "2.5", origin: "minimum_ratings" };
   const minThree = { name: "3", code: "3", origin: "minimum_ratings" };
+  const minThreeAndHalf = { name: "3.5", code: "3.5", origin: "minimum_ratings" };
   const minFour = { name: "4", code: "4", origin: "minimum_ratings" };
+  const minFourAndHalf = { name: "4.5", code: "4.5", origin: "minimum_ratings" };
   const minimum_ratings = {
     name: "Minimum ratings",
-    items: [minZero, minOne, minTwo, minThree, minFour],
+    items: [minZero, minOne, minTwo, minTwoAndHalf, minThree, minThreeAndHalf, minFour, minFourAndHalf],
   };
 
   const one = { name: "1", code: "1", origin: "seasons" };
@@ -93,8 +96,11 @@ const ChipsDoc = () => {
       0: minZero,
       1: minOne,
       2: minTwo,
+      2.5: minTwoAndHalf,
       3: minThree,
+      3.5: minThreeAndHalf,
       4: minFour,
+      4.5: minFourAndHalf,
     };
 
     const seasonsLookup = {
@@ -136,7 +142,8 @@ const ChipsDoc = () => {
     });
 
     defaultMinRatingsValue.forEach((filter) => {
-      if (!minimum_ratings_value || minimum_ratings_value.includes(filter)) {
+      const minimum_ratings_array = minimum_ratings_value.split(",").map(Number);
+      if (!minimum_ratings_value || minimum_ratings_array.includes(Number(filter))) {
         selectedItems.push(minRatingsLookup[filter]);
       }
     });
@@ -203,7 +210,7 @@ const ChipsDoc = () => {
         popularityFiltersArray.push(element.code);
       } else if (element.origin === "ratings" && (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "metacritic_critics" || element.code === "metacritic_users")) {
         ratingsFiltersArray.push(element.code);
-      } else if (element.origin === "minimum_ratings" && (element.code === "0" || element.code === "1" || element.code === "2" || element.code === "3" || element.code === "4")) {
+      } else if (element.origin === "minimum_ratings" && (element.code === "0" || element.code === "1" || element.code === "2" || element.code === "2.5" || element.code === "3" || element.code === "3.5" || element.code === "4" || element.code === "4.5")) {
         ratingsMinValueArray.push(element.code);
       } else if (element.origin === "seasons" && (element.code === "1" || element.code === "2" || element.code === "3" || element.code === "4" || element.code === "5")) {
         seasonsNumberArray.push(element.code);
