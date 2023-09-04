@@ -251,6 +251,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     }
   }, [imgEl]);
 
+  const itemType = localStorage.getItem("item_type") ? localStorage.getItem("item_type") : "movie";
+
   return (
     <Wrapper error={error} {...props}>
       <AspectRatio ratio={0.75} />
@@ -300,11 +302,13 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
                     <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
                     <Column field="rating" header="Rating" body={ratingBody} />
                   </DataTable>
-                  <DataTable value={mojoDetailsData} size="small">
-                    <Column body={logoBody} />
-                    <Column header="-" body={nameBody} style={{ minWidth: "11rem" }} />
-                    <Column field="rank" header="Rank" body={rankBody} />
-                  </DataTable>
+                  {itemType === "movie" && (
+                    <DataTable value={mojoDetailsData} size="small">
+                      <Column body={logoBody} />
+                      <Column header="-" body={nameBody} style={{ minWidth: "11rem" }} />
+                      <Column field="rank" header="Rank" body={rankBody} />
+                    </DataTable>
+                  )}
                 </OverlayPanel>
               </InfoRatings>
             )}
