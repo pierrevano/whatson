@@ -1,7 +1,7 @@
 import React from "react";
 import config from "./config";
 
-export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, mojo_rank, mojo_url) => {
+export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, mojo_rank, mojo_url) => {
   const detailsConfig = {
     allocine_users: {
       image: "allocine-logo.png",
@@ -26,6 +26,14 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     metacritic_critics: {
       image: "metacritic-logo.png",
       name: "Metacritic critics",
+    },
+    rottenTomatoes_users: {
+      image: "rotten-tomatoes-logo.png",
+      name: "Rotten Tomatoes users",
+    },
+    rottenTomatoes_critics: {
+      image: "rotten-tomatoes-logo.png",
+      name: "Rotten Tomatoes critics",
     },
     mojo_box_office: {
       image: "mojo-logo.png",
@@ -64,6 +72,16 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
       name: detailsConfig.metacritic_critics.name,
       rating: metacritic_critics_rating,
     },
+    {
+      image: detailsConfig.rottenTomatoes_users.image,
+      name: detailsConfig.rottenTomatoes_users.name,
+      rating: rottenTomatoes_users_rating,
+    },
+    {
+      image: detailsConfig.rottenTomatoes_critics.image,
+      name: detailsConfig.rottenTomatoes_critics.name,
+      rating: rottenTomatoes_critics_rating,
+    },
   ];
 
   const mojoDetailsData = [
@@ -90,7 +108,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     let maxRating = 5;
     if (rowData.name === "IMDb users" || rowData.name === "Metacritic users") {
       maxRating = 10;
-    } else if (rowData.name === "Metacritic critics") {
+    } else if (rowData.name === "Metacritic critics" || rowData.name === "Rotten Tomatoes users" || rowData.name === "Rotten Tomatoes critics") {
       maxRating = 100;
     }
 
@@ -166,6 +184,18 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     } else if (name === "Metacritic critics" && rating > 0) {
       link = (
         <a href={`${metacritic_url}/critic-reviews`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "Rotten Tomatoes users" && rating > 0) {
+      link = (
+        <a href={`${rottenTomatoes_url}`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "Rotten Tomatoes critics" && rating > 0) {
+      link = (
+        <a href={`${rottenTomatoes_url}`} target={"_blank"}>
           {name}
         </a>
       );

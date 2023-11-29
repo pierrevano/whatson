@@ -111,6 +111,10 @@ const DetailView = ({ id, kindURL }) => {
   const metacritic_users_rating = data_from_render?.metacritic?.users_rating;
   const metacritic_critics_rating = data_from_render?.metacritic?.critics_rating;
 
+  const rottenTomatoes_url = data_from_render?.rottenTomatoes?.url;
+  const rottenTomatoes_users_rating = data_from_render?.rottenTomatoes?.users_rating;
+  const rottenTomatoes_critics_rating = data_from_render?.rottenTomatoes?.critics_rating;
+
   const mojo_rank = data_from_render?.mojo?.rank;
   const mojo_url = data_from_render?.mojo?.url;
 
@@ -162,7 +166,7 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackground(true);
   };
 
-  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, mojo_rank, mojo_url);
+  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, mojo_rank, mojo_url);
 
   const op = useRef(null);
   const isMounted = useRef(false);

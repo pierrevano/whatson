@@ -223,9 +223,13 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const metacritic_users_rating = props?.metacritic?.users_rating;
   const metacritic_critics_rating = props?.metacritic?.critics_rating;
 
+  const rottenTomatoes_url = props?.rottenTomatoes?.url;
+  const rottenTomatoes_users_rating = props?.rottenTomatoes?.users_rating;
+  const rottenTomatoes_critics_rating = props?.rottenTomatoes?.critics_rating;
+
   const ratings_average = props?.ratings_average;
 
-  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, mojo_rank, mojo_url);
+  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, mojo_rank, mojo_url);
 
   const op = useRef(null);
   const isMounted = useRef(false);
