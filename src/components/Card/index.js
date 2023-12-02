@@ -223,9 +223,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const metacritic_users_rating = props?.metacritic?.users_rating;
   const metacritic_critics_rating = props?.metacritic?.critics_rating;
 
-  const rottenTomatoes_url = props?.rottenTomatoes?.url;
-  const rottenTomatoes_users_rating = props?.rottenTomatoes?.users_rating;
-  const rottenTomatoes_critics_rating = props?.rottenTomatoes?.critics_rating;
+  const rottenTomatoes_url = props?.rotten_tomatoes?.url;
+  const rottenTomatoes_users_rating = props?.rotten_tomatoes?.users_rating;
+  const rottenTomatoes_critics_rating = props?.rotten_tomatoes?.critics_rating;
 
   const ratings_average = props?.ratings_average;
 

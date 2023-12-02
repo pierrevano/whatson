@@ -111,9 +111,9 @@ const DetailView = ({ id, kindURL }) => {
   const metacritic_users_rating = data_from_render?.metacritic?.users_rating;
   const metacritic_critics_rating = data_from_render?.metacritic?.critics_rating;
 
-  const rottenTomatoes_url = data_from_render?.rottenTomatoes?.url;
-  const rottenTomatoes_users_rating = data_from_render?.rottenTomatoes?.users_rating;
-  const rottenTomatoes_critics_rating = data_from_render?.rottenTomatoes?.critics_rating;
+  const rottenTomatoes_url = data_from_render?.rotten_tomatoes?.url;
+  const rottenTomatoes_users_rating = data_from_render?.rotten_tomatoes?.users_rating;
+  const rottenTomatoes_critics_rating = data_from_render?.rotten_tomatoes?.critics_rating;
 
   const mojo_rank = data_from_render?.mojo?.rank;
   const mojo_url = data_from_render?.mojo?.url;
