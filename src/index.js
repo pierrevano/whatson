@@ -18,7 +18,7 @@ const Wrapper = () => (
   <ThemeProvider theme={theme}>
     <GridProvider columns={theme.columns} breakpoints={theme.breakpoints}>
       <FavoritesProvider>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={null}>
           <App />
         </Suspense>
         <GlobalStyle />
