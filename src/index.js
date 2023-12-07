@@ -1,13 +1,14 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { hydrate, render } from "react-dom";
 import "typeface-roboto";
 import { ThemeProvider } from "styled-components";
 import { Provider as GridProvider } from "griding";
 import GlobalStyle from "components/GlobalStyle";
 import * as theme from "./theme";
-import App from "./App";
 import { register } from "serviceWorker";
 import { Provider as FavoritesProvider } from "utils/favorites";
+
+const App = React.lazy(() => import("./App"));
 
 /**
  * A wrapper component that provides the theme, grid, and favorites context to the App component.
@@ -17,7 +18,9 @@ const Wrapper = () => (
   <ThemeProvider theme={theme}>
     <GridProvider columns={theme.columns} breakpoints={theme.breakpoints}>
       <FavoritesProvider>
-        <App />
+        <Suspense fallback={<div>Loading...</div>}>
+          <App />
+        </Suspense>
         <GlobalStyle />
       </FavoritesProvider>
     </GridProvider>
