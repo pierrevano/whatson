@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import queryString from "query-string";
 
-const queryStringParsed = queryString.parse(window.location.search);
-
 const useScript = (url, token) => {
   const beamanalytics = localStorage.getItem("beamanalytics") || "true";
+  const queryStringParsed = queryString.parse(window.location.search);
   const beamanalytics_query = queryStringParsed.beamanalytics;
 
   useEffect(() => {
@@ -12,7 +11,7 @@ const useScript = (url, token) => {
       localStorage.setItem("beamanalytics", beamanalytics_query);
     }
 
-    if (beamanalytics === "true") {
+    if (beamanalytics !== "false" && beamanalytics_query !== "false") {
       const script = document.createElement("script");
 
       script.src = url;
