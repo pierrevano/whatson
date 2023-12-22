@@ -1,7 +1,17 @@
 import { useEffect } from "react";
+import queryString from "query-string";
 
-const useScript = (beamanalytics, url, token) => {
+const queryStringParsed = queryString.parse(window.location.search);
+
+const useScript = (url, token) => {
+  const beamanalytics = localStorage.getItem("beamanalytics") || "true";
+  const beamanalytics_query = queryStringParsed.beamanalytics;
+
   useEffect(() => {
+    if (typeof beamanalytics_query !== "undefined") {
+      localStorage.setItem("beamanalytics", beamanalytics_query);
+    }
+
     if (beamanalytics === "true") {
       const script = document.createElement("script");
 
@@ -15,7 +25,7 @@ const useScript = (beamanalytics, url, token) => {
         document.body.removeChild(script);
       };
     }
-  }, [beamanalytics, url, token]);
+  }, [beamanalytics, beamanalytics_query, url, token]);
 };
 
 export default useScript;
