@@ -40,8 +40,8 @@ const GlobalStyle = createGlobalStyle`
       border-radius: 0.25rem !important;
       box-shadow: inset 0 0 0 1px ${theme.colors.midGrey} !important;
       border: 1px solid ${theme.colors.midGrey} !important;
-      width: 75vw !important;
-      height: 76vh !important;
+      width: 74vw !important;
+      height: 75vh !important;
       @media (max-width: 960px) {
         width: 80vw !important;
         height: 41vh !important;
