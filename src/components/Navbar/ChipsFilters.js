@@ -31,13 +31,15 @@ const ChipsDoc = () => {
   const allocineUsers = { name: "AlloCiné users", code: "allocine_users", origin: "ratings" };
   const betaseriesUsers = { name: "BetaSeries users", code: "betaseries_users", origin: "ratings" };
   const imdbUsers = { name: "IMDb users", code: "imdb_users", origin: "ratings" };
+  const letterboxdUsers = { name: "Letterboxd users", code: "letterboxd_users", origin: "ratings" };
   const metacriticCritics = { name: "Metacritic critics", code: "metacritic_critics", origin: "ratings" };
   const metacriticUsers = { name: "Metacritic users", code: "metacritic_users", origin: "ratings" };
   const rottenTomatoesCritics = { name: "Rotten Tomatoes critics", code: "rottenTomatoes_critics", origin: "ratings" };
   const rottenTomatoesUsers = { name: "Rotten Tomatoes users", code: "rottenTomatoes_users", origin: "ratings" };
+  const senscritiqueUsers = { name: "SensCritique users", code: "senscritique_users", origin: "ratings" };
   const ratings = {
     name: "Ratings",
-    items: [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers, metacriticCritics, metacriticUsers, rottenTomatoesCritics, rottenTomatoesUsers],
+    items: [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers, letterboxdUsers, metacriticCritics, metacriticUsers, rottenTomatoesCritics, rottenTomatoesUsers, senscritiqueUsers],
   };
 
   const minZero = { name: "0", code: "0", origin: "minimum_ratings" };
@@ -121,10 +123,12 @@ const ChipsDoc = () => {
       allocine_users: allocineUsers,
       betaseries_users: betaseriesUsers,
       imdb_users: imdbUsers,
+      letterboxd_users: letterboxdUsers,
       metacritic_critics: metacriticCritics,
       metacritic_users: metacriticUsers,
       rottenTomatoes_critics: rottenTomatoesCritics,
       rottenTomatoes_users: rottenTomatoesUsers,
+      senscritique_users: senscritiqueUsers,
 
       canceled: canceled,
       ended: ended,
@@ -172,7 +176,17 @@ const ChipsDoc = () => {
   const groupedItemTemplate = (option) => {
     return (
       <div className="flex align-items-center" style={option.name === "Popularity" ? { transform: "translateY(-5px)" } : option.name === "Ratings" ? { transform: "translateY(-2px)" } : option.name === "Seasons numbers" ? { transform: "translateY(-4px)", marginTop: "-6px" } : { transform: "translateY(-4px)", marginTop: "-4px" }}>
-        {option.name === "Popularity" ? <Trophy style={{ display: "inline-block", transform: "translateY(7px)", marginLeft: "-2px", marginRight: "8px" }}></Trophy> : option.name === "Ratings" ? <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star> : option.name === "Minimum ratings" ? <UpRightArrow style={{ display: "inline-block", transform: "translateY(9px)", marginLeft: "-4px", marginRight: "4px" }}></UpRightArrow> : option.name === "Seasons numbers" ? <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter> : <Calendar strokeWidth={3} style={{ display: "inline-block", transform: "translateY(6px)", marginLeft: "-1px", marginRight: "9px" }}></Calendar>}
+        {option.name === "Popularity" ? (
+          <Trophy style={{ display: "inline-block", transform: "translateY(7px)", marginLeft: "-2px", marginRight: "8px" }}></Trophy>
+        ) : option.name === "Ratings" ? (
+          <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star>
+        ) : option.name === "Minimum ratings" ? (
+          <UpRightArrow style={{ display: "inline-block", transform: "translateY(9px)", marginLeft: "-4px", marginRight: "4px" }}></UpRightArrow>
+        ) : option.name === "Seasons numbers" ? (
+          <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter>
+        ) : (
+          <Calendar strokeWidth={3} style={{ display: "inline-block", transform: "translateY(6px)", marginLeft: "-1px", marginRight: "9px" }}></Calendar>
+        )}
         {option.name}
       </div>
     );
@@ -212,7 +226,7 @@ const ChipsDoc = () => {
     valuesArray.forEach((element) => {
       if (element.origin === "popularity" && (element.code === "allocine_popularity" || element.code === "imdb_popularity")) {
         popularityFiltersArray.push(element.code);
-      } else if (element.origin === "ratings" && (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "metacritic_critics" || element.code === "metacritic_users" || element.code === "rottenTomatoes_critics" || element.code === "rottenTomatoes_users")) {
+      } else if (element.origin === "ratings" && (element.code === "allocine_critics" || element.code === "allocine_users" || element.code === "betaseries_users" || element.code === "imdb_users" || element.code === "letterboxd_users" || element.code === "metacritic_critics" || element.code === "metacritic_users" || element.code === "rottenTomatoes_critics" || element.code === "rottenTomatoes_users" || element.code === "senscritique_users")) {
         ratingsFiltersArray.push(element.code);
       } else if (element.origin === "minimum_ratings" && (element.code === "0" || element.code === "1" || element.code === "2" || element.code === "2.5" || element.code === "3" || element.code === "3.5" || element.code === "4" || element.code === "4.5")) {
         ratingsMinValueArray.push(element.code);

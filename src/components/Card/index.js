@@ -216,6 +216,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const imdb_url = props?.imdb?.url;
   const imdb_users_rating = props?.imdb?.users_rating;
 
+  const letterboxd_url = props?.letterboxd?.url;
+  const letterboxd_users_rating = props?.letterboxd?.users_rating;
+
   const mojo_rank = props?.mojo?.rank;
   const mojo_url = props?.mojo?.url;
 
@@ -227,9 +230,12 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const rottenTomatoes_users_rating = props?.rotten_tomatoes?.users_rating;
   const rottenTomatoes_critics_rating = props?.rotten_tomatoes?.critics_rating;
 
+  const senscritique_url = props?.senscritique?.url;
+  const senscritique_users_rating = props?.senscritique?.users_rating;
+
   const ratings_average = props?.ratings_average;
 
-  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, mojo_rank, mojo_url);
+  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url);
 
   const op = useRef(null);
   const isMounted = useRef(false);

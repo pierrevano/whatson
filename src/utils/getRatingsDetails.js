@@ -1,7 +1,7 @@
 import React from "react";
 import config from "./config";
 
-export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, mojo_rank, mojo_url) => {
+export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url) => {
   const detailsConfig = {
     allocine_users: {
       image: "allocine-logo.png",
@@ -19,6 +19,10 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
       image: "imdb-logo.png",
       name: "IMDb users",
     },
+    letterboxd: {
+      image: "letterboxd-logo.png",
+      name: "Letterboxd users",
+    },
     metacritic_users: {
       image: "metacritic-logo.png",
       name: "Metacritic users",
@@ -34,6 +38,10 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     rottenTomatoes_critics: {
       image: "rotten-tomatoes-logo.png",
       name: "Rotten Tomatoes critics",
+    },
+    senscritique: {
+      image: "senscritique-logo.png",
+      name: "SensCritique users",
     },
     mojo_box_office: {
       image: "mojo-logo.png",
@@ -63,6 +71,11 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
       rating: imdb_users_rating,
     },
     {
+      image: detailsConfig.letterboxd.image,
+      name: detailsConfig.letterboxd.name,
+      rating: letterboxd_users_rating,
+    },
+    {
       image: detailsConfig.metacritic_users.image,
       name: detailsConfig.metacritic_users.name,
       rating: metacritic_users_rating,
@@ -81,6 +94,11 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
       image: detailsConfig.rottenTomatoes_critics.image,
       name: detailsConfig.rottenTomatoes_critics.name,
       rating: rottenTomatoes_critics_rating,
+    },
+    {
+      image: detailsConfig.senscritique.image,
+      name: detailsConfig.senscritique.name,
+      rating: senscritique_users_rating,
     },
   ];
 
@@ -106,7 +124,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
   const ratingBody = (rowData) => {
     const rating = rowData.rating;
     let maxRating = 5;
-    if (rowData.name === "IMDb users" || rowData.name === "Metacritic users") {
+    if (rowData.name === "IMDb users" || rowData.name === "Metacritic users" || rowData.name === "SensCritique users") {
       maxRating = 10;
     } else if (rowData.name === "Metacritic critics" || rowData.name === "Rotten Tomatoes users" || rowData.name === "Rotten Tomatoes critics") {
       maxRating = 100;
@@ -175,6 +193,12 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
           {name}
         </a>
       );
+    } else if (name === "Letterboxd users" && rating > 0) {
+      link = (
+        <a href={letterboxd_url} target={"_blank"}>
+          {name}
+        </a>
+      );
     } else if (name === "Metacritic users" && rating > 0) {
       link = (
         <a href={`${metacritic_url}/user-reviews`} target={"_blank"}>
@@ -196,6 +220,12 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     } else if (name === "Rotten Tomatoes critics" && rating > 0) {
       link = (
         <a href={`${rottenTomatoes_url}`} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "SensCritique users" && rating > 0) {
+      link = (
+        <a href={senscritique_url} target={"_blank"}>
           {name}
         </a>
       );

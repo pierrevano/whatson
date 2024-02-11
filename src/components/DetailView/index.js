@@ -107,6 +107,9 @@ const DetailView = ({ id, kindURL }) => {
   const imdb_url = data_from_render?.imdb?.url;
   const imdb_users_rating = data_from_render?.imdb?.users_rating;
 
+  const letterboxd_url = data_from_render?.letterboxd?.url;
+  const letterboxd_users_rating = data_from_render?.letterboxd?.users_rating;
+
   const metacritic_url = data_from_render?.metacritic?.url;
   const metacritic_users_rating = data_from_render?.metacritic?.users_rating;
   const metacritic_critics_rating = data_from_render?.metacritic?.critics_rating;
@@ -114,6 +117,9 @@ const DetailView = ({ id, kindURL }) => {
   const rottenTomatoes_url = data_from_render?.rotten_tomatoes?.url;
   const rottenTomatoes_users_rating = data_from_render?.rotten_tomatoes?.users_rating;
   const rottenTomatoes_critics_rating = data_from_render?.rotten_tomatoes?.critics_rating;
+
+  const senscritique_url = data_from_render?.senscritique?.url;
+  const senscritique_users_rating = data_from_render?.senscritique?.users_rating;
 
   const mojo_rank = data_from_render?.mojo?.rank;
   const mojo_url = data_from_render?.mojo?.url;
@@ -166,7 +172,7 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackground(true);
   };
 
-  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, mojo_rank, mojo_url);
+  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url);
 
   const op = useRef(null);
   const isMounted = useRef(false);
