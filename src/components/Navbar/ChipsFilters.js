@@ -13,6 +13,8 @@ import config from "./config";
 import initializeLocalStorage from "./initializeLocalStorage";
 
 const ChipsDoc = () => {
+  const [item_type] = useStorageString("item_type", "");
+
   const displayCheckMark = () => {
     const crossMarkSelector = config.crossMarkSelector;
     const checkMarkSelector = config.checkMarkSelector;
@@ -39,8 +41,12 @@ const ChipsDoc = () => {
   const senscritiqueUsers = { name: "SensCritique users", code: "senscritique_users", origin: "ratings" };
   const ratings = {
     name: "Ratings",
-    items: [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers, letterboxdUsers, metacriticCritics, metacriticUsers, rottenTomatoesCritics, rottenTomatoesUsers, senscritiqueUsers],
+    items: [allocineCritics, allocineUsers, betaseriesUsers, imdbUsers, metacriticCritics, metacriticUsers, rottenTomatoesCritics, rottenTomatoesUsers, senscritiqueUsers],
   };
+
+  if (item_type && item_type === "movie") {
+    ratings.items.push(letterboxdUsers);
+  }
 
   const minZero = { name: "0", code: "0", origin: "minimum_ratings" };
   const minOne = { name: "1", code: "1", origin: "minimum_ratings" };
@@ -76,8 +82,6 @@ const ChipsDoc = () => {
   };
 
   initializeLocalStorage();
-
-  const [item_type] = useStorageString("item_type", "");
 
   const groupedItems = item_type && item_type === "tvshow" ? [popularity, ratings, minimum_ratings, seasons, status] : [popularity, ratings, minimum_ratings];
 

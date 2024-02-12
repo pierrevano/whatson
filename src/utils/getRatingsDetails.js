@@ -1,7 +1,7 @@
 import React from "react";
 import config from "./config";
 
-export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url) => {
+export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url, itemType) => {
   const detailsConfig = {
     allocine_users: {
       image: "allocine-logo.png",
@@ -18,10 +18,6 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     imdb: {
       image: "imdb-logo.png",
       name: "IMDb users",
-    },
-    letterboxd: {
-      image: "letterboxd-logo.png",
-      name: "Letterboxd users",
     },
     metacritic_users: {
       image: "metacritic-logo.png",
@@ -49,6 +45,13 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     },
   };
 
+  if (itemType === "movie") {
+    detailsConfig.letterboxd = {
+      image: "letterboxd-logo.png",
+      name: "Letterboxd users",
+    };
+  }
+
   const detailsData = [
     {
       image: detailsConfig.allocine_users.image,
@@ -69,11 +72,6 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
       image: detailsConfig.imdb.image,
       name: detailsConfig.imdb.name,
       rating: imdb_users_rating,
-    },
-    {
-      image: detailsConfig.letterboxd.image,
-      name: detailsConfig.letterboxd.name,
-      rating: letterboxd_users_rating,
     },
     {
       image: detailsConfig.metacritic_users.image,
@@ -101,6 +99,14 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
       rating: senscritique_users_rating,
     },
   ];
+
+  if (itemType === "movie") {
+    detailsData.push({
+      image: detailsConfig.letterboxd.image,
+      name: detailsConfig.letterboxd.name,
+      rating: letterboxd_users_rating,
+    });
+  }
 
   const mojoDetailsData = [
     {

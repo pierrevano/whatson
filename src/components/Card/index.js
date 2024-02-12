@@ -235,7 +235,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const ratings_average = props?.ratings_average;
 
-  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url);
+  const itemType = localStorage.getItem("item_type") ? localStorage.getItem("item_type") : "movie";
+
+  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url, itemType);
 
   const op = useRef(null);
   const isMounted = useRef(false);
@@ -260,8 +262,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       setWidth(imgEl.current.clientWidth);
     }
   }, [imgEl]);
-
-  const itemType = localStorage.getItem("item_type") ? localStorage.getItem("item_type") : "movie";
 
   return (
     <Wrapper error={error} {...props}>
