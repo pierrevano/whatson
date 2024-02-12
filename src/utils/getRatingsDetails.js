@@ -45,13 +45,6 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     },
   };
 
-  if (itemType === "movie") {
-    detailsConfig.letterboxd = {
-      image: "letterboxd-logo.png",
-      name: "Letterboxd users",
-    };
-  }
-
   const detailsData = [
     {
       image: detailsConfig.allocine_users.image,
@@ -101,7 +94,12 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
   ];
 
   if (itemType === "movie") {
-    detailsData.push({
+    detailsConfig.letterboxd = {
+      image: "letterboxd-logo.png",
+      name: "Letterboxd users",
+    };
+
+    detailsData.splice(4, 0, {
       image: detailsConfig.letterboxd.image,
       name: detailsConfig.letterboxd.name,
       rating: letterboxd_users_rating,

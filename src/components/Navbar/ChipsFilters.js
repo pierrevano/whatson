@@ -45,7 +45,7 @@ const ChipsDoc = () => {
   };
 
   if (item_type && item_type === "movie") {
-    ratings.items.push(letterboxdUsers);
+    ratings.items.splice(4, 0, letterboxdUsers);
   }
 
   const minZero = { name: "0", code: "0", origin: "minimum_ratings" };
