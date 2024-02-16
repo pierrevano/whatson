@@ -76,9 +76,10 @@ const ChipsDoc = () => {
   const ongoing = { name: "Ongoing", code: "ongoing", origin: "status" };
   const pilot = { name: "Pilot", code: "pilot", origin: "status" };
   const soon = { name: "Soon", code: "soon", origin: "status" };
+  const unknown = { name: "Unknown", code: "unknown", origin: "status" };
   const status = {
     name: "Status",
-    items: [canceled, ended, ongoing, pilot, soon],
+    items: [canceled, ended, ongoing, pilot, soon, unknown],
   };
 
   initializeLocalStorage();
@@ -139,6 +140,7 @@ const ChipsDoc = () => {
       ongoing: ongoing,
       pilot: pilot,
       soon: soon,
+      unknown: unknown,
     };
 
     defaultPopularityFilters.forEach((filter) => {
