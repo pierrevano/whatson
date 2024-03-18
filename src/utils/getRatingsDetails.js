@@ -1,7 +1,7 @@
 import React from "react";
 import config from "./config";
 
-export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, mojo_rank, mojo_url, itemType) => {
+export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, trakt_url, trakt_users_rating, mojo_rank, mojo_url, itemType) => {
   const detailsConfig = {
     allocine_users: {
       image: "allocine-logo.png",
@@ -38,6 +38,10 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     senscritique: {
       image: "senscritique-logo.png",
       name: "SensCritique users",
+    },
+    trakt: {
+      image: "trakt-logo.png",
+      name: "Trakt users",
     },
     mojo_box_office: {
       image: "mojo-logo.png",
@@ -91,6 +95,11 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
       name: detailsConfig.senscritique.name,
       rating: senscritique_users_rating,
     },
+    {
+      image: detailsConfig.trakt.image,
+      name: detailsConfig.trakt.name,
+      rating: trakt_users_rating,
+    },
   ];
 
   if (itemType === "movie") {
@@ -130,7 +139,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     let maxRating = 5;
     if (rowData.name === "IMDb users" || rowData.name === "Metacritic users" || rowData.name === "SensCritique users") {
       maxRating = 10;
-    } else if (rowData.name === "Metacritic critics" || rowData.name === "Rotten Tomatoes users" || rowData.name === "Rotten Tomatoes critics") {
+    } else if (rowData.name === "Metacritic critics" || rowData.name === "Rotten Tomatoes users" || rowData.name === "Rotten Tomatoes critics" || rowData.name === "Trakt users") {
       maxRating = 100;
     }
 
@@ -230,6 +239,12 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     } else if (name === "SensCritique users" && rating > 0) {
       link = (
         <a href={senscritique_url} target={"_blank"}>
+          {name}
+        </a>
+      );
+    } else if (name === "Trakt users" && rating > 0) {
+      link = (
+        <a href={trakt_url} target={"_blank"}>
           {name}
         </a>
       );

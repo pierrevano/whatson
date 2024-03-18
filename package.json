@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "private": false,
   "dependencies": {
     "@reach/router": "^1.2.1",
@@ -35,7 +35,7 @@
     "update": "rm -rf node_modules package-lock.json && npm i --legacy-peer-deps"
   },
   "prettier": {
-    "printWidth": 800
+    "printWidth": 500
   },
   "rescripts": [
     "env"
