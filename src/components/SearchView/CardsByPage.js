@@ -73,8 +73,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   const [ref, inView] = useInView();
 
-  const getDefaultItemType = (item_type_query, popularity_filters_query, seasons_number_query, status_query) => {
-    if (item_type === "tvshow" || item_type_query === "tvshow" || typeof seasons_number_query !== "undefined" || typeof status_query !== "undefined") return "tv";
+  const getDefaultItemType = (item_type_query) => {
+    if (item_type === "tvshow" || item_type_query === "tvshow") return "tv";
     if (item_type === "movie" || item_type_query === "movie") return "movies";
     return "movies";
   };
@@ -122,7 +122,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     <Fragment>
       {data?.results?.map((entry) => (
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
-          <Card kindURL={kindURL === "search" || kindURL === "movies" || kindURL === "people" || kindURL === "tv" ? kindURL : getDefaultItemType(item_type_query, seasons_number_query, status_query)} {...entry} />
+          <Card kindURL={kindURL === "search" || kindURL === "movies" || kindURL === "people" || kindURL === "tv" ? kindURL : getDefaultItemType(item_type_query)} {...entry} />
         </Cell>
       ))}
       {isLastPage && totalPages && totalPages > page && (

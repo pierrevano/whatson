@@ -192,7 +192,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const kind = props?.media_type;
   const kindURL = getKindURL(props?.media_type) || props.kindURL;
 
-  const title = props?.title;
+  const title = props?.title || props?.name;
 
   let image = props?.poster_path || props?.profile_path || props?.image;
   if (image && image.startsWith("/")) {
