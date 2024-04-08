@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 const getTitle = (length) => `${!length ? "no favorites" : `${length} ${length > 1 ? `favorites` : `favorite`}`}`;
 
 /**
- * A functional component that displays a list of favorite movies, TV shows, or people.
+ * A functional component that displays a list of favorite movies, tvshows, or people.
  * @returns A JSX element that displays the list of favorites.
  */
 const SearchView = () => {
@@ -32,7 +32,7 @@ const SearchView = () => {
     <Wrapper>
       <Container>
         {!favorites.length ? (
-          <InfoScreen emoji={<HeartBreak size={96} style={{ margin: "1rem" }} />} title="You don't have any favorites yet" description="you can add movies, tv shows or people to your favorites by clicking on the ♥ icon" />
+          <InfoScreen emoji={<HeartBreak size={96} style={{ margin: "1rem" }} />} title="You don't have any favorites yet" description="you can add movies, tvshows or people to your favorites by clicking on the ♥ icon" />
         ) : (
           <Fragment>
             <Text weight={600} xs={2} sm={3} md={4} xg={5}>

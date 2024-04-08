@@ -23,7 +23,7 @@ const Anchor = styled(Link)`
 const Info = ({ kind, ...props }) => {
   if (kind === "movies") return <InfoScreen title="Search for movies" {...props} />;
   if (kind === "people") return <InfoScreen title="Search for people" {...props} />;
-  if (kind === "tv") return <InfoScreen title="Search for tv shows" {...props} />;
+  if (kind === "tv") return <InfoScreen title="Search for tvshows" {...props} />;
   return (
     <InfoScreen
       title={
@@ -33,8 +33,8 @@ const Info = ({ kind, ...props }) => {
             movies
           </Anchor>
           ,{" "}
-          <Anchor to="/tv" ariaLabel="Search for tv shows">
-            tv shows
+          <Anchor to="/tv" ariaLabel="Search for tvshows">
+            tvshows
           </Anchor>{" "}
           or{" "}
           <Anchor to="/people" ariaLabel="Search for people">

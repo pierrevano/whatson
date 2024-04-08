@@ -41,7 +41,7 @@ const AboutPage = () => {
         <Row vertical-gutter>
           <Cell xs={12} md={7} lg={6}>
             <Text xs={0} sm={1} style={{ margin: "1em 0" }}>
-              This app purpose is to help you get quickly highest rated movies/tv shows or explore the information provided by{" "}
+              This app purpose is to help you get quickly highest rated movies/tvshows or explore the information provided by{" "}
               <Anchor to="https://www.themoviedb.org" ariaLabel="The Movie Database (TMDB)">
                 The Movie Database (TMDB)
               </Anchor>

@@ -97,6 +97,16 @@ const StyledLinkIcons = styled(StyledLink)`
   }
 `;
 
+const setItemType = (type) => {
+  localStorage.setItem("item_type", type);
+
+  const params = new URLSearchParams(window.location.search);
+  params.set("item_type", type);
+
+  window.history.replaceState({}, "", `${window.location.pathname}?${params}`);
+  window.location.reload();
+};
+
 /**
  * A functional component that renders the navbar of the website.
  * @returns {JSX.Element} - The JSX code that renders the navbar.
@@ -136,25 +146,11 @@ const Navbar = () => {
           </h1>
           <br />
           <span className="pi pi-ticket" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
-          <span
-            onClick={() => {
-              localStorage.setItem("item_type", "movie");
-              window.location.reload();
-            }}
-          >
-            Movies
-          </span>
+          <span onClick={() => setItemType("movie")}>Movies</span>
           <br />
           <br />
           <span className="pi pi-video" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
-          <span
-            onClick={() => {
-              localStorage.setItem("item_type", "tvshow");
-              window.location.reload();
-            }}
-          >
-            TV Shows
-          </span>
+          <span onClick={() => setItemType("tvshow")}>TV Shows</span>
           <span className="pi pi-trash" style={{ position: "absolute", bottom: "22px", left: "20px" }}></span>
           <span style={{ position: "absolute", bottom: "20px", left: "50px" }} onClick={() => setVisible(true)}>
             Reset Preferences
@@ -199,7 +195,7 @@ const Navbar = () => {
                 <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} aria-label="View or edit your favorites" />
               </Item>
               <Item to="/search" active={pathname === "/search"}>
-                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} aria-label="Search for a movie, tv show or person" />
+                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} aria-label="Search for a movie, tvshow or person" />
               </Item>
             </Flex>
           )}

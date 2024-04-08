@@ -68,10 +68,10 @@ const BackLink = styled.button`
 const getDetailTitle = (kindURL, title) => `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
 /**
- * A component that displays detailed information about a movie or TV show.
+ * A component that displays detailed information about a movie or tvshow.
  * @param {Object} props - The props object.
- * @param {string} props.id - The ID of the movie or TV show.
- * @param {string} props.kindURL - The URL of the kind of media (movie or TV show).
+ * @param {string} props.id - The ID of the movie or tvshow.
+ * @param {string} props.kindURL - The URL of the kind of media (movie or tvshow).
  * @returns A JSX element that displays the detailed information.
  */
 const DetailView = ({ id, kindURL }) => {
