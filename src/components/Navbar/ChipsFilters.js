@@ -272,7 +272,12 @@ const ChipsDoc = () => {
     });
 
     setMinRatingsValue(originMapper["minimum_ratings"].join(","));
-    setPlatformsValue(originMapper["platforms"].join(","));
+
+    if (e.value.filter((item) => ["platforms"].includes(item.origin)).length === config.platforms.split(",").length) {
+      setPlatformsValue("all," + originMapper["platforms"].join(","));
+    } else {
+      setPlatformsValue(originMapper["platforms"].join(","));
+    }
 
     if (e.value.filter((item) => ["minimum_ratings", "popularity"].includes(item.origin)).length === 0) {
       setPopularityFilters(config.popularity);
