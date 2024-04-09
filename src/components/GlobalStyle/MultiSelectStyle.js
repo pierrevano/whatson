@@ -254,6 +254,10 @@ const MultiSelectStyle = `
   .display-none {
     display: none !important;
   }
+
+  .p-multiselect-items.p-component li:nth-child(11) {
+    display: none !important;
+  }
 `;
 
 export default MultiSelectStyle;
