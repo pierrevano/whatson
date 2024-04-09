@@ -1,24 +1,19 @@
 import config from "./config";
 
+const localStorageItems = {
+  minimum_ratings: config.minimum_ratings,
+  platforms: config.platforms,
+  popularity_filters: config.popularity,
+  ratings_filters: config.ratings,
+  seasons_number: config.seasons,
+  status: config.status,
+};
+
 function initializeLocalStorage() {
-  if (!localStorage.getItem("popularity_filters")) {
-    localStorage.setItem("popularity_filters", config.popularity);
-  }
-
-  if (!localStorage.getItem("ratings_filters")) {
-    localStorage.setItem("ratings_filters", config.ratings);
-  }
-
-  if (!localStorage.getItem("minimum_ratings")) {
-    localStorage.setItem("minimum_ratings", config.minimum_ratings);
-  }
-
-  if (!localStorage.getItem("seasons_number")) {
-    localStorage.setItem("seasons_number", config.seasons);
-  }
-
-  if (!localStorage.getItem("status")) {
-    localStorage.setItem("status", config.status);
+  for (let key in localStorageItems) {
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, localStorageItems[key]);
+    }
   }
 }
 

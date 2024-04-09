@@ -11,10 +11,17 @@ import Trophy from "components/Icon/Trophy";
 import UpRightArrow from "components/Icon/UpRightArrow";
 import config from "./config";
 import initializeLocalStorage from "./initializeLocalStorage";
+import Screen from "components/Icon/Screen";
 
 function createItems(nameArray, origin) {
   return nameArray.map((name) => {
-    const processedName = name.toLowerCase().replaceAll("allociné", "allocine").replaceAll("rotten tomatoes", "rottenTomatoes").replaceAll(" ", "_");
+    let processedName;
+    if (origin === "platforms") {
+      processedName = name;
+    } else {
+      processedName = name.toLowerCase().replaceAll("allociné", "allocine").replaceAll("rotten tomatoes", "rottenTomatoes").replaceAll(" ", "_");
+    }
+
     const capitalizedFirstLetterName = name.charAt(0).toUpperCase() + name.slice(1);
     return { name: capitalizedFirstLetterName, code: processedName, origin };
   });
@@ -38,23 +45,82 @@ const groupedItemTemplate = (option) => {
   switch (option.name) {
     case "Minimum ratings":
       style = { transform: "translateY(-4px)", marginTop: "-4px" };
-      IconComponent = <UpRightArrow style={{ display: "inline-block", transform: "translateY(9px)", marginLeft: "-4px", marginRight: "4px" }}></UpRightArrow>;
+      IconComponent = (
+        <UpRightArrow
+          style={{
+            display: "inline-block",
+            transform: "translateY(9px)",
+            marginLeft: "-4px",
+            marginRight: "4px",
+          }}
+        ></UpRightArrow>
+      );
+      break;
+    case "Platforms":
+      style = { transform: "translateY(-4px)", marginTop: "-4px" };
+      IconComponent = (
+        <Screen
+          style={{
+            display: "inline-block",
+            transform: "translateY(9px)",
+            marginLeft: "-9px",
+            marginRight: "4px",
+          }}
+        ></Screen>
+      );
       break;
     case "Popularity":
       style = { transform: "translateY(-5px)" };
-      IconComponent = <Trophy style={{ display: "inline-block", transform: "translateY(7px)", marginLeft: "-2px", marginRight: "8px" }}></Trophy>;
+      IconComponent = (
+        <Trophy
+          style={{
+            display: "inline-block",
+            transform: "translateY(7px)",
+            marginLeft: "-2px",
+            marginRight: "8px",
+          }}
+        ></Trophy>
+      );
       break;
     case "Ratings":
       style = { transform: "translateY(-2px)" };
-      IconComponent = <Star style={{ display: "inline-block", transform: "translateY(4px)", marginLeft: "-10px", marginRight: "4px" }}></Star>;
+      IconComponent = (
+        <Star
+          style={{
+            display: "inline-block",
+            transform: "translateY(4px)",
+            marginLeft: "-10px",
+            marginRight: "4px",
+          }}
+        ></Star>
+      );
       break;
     case "Seasons numbers":
       style = { transform: "translateY(-4px)", marginTop: "-6px" };
-      IconComponent = <NumbersFilter style={{ display: "inline-block", transform: "translateY(8px)", marginLeft: "-4px", marginRight: "7px" }}></NumbersFilter>;
+      IconComponent = (
+        <NumbersFilter
+          style={{
+            display: "inline-block",
+            transform: "translateY(8px)",
+            marginLeft: "-4px",
+            marginRight: "7px",
+          }}
+        ></NumbersFilter>
+      );
       break;
     default:
       style = { transform: "translateY(-4px)", marginTop: "-4px" };
-      IconComponent = <Calendar strokeWidth={3} style={{ display: "inline-block", transform: "translateY(6px)", marginLeft: "-1px", marginRight: "9px" }}></Calendar>;
+      IconComponent = (
+        <Calendar
+          strokeWidth={3}
+          style={{
+            display: "inline-block",
+            transform: "translateY(6px)",
+            marginLeft: "-1px",
+            marginRight: "9px",
+          }}
+        ></Calendar>
+      );
   }
 
   return (
@@ -70,6 +136,7 @@ const ChipsDoc = () => {
 
   const [item_type] = useStorageString("item_type", "");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString("minimum_ratings", "");
+  const [platforms_value, setPlatformsValue] = useStorageString("platforms", "");
   const [popularity_filters, setPopularityFilters] = useStorageString("popularity_filters", "");
   const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
   const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
@@ -79,6 +146,12 @@ const ChipsDoc = () => {
   const minimum_ratings = {
     name: "Minimum ratings",
     items: createItems(defaultMinRatingsValue, "minimum_ratings"),
+  };
+
+  const defaultPlatformsValue = config.platforms.split(",");
+  const platforms = {
+    name: "Platforms",
+    items: createItems(defaultPlatformsValue, "platforms"),
   };
 
   const defaultPopularityFilters = config.popularity.split(",");
@@ -122,7 +195,13 @@ const ChipsDoc = () => {
       }
     });
 
-    const filterLookup = createLookup([...popularity.items, ...ratings.items, ...status.items]);
+    const filterLookup = createLookup([...platforms.items, ...popularity.items, ...ratings.items, ...status.items]);
+    defaultPlatformsValue.forEach((filter) => {
+      if (!platforms_value || platforms_value.includes(filter)) {
+        selectedItems.push(filterLookup[filter]);
+      }
+    });
+
     defaultPopularityFilters.forEach((filter) => {
       if (!popularity_filters || popularity_filters.includes(filter)) {
         selectedItems.push(filterLookup[filter]);
@@ -177,45 +256,38 @@ const ChipsDoc = () => {
   const onChangeFunction = (e) => {
     displayCheckMark();
 
-    const valuesArray = e.value;
+    const originMapper = {
+      minimum_ratings: [],
+      platforms: [],
+      popularity: [],
+      ratings: [],
+      seasons: [],
+      status: [],
+    };
 
-    const ratingsMinValueArray = [];
-    const popularityFiltersArray = [];
-    const ratingsFiltersArray = [];
-    const seasonsNumberArray = [];
-    const statusValueArray = [];
-
-    valuesArray.forEach((element) => {
-      if (element.origin === "minimum_ratings") {
-        ratingsMinValueArray.push(element.code);
-      } else if (element.origin === "popularity") {
-        popularityFiltersArray.push(element.code);
-      } else if (element.origin === "ratings") {
-        ratingsFiltersArray.push(element.code);
-      } else if (element.origin === "seasons") {
-        seasonsNumberArray.push(element.code);
-      } else if (element.origin === "status") {
-        statusValueArray.push(element.code);
+    e.value.forEach(({ origin, code }) => {
+      if (origin in originMapper) {
+        originMapper[origin].push(code);
       }
     });
 
-    setMinRatingsValue(ratingsMinValueArray.join(","));
+    setMinRatingsValue(originMapper["minimum_ratings"].join(","));
+    setPlatformsValue(originMapper["platforms"].join(","));
 
-    const numberOfPopularityAndRatings = e.value.filter((item) => item.origin === "popularity" || item.origin === "minimum_ratings").length;
-    if (numberOfPopularityAndRatings === 0) {
+    if (e.value.filter((item) => ["minimum_ratings", "popularity"].includes(item.origin)).length === 0) {
       setPopularityFilters(config.popularity);
     } else {
-      setPopularityFilters(popularityFiltersArray.join(","));
+      setPopularityFilters(originMapper["popularity"].join(","));
     }
 
-    setRatingsFilters(ratingsFiltersArray.join(","));
-    setSeasonsNumber(seasonsNumberArray.join(","));
-    setStatusValue(statusValueArray.join(","));
+    setRatingsFilters(originMapper["ratings"].join(","));
+    setSeasonsNumber(originMapper["seasons"].join(","));
+    setStatusValue(originMapper["status"].join(","));
 
     setSelectedItems(e.value);
   };
 
-  const groupedItems = item_type && item_type === defaultItemTypeFilters[1] ? [minimum_ratings, popularity, ratings, seasons, status] : [minimum_ratings, popularity, ratings];
+  const groupedItems = item_type && item_type === defaultItemTypeFilters[1] ? [minimum_ratings, platforms, popularity, ratings, seasons, status] : [minimum_ratings, platforms, popularity, ratings];
 
   return (
     <div className="card">
