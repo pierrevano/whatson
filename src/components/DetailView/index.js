@@ -88,7 +88,7 @@ const DetailView = ({ id, kindURL }) => {
     if (typeof ratings_filters_query !== "undefined") setRatingsFilters(ratings_filters_query);
   });
 
-  const parameters = getParameters("", undefined, "", undefined, "", undefined, ratings_filters, ratings_filters_query, "", undefined, "", undefined, "", undefined);
+  const parameters = getParameters("", undefined, "", undefined, "", undefined, "", undefined, "", undefined, ratings_filters, ratings_filters_query, "", undefined, "", undefined);
 
   const { data: data_from_render } = useFetch([`${config.cors_url}/${config.base_render_api}/${kind}/${id}`, `${parameters}`].join(""));
 

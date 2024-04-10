@@ -273,17 +273,26 @@ const ChipsDoc = () => {
 
     setMinRatingsValue(originMapper["minimum_ratings"].join(","));
 
-    if (e.value.filter((item) => ["platforms"].includes(item.origin)).length === config.platforms.split(",").length) {
-      setPlatformsValue(originMapper["platforms"].join(","));
+    const platformsSelectedItemsNumber = selectedItems.filter((item) => ["platforms"].includes(item.origin)).length;
+    const platformsConfigItemsNumber = config.platforms.split(",").length;
+    const platformsUnselectedItemsNumber = e.value.filter((item) => ["platforms"].includes(item.origin)).length;
+
+    if (platformsUnselectedItemsNumber === 0) {
+      setPlatformsValue(config.platforms);
     } else {
-      let platformsStr = originMapper["platforms"].join(",");
-      if (platformsStr.startsWith("all,")) {
-        platformsStr = platformsStr.substring(4);
-      }
-      setPlatformsValue(platformsStr);
+      setPlatformsValue(originMapper["platforms"].join(","));
     }
 
-    if (e.value.filter((item) => ["minimum_ratings", "popularity"].includes(item.origin)).length === 0) {
+    if ((platformsSelectedItemsNumber !== platformsConfigItemsNumber || platformsUnselectedItemsNumber !== platformsConfigItemsNumber) && platformsConfigItemsNumber !== platformsUnselectedItemsNumber) {
+      if (Array.isArray(originMapper["platforms"])) {
+        originMapper["platforms"] = originMapper["platforms"].filter((item) => item !== "all");
+      }
+      setPlatformsValue(originMapper["platforms"].join(","));
+    }
+
+    const minRatingsAndPopularityUnselectedItemsNumber = e.value.filter((item) => ["minimum_ratings", "popularity"].includes(item.origin)).length;
+
+    if (minRatingsAndPopularityUnselectedItemsNumber === 0) {
       setPopularityFilters(config.popularity);
     } else {
       setPopularityFilters(originMapper["popularity"].join(","));
