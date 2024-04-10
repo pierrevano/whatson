@@ -67,6 +67,29 @@ const BackLink = styled.button`
 
 const getDetailTitle = (kindURL, title) => `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
+const Player = ({ src, ...rest }) => {
+  const dailymotionPlayer = "dailymotionPlayer";
+
+  const dataVideo = rest["data-video"];
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+
+    script.setAttribute("data-video", dataVideo);
+
+    const divElement = document.getElementById(dailymotionPlayer);
+    divElement.appendChild(script);
+
+    return () => {
+      if (document.contains(script)) divElement.removeChild(script);
+    };
+  }, [src, dataVideo]);
+
+  return <div id={dailymotionPlayer}></div>;
+};
+
 /**
  * A component that displays detailed information about a movie or tvshow.
  * @param {Object} props - The props object.
@@ -260,7 +283,7 @@ const DetailView = ({ id, kindURL }) => {
                     dialogMaskBackground(false);
                   }}
                 >
-                  <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />
+                  {trailer && trailer.includes("dailymotion") ? <Player src="https://geo.dailymotion.com/player/xow6u.js" data-video={trailer.split("/").pop()} /> : <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />}
                 </Dialog>
                 {platforms_links?.map((platform) => (
                   <PlatformLinks name={platform.name} linkURL={platform.link_url} />
