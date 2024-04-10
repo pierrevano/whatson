@@ -255,7 +255,7 @@ const MultiSelectStyle = `
     display: none !important;
   }
 
-  .p-multiselect-items.p-component li:nth-child(11) {
+  .p-multiselect-items.p-component li:nth-child(25) {
     display: none !important;
   }
 `;
