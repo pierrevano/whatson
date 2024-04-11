@@ -41,15 +41,15 @@ const Button = styled.button`
  * @param {ReactNode} children - The child elements to render inside the component.
  * @returns A button or a link component based on the value of the active prop.
  */
-const Item = ({ active, to, children }) => {
+const Item = ({ active, to, className, title, children }) => {
   if (active)
     return (
-      <Button onClick={() => window.history.back()} style={{}}>
+      <Button onClick={() => window.history.back()} style={{}} className={className} title={title}>
         {children}
       </Button>
     );
   return (
-    <StyledLink to={to} tabIndex={0}>
+    <StyledLink to={to} tabIndex={0} className={className} title={title}>
       {children}
     </StyledLink>
   );

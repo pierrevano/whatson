@@ -107,6 +107,13 @@ const setItemType = (type) => {
   window.location.reload();
 };
 
+const searchShortcut = (event) => {
+  if (event.key === "k") {
+    const ctrlPress = navigator.userAgent.indexOf("Mac") !== -1 ? event.metaKey : event.ctrlKey;
+    if (ctrlPress) document.getElementsByClassName("searchItem")[0].click();
+  }
+};
+
 /**
  * A functional component that renders the navbar of the website.
  * @returns {JSX.Element} - The JSX code that renders the navbar.
@@ -130,6 +137,11 @@ const Navbar = () => {
     window.innerWidth <= 700 ? setIsMobile(true) : setIsMobile(false);
   }
   window.onresize = detectWindowSize;
+
+  useEffect(() => {
+    window.addEventListener("keydown", searchShortcut);
+    return () => window.removeEventListener("keydown", searchShortcut);
+  }, []);
 
   return (
     <StickyContainer>
@@ -191,11 +203,15 @@ const Navbar = () => {
               <StyledLinkIcons className="cross-mark display-none">
                 <Cross onClick={cancel}></Cross>
               </StyledLinkIcons>
-              <Item to="/favorites" active={pathname === "/favorites"}>
-                <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} aria-label="View or edit your favorites" />
+              <Item to="/favorites" active={pathname === "/favorites"} className="favoritesItem" title="View or edit your favorites">
+                <span title="View or edit your favorites">
+                  <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} aria-label="View or edit your favorites" />
+                </span>
               </Item>
-              <Item to="/search" active={pathname === "/search"}>
-                <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} aria-label="Search for a movie, tvshow or person" />
+              <Item to="/search" active={pathname === "/search"} className="searchItem" title="Shortcut: CMD/CTRL + K">
+                <span title="Shortcut: CMD/CTRL + K">
+                  <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} aria-label="Search for a movie, tvshow or person" />
+                </span>
               </Item>
             </Flex>
           )}
