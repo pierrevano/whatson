@@ -153,6 +153,7 @@ const DetailView = ({ id, kindURL }) => {
   const ratings_average = data_from_render?.ratings_average;
   const trailer = data_from_render?.trailer;
   const platforms_links = data_from_render?.platforms_links;
+  const status_value = data_from_render?.status;
 
   const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
@@ -248,7 +249,7 @@ const DetailView = ({ id, kindURL }) => {
               <BackLink onClick={() => window.history.back()}>
                 <Arrow />
               </BackLink>
-              <Meta {...data} />
+              <Meta status_value={status_value} {...data} />
               <Text weight={600} xs={2} sm={3} md={4} xg={5}>
                 {title}
               </Text>

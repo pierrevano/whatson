@@ -9,9 +9,9 @@ const getFirst = ({ release_date, first_air_date, birthday }) => {
   return (first_air_date || birthday || release_date)?.split("-")[0];
 };
 
-const getSecond = ({ runtime, last_air_date, in_production }) => {
+const getSecond = (status_value, { runtime, last_air_date }) => {
   if (runtime) return `${runtime} min`;
-  if (in_production) return "Present";
+  if (status_value) return status_value;
   if (last_air_date) return last_air_date.split("-")[0];
   return null;
 };
@@ -44,26 +44,26 @@ const Rating = styled(Text)`
   padding: 0.125rem 0.375rem;
   text-align: center;
   ${above("md")`
-		margin: -0.25rem 0.5rem;
-		padding: 0.375rem 0.5rem;
-	`}
+    margin: -0.25rem 0.5rem;
+    padding: 0.375rem 0.5rem;
+  `}
   ${above("xg")`
-		margin: -0.125rem 0.5rem;
-		padding: 0.5rem 0.675rem;
-	`}
+    margin: -0.125rem 0.5rem;
+    padding: 0.5rem 0.675rem;
+  `}
 `;
 
 /**
  * A functional component that renders metadata for a given data object.
- * @param {object} data - the data object to render metadata for
+ * @param {object} props - the properties to render metadata for
  * @returns A JSX element that displays the metadata.
  */
-const Meta = (data) => (
+const Meta = ({ status_value, ...data }) => (
   <Wrapper style={{ margin: "1.5rem 0" }}>
     <SeparatedText sm={1} color={(p) => p.theme.colors.lightGrey || ""}>
       {getFirst(data) && <span>{getFirst(data)}</span>}
-      {getSecond(data) && getSecond(data) !== getFirst(data) && <span>{getSecond(data)}</span>}
-      {(getFirst(data) || getSecond(data)) && getHighlight(data) && <span />}
+      {getSecond(status_value, data) && getSecond(status_value, data) !== getFirst(data) && <span>{getSecond(status_value, data)}</span>}
+      {(getFirst(data) || getSecond(status_value, data)) && getHighlight(data) && <span />}
     </SeparatedText>
     {getHighlight(data) && <Rating>{getHighlight(data)}</Rating>}
   </Wrapper>
