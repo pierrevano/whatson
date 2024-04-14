@@ -174,6 +174,7 @@ const LoadMore = styled(Text)`
 
 const getKindURL = (input) => {
   if (input === "movie") return "movies";
+  if (input === "tv") return "tvshows";
   if (input === "person") return "people";
   return input;
 };
