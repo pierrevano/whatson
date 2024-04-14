@@ -29,7 +29,7 @@ const Searchbar = styled(Search)`
 /**
  * A component that displays a search bar and a list of cards based on the search query and page number.
  * @param {boolean} [isSearchable=true] - Whether or not the component should display a search bar.
- * @param {string} [kindURL="multi"] - The type of content to display (e.g. movies, people, search, tv).
+ * @param {string} [kindURL="multi"] - The type of content to display (e.g. movies, people, search, tvshow).
  * @returns A React component that displays a search bar and a list of cards based on the search query and page number.
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
@@ -74,13 +74,13 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
         />
       )}
       <Container>
-        <Row vertical-gutter style={{ marginTop: (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tv") && "2rem", marginBottom: "2rem", position: "relative", zIndex: (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tv") && 2 }}>
+        <Row vertical-gutter style={{ marginTop: (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") && "2rem", marginBottom: "2rem", position: "relative", zIndex: (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") && 2 }}>
           {pagesArray.map((page) => (
             <CardsByPage key={page} search={search} page={page} setPage={setPage} isLastPage={pagesArray.slice(-1)[0] === page} kindURL={kindURL} />
           ))}
         </Row>
       </Container>
-      {!search && (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tv") && <Info emoji="☝️" kind={kindURL} description="use the search bar above" />}
+      {!search && (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") && <Info emoji="☝️" kind={kindURL} description="use the search bar above" />}
     </Wrapper>
   );
 };

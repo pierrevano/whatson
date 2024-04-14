@@ -3,13 +3,15 @@ export const getTitleFromURL = (kind) => {
   if (kind === "multi") return "What's on?";
   if (kind === "people") return "People";
   if (kind === "search") return "Search";
-  if (kind === "tv") return "TV";
+  if (kind === "tvshows") return "TV Shows";
   return "Error";
 };
 
-export const getKindByURL = (input) => {
+export const getKindByURL = (input, source) => {
+  const tvshowValue = source === "render" ? "tvshow" : "tv";
+
   if (input === "movies") return "movie";
   if (input === "people") return "person";
-  if (input === "tv") return "tv";
+  if (input === "tvshows") return tvshowValue;
   return "multi";
 };

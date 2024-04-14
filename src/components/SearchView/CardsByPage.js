@@ -24,7 +24,7 @@ const status_query = queryStringParsed.status;
 const getDataURL = (cinema_id, item_type, kindURL, minimum_ratings, page, platforms, popularity_filters, ratings_filters, search, seasons_number, status) => {
   const parameters = getParameters(cinema_id, cinema_id_query, item_type, item_type_query, minimum_ratings, minimum_ratings_query, platforms, platforms_query, popularity_filters, popularity_filters_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query, status, status_query);
 
-  if (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tv") return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${config.api}&query=${search}&page=${page}`;
+  if (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${config.api}&query=${search}&page=${page}`;
   return `${config.cors_url}/${config.base_render_api}/${parameters}&page=${page}`;
 };
 
@@ -74,7 +74,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [ref, inView] = useInView();
 
   const getDefaultItemType = (item_type_query) => {
-    if (item_type === "tvshow" || item_type_query === "tvshow") return "tv";
+    if (item_type === "tvshow" || item_type_query === "tvshow") return "tvshows";
     if (item_type === "movie" || item_type_query === "movie") return "movies";
     return "movies";
   };
@@ -122,7 +122,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     <Fragment>
       {data?.results?.map((entry) => (
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
-          <Card kindURL={kindURL === "search" || kindURL === "movies" || kindURL === "people" || kindURL === "tv" ? kindURL : getDefaultItemType(item_type_query)} {...entry} />
+          <Card kindURL={kindURL === "search" || kindURL === "movies" || kindURL === "people" || kindURL === "tvshows" ? kindURL : getDefaultItemType(item_type_query)} {...entry} />
         </Cell>
       ))}
       {isLastPage && totalPages && totalPages > page && (

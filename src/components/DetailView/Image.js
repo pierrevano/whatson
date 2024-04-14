@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import LazyImage from "react-lazy-progressive-image";
-import { Movie, TV, Person } from "components/Icon";
+import { Movie, TVShow, Person } from "components/Icon";
 import AspectRatio from "components/AspectRatio";
 
 const fill = `position: absolute; top: 0; bottom: 0; left: 0; right: 0;`;
@@ -41,7 +41,7 @@ const NoImage = styled.div`
  * A component that displays an image with a placeholder and optional fallback icons.
  * @param {string} placeholder - The URL of the placeholder image to display while the main image is loading.
  * @param {string} image - The URL of the main image to display.
- * @param {string} kind - The type of image being displayed (e.g. "movie", "tv", "person").
+ * @param {string} kind - The type of image being displayed (e.g. "movie", "tvshow", "person").
  * @returns A React component that displays the image with the specified placeholder and fallback icons.
  */
 const Image = ({ placeholder, image, kind }) => {
@@ -65,7 +65,7 @@ const Image = ({ placeholder, image, kind }) => {
       ) : (
         <NoImage>
           {kind === "movie" && <Movie size={96} strokeWidth={1.125} />}
-          {kind === "tv" && <TV size={96} strokeWidth={1.125} />}
+          {kind === "tvshow" && <TVShow size={96} strokeWidth={1.125} />}
           {kind === "person" && <Person size={96} strokeWidth={1.125} />}
         </NoImage>
       )}

@@ -51,7 +51,7 @@ const getURL = (kind, id) => {
 /**
  * A component that displays information about a movie or tvshow relation.
  * @param {string} id - The ID of the relation.
- * @param {string} kind - The type of relation (movie or tv).
+ * @param {string} kind - The type of relation (movie or tvshow).
  * @param {string} name - The name of the person associated with the relation.
  * @param {string} poster_path - The path to the poster image for the relation.
  * @param {string} profile_path - The path to the profile image for the person associated with the relation.

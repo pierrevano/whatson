@@ -66,13 +66,7 @@ const GlobalStyle = createGlobalStyle`
       transform: translate(-50%, -50%) !important;
     }
     #dialog-player iframe {
-      height: 50vh !important;
-      @media (max-width: 960px) {
-        height: 15vh !important;
-      }
-      @media (max-width: 641px) {
-        height: 25vh !important;
-      }
+      height: 100% !important;
     }
     #dailymotionPlayer .dailymotion-player-wrapper {
       background-color: ${theme.colors.black} !important;

@@ -61,7 +61,7 @@ const Input = styled.input`
 const getPlaceholder = (kindURL) => {
   if (kindURL === "movies") return "movies";
   if (kindURL === "people") return "people";
-  if (kindURL === "tv") return "tvshows";
+  if (kindURL === "tvshows") return "tvshows";
   return "movies, tvshows or people";
 };
 

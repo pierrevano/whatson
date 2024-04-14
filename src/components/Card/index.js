@@ -5,7 +5,7 @@ import { useFavoriteState } from "utils/favorites";
 import Link from "components/Link";
 import AspectRatio from "components/AspectRatio";
 import Text from "components/Text";
-import { Heart, Movie, Person, TV } from "components/Icon";
+import { Heart, Movie, Person, TVShow } from "components/Icon";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
@@ -311,7 +311,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
         {!image && !loading && !loadMore && (
           <NoImage>
             {kind === "movie" && <Movie />}
-            {kind === "tv" && <TV />}
+            {kind === "tvshow" && <TVShow />}
             {kind === "person" && <Person />}
           </NoImage>
         )}

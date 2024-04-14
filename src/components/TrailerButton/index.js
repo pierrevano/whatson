@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Text from "components/Text";
-import { Movie, TV } from "components/Icon";
+import { Movie, TVShow } from "components/Icon";
 
 const Wrapper = styled.button`
   background: none;
@@ -42,9 +42,9 @@ const Right = styled.div`
   padding: 0.5rem 0.5rem 0.5rem 0;
 `;
 
-function MovieOrTV(props) {
-  const isMovieOrTV = props.isMovieOrTV;
-  if (isMovieOrTV === "tv") return <TV style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />;
+function MovieOrTVShow(props) {
+  const isMovieOrTVShow = props.isMovieOrTVShow;
+  if (isMovieOrTVShow === "tvshow") return <TVShow style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />;
   return <Movie size={16} strokeWidth={2.5} />;
 }
 
@@ -52,7 +52,7 @@ const TrailerButton = ({ kindURL, setVisiblePopupAndDialogMaskBackground }) => {
   return (
     <Wrapper onClick={setVisiblePopupAndDialogMaskBackground}>
       <Left>
-        <MovieOrTV isMovieOrTV={kindURL} size={16} strokeWidth={2.5} />
+        <MovieOrTVShow isMovieOrTVShow={kindURL} size={16} strokeWidth={2.5} />
       </Left>
       <Right>
         <Text weight={500}>Watch trailer</Text>

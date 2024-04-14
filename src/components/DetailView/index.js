@@ -100,9 +100,6 @@ const Player = ({ src, ...rest }) => {
 const DetailView = ({ id, kindURL }) => {
   const kind = getKindByURL(kindURL);
 
-  const base = config.base;
-  const api = config.api;
-
   const queryStringParsed = queryString.parse(window.location.search);
 
   let ratings_filters_query = queryStringParsed.ratings_filters;
@@ -113,7 +110,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const parameters = getParameters("", undefined, "", undefined, "", undefined, "", undefined, "", undefined, ratings_filters, ratings_filters_query, "", undefined, "", undefined);
 
-  const { data: data_from_render } = useFetch([`${config.cors_url}/${config.base_render_api}/${kind}/${id}`, `${parameters}`].join(""));
+  const { data: data_from_render } = useFetch([`${config.cors_url}/${config.base_render_api}/${getKindByURL(kindURL, "render")}/${id}`, `${parameters}`].join(""));
 
   let image = data_from_render?.image;
   let placeholder = image;
@@ -155,7 +152,7 @@ const DetailView = ({ id, kindURL }) => {
   const platforms_links = data_from_render?.platforms_links;
   const status_value = data_from_render?.status;
 
-  const { error, loading, data } = useFetch([`${base}/${kind}/${id}`, `?api_key=${api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
+  const { error, loading, data } = useFetch([`${config.base}/${kind}/${id}`, `?api_key=${config.api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
   const title = data?.title || data?.name;
 
@@ -165,13 +162,9 @@ const DetailView = ({ id, kindURL }) => {
     placeholder = `https://image.tmdb.org/t/p/w300${image}`;
   }
 
-  useEffect(
-    () => {
-      document.title = getDetailTitle(kindURL, title);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data]
-  );
+  useEffect(() => {
+    document.title = getDetailTitle(kindURL, title);
+  }, [data, kindURL, title]);
 
   const errorMessage = [
     { title: "I’m sorry Dave.", description: "I’m afraid I can’t do that." },
