@@ -66,13 +66,16 @@ const GlobalStyle = createGlobalStyle`
       transform: translate(-50%, -50%) !important;
     }
     #dialog-player iframe {
-      height: 75vh !important;
+      height: 50vh !important;
       @media (max-width: 960px) {
-        height: 40vh !important;
+        height: 15vh !important;
       }
       @media (max-width: 641px) {
-        height: 50vh !important;
+        height: 25vh !important;
       }
+    }
+    #dailymotionPlayer .dailymotion-player-wrapper {
+      background-color: ${theme.colors.black} !important;
     }
 
     .p-sidebar-mask + .p-dialog-mask.p-component-overlay-enter {
