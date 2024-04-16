@@ -141,6 +141,9 @@ const DetailView = ({ id, kindURL }) => {
   const senscritique_url = data_from_render?.senscritique?.url;
   const senscritique_users_rating = data_from_render?.senscritique?.users_rating;
 
+  const tmdb_url = data_from_render?.tmdb?.url;
+  const tmdb_users_rating = data_from_render?.tmdb?.users_rating;
+
   const trakt_url = data_from_render?.trakt?.url;
   const trakt_users_rating = data_from_render?.trakt?.users_rating;
 
@@ -212,6 +215,8 @@ const DetailView = ({ id, kindURL }) => {
     rottenTomatoes_users_rating,
     senscritique_url,
     senscritique_users_rating,
+    tmdb_url,
+    tmdb_users_rating,
     trakt_url,
     trakt_users_rating,
     mojo_rank,

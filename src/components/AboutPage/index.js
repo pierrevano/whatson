@@ -59,7 +59,7 @@ const AboutPage = () => {
               .
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              The raw data comes from AlloCiné, BetaSeries, IMDb, Letterboxd, Metacritic, RottenTomatoes, SensCritique, Trakt and The Movie Database, all extracted with shell and Node.js scripts and pushed to a MongoDB. Then on the client side it's built with React.js and fetched from an Express.js API. Feel free to visit my{" "}
+              The raw data comes from AlloCiné, BetaSeries, IMDb, Letterboxd, Metacritic, RottenTomatoes, SensCritique, Trakt and The Movie Database (TMDB), all extracted with shell and Node.js scripts and pushed to a MongoDB. Then on the client side it's built with React.js and fetched from an Express.js API. Feel free to visit my{" "}
               <Anchor to="https://github.com/pierrevano" ariaLabel="My personal GitHub repository">
                 GitHub
               </Anchor>{" "}

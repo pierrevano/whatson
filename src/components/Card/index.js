@@ -234,6 +234,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const senscritique_url = props?.senscritique?.url;
   const senscritique_users_rating = props?.senscritique?.users_rating;
 
+  const tmdb_url = props?.tmdb?.url;
+  const tmdb_users_rating = props?.tmdb?.users_rating;
+
   const trakt_url = props?.trakt?.url;
   const trakt_users_rating = props?.trakt?.users_rating;
 
@@ -259,6 +262,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     rottenTomatoes_users_rating,
     senscritique_url,
     senscritique_users_rating,
+    tmdb_url,
+    tmdb_users_rating,
     trakt_url,
     trakt_users_rating,
     mojo_rank,
