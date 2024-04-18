@@ -154,6 +154,7 @@ const DetailView = ({ id, kindURL }) => {
   const trailer = data_from_render?.trailer;
   const platforms_links = data_from_render?.platforms_links;
   const status_value = data_from_render?.status;
+  const tagline = data_from_render?.tagline;
 
   const { error, loading, data } = useFetch([`${config.base}/${kind}/${id}`, `?api_key=${config.api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
 
@@ -288,7 +289,7 @@ const DetailView = ({ id, kindURL }) => {
                   <PlatformLinks name={platform.name} linkURL={platform.link_url} />
                 ))}
               </div>
-              <Info kind={kind} {...data} />
+              <Info kind={kind} tagline={tagline} {...data} />
             </Cell>
             <Cell xs={12} sm={12} md={5} lg={5}>
               <Image kind={kind} alt={`poster for: ${title}`} image={image} placeholder={placeholder} />

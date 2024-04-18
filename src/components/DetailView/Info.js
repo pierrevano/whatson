@@ -10,7 +10,7 @@ import Toggle from "./Toggle";
  * @param {Object} data - An object containing the data to be displayed.
  * @returns A JSX element that displays the information.
  */
-const Info = ({ kind, ...data }) => {
+const Info = ({ kind, tagline, ...data }) => {
   const [sliceActors, setSliceActors] = useState(4);
   const [sliceDirectors, setSliceDirectors] = useState(4);
 
@@ -23,6 +23,11 @@ const Info = ({ kind, ...data }) => {
 
   return (
     <Fragment>
+      {tagline && (
+        <Section title="Tagline">
+          <span style={{ fontStyle: "italic" }}>{tagline}</span>
+        </Section>
+      )}
       {description && <Section title="Plot">{description}</Section>}
       <Row style={{ justifyContent: "space-between" }}>
         {!!totalActors && (
