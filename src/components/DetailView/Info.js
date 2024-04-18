@@ -10,7 +10,7 @@ import Toggle from "./Toggle";
  * @param {Object} data - An object containing the data to be displayed.
  * @returns A JSX element that displays the information.
  */
-const Info = ({ kind, tagline, ...data }) => {
+const Info = ({ kind, tagline_from_render, ...data }) => {
   const [sliceActors, setSliceActors] = useState(4);
   const [sliceDirectors, setSliceDirectors] = useState(4);
 
@@ -20,6 +20,7 @@ const Info = ({ kind, tagline, ...data }) => {
   const totalActors = data?.credits?.cast?.length || 0;
   const directors = data?.credits?.crew?.filter((x) => x.department === "Directing").slice(0, sliceDirectors) || [];
   const totalDirectors = data?.credits?.crew?.filter((x) => x.department === "Directing")?.length || 0;
+  const tagline = data?.tagline || tagline_from_render;
 
   return (
     <Fragment>
