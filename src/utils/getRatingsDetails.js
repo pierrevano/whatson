@@ -1,7 +1,33 @@
 import React from "react";
 import config from "./config";
 
-export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocine_users_rating, betaseries_url, betaseries_users_rating, imdb_url, imdb_users_rating, letterboxd_url, letterboxd_users_rating, metacritic_critics_rating, metacritic_url, metacritic_users_rating, rottenTomatoes_critics_rating, rottenTomatoes_url, rottenTomatoes_users_rating, senscritique_url, senscritique_users_rating, tmdb_url, tmdb_users_rating, trakt_url, trakt_users_rating, mojo_rank, mojo_url, itemType) => {
+export const getRatingsDetails = (
+  allocine_critics_rating,
+  allocine_url,
+  allocine_users_rating,
+  betaseries_url,
+  betaseries_users_rating,
+  imdb_url,
+  imdb_users_rating,
+  letterboxd_url,
+  letterboxd_users_rating,
+  metacritic_critics_rating,
+  metacritic_url,
+  metacritic_users_rating,
+  rottenTomatoes_critics_rating,
+  rottenTomatoes_url,
+  rottenTomatoes_users_rating,
+  senscritique_url,
+  senscritique_users_rating,
+  tmdb_url,
+  tmdb_users_rating,
+  trakt_url,
+  trakt_users_rating,
+  mojo_rank,
+  mojo_url,
+  itemType,
+  kindURL
+) => {
   const detailsConfig = {
     allocine_users: {
       image: "allocine-logo.png",
@@ -111,7 +137,7 @@ export const getRatingsDetails = (allocine_critics_rating, allocine_url, allocin
     },
   ];
 
-  if (itemType === "movie") {
+  if (itemType === "movie" || kindURL === "movies") {
     detailsConfig.letterboxd = {
       image: "letterboxd-logo.png",
       name: "Letterboxd users",

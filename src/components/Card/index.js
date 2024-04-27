@@ -268,7 +268,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     trakt_users_rating,
     mojo_rank,
     mojo_url,
-    itemType
+    itemType,
+    kindURL
   );
 
   const op = useRef(null);

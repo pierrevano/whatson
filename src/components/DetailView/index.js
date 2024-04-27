@@ -222,7 +222,8 @@ const DetailView = ({ id, kindURL }) => {
     trakt_users_rating,
     mojo_rank,
     mojo_url,
-    itemType
+    itemType,
+    kindURL
   );
 
   const op = useRef(null);
