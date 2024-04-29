@@ -20,13 +20,12 @@ const Info = ({ kind, tagline_from_render, ...data }) => {
   const totalActors = data?.credits?.cast?.length || 0;
   const directors = data?.credits?.crew?.filter((x) => x.department === "Directing").slice(0, sliceDirectors) || [];
   const totalDirectors = data?.credits?.crew?.filter((x) => x.department === "Directing")?.length || 0;
-  const tagline = data?.tagline || tagline_from_render;
 
   return (
     <Fragment>
-      {tagline && (
+      {tagline_from_render && (
         <Section title="Tagline">
-          <span style={{ fontStyle: "italic" }}>{tagline}</span>
+          <span style={{ fontStyle: "italic" }}>{tagline_from_render}</span>
         </Section>
       )}
       {description && <Section title="Plot">{description}</Section>}
