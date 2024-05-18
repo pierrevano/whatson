@@ -1,27 +1,27 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "2.2.61",
+  "version": "2.3.0",
   "private": false,
   "dependencies": {
-    "@reach/router": "^1.2.1",
+    "@reach/router": "^1.3.4",
     "context-storage": "^0.0.0",
-    "griding": "^0.1.2",
+    "griding": "^0.1.3",
     "minireset.css": "^0.0.4",
-    "prettier": "^2.8.3",
+    "prettier": "^3.2.5",
     "primeicons": "^6.0.1",
-    "primereact": "^9.0.0-beta.1",
-    "query-string": "^8.1.0",
-    "react": "16.8.1",
-    "react-dom": "16.8.1",
+    "primereact": "^9.6.4",
+    "query-string": "^8.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-hooks-fetch": "^0.5.1",
-    "react-intersection-observer": "^8.0.5",
-    "react-lazy-progressive-image": "^1.4.0",
-    "react-player": "^2.11.2",
-    "react-scripts": "3.0.1",
-    "styled-components": "^4.1.3",
+    "react-intersection-observer": "^8.34.0",
+    "react-lazy-progressive-image": "^1.5.5",
+    "react-player": "^2.16.0",
+    "react-scripts": "^3.4.4",
+    "styled-components": "^4.4.1",
     "stylis": "^3.5.4",
-    "typeface-roboto": "^0.0.54"
+    "typeface-roboto": "^1.1.13"
   },
   "scripts": {
     "build": "npm run prettier && rescripts build",
@@ -32,7 +32,7 @@
     "prettier": "prettier --write .",
     "surge": "npm run build && surge build whatson-dev.surge.sh",
     "teardown": "surge teardown whatson-dev.surge.sh",
-    "update": "rm -rf node_modules package-lock.json && npm i --legacy-peer-deps"
+    "update": "rm -rf node_modules package-lock.json && bash update-dependencies.sh && npm i --legacy-peer-deps"
   },
   "rescripts": [
     "env"

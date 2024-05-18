@@ -146,23 +146,23 @@ const ChipsDoc = () => {
   const [item_type] = useStorageString("item_type", "");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
-    ""
+    "",
   );
   const [platforms_value, setPlatformsValue] = useStorageString(
     "platforms",
-    ""
+    "",
   );
   const [popularity_filters, setPopularityFilters] = useStorageString(
     "popularity_filters",
-    ""
+    "",
   );
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
-    ""
+    "",
   );
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
-    ""
+    "",
   );
   const [status_value, setStatusValue] = useStorageString("status", "");
 
@@ -280,13 +280,13 @@ const ChipsDoc = () => {
       } else {
         if (filtersArray.length > 1) {
           const newFiltersArray = filtersArray.filter(
-            (filter) => filter !== "none"
+            (filter) => filter !== "none",
           );
           setPopularityFilters(newFiltersArray.join(","));
         }
       }
     },
-    [setPopularityFilters]
+    [setPopularityFilters],
   );
 
   useEffect(() => {
@@ -314,11 +314,11 @@ const ChipsDoc = () => {
     setMinRatingsValue(originMapper["minimum_ratings"].join(","));
 
     const platformsSelectedItemsNumber = selectedItems.filter((item) =>
-      ["platforms"].includes(item.origin)
+      ["platforms"].includes(item.origin),
     ).length;
     const platformsConfigItemsNumber = config.platforms.split(",").length;
     const platformsUnselectedItemsNumber = e.value.filter((item) =>
-      ["platforms"].includes(item.origin)
+      ["platforms"].includes(item.origin),
     ).length;
 
     if (platformsUnselectedItemsNumber === 0) {
@@ -334,14 +334,14 @@ const ChipsDoc = () => {
     ) {
       if (Array.isArray(originMapper["platforms"])) {
         originMapper["platforms"] = originMapper["platforms"].filter(
-          (item) => item !== "all"
+          (item) => item !== "all",
         );
       }
       setPlatformsValue(originMapper["platforms"].join(","));
     }
 
     const minRatingsAndPopularityUnselectedItemsNumber = e.value.filter(
-      (item) => ["minimum_ratings", "popularity"].includes(item.origin)
+      (item) => ["minimum_ratings", "popularity"].includes(item.origin),
     ).length;
 
     if (minRatingsAndPopularityUnselectedItemsNumber === 0) {

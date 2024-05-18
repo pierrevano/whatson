@@ -49,7 +49,7 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
       document.title = getTitleFromURL(kindURL);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
   const [search, setSearch] = useStorageString("search", "");
 

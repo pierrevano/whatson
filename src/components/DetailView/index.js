@@ -106,7 +106,7 @@ const DetailView = ({ id, kindURL }) => {
   let ratings_filters_query = queryStringParsed.ratings_filters;
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
-    ""
+    "",
   );
   useEffect(() => {
     if (typeof ratings_filters_query !== "undefined")
@@ -129,17 +129,17 @@ const DetailView = ({ id, kindURL }) => {
     "",
     undefined,
     "",
-    undefined
+    undefined,
   );
 
   const { data: data_from_render } = useFetch(
     [
       `${config.cors_url}/${config.base_render_api}/${getKindByURL(
         kindURL,
-        "render"
+        "render",
       )}/${id}`,
       `${parameters}`,
-    ].join("")
+    ].join(""),
   );
 
   let image = data_from_render?.image;
@@ -196,7 +196,7 @@ const DetailView = ({ id, kindURL }) => {
       `?api_key=${config.api}`,
       `&append_to_response=release_dates,external_ids,credits,content_ratings`,
       `&language=${getLanguage()}`,
-    ].join("")
+    ].join(""),
   );
 
   const title = data?.title || data?.name;
@@ -279,7 +279,7 @@ const DetailView = ({ id, kindURL }) => {
     mojo_rank,
     mojo_url,
     itemType,
-    kindURL
+    kindURL,
   );
 
   const op = useRef(null);

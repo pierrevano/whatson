@@ -14,7 +14,7 @@ const FetchCard = ({ kindURL, id }) => {
     [
       `https://api.themoviedb.org/3/${getKindByURL(kindURL)}/${id}`,
       `?api_key=${process.env.REACT_APP_TMDB_KEY}`,
-    ].join("")
+    ].join(""),
   );
 
   if (loading) return <Card loading />;

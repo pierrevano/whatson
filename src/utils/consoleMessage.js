@@ -10,7 +10,7 @@ const consoleMessage = () => {
     `%cWelcome to What's on? %cv${version}%c\nDoes this page needs fixes or improvements? Open an issue or contribute to a merge request to help make What's on? more lovable.\n\n🔎 Create a new GitHub issue: https://github.com/pierrevano/whatson/issues/new`,
     styleHeader,
     styleVersion,
-    styleMessage
+    styleMessage,
   );
 };
 

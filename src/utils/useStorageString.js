@@ -12,7 +12,7 @@ export const useStorageString = (key = "key", initialValue = "") => {
   useEffect(
     () => window.localStorage.setItem(key, value),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [value]
+    [value],
   );
 
   return [value, setValue];

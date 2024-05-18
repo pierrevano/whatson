@@ -10,7 +10,7 @@ const addParameter = (queryValue, queryAlternate, paramName) => {
 const handlePlatformsAndRatingsFilters = (
   mainQuery,
   alternateQuery,
-  paramName
+  paramName,
 ) => {
   if (mainQuery) {
     return `${paramName}=${
@@ -44,7 +44,7 @@ export const getParameters = (
   seasons_number,
   seasons_number_query,
   status,
-  status_query
+  status_query,
 ) => {
   let parameters = "?";
 
@@ -53,29 +53,29 @@ export const getParameters = (
   parameters += addParameter(
     minimum_ratings,
     minimum_ratings_query,
-    "minimum_ratings"
+    "minimum_ratings",
   );
   parameters += addParameter(
     popularity_filters,
     popularity_filters_query,
-    "popularity_filters"
+    "popularity_filters",
   );
   parameters += addParameter(
     seasons_number,
     seasons_number_query,
-    "seasons_number"
+    "seasons_number",
   );
   parameters += addParameter(status, status_query, "status");
 
   parameters += handlePlatformsAndRatingsFilters(
     platforms,
     platforms_query,
-    "platforms"
+    "platforms",
   );
   parameters += handlePlatformsAndRatingsFilters(
     ratings_filters,
     ratings_filters_query,
-    "ratings_filters"
+    "ratings_filters",
   );
 
   parameters = parameters.replace(/&$/, "");

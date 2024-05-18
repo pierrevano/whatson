@@ -11,9 +11,9 @@ const [Provider, useStorage] = createStorage(
     key === "" && value === null
       ? new Set()
       : Array.isArray(value)
-      ? new Set(value)
-      : value,
-  (key, value) => (value instanceof Set ? [...value].sort() : value)
+        ? new Set(value)
+        : value,
+  (key, value) => (value instanceof Set ? [...value].sort() : value),
 );
 
 const useFavorites = () => {

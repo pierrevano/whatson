@@ -2,8 +2,8 @@ const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
     window.location.hostname === "[::1]" ||
     window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
+    ),
 );
 
 export function register(config) {
@@ -20,7 +20,7 @@ export function register(config) {
         checkValidServiceWorker(swUrl, config);
         navigator.serviceWorker.ready.then(() => {
           console.log(
-            "This web app is being served cache-first by a service worker. To learn more, visit http://bit.ly/CRA-PWA"
+            "This web app is being served cache-first by a service worker. To learn more, visit http://bit.ly/CRA-PWA",
           );
         });
       } else {
@@ -79,7 +79,7 @@ function checkValidServiceWorker(swUrl, config) {
     })
     .catch(() => {
       console.log(
-        "No internet connection found. App is running in offline mode."
+        "No internet connection found. App is running in offline mode.",
       );
     });
 }

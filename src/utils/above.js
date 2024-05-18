@@ -19,11 +19,10 @@ export const utility = (breakpoints) =>
 export const above =
   (label) =>
   (...args) =>
-  ({ theme }) =>
-    css`
-      @media (min-width: ${stringify(parse(theme.breakpoints[label].width))}) {
-        ${css(...args)}
-      }
-    `;
+  ({ theme }) => css`
+    @media (min-width: ${stringify(parse(theme.breakpoints[label].width))}) {
+      ${css(...args)}
+    }
+  `;
 
 export default above;

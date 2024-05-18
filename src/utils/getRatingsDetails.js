@@ -26,7 +26,7 @@ export const getRatingsDetails = (
   mojo_rank,
   mojo_url,
   itemType,
-  kindURL
+  kindURL,
 ) => {
   const detailsConfig = {
     allocine_users: {
@@ -229,7 +229,11 @@ export const getRatingsDetails = (
     let link;
     if (name === "AlloCiné users" && rating > 0) {
       link = (
-        <a href={`${editURL(allocine_url)}/critiques/`} target={"_blank"}>
+        <a
+          href={`${editURL(allocine_url)}/critiques/`}
+          target={"_blank"}
+          rel="noopener noreferrer"
+        >
           {name}
         </a>
       );
@@ -238,73 +242,90 @@ export const getRatingsDetails = (
         <a
           href={`${editURL(allocine_url)}/critiques/presse/`}
           target={"_blank"}
+          rel="noopener noreferrer"
         >
           {name}
         </a>
       );
     } else if (name === "BetaSeries users" && rating > 0) {
       link = (
-        <a href={betaseries_url} target={"_blank"}>
+        <a href={betaseries_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );
     } else if (name === "IMDb users" && rating > 0) {
       link = (
-        <a href={imdb_url} target={"_blank"}>
+        <a href={imdb_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );
     } else if (name === "Letterboxd users" && rating > 0) {
       link = (
-        <a href={letterboxd_url} target={"_blank"}>
+        <a href={letterboxd_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );
     } else if (name === "Metacritic users" && rating > 0) {
       link = (
-        <a href={`${metacritic_url}/user-reviews`} target={"_blank"}>
+        <a
+          href={`${metacritic_url}/user-reviews`}
+          target={"_blank"}
+          rel="noopener noreferrer"
+        >
           {name}
         </a>
       );
     } else if (name === "Metacritic critics" && rating > 0) {
       link = (
-        <a href={`${metacritic_url}/critic-reviews`} target={"_blank"}>
+        <a
+          href={`${metacritic_url}/critic-reviews`}
+          target={"_blank"}
+          rel="noopener noreferrer"
+        >
           {name}
         </a>
       );
     } else if (name === "Rotten Tomatoes users" && rating > 0) {
       link = (
-        <a href={`${rottenTomatoes_url}`} target={"_blank"}>
+        <a
+          href={`${rottenTomatoes_url}`}
+          target={"_blank"}
+          rel="noopener noreferrer"
+        >
           {name}
         </a>
       );
     } else if (name === "Rotten Tomatoes critics" && rating > 0) {
       link = (
-        <a href={`${rottenTomatoes_url}`} target={"_blank"}>
+        <a
+          href={`${rottenTomatoes_url}`}
+          target={"_blank"}
+          rel="noopener noreferrer"
+        >
           {name}
         </a>
       );
     } else if (name === "SensCritique users" && rating > 0) {
       link = (
-        <a href={senscritique_url} target={"_blank"}>
+        <a href={senscritique_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );
     } else if (name === "TMDB users" && rating > 0) {
       link = (
-        <a href={tmdb_url} target={"_blank"}>
+        <a href={tmdb_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );
     } else if (name === "Trakt users" && rating > 0) {
       link = (
-        <a href={trakt_url} target={"_blank"}>
+        <a href={trakt_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );
     } else if (name === "Mojo worldwide" && rank > 0) {
       link = (
-        <a href={`${mojo_url}`} target={"_blank"}>
+        <a href={`${mojo_url}`} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );

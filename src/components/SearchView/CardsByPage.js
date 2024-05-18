@@ -32,7 +32,7 @@ const getDataURL = (
   ratings_filters,
   search,
   seasons_number,
-  status
+  status,
 ) => {
   const parameters = getParameters(
     cinema_id,
@@ -50,7 +50,7 @@ const getDataURL = (
     seasons_number,
     seasons_number_query,
     status,
-    status_query
+    status_query,
   );
 
   if (
@@ -85,23 +85,23 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [item_type, setItemType] = useStorageString("item_type", "");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
-    ""
+    "",
   );
   const [platforms_value, setPlatformsValue] = useStorageString(
     "platforms",
-    ""
+    "",
   );
   const [popularity_filters, setPopularityFilters] = useStorageString(
     "popularity_filters",
-    ""
+    "",
   );
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
-    ""
+    "",
   );
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
-    ""
+    "",
   );
   const [status_value, setStatusValue] = useStorageString("status", "");
   useEffect(() => {
@@ -145,8 +145,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       ratings_filters,
       search,
       seasons_number,
-      status_value
-    )
+      status_value,
+    ),
   );
 
   const [ref, inView] = useInView();

@@ -12,5 +12,5 @@ fs.writeFile(
     }
     // eslint-disable-next-line no-console
     console.info(`meta.json updated with latest version: ${version}`);
-  }
+  },
 );

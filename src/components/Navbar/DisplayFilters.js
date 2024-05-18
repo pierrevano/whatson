@@ -40,10 +40,10 @@ const cancel = () => {
   const ratingsAndCrossSelector = `${ratingsSelector},${crossMarkSelector}`;
   const theatersAndCrossSelector = `${theatersSelector},${crossMarkSelector}`;
   const ratingsFiltersAndCross = document.querySelectorAll(
-    ratingsAndCrossSelector
+    ratingsAndCrossSelector,
   );
   const theatersSearchAndCross = document.querySelectorAll(
-    theatersAndCrossSelector
+    theatersAndCrossSelector,
   );
 
   const removeClasses = (notSelector) => {

@@ -23,32 +23,32 @@ const AutocompleteTheaters = () => {
 
   const { data } = useFetch(
     `${config.cors_url}/https://www.allocine.fr/_/localization_city/${encodeURI(
-      value
-    )}`
+      value,
+    )}`,
   );
 
   const name = useCallback(
     () =>
       setItems(
         data?.values?.theaters?.map(
-          (item) => `${item?.node?.name.trim()} (${item?.node?.location?.zip})`
-        )
+          (item) => `${item?.node?.name.trim()} (${item?.node?.location?.zip})`,
+        ),
       ),
-    [data]
+    [data],
   );
 
   const setAndReload = useCallback(
     (value) => {
       const nodeArray = data?.values?.theaters?.map((item) => item?.node);
       const nodeArrayFiltered = nodeArray.filter(
-        (node) => node.name.trim() === value.split("(")[0].trim()
+        (node) => node.name.trim() === value.split("(")[0].trim(),
       );
       setTheaterName(nodeArrayFiltered[0]?.name.trim());
       localStorage.setItem("cinema_id", nodeArrayFiltered[0]?.internalId);
 
       window.location.reload();
     },
-    [data, setTheaterName]
+    [data, setTheaterName],
   );
 
   return (
