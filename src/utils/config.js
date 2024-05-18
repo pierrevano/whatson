@@ -4,7 +4,7 @@ const config = {
 
   cors_url: "https://cors-sites-aafe82ad9d0c.fly.dev",
   base_render_api: "https://whatson-api.onrender.com",
-  base_render: "https://whatson.onrender.com",
+  base_render: "https://whatson-app.com",
 
   base_beamanalytics: "https://beamanalytics.b-cdn.net/beam.min.js",
   beamanalytics_token: "b94aa7d4-c64e-4086-b7e3-d7d5ad700bab",

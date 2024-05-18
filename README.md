@@ -1,6 +1,6 @@
 # What's on?
 
-https://whatson.onrender.com
+https://whatson-app.com
 
 ## Homepage
 
