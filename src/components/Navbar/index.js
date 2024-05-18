@@ -100,11 +100,11 @@ const StyledLinkIcons = styled(StyledLink)`
 const setItemType = (type) => {
   localStorage.setItem("item_type", type);
 
-  const params = new URLSearchParams(window.location.search);
-  params.set("item_type", type);
+  const homePageUrl = new URL(window.location.origin);
+  homePageUrl.searchParams.set("item_type", type);
 
-  window.history.replaceState({}, "", `${window.location.pathname}?${params}`);
-  window.location.reload();
+  window.history.replaceState({}, "", homePageUrl.href);
+  window.location.href = homePageUrl.href;
 };
 
 const searchShortcut = (event) => {
