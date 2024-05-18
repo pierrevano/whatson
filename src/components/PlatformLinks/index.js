@@ -52,7 +52,11 @@ const PlatformLinks = ({ name, linkURL }) => {
   return (
     <Wrapper onClick={() => window.open(linkURL, "_blank", "noreferrer")}>
       <Left>
-        <Eye style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />
+        <Eye
+          style={{ transform: "translateY(-1px)" }}
+          size={16}
+          strokeWidth={2.5}
+        />
       </Left>
       <Right>
         <Text>{name}</Text>

@@ -21,9 +21,12 @@ const Anchor = styled(Link)`
  * @returns An InfoScreen component with a title based on the given kind prop.
  */
 const Info = ({ kind, ...props }) => {
-  if (kind === "movies") return <InfoScreen title="Search for movies" {...props} />;
-  if (kind === "people") return <InfoScreen title="Search for people" {...props} />;
-  if (kind === "tvshows") return <InfoScreen title="Search for tvshows" {...props} />;
+  if (kind === "movies")
+    return <InfoScreen title="Search for movies" {...props} />;
+  if (kind === "people")
+    return <InfoScreen title="Search for people" {...props} />;
+  if (kind === "tvshows")
+    return <InfoScreen title="Search for tvshows" {...props} />;
   return (
     <InfoScreen
       title={

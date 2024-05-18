@@ -157,7 +157,11 @@ const FavoriteButton = ({ kindURL, id, title }) => {
   const [isFavorite, { toggle }] = useFavoriteState(kindURL + "/" + id);
   return (
     // eslint-disable-next-line no-sequences
-    <HeartWrapper isFavorite={isFavorite} onClick={toggle} aria-label={`favorite: ${title}`}>
+    <HeartWrapper
+      isFavorite={isFavorite}
+      onClick={toggle}
+      aria-label={`favorite: ${title}`}
+    >
       <StyledHeart filled={isFavorite} />
     </HeartWrapper>
   );
@@ -202,8 +206,11 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const getPlaceholder = (image, width, height) => {
     const compression = 2;
-    let placeholder = `${image.split("net")[0]}net/c_${parseInt(width * compression)}_${parseInt(height * compression)}${image.split("net")[1]}`;
-    if (image && image.startsWith("https://image.tmdb.org")) placeholder = `https://image.tmdb.org/t/p/w300${image}`;
+    let placeholder = `${image.split("net")[0]}net/c_${parseInt(
+      width * compression
+    )}_${parseInt(height * compression)}${image.split("net")[1]}`;
+    if (image && image.startsWith("https://image.tmdb.org"))
+      placeholder = `https://image.tmdb.org/t/p/w300${image}`;
     return placeholder;
   };
 
@@ -242,9 +249,18 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const ratings_average = props?.ratings_average;
 
-  const itemType = localStorage.getItem("item_type") ? localStorage.getItem("item_type") : "movie";
+  const itemType = localStorage.getItem("item_type")
+    ? localStorage.getItem("item_type")
+    : "movie";
 
-  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(
+  const {
+    detailsData,
+    mojoDetailsData,
+    logoBody,
+    nameBody,
+    ratingBody,
+    rankBody,
+  } = getRatingsDetails(
     allocine_critics_rating,
     allocine_url,
     allocine_users_rating,
@@ -299,11 +315,29 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   return (
     <Wrapper error={error} {...props}>
       <AspectRatio ratio={0.75} />
-      {!(loading || error || loadMore) && <Anchor to={`/${kindURL}/${id}`} tabIndex={0} ariaLabel={`poster for: ${title}`} />}
+      {!(loading || error || loadMore) && (
+        <Anchor
+          to={`/${kindURL}/${id}`}
+          tabIndex={0}
+          ariaLabel={`poster for: ${title}`}
+        />
+      )}
       <OverflowHidden>
         {image && (
-          <LazyImage placeholder={getPlaceholder(image, width, height)} src={getPlaceholder(image, width, height)}>
-            {(src, loading) => <Image ref={imgEl} src={src} alt={`poster for: ${title}`} height={height} width={width} loading={+loading} />}
+          <LazyImage
+            placeholder={getPlaceholder(image, width, height)}
+            src={getPlaceholder(image, width, height)}
+          >
+            {(src, loading) => (
+              <Image
+                ref={imgEl}
+                src={src}
+                alt={`poster for: ${title}`}
+                height={height}
+                width={width}
+                loading={+loading}
+              />
+            )}
           </LazyImage>
         )}
       </OverflowHidden>
@@ -326,29 +360,48 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
           <Overlay>
             {title && (
               <Info>
-                <Text xs={0} sm={1} weight={500} style={{ marginBottom: "0.25em" }}>
+                <Text
+                  xs={0}
+                  sm={1}
+                  weight={500}
+                  style={{ marginBottom: "0.25em" }}
+                >
                   {title}
                 </Text>
               </Info>
             )}
-            <div style={{ display: "flex", alignItems: "center" }}>{id && <FavoriteButton kindURL={kindURL} id={id} title={title} />}</div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {id && <FavoriteButton kindURL={kindURL} id={id} title={title} />}
+            </div>
           </Overlay>
         )}
         {!loadMore && (
           <OverlayRatings>
             {ratings_average > 0 && (
-              <InfoRatings className="rating_details" onClick={displayRatingsDetails}>
-                <span style={{ color: "#28A745" }}>★</span> {ratings_average.toFixed(1)}
+              <InfoRatings
+                className="rating_details"
+                onClick={displayRatingsDetails}
+              >
+                <span style={{ color: "#28A745" }}>★</span>{" "}
+                {ratings_average.toFixed(1)}
                 <OverlayPanel ref={op}>
                   <DataTable value={detailsData} size="small">
                     <Column body={logoBody} />
-                    <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
+                    <Column
+                      header="Name"
+                      body={nameBody}
+                      style={{ minWidth: "11rem" }}
+                    />
                     <Column field="rating" header="Rating" body={ratingBody} />
                   </DataTable>
                   {itemType === "movie" && (
                     <DataTable value={mojoDetailsData} size="small">
                       <Column body={logoBody} />
-                      <Column header="-" body={nameBody} style={{ minWidth: "11rem" }} />
+                      <Column
+                        header="-"
+                        body={nameBody}
+                        style={{ minWidth: "11rem" }}
+                      />
                       <Column field="rank" header="Rank" body={rankBody} />
                     </DataTable>
                   )}

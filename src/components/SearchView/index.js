@@ -74,13 +74,48 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
         />
       )}
       <Container>
-        <Row vertical-gutter style={{ marginTop: (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") && "2rem", marginBottom: "2rem", position: "relative", zIndex: (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") && 2 }}>
+        <Row
+          vertical-gutter
+          style={{
+            marginTop:
+              (kindURL === "movies" ||
+                kindURL === "people" ||
+                kindURL === "search" ||
+                kindURL === "tvshows") &&
+              "2rem",
+            marginBottom: "2rem",
+            position: "relative",
+            zIndex:
+              (kindURL === "movies" ||
+                kindURL === "people" ||
+                kindURL === "search" ||
+                kindURL === "tvshows") &&
+              2,
+          }}
+        >
           {pagesArray.map((page) => (
-            <CardsByPage key={page} search={search} page={page} setPage={setPage} isLastPage={pagesArray.slice(-1)[0] === page} kindURL={kindURL} />
+            <CardsByPage
+              key={page}
+              search={search}
+              page={page}
+              setPage={setPage}
+              isLastPage={pagesArray.slice(-1)[0] === page}
+              kindURL={kindURL}
+            />
           ))}
         </Row>
       </Container>
-      {!search && (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") && <Info emoji="☝️" kind={kindURL} description="use the search bar above" />}
+      {!search &&
+        (kindURL === "movies" ||
+          kindURL === "people" ||
+          kindURL === "search" ||
+          kindURL === "tvshows") && (
+          <Info
+            emoji="☝️"
+            kind={kindURL}
+            description="use the search bar above"
+          />
+        )}
     </Wrapper>
   );
 };

@@ -37,7 +37,9 @@ const InfoScreen = ({ emoji, title, description, ...props }) => (
         {title}
       </Text>
     )}
-    {description && <Text color={(p) => p.theme.colors.lightGrey}>{description}</Text>}
+    {description && (
+      <Text color={(p) => p.theme.colors.lightGrey}>{description}</Text>
+    )}
   </Wrapper>
 );
 

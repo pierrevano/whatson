@@ -59,13 +59,28 @@ const getURL = (kind, id) => {
  * @param {string} title - The title of the movie or tvshow associated with the relation.
  * @param {
  */
-const Relation = ({ id, kind, name, poster_path, profile_path, character, title, ...props }) => {
+const Relation = ({
+  id,
+  kind,
+  name,
+  poster_path,
+  profile_path,
+  character,
+  title,
+  ...props
+}) => {
   const url = getURL(kind, id);
   const image = profile_path || poster_path;
   const main = name || title || character;
   return (
     <Wrapper to={url} {...props}>
-      <Avatar>{image ? <img alt={main} src={`https://image.tmdb.org/t/p/w45${image}`} /> : <div>{(main || " ")[0]}</div>}</Avatar>
+      <Avatar>
+        {image ? (
+          <img alt={main} src={`https://image.tmdb.org/t/p/w45${image}`} />
+        ) : (
+          <div>{(main || " ")[0]}</div>
+        )}
+      </Avatar>
       <Main>{main}</Main>
     </Wrapper>
   );

@@ -1,7 +1,14 @@
 import React from "react";
 
 const Github = ({ size = 24, color = "currentColor", style, ...props }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg" style={{ display: "block", ...style }}>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill={color}
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ display: "block", ...style }}
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"

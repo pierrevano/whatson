@@ -1,7 +1,15 @@
 import React from "react";
 
 const HeartBreak = ({ size = 24, color = "currentColor", style, ...props }) => (
-  <svg viewBox="0 0 24 24" fillRule="nonzero" width={size} height={size} style={{ display: "block", ...style }} xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg
+    viewBox="0 0 24 24"
+    fillRule="nonzero"
+    width={size}
+    height={size}
+    style={{ display: "block", ...style }}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
     <path
       stroke={0}
       fill={color}

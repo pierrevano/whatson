@@ -1,7 +1,24 @@
 import React from "react";
 
-const Filter = ({ size = 31, filled = false, color = "currentColor", style, ...props }) => (
-  <svg viewBox="0 -0.6 24 24" stroke="#FFF" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" width={size} height={size} style={{ display: "block", ...style }} xmlns="http://www.w3.org/2000/svg" {...props}>
+const Filter = ({
+  size = 31,
+  filled = false,
+  color = "currentColor",
+  style,
+  ...props
+}) => (
+  <svg
+    viewBox="0 -0.6 24 24"
+    stroke="#FFF"
+    strokeWidth={1.5}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    style={{ display: "block", ...style }}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
     <path d="M5 12L5 4" stroke="#FFF" strokeLinecap="round" />
     <path d="M19 20L19 17" stroke="#FFF" strokeLinecap="round" />
     <path d="M5 20L5 16" stroke="#FFF" strokeLinecap="round" />

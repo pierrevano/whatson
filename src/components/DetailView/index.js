@@ -65,7 +65,8 @@ const BackLink = styled.button`
   }
 `;
 
-const getDetailTitle = (kindURL, title) => `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
+const getDetailTitle = (kindURL, title) =>
+  `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
 const Player = ({ src, ...rest }) => {
   const dailymotionPlayer = "dailymotionPlayer";
@@ -103,14 +104,43 @@ const DetailView = ({ id, kindURL }) => {
   const queryStringParsed = queryString.parse(window.location.search);
 
   let ratings_filters_query = queryStringParsed.ratings_filters;
-  const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
+  const [ratings_filters, setRatingsFilters] = useStorageString(
+    "ratings_filters",
+    ""
+  );
   useEffect(() => {
-    if (typeof ratings_filters_query !== "undefined") setRatingsFilters(ratings_filters_query);
+    if (typeof ratings_filters_query !== "undefined")
+      setRatingsFilters(ratings_filters_query);
   });
 
-  const parameters = getParameters("", undefined, "", undefined, "", undefined, "", undefined, "", undefined, ratings_filters, ratings_filters_query, "", undefined, "", undefined);
+  const parameters = getParameters(
+    "",
+    undefined,
+    "",
+    undefined,
+    "",
+    undefined,
+    "",
+    undefined,
+    "",
+    undefined,
+    ratings_filters,
+    ratings_filters_query,
+    "",
+    undefined,
+    "",
+    undefined
+  );
 
-  const { data: data_from_render } = useFetch([`${config.cors_url}/${config.base_render_api}/${getKindByURL(kindURL, "render")}/${id}`, `${parameters}`].join(""));
+  const { data: data_from_render } = useFetch(
+    [
+      `${config.cors_url}/${config.base_render_api}/${getKindByURL(
+        kindURL,
+        "render"
+      )}/${id}`,
+      `${parameters}`,
+    ].join("")
+  );
 
   let image = data_from_render?.image;
   let placeholder = image;
@@ -132,14 +162,18 @@ const DetailView = ({ id, kindURL }) => {
 
   const metacritic_url = data_from_render?.metacritic?.url;
   const metacritic_users_rating = data_from_render?.metacritic?.users_rating;
-  const metacritic_critics_rating = data_from_render?.metacritic?.critics_rating;
+  const metacritic_critics_rating =
+    data_from_render?.metacritic?.critics_rating;
 
   const rottenTomatoes_url = data_from_render?.rotten_tomatoes?.url;
-  const rottenTomatoes_users_rating = data_from_render?.rotten_tomatoes?.users_rating;
-  const rottenTomatoes_critics_rating = data_from_render?.rotten_tomatoes?.critics_rating;
+  const rottenTomatoes_users_rating =
+    data_from_render?.rotten_tomatoes?.users_rating;
+  const rottenTomatoes_critics_rating =
+    data_from_render?.rotten_tomatoes?.critics_rating;
 
   const senscritique_url = data_from_render?.senscritique?.url;
-  const senscritique_users_rating = data_from_render?.senscritique?.users_rating;
+  const senscritique_users_rating =
+    data_from_render?.senscritique?.users_rating;
 
   const tmdb_url = data_from_render?.tmdb?.url;
   const tmdb_users_rating = data_from_render?.tmdb?.users_rating;
@@ -156,7 +190,14 @@ const DetailView = ({ id, kindURL }) => {
   const status_value = data_from_render?.status;
   const tagline_from_render = data_from_render?.tagline;
 
-  const { error, loading, data } = useFetch([`${config.base}/${kind}/${id}`, `?api_key=${config.api}`, `&append_to_response=release_dates,external_ids,credits,content_ratings`, `&language=${getLanguage()}`].join(""));
+  const { error, loading, data } = useFetch(
+    [
+      `${config.base}/${kind}/${id}`,
+      `?api_key=${config.api}`,
+      `&append_to_response=release_dates,external_ids,credits,content_ratings`,
+      `&language=${getLanguage()}`,
+    ].join("")
+  );
 
   const title = data?.title || data?.name;
 
@@ -173,7 +214,10 @@ const DetailView = ({ id, kindURL }) => {
   const errorMessage = [
     { title: "I’m sorry Dave.", description: "I’m afraid I can’t do that." },
     { title: "Into exile I must go.", description: "Failed I have." },
-    { title: "Well, if I I've made a mistake,", description: "I'm sorry and I hope you'll forgive me." },
+    {
+      title: "Well, if I I've made a mistake,",
+      description: "I'm sorry and I hope you'll forgive me.",
+    },
   ];
 
   const getRandomError = (array) => {
@@ -186,8 +230,11 @@ const DetailView = ({ id, kindURL }) => {
 
   const dialogMaskBackground = (visibleMask) => {
     setTimeout(() => {
-      const parentNodeClasslist = document.getElementById("dialog-player").parentNode.classList;
-      visibleMask ? parentNodeClasslist.add("p-component-overlay-enter") : parentNodeClasslist.remove("p-component-overlay-enter");
+      const parentNodeClasslist =
+        document.getElementById("dialog-player").parentNode.classList;
+      visibleMask
+        ? parentNodeClasslist.add("p-component-overlay-enter")
+        : parentNodeClasslist.remove("p-component-overlay-enter");
     }, 100);
   };
 
@@ -196,9 +243,18 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackground(true);
   };
 
-  const itemType = localStorage.getItem("item_type") ? localStorage.getItem("item_type") : "movie";
+  const itemType = localStorage.getItem("item_type")
+    ? localStorage.getItem("item_type")
+    : "movie";
 
-  const { detailsData, mojoDetailsData, logoBody, nameBody, ratingBody, rankBody } = getRatingsDetails(
+  const {
+    detailsData,
+    mojoDetailsData,
+    logoBody,
+    nameBody,
+    ratingBody,
+    rankBody,
+  } = getRatingsDetails(
     allocine_critics_rating,
     allocine_url,
     allocine_users_rating,
@@ -253,20 +309,44 @@ const DetailView = ({ id, kindURL }) => {
               <Text weight={600} xs={2} sm={3} md={4} xg={5}>
                 {title}
               </Text>
-              <div className="platform-links" style={{ display: "flex", margin: "1rem -0.5rem", flexWrap: "wrap", maxWidth: "539px" }}>
+              <div
+                className="platform-links"
+                style={{
+                  display: "flex",
+                  margin: "1rem -0.5rem",
+                  flexWrap: "wrap",
+                  maxWidth: "539px",
+                }}
+              >
                 {!!allocine && (
-                  <Button displayRatingsDetails={displayRatingsDetails} background="#28A745" logo={<Star size={11} filled={true} color="#181818" />}>
+                  <Button
+                    displayRatingsDetails={displayRatingsDetails}
+                    background="#28A745"
+                    logo={<Star size={11} filled={true} color="#181818" />}
+                  >
                     {!!ratings_average && `${ratings_average.toFixed(2)}/5`}
                     <OverlayPanel ref={op}>
                       <DataTable value={detailsData} size="small">
                         <Column body={logoBody} />
-                        <Column header="Name" body={nameBody} style={{ minWidth: "11rem" }} />
-                        <Column field="rating" header="Rating" body={ratingBody} />
+                        <Column
+                          header="Name"
+                          body={nameBody}
+                          style={{ minWidth: "11rem" }}
+                        />
+                        <Column
+                          field="rating"
+                          header="Rating"
+                          body={ratingBody}
+                        />
                       </DataTable>
                       {itemType === "movie" && (
                         <DataTable value={mojoDetailsData} size="small">
                           <Column body={logoBody} />
-                          <Column header="-" body={nameBody} style={{ minWidth: "11rem" }} />
+                          <Column
+                            header="-"
+                            body={nameBody}
+                            style={{ minWidth: "11rem" }}
+                          />
                           <Column field="rank" header="Rank" body={rankBody} />
                         </DataTable>
                       )}
@@ -274,7 +354,14 @@ const DetailView = ({ id, kindURL }) => {
                   </Button>
                 )}
                 <ToggleButton kindURL={kindURL} id={id} />
-                {!!trailer && <TrailerButton kindURL={kindURL} setVisiblePopupAndDialogMaskBackground={setVisiblePopupAndDialogMaskBackground} />}
+                {!!trailer && (
+                  <TrailerButton
+                    kindURL={kindURL}
+                    setVisiblePopupAndDialogMaskBackground={
+                      setVisiblePopupAndDialogMaskBackground
+                    }
+                  />
+                )}
                 <Dialog
                   id="dialog-player"
                   header="Trailer"
@@ -284,23 +371,53 @@ const DetailView = ({ id, kindURL }) => {
                     dialogMaskBackground(false);
                   }}
                 >
-                  {trailer && trailer.includes("dailymotion") ? <Player src="https://geo.dailymotion.com/player/xow6u.js" data-video={trailer.split("/").pop()} /> : <ReactPlayer url={trailer} playing={true} controls={true} playsinline={true} width="100%" height="100%" />}
+                  {trailer && trailer.includes("dailymotion") ? (
+                    <Player
+                      src="https://geo.dailymotion.com/player/xow6u.js"
+                      data-video={trailer.split("/").pop()}
+                    />
+                  ) : (
+                    <ReactPlayer
+                      url={trailer}
+                      playing={true}
+                      controls={true}
+                      playsinline={true}
+                      width="100%"
+                      height="100%"
+                    />
+                  )}
                 </Dialog>
                 {platforms_links?.map((platform) => (
-                  <PlatformLinks name={platform.name} linkURL={platform.link_url} />
+                  <PlatformLinks
+                    name={platform.name}
+                    linkURL={platform.link_url}
+                  />
                 ))}
               </div>
-              <Info kind={kind} tagline_from_render={tagline_from_render} {...data} />
+              <Info
+                kind={kind}
+                tagline_from_render={tagline_from_render}
+                {...data}
+              />
             </Cell>
             <Cell xs={12} sm={12} md={5} lg={5}>
-              <Image kind={kind} alt={`poster for: ${title}`} image={image} placeholder={placeholder} />
+              <Image
+                kind={kind}
+                alt={`poster for: ${title}`}
+                image={image}
+                placeholder={placeholder}
+              />
             </Cell>
           </Row>
         )}
       </Container>
       {error && (
         <Container style={{ flex: 1 }}>
-          <InfoScreen emoji="❌" title={randomData.title} description={randomData.description} />
+          <InfoScreen
+            emoji="❌"
+            title={randomData.title}
+            description={randomData.description}
+          />
         </Container>
       )}
     </Wrapper>

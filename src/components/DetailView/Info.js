@@ -18,8 +18,13 @@ const Info = ({ kind, tagline_from_render, ...data }) => {
   const genres = data?.genres?.map((x) => x.name) || [];
   const actors = data?.credits?.cast?.slice(0, sliceActors) || [];
   const totalActors = data?.credits?.cast?.length || 0;
-  const directors = data?.credits?.crew?.filter((x) => x.department === "Directing").slice(0, sliceDirectors) || [];
-  const totalDirectors = data?.credits?.crew?.filter((x) => x.department === "Directing")?.length || 0;
+  const directors =
+    data?.credits?.crew
+      ?.filter((x) => x.department === "Directing")
+      .slice(0, sliceDirectors) || [];
+  const totalDirectors =
+    data?.credits?.crew?.filter((x) => x.department === "Directing")?.length ||
+    0;
 
   return (
     <Fragment>
@@ -36,7 +41,12 @@ const Info = ({ kind, tagline_from_render, ...data }) => {
               {actors.map((actor) => (
                 <Relation key={actor?.id} kind={kind} {...actor} />
               ))}
-              {totalActors > 4 && <Toggle more={!!sliceActors} onClick={() => setSliceActors(!!sliceActors ? undefined : 4)} />}
+              {totalActors > 4 && (
+                <Toggle
+                  more={!!sliceActors}
+                  onClick={() => setSliceActors(!!sliceActors ? undefined : 4)}
+                />
+              )}
             </Section>
           </Cell>
         )}
@@ -53,7 +63,14 @@ const Info = ({ kind, tagline_from_render, ...data }) => {
               {directors.map((director) => (
                 <Relation key={director.id} kind={kind} {...director} />
               ))}
-              {totalDirectors > 4 && <Toggle more={!!sliceDirectors} onClick={() => setSliceDirectors(!!sliceDirectors ? undefined : 4)} />}
+              {totalDirectors > 4 && (
+                <Toggle
+                  more={!!sliceDirectors}
+                  onClick={() =>
+                    setSliceDirectors(!!sliceDirectors ? undefined : 4)
+                  }
+                />
+              )}
             </Section>
           )}
         </Cell>

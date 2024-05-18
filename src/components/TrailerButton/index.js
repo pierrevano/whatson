@@ -44,7 +44,14 @@ const Right = styled.div`
 
 function MovieOrTVShow(props) {
   const isMovieOrTVShow = props.isMovieOrTVShow;
-  if (isMovieOrTVShow === "tvshow") return <TVShow style={{ transform: "translateY(-1px)" }} size={16} strokeWidth={2.5} />;
+  if (isMovieOrTVShow === "tvshow")
+    return (
+      <TVShow
+        style={{ transform: "translateY(-1px)" }}
+        size={16}
+        strokeWidth={2.5}
+      />
+    );
   return <Movie size={16} strokeWidth={2.5} />;
 }
 

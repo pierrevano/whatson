@@ -21,10 +21,47 @@ const ratings_filters_query = queryStringParsed.ratings_filters;
 const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
-const getDataURL = (cinema_id, item_type, kindURL, minimum_ratings, page, platforms, popularity_filters, ratings_filters, search, seasons_number, status) => {
-  const parameters = getParameters(cinema_id, cinema_id_query, item_type, item_type_query, minimum_ratings, minimum_ratings_query, platforms, platforms_query, popularity_filters, popularity_filters_query, ratings_filters, ratings_filters_query, seasons_number, seasons_number_query, status, status_query);
+const getDataURL = (
+  cinema_id,
+  item_type,
+  kindURL,
+  minimum_ratings,
+  page,
+  platforms,
+  popularity_filters,
+  ratings_filters,
+  search,
+  seasons_number,
+  status
+) => {
+  const parameters = getParameters(
+    cinema_id,
+    cinema_id_query,
+    item_type,
+    item_type_query,
+    minimum_ratings,
+    minimum_ratings_query,
+    platforms,
+    platforms_query,
+    popularity_filters,
+    popularity_filters_query,
+    ratings_filters,
+    ratings_filters_query,
+    seasons_number,
+    seasons_number_query,
+    status,
+    status_query
+  );
 
-  if (kindURL === "movies" || kindURL === "people" || kindURL === "search" || kindURL === "tvshows") return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${config.api}&query=${search}&page=${page}`;
+  if (
+    kindURL === "movies" ||
+    kindURL === "people" ||
+    kindURL === "search" ||
+    kindURL === "tvshows"
+  )
+    return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${
+      config.api
+    }&query=${search}&page=${page}`;
   return `${config.cors_url}/${config.base_render_api}/${parameters}&page=${page}`;
 };
 
@@ -46,35 +83,77 @@ const InfiniteScroll = ({ page, setPage }) => {
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [cinema_id, setCinemaId] = useStorageString("cinema_id", "");
   const [item_type, setItemType] = useStorageString("item_type", "");
-  const [minimum_ratings_value, setMinRatingsValue] = useStorageString("minimum_ratings", "");
-  const [platforms_value, setPlatformsValue] = useStorageString("platforms", "");
-  const [popularity_filters, setPopularityFilters] = useStorageString("popularity_filters", "");
-  const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
-  const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
+  const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
+    "minimum_ratings",
+    ""
+  );
+  const [platforms_value, setPlatformsValue] = useStorageString(
+    "platforms",
+    ""
+  );
+  const [popularity_filters, setPopularityFilters] = useStorageString(
+    "popularity_filters",
+    ""
+  );
+  const [ratings_filters, setRatingsFilters] = useStorageString(
+    "ratings_filters",
+    ""
+  );
+  const [seasons_number, setSeasonsNumber] = useStorageString(
+    "seasons_number",
+    ""
+  );
   const [status_value, setStatusValue] = useStorageString("status", "");
   useEffect(() => {
     if (typeof cinema_id_query !== "undefined") setCinemaId(cinema_id_query);
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
-    if (typeof minimum_ratings_query !== "undefined") setMinRatingsValue(minimum_ratings_query);
-    if (typeof platforms_query !== "undefined") setPlatformsValue(platforms_query);
-    if (typeof popularity_filters_query !== "undefined") setPopularityFilters(popularity_filters_query);
-    if (typeof ratings_filters_query !== "undefined") setRatingsFilters(ratings_filters_query);
-    if (typeof seasons_number_query !== "undefined") setSeasonsNumber(seasons_number_query);
+    if (typeof minimum_ratings_query !== "undefined")
+      setMinRatingsValue(minimum_ratings_query);
+    if (typeof platforms_query !== "undefined")
+      setPlatformsValue(platforms_query);
+    if (typeof popularity_filters_query !== "undefined")
+      setPopularityFilters(popularity_filters_query);
+    if (typeof ratings_filters_query !== "undefined")
+      setRatingsFilters(ratings_filters_query);
+    if (typeof seasons_number_query !== "undefined")
+      setSeasonsNumber(seasons_number_query);
     if (typeof status_query !== "undefined") setStatusValue(status_query);
   });
 
   useEffect(() => {
-    if (ratings_filters !== "" && !document.querySelector(".p-inputwrapper").classList.contains("p-inputwrapper-filled")) {
-      document.querySelector(".p-inputwrapper").classList.add("p-inputwrapper-filled");
+    if (
+      ratings_filters !== "" &&
+      !document
+        .querySelector(".p-inputwrapper")
+        .classList.contains("p-inputwrapper-filled")
+    ) {
+      document
+        .querySelector(".p-inputwrapper")
+        .classList.add("p-inputwrapper-filled");
     }
   });
 
-  let { loading, data, error } = useFetch(getDataURL(cinema_id, item_type, kindURL, minimum_ratings_value, page, platforms_value, popularity_filters, ratings_filters, search, seasons_number, status_value));
+  let { loading, data, error } = useFetch(
+    getDataURL(
+      cinema_id,
+      item_type,
+      kindURL,
+      minimum_ratings_value,
+      page,
+      platforms_value,
+      popularity_filters,
+      ratings_filters,
+      search,
+      seasons_number,
+      status_value
+    )
+  );
 
   const [ref, inView] = useInView();
 
   const getDefaultItemType = (item_type_query) => {
-    if (item_type === "tvshow" || item_type_query === "tvshow") return "tvshows";
+    if (item_type === "tvshow" || item_type_query === "tvshow")
+      return "tvshows";
     if (item_type === "movie" || item_type_query === "movie") return "movies";
     return "movies";
   };
@@ -82,7 +161,10 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const errorMessage = [
     { title: "I’m sorry Dave.", description: "I’m afraid I can’t do that." },
     { title: "Into exile I must go.", description: "Failed I have." },
-    { title: "Well, if I I've made a mistake,", description: "I'm sorry and I hope you'll forgive me." },
+    {
+      title: "Well, if I I've made a mistake,",
+      description: "I'm sorry and I hope you'll forgive me.",
+    },
   ];
 
   const getRandomError = (array) => {
@@ -94,7 +176,11 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   if (error && search)
     return (
       <Cell xs={12}>
-        <InfoScreen emoji="❌" title={randomData.title} description={randomData.description} />
+        <InfoScreen
+          emoji="❌"
+          title={randomData.title}
+          description={randomData.description}
+        />
       </Cell>
     );
 
@@ -110,7 +196,11 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   if (data && !data?.results?.length && search !== "" && kindURL === "search")
     return (
       <Cell xs={12}>
-        <InfoScreen emoji="😕" title={`No results found for ${search}`} description="let’s try another one" />
+        <InfoScreen
+          emoji="😕"
+          title={`No results found for ${search}`}
+          description="let’s try another one"
+        />
       </Cell>
     );
 
@@ -122,13 +212,27 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     <Fragment>
       {data?.results?.map((entry) => (
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
-          <Card kindURL={kindURL === "search" || kindURL === "movies" || kindURL === "people" || kindURL === "tvshows" ? kindURL : getDefaultItemType(item_type_query)} {...entry} />
+          <Card
+            kindURL={
+              kindURL === "search" ||
+              kindURL === "movies" ||
+              kindURL === "people" ||
+              kindURL === "tvshows"
+                ? kindURL
+                : getDefaultItemType(item_type_query)
+            }
+            {...entry}
+          />
         </Cell>
       ))}
       {isLastPage && totalPages && totalPages > page && (
         <Cell xs={6} sm={4} md={3} xg={2}>
           <Card onClick={() => setPage(page + 1)} loadMore />
-          {page > 1 && <div ref={ref}>{inView && <InfiniteScroll page={page} setPage={setPage} />}</div>}
+          {page > 1 && (
+            <div ref={ref}>
+              {inView && <InfiniteScroll page={page} setPage={setPage} />}
+            </div>
+          )}
         </Cell>
       )}
     </Fragment>

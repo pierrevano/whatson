@@ -77,8 +77,19 @@ const Searchbar = ({ kindURL, value, onChange, ...props }) => (
   <Container {...props}>
     <Wrapper>
       <Loupe />
-      <Input placeholder={`Search for ${getPlaceholder(kindURL)}...`} autoFocus={true} value={value} onChange={onChange} />
-      {value && <i className="pi pi-times-circle" onClick={() => onChange({ target: { value: "" } })} style={{ zIndex: 2, cursor: "pointer" }} />}
+      <Input
+        placeholder={`Search for ${getPlaceholder(kindURL)}...`}
+        autoFocus={true}
+        value={value}
+        onChange={onChange}
+      />
+      {value && (
+        <i
+          className="pi pi-times-circle"
+          onClick={() => onChange({ target: { value: "" } })}
+          style={{ zIndex: 2, cursor: "pointer" }}
+        />
+      )}
     </Wrapper>
   </Container>
 );

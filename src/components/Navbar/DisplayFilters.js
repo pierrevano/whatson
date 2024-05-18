@@ -39,8 +39,12 @@ const cancel = () => {
 
   const ratingsAndCrossSelector = `${ratingsSelector},${crossMarkSelector}`;
   const theatersAndCrossSelector = `${theatersSelector},${crossMarkSelector}`;
-  const ratingsFiltersAndCross = document.querySelectorAll(ratingsAndCrossSelector);
-  const theatersSearchAndCross = document.querySelectorAll(theatersAndCrossSelector);
+  const ratingsFiltersAndCross = document.querySelectorAll(
+    ratingsAndCrossSelector
+  );
+  const theatersSearchAndCross = document.querySelectorAll(
+    theatersAndCrossSelector
+  );
 
   const removeClasses = (notSelector) => {
     const navbarDivSelectors = `${navbarDiv} > *:not(${notSelector}):not(${checkMarkSelector}), ${menuSelector}`;

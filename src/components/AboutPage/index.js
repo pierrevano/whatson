@@ -41,15 +41,24 @@ const AboutPage = () => {
         <Row vertical-gutter>
           <Cell xs={12} md={7} lg={6}>
             <Text xs={0} sm={1} style={{ margin: "1em 0" }}>
-              The purpose of this app is to help you quickly get the highest-rated movies/TV shows or explore the information provided by{" "}
-              <Anchor to="https://www.themoviedb.org" ariaLabel="The Movie Database (TMDB)">
+              The purpose of this app is to help you quickly get the
+              highest-rated movies/TV shows or explore the information provided
+              by{" "}
+              <Anchor
+                to="https://www.themoviedb.org"
+                ariaLabel="The Movie Database (TMDB)"
+              >
                 The Movie Database (TMDB)
               </Anchor>
               .
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              I have added 2 main new features: filters and cinemas search, but most of the codebase comes from this{" "}
-              <Anchor to="https://github.com/vitordino/movies" ariaLabel="Vitordino GitHub repository">
+              I have added 2 main new features: filters and cinemas search, but
+              most of the codebase comes from this{" "}
+              <Anchor
+                to="https://github.com/vitordino/movies"
+                ariaLabel="Vitordino GitHub repository"
+              >
                 repository
               </Anchor>{" "}
               and all the design credits should be addressed to{" "}
@@ -59,13 +68,22 @@ const AboutPage = () => {
               .
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              The raw data comes from AlloCiné, BetaSeries, IMDb, Letterboxd, Metacritic, RottenTomatoes, SensCritique, Trakt and The Movie Database (TMDB), all extracted with shell and Node.js scripts and pushed to a MongoDB. Then on the client side it's built with React.js and fetched from an Express.js API. Feel free to visit my{" "}
-              <Anchor to="https://github.com/pierrevano" ariaLabel="My personal GitHub repository">
+              The raw data comes from AlloCiné, BetaSeries, IMDb, Letterboxd,
+              Metacritic, RottenTomatoes, SensCritique, Trakt and The Movie
+              Database (TMDB), all extracted with shell and Node.js scripts and
+              pushed to a MongoDB. Then on the client side it's built with
+              React.js and fetched from an Express.js API. Feel free to visit my{" "}
+              <Anchor
+                to="https://github.com/pierrevano"
+                ariaLabel="My personal GitHub repository"
+              >
                 GitHub
               </Anchor>{" "}
               for more details.
             </Text>
-            <Text style={{ margin: "1em 0" }}>This app is also ad-free and does not use cookies.</Text>
+            <Text style={{ margin: "1em 0" }}>
+              This app is also ad-free and does not use cookies.
+            </Text>
           </Cell>
         </Row>
       </Container>

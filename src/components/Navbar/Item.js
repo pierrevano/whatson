@@ -44,7 +44,12 @@ const Button = styled.button`
 const Item = ({ active, to, className, title, children }) => {
   if (active)
     return (
-      <Button onClick={() => window.history.back()} style={{}} className={className} title={title}>
+      <Button
+        onClick={() => window.history.back()}
+        style={{}}
+        className={className}
+        title={title}
+      >
         {children}
       </Button>
     );

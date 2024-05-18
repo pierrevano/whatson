@@ -3,7 +3,9 @@ import styled from "styled-components";
 import above from "utils/above";
 import Text from "components/Text";
 
-const getRating = (release_dates = {}) => release_dates?.results?.find((x) => x.iso_3166_1 === "US")?.release_dates[0]?.certification || null;
+const getRating = (release_dates = {}) =>
+  release_dates?.results?.find((x) => x.iso_3166_1 === "US")?.release_dates[0]
+    ?.certification || null;
 
 const getFirst = ({ release_date, first_air_date, birthday }) => {
   return (first_air_date || birthday || release_date)?.split("-")[0];
@@ -18,7 +20,8 @@ const getSecond = (status_value, { runtime, last_air_date }) => {
 
 const getHighlight = ({ release_dates, number_of_seasons }) => {
   if (release_dates) return getRating(release_dates);
-  if (number_of_seasons) return `${number_of_seasons} season${number_of_seasons > 1 ? "s" : ""}`;
+  if (number_of_seasons)
+    return `${number_of_seasons} season${number_of_seasons > 1 ? "s" : ""}`;
   return null;
 };
 
@@ -62,8 +65,12 @@ const Meta = ({ status_value, ...data }) => (
   <Wrapper style={{ margin: "1.5rem 0" }}>
     <SeparatedText sm={1} color={(p) => p.theme.colors.lightGrey || ""}>
       {getFirst(data) && <span>{getFirst(data)}</span>}
-      {getSecond(status_value, data) && getSecond(status_value, data) !== getFirst(data) && <span>{getSecond(status_value, data)}</span>}
-      {(getFirst(data) || getSecond(status_value, data)) && getHighlight(data) && <span />}
+      {getSecond(status_value, data) &&
+        getSecond(status_value, data) !== getFirst(data) && (
+          <span>{getSecond(status_value, data)}</span>
+        )}
+      {(getFirst(data) || getSecond(status_value, data)) &&
+        getHighlight(data) && <span />}
     </SeparatedText>
     {getHighlight(data) && <Rating>{getHighlight(data)}</Rating>}
   </Wrapper>

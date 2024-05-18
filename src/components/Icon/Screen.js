@@ -1,7 +1,20 @@
 import React from "react";
 
-const Screen = ({ size = 16, filled = false, color = "currentColor", strokeWidth = 0.1, style, ...props }) => (
-  <svg viewBox="0 0 29 29" width={size * 2.5} height={size * 1.5} style={{ ...style }} {...props}>
+const Screen = ({
+  size = 16,
+  filled = false,
+  color = "currentColor",
+  strokeWidth = 0.1,
+  style,
+  ...props
+}) => (
+  <svg
+    viewBox="0 0 29 29"
+    width={size * 2.5}
+    height={size * 1.5}
+    style={{ ...style }}
+    {...props}
+  >
     <path
       stroke={color}
       strokeWidth={strokeWidth}

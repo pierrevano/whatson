@@ -14,7 +14,11 @@ const Wrapper = styled.div`
  */
 const Section = ({ title, children }) => (
   <Wrapper style={{ margin: "1.5rem 0" }}>
-    <Text weight={500} color={(p) => p.theme.colors.lightGrey} style={{ margin: "0.5rem 0" }}>
+    <Text
+      weight={500}
+      color={(p) => p.theme.colors.lightGrey}
+      style={{ margin: "0.5rem 0" }}
+    >
       {title}
     </Text>
     <Text color={(p) => p.theme.colors.white}>{children}</Text>

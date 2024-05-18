@@ -60,7 +60,15 @@ const Image = ({ placeholder, image, kind }) => {
     <Wrapper ratio={image ? 0.75 : 1}>
       {image ? (
         <LazyImage placeholder={placeholder} src={image}>
-          {(src, loading) => <Img ref={imgEl} src={src} width={width} height={height} loading={+loading} />}
+          {(src, loading) => (
+            <Img
+              ref={imgEl}
+              src={src}
+              width={width}
+              height={height}
+              loading={+loading}
+            />
+          )}
         </LazyImage>
       ) : (
         <NoImage>

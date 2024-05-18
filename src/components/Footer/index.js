@@ -43,10 +43,17 @@ const Footer = () => (
       <Anchor to="/about" ariaLabel="About this website">
         about
       </Anchor>
-      <Anchor to="https://github.com/pierrevano/whatson" style={{ padding: "0.375rem" }} ariaLabel="Whatson? GitHub repository">
+      <Anchor
+        to="https://github.com/pierrevano/whatson"
+        style={{ padding: "0.375rem" }}
+        ariaLabel="Whatson? GitHub repository"
+      >
         <Github />
       </Anchor>
-      <Anchor to="https://pierrevano.github.io" ariaLabel="My personal GitHub repository">
+      <Anchor
+        to="https://pierrevano.github.io"
+        ariaLabel="My personal GitHub repository"
+      >
         pierreschelde
       </Anchor>
     </Wrapper>

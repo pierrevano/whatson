@@ -13,4 +13,5 @@ export const parse = (value = 0) => {
   return value;
 };
 
-export const stringify = (value = 0) => (!!parse(value) ? `${parse(value)}px` : value);
+export const stringify = (value = 0) =>
+  !!parse(value) ? `${parse(value)}px` : value;

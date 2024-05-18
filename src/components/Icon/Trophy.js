@@ -1,7 +1,22 @@
 import React from "react";
 
-const Trophy = ({ size = 28, filled = false, color = "currentColor", strokeWidth = "2", style, ...props }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="#FFF" style={{ display: "block", ...style }} xmlns="http://www.w3.org/2000/svg" {...props}>
+const Trophy = ({
+  size = 28,
+  filled = false,
+  color = "currentColor",
+  strokeWidth = "2",
+  style,
+  ...props
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="#FFF"
+    style={{ display: "block", ...style }}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"

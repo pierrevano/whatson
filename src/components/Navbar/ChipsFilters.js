@@ -19,10 +19,15 @@ function createItems(nameArray, origin) {
     if (origin === "platforms") {
       processedName = name;
     } else {
-      processedName = name.toLowerCase().replaceAll("allociné", "allocine").replaceAll("rotten tomatoes", "rottenTomatoes").replaceAll(" ", "_");
+      processedName = name
+        .toLowerCase()
+        .replaceAll("allociné", "allocine")
+        .replaceAll("rotten tomatoes", "rottenTomatoes")
+        .replaceAll(" ", "_");
     }
 
-    const capitalizedFirstLetterName = name.charAt(0).toUpperCase() + name.slice(1);
+    const capitalizedFirstLetterName =
+      name.charAt(0).toUpperCase() + name.slice(1);
     return { name: capitalizedFirstLetterName, code: processedName, origin };
   });
 }
@@ -35,8 +40,12 @@ function createLookup(itemsArray) {
 }
 
 const displayCheckMark = () => {
-  document.querySelector(config.crossMarkSelector).classList.add("display-none");
-  document.querySelector(config.checkMarkSelector).classList.remove("display-none");
+  document
+    .querySelector(config.crossMarkSelector)
+    .classList.add("display-none");
+  document
+    .querySelector(config.checkMarkSelector)
+    .classList.remove("display-none");
 };
 
 const groupedItemTemplate = (option) => {
@@ -135,11 +144,26 @@ const ChipsDoc = () => {
   initializeLocalStorage();
 
   const [item_type] = useStorageString("item_type", "");
-  const [minimum_ratings_value, setMinRatingsValue] = useStorageString("minimum_ratings", "");
-  const [platforms_value, setPlatformsValue] = useStorageString("platforms", "");
-  const [popularity_filters, setPopularityFilters] = useStorageString("popularity_filters", "");
-  const [ratings_filters, setRatingsFilters] = useStorageString("ratings_filters", "");
-  const [seasons_number, setSeasonsNumber] = useStorageString("seasons_number", "");
+  const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
+    "minimum_ratings",
+    ""
+  );
+  const [platforms_value, setPlatformsValue] = useStorageString(
+    "platforms",
+    ""
+  );
+  const [popularity_filters, setPopularityFilters] = useStorageString(
+    "popularity_filters",
+    ""
+  );
+  const [ratings_filters, setRatingsFilters] = useStorageString(
+    "ratings_filters",
+    ""
+  );
+  const [seasons_number, setSeasonsNumber] = useStorageString(
+    "seasons_number",
+    ""
+  );
   const [status_value, setStatusValue] = useStorageString("status", "");
 
   const defaultMinRatingsValue = config.minimum_ratings.split(",");
@@ -168,7 +192,11 @@ const ChipsDoc = () => {
 
   const defaultItemTypeFilters = config.item_type.split(",");
   if (item_type && item_type === defaultItemTypeFilters[0]) {
-    const letterboxdUsers = { name: "Letterboxd users", code: "letterboxd_users", origin: "ratings" };
+    const letterboxdUsers = {
+      name: "Letterboxd users",
+      code: "letterboxd_users",
+      origin: "ratings",
+    };
     ratings.items.splice(4, 0, letterboxdUsers);
   }
 
@@ -189,13 +217,23 @@ const ChipsDoc = () => {
 
     const minRatingsLookup = createLookup(minimum_ratings.items);
     defaultMinRatingsValue.forEach((filter) => {
-      const minimum_ratings_array = minimum_ratings_value.split(",").map(Number);
-      if (!minimum_ratings_value || minimum_ratings_array.includes(Number(filter))) {
+      const minimum_ratings_array = minimum_ratings_value
+        .split(",")
+        .map(Number);
+      if (
+        !minimum_ratings_value ||
+        minimum_ratings_array.includes(Number(filter))
+      ) {
         selectedItems.push(minRatingsLookup[filter]);
       }
     });
 
-    const filterLookup = createLookup([...platforms.items, ...popularity.items, ...ratings.items, ...status.items]);
+    const filterLookup = createLookup([
+      ...platforms.items,
+      ...popularity.items,
+      ...ratings.items,
+      ...status.items,
+    ]);
     defaultPlatformsValue.forEach((filter) => {
       if (!platforms_value || platforms_value.includes(filter)) {
         selectedItems.push(filterLookup[filter]);
@@ -241,7 +279,9 @@ const ChipsDoc = () => {
         setPopularityFilters("none");
       } else {
         if (filtersArray.length > 1) {
-          const newFiltersArray = filtersArray.filter((filter) => filter !== "none");
+          const newFiltersArray = filtersArray.filter(
+            (filter) => filter !== "none"
+          );
           setPopularityFilters(newFiltersArray.join(","));
         }
       }
@@ -273,9 +313,13 @@ const ChipsDoc = () => {
 
     setMinRatingsValue(originMapper["minimum_ratings"].join(","));
 
-    const platformsSelectedItemsNumber = selectedItems.filter((item) => ["platforms"].includes(item.origin)).length;
+    const platformsSelectedItemsNumber = selectedItems.filter((item) =>
+      ["platforms"].includes(item.origin)
+    ).length;
     const platformsConfigItemsNumber = config.platforms.split(",").length;
-    const platformsUnselectedItemsNumber = e.value.filter((item) => ["platforms"].includes(item.origin)).length;
+    const platformsUnselectedItemsNumber = e.value.filter((item) =>
+      ["platforms"].includes(item.origin)
+    ).length;
 
     if (platformsUnselectedItemsNumber === 0) {
       setPlatformsValue(config.platforms);
@@ -283,14 +327,22 @@ const ChipsDoc = () => {
       setPlatformsValue(originMapper["platforms"].join(","));
     }
 
-    if ((platformsSelectedItemsNumber !== platformsConfigItemsNumber || platformsUnselectedItemsNumber !== platformsConfigItemsNumber) && platformsConfigItemsNumber !== platformsUnselectedItemsNumber) {
+    if (
+      (platformsSelectedItemsNumber !== platformsConfigItemsNumber ||
+        platformsUnselectedItemsNumber !== platformsConfigItemsNumber) &&
+      platformsConfigItemsNumber !== platformsUnselectedItemsNumber
+    ) {
       if (Array.isArray(originMapper["platforms"])) {
-        originMapper["platforms"] = originMapper["platforms"].filter((item) => item !== "all");
+        originMapper["platforms"] = originMapper["platforms"].filter(
+          (item) => item !== "all"
+        );
       }
       setPlatformsValue(originMapper["platforms"].join(","));
     }
 
-    const minRatingsAndPopularityUnselectedItemsNumber = e.value.filter((item) => ["minimum_ratings", "popularity"].includes(item.origin)).length;
+    const minRatingsAndPopularityUnselectedItemsNumber = e.value.filter(
+      (item) => ["minimum_ratings", "popularity"].includes(item.origin)
+    ).length;
 
     if (minRatingsAndPopularityUnselectedItemsNumber === 0) {
       setPopularityFilters(config.popularity);
@@ -305,11 +357,24 @@ const ChipsDoc = () => {
     setSelectedItems(e.value);
   };
 
-  const groupedItems = item_type && item_type === defaultItemTypeFilters[1] ? [minimum_ratings, platforms, popularity, ratings, seasons, status] : [minimum_ratings, platforms, popularity, ratings];
+  const groupedItems =
+    item_type && item_type === defaultItemTypeFilters[1]
+      ? [minimum_ratings, platforms, popularity, ratings, seasons, status]
+      : [minimum_ratings, platforms, popularity, ratings];
 
   return (
     <div className="card">
-      <MultiSelect value={selectedItems} options={groupedItems} optionLabel="name" onChange={(e) => onChangeFunction(e)} optionGroupLabel="name" optionGroupChildren="items" optionGroupTemplate={groupedItemTemplate} placeholder="Select your filters" display="chip" />
+      <MultiSelect
+        value={selectedItems}
+        options={groupedItems}
+        optionLabel="name"
+        onChange={(e) => onChangeFunction(e)}
+        optionGroupLabel="name"
+        optionGroupChildren="items"
+        optionGroupTemplate={groupedItemTemplate}
+        placeholder="Select your filters"
+        display="chip"
+      />
     </div>
   );
 };

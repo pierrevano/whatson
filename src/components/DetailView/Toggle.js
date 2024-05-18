@@ -21,6 +21,8 @@ const Wrapper = styled.button`
   }
 `;
 
-const Toggle = ({ more, ...props }) => <Wrapper {...props}>{!!more ? "More" : "Fewer"}</Wrapper>;
+const Toggle = ({ more, ...props }) => (
+  <Wrapper {...props}>{!!more ? "More" : "Fewer"}</Wrapper>
+);
 
 export default Toggle;

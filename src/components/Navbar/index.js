@@ -109,7 +109,8 @@ const setItemType = (type) => {
 
 const searchShortcut = (event) => {
   if (event.key === "k") {
-    const ctrlPress = navigator.userAgent.indexOf("Mac") !== -1 ? event.metaKey : event.ctrlKey;
+    const ctrlPress =
+      navigator.userAgent.indexOf("Mac") !== -1 ? event.metaKey : event.ctrlKey;
     if (ctrlPress) document.getElementsByClassName("searchItem")[0].click();
   }
 };
@@ -125,7 +126,12 @@ const Navbar = () => {
   const toast = useRef(null);
 
   const accept = () => {
-    toast.current.show({ severity: "info", summary: "Confirmation", detail: "Enjoy your fresh start!", life: 3000 });
+    toast.current.show({
+      severity: "info",
+      summary: "Confirmation",
+      detail: "Enjoy your fresh start!",
+      life: 3000,
+    });
     setTimeout(clearAndReload, 3000);
   };
 
@@ -147,39 +153,88 @@ const Navbar = () => {
     <StickyContainer>
       <Wrapper>
         <Logo tabIndex={0} to="/">
-          <span role="img" aria-label="logo" style={{ transform: "translateY(1px)" }} onClick={() => (window.location.href = "/")}>
-            <img style={{ marginTop: "5px", maxWidth: "24px" }} src={config.base_render + "/logo.png"} alt="logo" width="24px" height="24px"></img>
+          <span
+            role="img"
+            aria-label="logo"
+            style={{ transform: "translateY(1px)" }}
+            onClick={() => (window.location.href = "/")}
+          >
+            <img
+              style={{ marginTop: "5px", maxWidth: "24px" }}
+              src={config.base_render + "/logo.png"}
+              alt="logo"
+              width="24px"
+              height="24px"
+            ></img>
           </span>
         </Logo>
-        <Menu onClick={() => setVisibleLeft(true)} style={{ position: "absolute", marginLeft: "35px", transform: "translateY(1px)", cursor: "pointer" }}></Menu>
-        <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)} style={{ position: "relative" }}>
+        <Menu
+          onClick={() => setVisibleLeft(true)}
+          style={{
+            position: "absolute",
+            marginLeft: "35px",
+            transform: "translateY(1px)",
+            cursor: "pointer",
+          }}
+        ></Menu>
+        <Sidebar
+          visible={visibleLeft}
+          onHide={() => setVisibleLeft(false)}
+          style={{ position: "relative" }}
+        >
           <h1>
             <strong>Switch to</strong>
           </h1>
           <br />
-          <span className="pi pi-ticket" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
+          <span
+            className="pi pi-ticket"
+            style={{ transform: "translateY(2px)", marginRight: "10px" }}
+          ></span>
           <span onClick={() => setItemType("movie")}>Movies</span>
           <br />
           <br />
-          <span className="pi pi-video" style={{ transform: "translateY(2px)", marginRight: "10px" }}></span>
+          <span
+            className="pi pi-video"
+            style={{ transform: "translateY(2px)", marginRight: "10px" }}
+          ></span>
           <span onClick={() => setItemType("tvshow")}>TV Shows</span>
-          <span className="pi pi-trash" style={{ position: "absolute", bottom: "22px", left: "20px" }}></span>
-          <span style={{ position: "absolute", bottom: "20px", left: "50px" }} onClick={() => setVisible(true)}>
+          <span
+            className="pi pi-trash"
+            style={{ position: "absolute", bottom: "22px", left: "20px" }}
+          ></span>
+          <span
+            style={{ position: "absolute", bottom: "20px", left: "50px" }}
+            onClick={() => setVisible(true)}
+          >
             Reset Preferences
           </span>
           <Toast ref={toast} />
-          <ConfirmDialog visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to proceed?" header="Clear my preferences" accept={accept} />
+          <ConfirmDialog
+            visible={visible}
+            onHide={() => setVisible(false)}
+            message="Are you sure you want to proceed?"
+            header="Clear my preferences"
+            accept={accept}
+          />
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
-              <StyledLinkInput className={isMobile ? "ratings-filters display-none" : "ratings-filters"}>
+              <StyledLinkInput
+                className={
+                  isMobile ? "ratings-filters display-none" : "ratings-filters"
+                }
+              >
                 <ChipsDoc></ChipsDoc>
               </StyledLinkInput>
               <StyledLink className="check-mark display-none">
                 <CheckMark onClick={() => window.location.reload()}></CheckMark>
               </StyledLink>
-              <StyledLinkInput className={isMobile ? "theaters-search display-none" : "theaters-search"}>
+              <StyledLinkInput
+                className={
+                  isMobile ? "theaters-search display-none" : "theaters-search"
+                }
+              >
                 <AutocompleteTheaters></AutocompleteTheaters>
               </StyledLinkInput>
               <StyledLinkIcons>
@@ -203,14 +258,35 @@ const Navbar = () => {
               <StyledLinkIcons className="cross-mark display-none">
                 <Cross onClick={cancel}></Cross>
               </StyledLinkIcons>
-              <Item to="/favorites" active={pathname === "/favorites"} className="favoritesItem" title="View or edit your favorites">
+              <Item
+                to="/favorites"
+                active={pathname === "/favorites"}
+                className="favoritesItem"
+                title="View or edit your favorites"
+              >
                 <span title="View or edit your favorites">
-                  <Heart filled={pathname === "/favorites"} style={{ marginRight: "-7px", transform: "translateY(1px)" }} aria-label="View or edit your favorites" />
+                  <Heart
+                    filled={pathname === "/favorites"}
+                    style={{
+                      marginRight: "-7px",
+                      transform: "translateY(1px)",
+                    }}
+                    aria-label="View or edit your favorites"
+                  />
                 </span>
               </Item>
-              <Item to="/search" active={pathname === "/search"} className="searchItem" title="Shortcut: CMD/CTRL + K">
+              <Item
+                to="/search"
+                active={pathname === "/search"}
+                className="searchItem"
+                title="Shortcut: CMD/CTRL + K"
+              >
                 <span title="Shortcut: CMD/CTRL + K">
-                  <Search filled={pathname === "/search"} style={{ transform: "translateY(-1px)" }} aria-label="Search for a movie, tvshow or person" />
+                  <Search
+                    filled={pathname === "/search"}
+                    style={{ transform: "translateY(-1px)" }}
+                    aria-label="Search for a movie, tvshow or person"
+                  />
                 </span>
               </Item>
             </Flex>

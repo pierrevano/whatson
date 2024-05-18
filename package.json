@@ -34,9 +34,6 @@
     "teardown": "surge teardown whatson-dev.surge.sh",
     "update": "rm -rf node_modules package-lock.json && npm i --legacy-peer-deps"
   },
-  "prettier": {
-    "printWidth": 500
-  },
   "rescripts": [
     "env"
   ],

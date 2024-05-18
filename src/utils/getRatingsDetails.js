@@ -172,9 +172,19 @@ export const getRatingsDetails = (
   const ratingBody = (rowData) => {
     const rating = rowData.rating;
     let maxRating = 5;
-    if (rowData.name === "IMDb users" || rowData.name === "Metacritic users" || rowData.name === "SensCritique users" || rowData.name === "TMDB users") {
+    if (
+      rowData.name === "IMDb users" ||
+      rowData.name === "Metacritic users" ||
+      rowData.name === "SensCritique users" ||
+      rowData.name === "TMDB users"
+    ) {
       maxRating = 10;
-    } else if (rowData.name === "Metacritic critics" || rowData.name === "Rotten Tomatoes users" || rowData.name === "Rotten Tomatoes critics" || rowData.name === "Trakt users") {
+    } else if (
+      rowData.name === "Metacritic critics" ||
+      rowData.name === "Rotten Tomatoes users" ||
+      rowData.name === "Rotten Tomatoes critics" ||
+      rowData.name === "Trakt users"
+    ) {
       maxRating = 100;
     }
 
@@ -225,7 +235,10 @@ export const getRatingsDetails = (
       );
     } else if (name === "AlloCiné critics" && rating > 0) {
       link = (
-        <a href={`${editURL(allocine_url)}/critiques/presse/`} target={"_blank"}>
+        <a
+          href={`${editURL(allocine_url)}/critiques/presse/`}
+          target={"_blank"}
+        >
           {name}
         </a>
       );
