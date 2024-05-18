@@ -374,6 +374,20 @@ const ChipsDoc = () => {
         optionGroupTemplate={groupedItemTemplate}
         placeholder="Select your filters"
         display="chip"
+        pt={{
+          checkboxIcon: {
+            onClick: (e) => {
+              e.stopPropagation();
+              e.target.parentNode.click();
+            },
+          },
+          headerCheckbox: {
+            onClick: (e) => {
+              e.stopPropagation();
+              e.target.parentNode.click();
+            },
+          },
+        }}
       />
     </div>
   );
