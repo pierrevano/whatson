@@ -1,3 +1,5 @@
+const childNumber = 25;
+
 const MultiSelectStyle = `
   .navbar-div {
     margin-left: 32px !important;
@@ -255,7 +257,7 @@ const MultiSelectStyle = `
     display: none !important;
   }
 
-  .p-multiselect-items.p-component li:nth-child(26) {
+  .p-multiselect-items.p-component li:nth-child(${childNumber}) {
     display: none !important;
   }
 `;
