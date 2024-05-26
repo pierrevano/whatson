@@ -57,7 +57,7 @@ const AutocompleteTheaters = () => {
         <AutoComplete
           className="p-inputwrapper-focus"
           inputId="ac"
-          placeholder="Select your cinema"
+          placeholder="Filter movies by cinema"
           value={value}
           suggestions={items}
           completeMethod={name}
