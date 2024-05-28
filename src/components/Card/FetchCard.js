@@ -2,6 +2,7 @@ import React from "react";
 import { useFetch } from "react-hooks-fetch";
 import { getKindByURL } from "utils/kind";
 import Card from "./index";
+import config from "utils/config";
 
 /**
  * A component that fetches data from a given URL and renders a Card component with the fetched data.
@@ -13,7 +14,7 @@ const FetchCard = ({ kindURL, id }) => {
   const { error, loading, data } = useFetch(
     [
       `https://api.themoviedb.org/3/${getKindByURL(kindURL)}/${id}`,
-      `?api_key=${process.env.REACT_APP_TMDB_KEY}`,
+      `?api_key=${config.api}`,
     ].join(""),
   );
 
