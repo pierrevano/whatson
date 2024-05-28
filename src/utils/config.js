@@ -3,7 +3,7 @@ const config = {
   api: process.env.REACT_APP_TMDB_KEY,
 
   cors_url: "https://cors-sites-aafe82ad9d0c.fly.dev",
-  base_render_api: "https://whatson-api.onrender.com",
+  base_render_api: process.env.WHATSON_API_URL,
   base_render: "https://whatson.onrender.com",
 
   base_beamanalytics: "https://beamanalytics.b-cdn.net/beam.min.js",
