@@ -254,6 +254,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     : "movie";
 
   const {
+    allocineID,
     detailsData,
     mojoDetailsData,
     logoBody,
@@ -292,6 +293,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const isMounted = useRef(false);
 
   const displayRatingsDetails = (e) => {
+    window.beam(`/custom-events/ratings_details_displayed/${allocineID}`);
+
     if (isMounted.current && detailsData) {
       op.current.hide(e);
       isMounted.current = false;

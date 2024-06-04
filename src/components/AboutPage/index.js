@@ -41,9 +41,9 @@ const AboutPage = () => {
         <Row vertical-gutter>
           <Cell xs={12} md={7} lg={6}>
             <Text xs={0} sm={1} style={{ margin: "1em 0" }}>
-              The purpose of this app is to help you quickly get the
-              highest-rated movies/TV shows or explore the information provided
-              by{" "}
+              The purpose of this app is to help you quickly find the
+              highest-rated movies and TV shows or to explore the information
+              provided by{" "}
               <Anchor
                 to="https://www.themoviedb.org"
                 ariaLabel="The Movie Database (TMDB)"
@@ -53,36 +53,42 @@ const AboutPage = () => {
               .
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              I have added 2 main new features: filters and cinemas search, but
-              most of the codebase comes from this{" "}
+              I have added two main new features: filters and a cinemas filter.
+              However, most of the codebase is derived from{" "}
+              <Anchor to="https://vitordino.com" ariaLabel="Vitor Dino website">
+                Vitor Dino
+              </Anchor>{" "}
               <Anchor
                 to="https://github.com/vitordino/movies"
-                ariaLabel="Vitordino GitHub repository"
+                ariaLabel="Vitor Dino GitHub original repository"
               >
                 repository
-              </Anchor>{" "}
-              and all the design credits should be addressed to{" "}
-              <Anchor to="https://vitordino.com" ariaLabel="Vitordino website">
-                Vitor Dino
               </Anchor>
-              .
+              , to whom all design credits are due.
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              The raw data comes from AlloCiné, BetaSeries, IMDb, Letterboxd,
-              Metacritic, RottenTomatoes, SensCritique, Trakt and The Movie
-              Database (TMDB), all extracted with shell and Node.js scripts and
-              pushed to a MongoDB. Then on the client side it's built with
-              React.js and fetched from an Express.js API. Feel free to visit my{" "}
+              The raw data is sourced from various platforms including AlloCiné,
+              BetaSeries, IMDb, Letterboxd, Metacritic, Rotten Tomatoes,
+              SensCritique, Trakt, and The Movie Database (TMDB). It is
+              extracted using shell and Node.js scripts and then pushed to a
+              MongoDB database. On the client side, the application is built
+              with React.js and accesses data via an Express.js API. For more
+              details, feel free to visit my{" "}
               <Anchor
                 to="https://github.com/pierrevano"
-                ariaLabel="My personal GitHub repository"
+                ariaLabel="My GitHub profile"
               >
                 GitHub
               </Anchor>{" "}
-              for more details.
+              profile.
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              This app is also ad-free and does not use cookies.
+              Additionally, this app is ad-free and does not use cookies—only
+              the GDPR-compliant solution,{" "}
+              <Anchor to="https://beamanalytics.io" ariaLabel="Beam Analytics">
+                Beam Analytics
+              </Anchor>
+              , to enhance the user experience.
             </Text>
           </Cell>
         </Row>
