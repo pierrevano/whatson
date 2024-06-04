@@ -338,7 +338,7 @@ export const getRatingsDetails = (
 
   return {
     allocineID:
-      allocine_url && allocine_url.replace("https://www.allocine.fr", ""),
+      allocine_url && allocine_url.replace("https://www.allocine.fr/", ""),
     detailsData,
     mojoDetailsData,
     logoBody,
