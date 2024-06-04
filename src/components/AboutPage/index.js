@@ -53,7 +53,7 @@ const AboutPage = () => {
               .
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              I have added two main new features: filters and a cinemas filter.
+              I have added two main new features: filters and a cinema search.
               However, most of the codebase is derived from{" "}
               <Anchor to="https://vitordino.com" ariaLabel="Vitor Dino website">
                 Vitor Dino
