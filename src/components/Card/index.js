@@ -293,7 +293,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const isMounted = useRef(false);
 
   const displayRatingsDetails = (e) => {
-    window.beam(`/custom-events/ratings_details_displayed/${allocineID}`);
+    const beamanalytics = localStorage.getItem("beamanalytics") || "true";
+    if (beamanalytics !== "false")
+      window.beam(`/custom-events/ratings_details_displayed/${allocineID}`);
 
     if (isMounted.current && detailsData) {
       op.current.hide(e);
