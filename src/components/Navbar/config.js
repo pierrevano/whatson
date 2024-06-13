@@ -9,6 +9,9 @@ const config = {
 
   minimum_ratings: "4.5,4,3.5,3,2.5,2,1,0",
 
+  release_date: "last_6_months,from_the_beginning",
+  release_date_names: "Last 6 months,From the beginning",
+
   platforms:
     "Canal+ Ciné Séries,Netflix,Prime Video,Canal+,TF1+,Disney+,Paramount+,Apple TV+,Pass Warner,OCS,M6+,Crunchyroll,ADN,Universal+,all",
 

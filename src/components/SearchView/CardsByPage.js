@@ -18,6 +18,7 @@ const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const platforms_query = queryStringParsed.platforms;
 const popularity_filters_query = queryStringParsed.popularity_filters;
 const ratings_filters_query = queryStringParsed.ratings_filters;
+const release_date_query = queryStringParsed.release_date;
 const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
@@ -30,6 +31,7 @@ const getDataURL = (
   platforms,
   popularity_filters,
   ratings_filters,
+  release_date,
   search,
   seasons_number,
   status,
@@ -47,6 +49,8 @@ const getDataURL = (
     popularity_filters_query,
     ratings_filters,
     ratings_filters_query,
+    release_date,
+    release_date_query,
     seasons_number,
     seasons_number_query,
     status,
@@ -99,6 +103,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     "ratings_filters",
     "",
   );
+  const [release_date, setReleaseDate] = useStorageString("release_date", "");
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
     "",
@@ -115,6 +120,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       setPopularityFilters(popularity_filters_query);
     if (typeof ratings_filters_query !== "undefined")
       setRatingsFilters(ratings_filters_query);
+    if (typeof release_date_query !== "undefined")
+      setReleaseDate(release_date_query);
     if (typeof seasons_number_query !== "undefined")
       setSeasonsNumber(seasons_number_query);
     if (typeof status_query !== "undefined") setStatusValue(status_query);
@@ -143,6 +150,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       platforms_value,
       popularity_filters,
       ratings_filters,
+      release_date,
       search,
       seasons_number,
       status_value,

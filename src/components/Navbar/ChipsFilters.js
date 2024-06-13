@@ -160,6 +160,10 @@ const ChipsDoc = () => {
     "ratings_filters",
     "",
   );
+  const [release_date_value, setReleaseDateValue] = useStorageString(
+    "release_date",
+    "",
+  );
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
     "",
@@ -200,6 +204,12 @@ const ChipsDoc = () => {
     ratings.items.splice(4, 0, letterboxdUsers);
   }
 
+  const defaultReleaseDateValue = config.release_date.split(",");
+  const release_date = {
+    name: "Release date",
+    items: createItems(config.release_date_names.split(","), "release_date"),
+  };
+
   const defaultSeasonsNumber = config.seasons.split(",");
   const seasons = {
     name: "Seasons numbers",
@@ -232,8 +242,10 @@ const ChipsDoc = () => {
       ...platforms.items,
       ...popularity.items,
       ...ratings.items,
+      ...release_date.items,
       ...status.items,
     ]);
+
     defaultPlatformsValue.forEach((filter) => {
       if (!platforms_value || platforms_value.includes(filter)) {
         selectedItems.push(filterLookup[filter]);
@@ -248,6 +260,12 @@ const ChipsDoc = () => {
 
     defaultRatingsFilters.forEach((filter) => {
       if (!ratings_filters || ratings_filters.includes(filter)) {
+        selectedItems.push(filterLookup[filter]);
+      }
+    });
+
+    defaultReleaseDateValue.forEach((filter) => {
+      if (!release_date_value || release_date_value.includes(filter)) {
         selectedItems.push(filterLookup[filter]);
       }
     });
@@ -301,6 +319,7 @@ const ChipsDoc = () => {
       platforms: [],
       popularity: [],
       ratings: [],
+      release_date: [],
       seasons: [],
       status: [],
     };
@@ -351,6 +370,7 @@ const ChipsDoc = () => {
     }
 
     setRatingsFilters(originMapper["ratings"].join(","));
+    setReleaseDateValue(originMapper["release_date"].join(","));
     setSeasonsNumber(originMapper["seasons"].join(","));
     setStatusValue(originMapper["status"].join(","));
 
@@ -360,7 +380,7 @@ const ChipsDoc = () => {
   const groupedItems =
     item_type && item_type === defaultItemTypeFilters[1]
       ? [minimum_ratings, platforms, popularity, ratings, seasons, status]
-      : [minimum_ratings, platforms, popularity, ratings];
+      : [minimum_ratings, release_date, platforms, popularity, ratings];
 
   return (
     <div className="card">

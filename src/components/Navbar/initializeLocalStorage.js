@@ -5,6 +5,7 @@ const localStorageItems = {
   platforms: config.platforms,
   popularity_filters: config.popularity,
   ratings_filters: config.ratings,
+  release_date: config.release_date,
   seasons_number: config.seasons,
   status: config.status,
 };
