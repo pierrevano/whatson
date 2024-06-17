@@ -171,6 +171,7 @@ const LoadMore = styled(Text)`
   text-align: center;
   height: 100%;
   margin: auto;
+  color: ${(p) => p.theme.colors.lightGrey};
   ${Wrapper}:hover & {
     color: ${(p) => p.theme.colors.lightGrey};
   }
@@ -347,7 +348,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
         )}
       </OverflowHidden>
       {loadMore && (
-        <LoadMore xs={1} weight={500} color={(p) => p.theme.colors.midGrey}>
+        <LoadMore xs={1} weight={500}>
           Load
           <br />
           More

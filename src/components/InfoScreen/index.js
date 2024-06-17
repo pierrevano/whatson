@@ -21,6 +21,10 @@ const Emoji = styled.div`
   margin: 0.5em;
 `;
 
+const InfoText = styled(Text)`
+  color: ${(props) => props.theme.colors.lightGrey};
+`;
+
 /**
  * A component that displays information in a styled wrapper.
  * @param {string} emoji - The emoji to display in the component.
@@ -37,9 +41,7 @@ const InfoScreen = ({ emoji, title, description, ...props }) => (
         {title}
       </Text>
     )}
-    {description && (
-      <Text color={(p) => p.theme.colors.lightGrey}>{description}</Text>
-    )}
+    {description && <InfoText>{description}</InfoText>}
   </Wrapper>
 );
 
