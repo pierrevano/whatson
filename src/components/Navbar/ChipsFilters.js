@@ -114,7 +114,7 @@ const ChipsDoc = () => {
   const groupedItems =
     item_type && item_type === defaultItemTypeFilters[1]
       ? [minimum_ratings, platforms, popularity, ratings, seasons, status]
-      : [minimum_ratings, release_date, platforms, popularity, ratings];
+      : [minimum_ratings, release_date, popularity, ratings];
 
   return (
     <div className="card">
