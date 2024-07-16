@@ -5,19 +5,13 @@ import Link from "components/Link";
 import Container from "components/Container";
 import { Heart, Search } from "components/Icon";
 import Item from "./Item";
-import ChipsDoc from "./ChipsFilters";
-import AutocompleteTheaters from "./AutocompleteTheaters";
-import Pin from "components/Icon/Pin";
-import Filter from "components/Icon/Filter";
 import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import Cross from "components/Icon/Cross";
-import CheckMark from "components/Icon/CheckMark";
 import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
-import { displayRatingsOrTheaters, cancel } from "./DisplayFilters";
 import config from "utils/config";
+import SidebarFilters from "./SidebarFilters";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -60,43 +54,6 @@ const Flex = styled.div`
   align-items: center;
 `;
 
-const linkStyle = `
-  display: block;
-  text-decoration: none;
-  color: currentColor;
-  margin: -0.75rem;
-  padding: 0.75rem;
-  border-radius: 2rem;
-  user-select: none;
-  cursor: pointer;
-  margin-right: 0.5rem;
-  &:last-child {
-    margin-right: -0.75rem;
-  }
-`;
-
-const StyledLink = styled.div`
-  cursor: pointer;
-  background: none;
-  border: none;
-  appearance: none;
-  ${linkStyle}
-  &:focus {
-    ${(p) => p.theme.focusShadow}
-  }
-`;
-
-const StyledLinkInput = styled(StyledLink)`
-  padding: 1px 12px;
-  margin: -0.75rem 8px;
-`;
-
-const StyledLinkIcons = styled(StyledLink)`
-  @media (min-width: 700px) {
-    display: none;
-  }
-`;
-
 const setItemType = (type) => {
   localStorage.setItem("item_type", type);
 
@@ -134,15 +91,6 @@ const Navbar = () => {
     });
     setTimeout(clearAndReload, 3000);
   };
-
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    window.screen.width <= 700 ? setIsMobile(true) : setIsMobile(false);
-  }, []);
-  function detectWindowSize() {
-    window.innerWidth <= 700 ? setIsMobile(true) : setIsMobile(false);
-  }
-  window.onresize = detectWindowSize;
 
   useEffect(() => {
     window.addEventListener("keydown", searchShortcut);
@@ -220,44 +168,7 @@ const Navbar = () => {
         <Location>
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
-              <StyledLinkInput
-                className={
-                  isMobile ? "ratings-filters display-none" : "ratings-filters"
-                }
-              >
-                <ChipsDoc></ChipsDoc>
-              </StyledLinkInput>
-              <StyledLink className="check-mark display-none">
-                <CheckMark onClick={() => window.location.reload()}></CheckMark>
-              </StyledLink>
-              <StyledLinkInput
-                className={
-                  isMobile ? "theaters-search display-none" : "theaters-search"
-                }
-              >
-                <AutocompleteTheaters></AutocompleteTheaters>
-              </StyledLinkInput>
-              <StyledLinkIcons>
-                <Filter
-                  onClick={() => {
-                    displayRatingsOrTheaters(".theaters-search");
-                    document.querySelector(".p-multiselect-trigger").click();
-                  }}
-                  style={{ marginRight: "-4px" }}
-                ></Filter>
-              </StyledLinkIcons>
-              <StyledLinkIcons>
-                <Pin
-                  onClick={() => {
-                    displayRatingsOrTheaters(".ratings-filters");
-                    document.getElementById("ac").focus();
-                  }}
-                  style={{ marginRight: "-4px", transform: "translateY(1px)" }}
-                ></Pin>
-              </StyledLinkIcons>
-              <StyledLinkIcons className="cross-mark display-none">
-                <Cross onClick={cancel}></Cross>
-              </StyledLinkIcons>
+              <SidebarFilters></SidebarFilters>
               <Item
                 to="/favorites"
                 active={pathname === "/favorites"}

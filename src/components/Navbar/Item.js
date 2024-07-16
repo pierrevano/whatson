@@ -19,9 +19,6 @@ const linkStyle = `
 
 const StyledLink = styled(Link)`
   ${linkStyle}
-  &:focus {
-    ${(p) => p.theme.focusShadow}
-  }
 `;
 
 const Button = styled.button`
@@ -29,9 +26,6 @@ const Button = styled.button`
   border: none;
   appearance: none;
   ${linkStyle}
-  &:focus {
-    ${(p) => p.theme.focusShadow}
-  }
 `;
 
 /**

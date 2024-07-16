@@ -1,6 +1,6 @@
-function createItems(nameArray, origin, item_type, defaultItemTypeFilters) {
+function createItems(nameArray, origin) {
   return nameArray
-    .map((name, index) => {
+    .map((name) => {
       let processedName;
 
       if (origin === "platforms") {
@@ -10,26 +10,12 @@ function createItems(nameArray, origin, item_type, defaultItemTypeFilters) {
           .toLowerCase()
           .replaceAll("allociné", "allocine")
           .replaceAll("rotten tomatoes", "rottenTomatoes")
+          .replaceAll(" and more", "")
           .replaceAll(" ", "_");
       }
 
       const capitalizedFirstLetterName =
         name.charAt(0).toUpperCase() + name.slice(1);
-
-      if (
-        origin === "ratings" &&
-        item_type === defaultItemTypeFilters[0] &&
-        index === 4
-      ) {
-        return [
-          {
-            name: "Letterboxd users",
-            code: "letterboxd_users",
-            origin: "ratings",
-          },
-          { name: capitalizedFirstLetterName, code: processedName, origin },
-        ];
-      }
 
       return { name: capitalizedFirstLetterName, code: processedName, origin };
     })
@@ -39,15 +25,14 @@ function createItems(nameArray, origin, item_type, defaultItemTypeFilters) {
 export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   const minimum_ratings = {
     name: "Minimum ratings",
-    items: createItems(config.minimum_ratings.split(","), "minimum_ratings"),
+    items: createItems(
+      config.minimum_ratings_names.split(","),
+      "minimum_ratings",
+    ),
   };
   const platforms = {
     name: "Platforms",
     items: createItems(config.platforms.split(","), "platforms"),
-  };
-  const popularity = {
-    name: "Popularity",
-    items: createItems(config.popularity_names.split(","), "popularity"),
   };
   const ratings = {
     name: "Ratings",
@@ -74,7 +59,6 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   return {
     minimum_ratings,
     platforms,
-    popularity,
     ratings,
     release_date,
     seasons,

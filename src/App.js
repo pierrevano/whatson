@@ -3,6 +3,11 @@ import { Router } from "@reach/router";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import Loader from "components/Loader";
+import "primeflex/primeflex.css";
+import "primeicons/primeicons.css";
+import "primereact/resources/primereact.css";
+import "primereact/resources/themes/lara-dark-teal/theme.css";
+
 const SearchView = lazy(() => import("components/SearchView"));
 const FavoritesView = lazy(() => import("components/FavoritesView"));
 const DetailView = lazy(() => import("components/DetailView"));

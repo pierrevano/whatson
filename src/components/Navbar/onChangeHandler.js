@@ -1,27 +1,28 @@
 import config from "./config";
 
-const displayCheckMark = () => {
-  document
-    .querySelector(config.crossMarkSelector)
-    .classList.add("display-none");
-  document
-    .querySelector(config.checkMarkSelector)
-    .classList.remove("display-none");
-};
+function arePlatformsIncluded(config, originMapper) {
+  const configPlatformsArray = config.platforms.split(",");
+  const filteredConfigPlatforms = configPlatformsArray.filter(
+    (platform) => platform.toLowerCase() !== "all",
+  );
+  return filteredConfigPlatforms.every((platform) =>
+    originMapper.platforms.includes(platform),
+  );
+}
 
 export const onChangeHandler = (
   e,
+  item_type,
   selectedItems,
   setSelectedItems,
   setMinRatingsValue,
   setPlatformsValue,
-  setPopularityFilters,
   setRatingsFilters,
   setReleaseDateValue,
   setSeasonsNumber,
   setStatusValue,
 ) => {
-  displayCheckMark();
+  const { name, value, checked } = e.target;
 
   const originMapper = {
     minimum_ratings: [],
@@ -33,55 +34,40 @@ export const onChangeHandler = (
     status: [],
   };
 
-  e.value.forEach(({ origin, code }) => {
+  const updatedItems = checked
+    ? [...selectedItems, { origin: name, code: value }]
+    : selectedItems.filter(
+        (item) => !(item.origin === name && item.code === value),
+      );
+
+  updatedItems.forEach(({ origin, code }) => {
     if (origin in originMapper) {
       originMapper[origin].push(code);
     }
   });
 
-  setMinRatingsValue(originMapper["minimum_ratings"].join(","));
-
-  const platformsSelectedItemsNumber = selectedItems.filter((item) =>
-    ["platforms"].includes(item.origin),
-  ).length;
-  const platformsConfigItemsNumber = config.platforms.split(",").length;
-  const platformsUnselectedItemsNumber = e.value.filter((item) =>
-    ["platforms"].includes(item.origin),
-  ).length;
-
-  if (platformsUnselectedItemsNumber === 0) {
-    setPlatformsValue(config.platforms);
+  if (value && value.origin === "minimum_ratings") {
+    setMinRatingsValue(value.code);
   } else {
-    setPlatformsValue(originMapper["platforms"].join(","));
+    setMinRatingsValue(originMapper.minimum_ratings.join(","));
   }
 
-  if (
-    (platformsSelectedItemsNumber !== platformsConfigItemsNumber ||
-      platformsUnselectedItemsNumber !== platformsConfigItemsNumber) &&
-    platformsConfigItemsNumber !== platformsUnselectedItemsNumber
-  ) {
-    if (Array.isArray(originMapper["platforms"])) {
-      originMapper["platforms"] = originMapper["platforms"].filter(
-        (item) => item !== "all",
+  setRatingsFilters(originMapper.ratings.join(","));
+  setReleaseDateValue(originMapper.release_date.join(","));
+
+  if (item_type && item_type === config.item_type.split(",")[1]) {
+    if (arePlatformsIncluded(config, originMapper)) {
+      setPlatformsValue(config.platforms);
+    } else {
+      setPlatformsValue(
+        originMapper.platforms
+          .filter((platform) => platform.toLowerCase() !== "all")
+          .join(","),
       );
     }
-    setPlatformsValue(originMapper["platforms"].join(","));
+    setSeasonsNumber(originMapper.seasons.join(","));
+    setStatusValue(originMapper.status.join(","));
   }
 
-  const minRatingsAndPopularityUnselectedItemsNumber = e.value.filter((item) =>
-    ["minimum_ratings", "popularity"].includes(item.origin),
-  ).length;
-
-  if (minRatingsAndPopularityUnselectedItemsNumber === 0) {
-    setPopularityFilters(config.popularity);
-  } else {
-    setPopularityFilters(originMapper["popularity"].join(","));
-  }
-
-  setRatingsFilters(originMapper["ratings"].join(","));
-  setReleaseDateValue(originMapper["release_date"].join(","));
-  setSeasonsNumber(originMapper["seasons"].join(","));
-  setStatusValue(originMapper["status"].join(","));
-
-  setSelectedItems(e.value);
+  setSelectedItems(updatedItems);
 };

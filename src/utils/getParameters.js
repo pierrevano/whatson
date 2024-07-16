@@ -29,8 +29,6 @@ const handlePlatformsAndRatingsFilters = (
 };
 
 export const getParameters = (
-  cinema_id,
-  cinema_id_query,
   item_type,
   item_type_query,
   minimum_ratings,
@@ -49,8 +47,6 @@ export const getParameters = (
   status_query,
 ) => {
   let parameters = "?";
-
-  parameters += addParameter(cinema_id, cinema_id_query, "cinema_id");
 
   parameters += addParameter(item_type, item_type_query, "item_type");
 

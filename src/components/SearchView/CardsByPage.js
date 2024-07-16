@@ -12,7 +12,6 @@ import config from "utils/config";
 
 const queryStringParsed = queryString.parse(window.location.search);
 
-const cinema_id_query = queryStringParsed.cinema_id;
 const item_type_query = queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const platforms_query = queryStringParsed.platforms;
@@ -23,7 +22,6 @@ const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
 const getDataURL = (
-  cinema_id,
   item_type,
   kindURL,
   minimum_ratings,
@@ -37,8 +35,6 @@ const getDataURL = (
   status,
 ) => {
   const parameters = getParameters(
-    cinema_id,
-    cinema_id_query,
     item_type,
     item_type_query,
     minimum_ratings,
@@ -85,7 +81,6 @@ const InfiniteScroll = ({ page, setPage }) => {
  * @returns The list of cards to be rendered.
  */
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
-  const [cinema_id, setCinemaId] = useStorageString("cinema_id", "");
   const [item_type, setItemType] = useStorageString("item_type", "");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
@@ -110,7 +105,6 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   );
   const [status_value, setStatusValue] = useStorageString("status", "");
   useEffect(() => {
-    if (typeof cinema_id_query !== "undefined") setCinemaId(cinema_id_query);
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
     if (typeof minimum_ratings_query !== "undefined")
       setMinRatingsValue(minimum_ratings_query);
@@ -127,22 +121,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     if (typeof status_query !== "undefined") setStatusValue(status_query);
   });
 
-  useEffect(() => {
-    if (
-      ratings_filters !== "" &&
-      !document
-        .querySelector(".p-inputwrapper")
-        .classList.contains("p-inputwrapper-filled")
-    ) {
-      document
-        .querySelector(".p-inputwrapper")
-        .classList.add("p-inputwrapper-filled");
-    }
-  });
-
   let { loading, data, error } = useFetch(
     getDataURL(
-      cinema_id,
       item_type,
       kindURL,
       minimum_ratings_value,

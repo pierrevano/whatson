@@ -1,5 +1,3 @@
-const childNumber = 25;
-
 const MultiSelectStyle = `
   .navbar-div {
     margin-left: 32px !important;
@@ -11,12 +9,7 @@ const MultiSelectStyle = `
   .card {
     display: inline-grid !important;
   }
-  .card,
-  .ratings-filters,
-  .theaters-search,
-  .p-multiselect,
-  .p-autocomplete,
-  .p-autocomplete input {
+  .card {
     @media (max-width: 700px) {
       width: 100% !important;
       flex-grow: 1 !important;
@@ -149,7 +142,7 @@ const MultiSelectStyle = `
     background: #12a133 !important;
   }
   .p-checkbox .p-checkbox-box {
-    border: 2px solid #0f3973 !important;
+    border: 2px solid rgba(40,167,69,0.5) !important;
   }
 
   .p-input-filled .p-checkbox .p-checkbox-box.p-highlight {
@@ -161,17 +154,21 @@ const MultiSelectStyle = `
     background: #12a133 !important;
   }
 
-  .p-autocomplete .p-autocomplete-multiple-container:not(.p-disabled):hover,
-  .p-chips .p-chips-multiple-container:not(.p-disabled):hover {
-    border-color: #28a745 !important;
-  }
-  .p-autocomplete .p-autocomplete-multiple-container:not(.p-disabled).p-focus,
-  .p-chips .p-chips-multiple-container:not(.p-disabled).p-focus {
+  .p-listbox {
+    background: #181818 !important
+    border: 0.1rem rgba(40,167,69,0.5) !important;
     box-shadow: 0 0 0 0.1rem rgba(40, 167, 69, 0.5) !important;
-    border-color: #28a745 !important;
+    width: 210px;
   }
-  .p-chips .p-chips-multiple-container .p-chips-token {
-    background: rgba(40, 167, 69, 0.16) !important;
+  .p-listbox-list {
+    padding: 0 !important;
+  }
+  .p-listbox-item:focus {
+    color: rgba(255, 255, 255, 0.87) !important;
+    background: rgba(94, 234, 212, 0.16) !important;
+  }
+  .p-listbox-item {
+    box-shadow: none !important;
   }
 
   .p-float-label .p-placeholder,
@@ -192,11 +189,15 @@ const MultiSelectStyle = `
     background: #181818 !important;
   }
   .p-sidebar-content h1,
+  .p-sidebar-content h2,
   .p-sidebar-content button {
     color: #fff !important;
   }
   .p-sidebar-content h1 {
     font-size: 2em !important;
+  }
+  .p-sidebar-content h2 {
+    font-size: 1.5em !important;
   }
   .p-sidebar-content span {
     font-size: 1.2em !important;
@@ -206,59 +207,6 @@ const MultiSelectStyle = `
     border: none !important;
     border-bottom: 1px solid #fff !important;
     cursor: pointer !important;
-  }
-
-  .theaters-search {
-    @media (min-width: 700px) {
-      margin-left: -10px !important;
-    }
-  }
-
-  .ratings-filters,
-  .theaters-search {
-    @media (max-width: 700px) {
-      margin: -0.75rem 0 !important;
-    }
-  }
-  .ratings-filters {
-    @media (max-width: 700px) {
-      padding: 1px 8px 1px 12px !important;
-    }
-  }
-
-  .navbar-div .heart-icon {
-    @media (min-width: 700px) {
-      margin-left: -9px !important;
-      margin-right: -9px !important;
-    }
-  }
-
-  .check-mark,
-  .cross-mark {
-    @media (max-width: 700px) {
-      margin-right: -0.75rem !important;
-      transform: translateY(1px) !important;
-    }
-  }
-
-  .check-mark {
-    @media (min-width: 700px) {
-      margin-right: -0.25rem !important;
-    }
-  }
-
-  .flex-grow {
-    width: 100% !important;
-    flex-grow: 1 !important;
-    margin-left: 0 !important;
-  }
-
-  .display-none {
-    display: none !important;
-  }
-
-  .p-multiselect-items.p-component li:nth-child(${childNumber}) {
-    display: none !important;
   }
 `;
 

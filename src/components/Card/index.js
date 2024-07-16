@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import LazyImage from "react-lazy-progressive-image";
 import { useFavoriteState } from "utils/favorites";
@@ -205,16 +205,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     image = `https://image.tmdb.org/t/p/w300${image}`;
   }
 
-  const getPlaceholder = (image, width, height) => {
-    const compression = 2;
-    let placeholder = `${image.split("net")[0]}net/c_${parseInt(
-      width * compression,
-    )}_${parseInt(height * compression)}${image.split("net")[1]}`;
-    if (image && image.startsWith("https://image.tmdb.org"))
-      placeholder = `https://image.tmdb.org/t/p/w300${image}`;
-    return placeholder;
-  };
-
   const allocine_url = props?.allocine?.url;
   const allocine_users_rating = props?.allocine?.users_rating;
   const allocine_critics_rating = props?.allocine?.critics_rating;
@@ -307,17 +297,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     }
   };
 
-  const [height, setHeight] = useState(750);
-  const [width, setWidth] = useState(500);
-  const imgEl = useRef(null);
-
-  useEffect(() => {
-    if (imgEl.current) {
-      setHeight(imgEl.current.clientHeight);
-      setWidth(imgEl.current.clientWidth);
-    }
-  }, [imgEl]);
-
   return (
     <Wrapper error={error} {...props}>
       <AspectRatio ratio={0.75} />
@@ -330,17 +309,11 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       )}
       <OverflowHidden>
         {image && (
-          <LazyImage
-            placeholder={getPlaceholder(image, width, height)}
-            src={getPlaceholder(image, width, height)}
-          >
+          <LazyImage placeholder={image} src={image}>
             {(src, loading) => (
               <Image
-                ref={imgEl}
                 src={src}
                 alt={`poster for: ${title}`}
-                height={height}
-                width={width}
                 loading={+loading}
               />
             )}

@@ -10,8 +10,6 @@ export const initializeSelectedItems = (
   minimum_ratings_value,
   platforms,
   platforms_value,
-  popularity,
-  popularity_filters,
   ratings,
   ratings_filters,
   release_date,
@@ -40,7 +38,6 @@ export const initializeSelectedItems = (
 
   const filterLookup = createLookup([
     ...platforms.items,
-    ...popularity.items,
     ...ratings.items,
     ...release_date.items,
     ...status.items,
@@ -53,13 +50,6 @@ export const initializeSelectedItems = (
     }
   });
 
-  const defaultPopularityFilters = config.popularity.split(",");
-  defaultPopularityFilters.forEach((filter) => {
-    if (!popularity_filters || popularity_filters.includes(filter)) {
-      selectedItems.push(filterLookup[filter]);
-    }
-  });
-
   const defaultRatingsFilters = config.ratings.split(",");
   defaultRatingsFilters.forEach((filter) => {
     if (!ratings_filters || ratings_filters.includes(filter)) {
@@ -67,7 +57,9 @@ export const initializeSelectedItems = (
     }
   });
 
-  const defaultReleaseDateValue = config.release_date.split(",");
+  const defaultReleaseDateValue = config.release_date_names
+    .toLowerCase()
+    .split(",");
   defaultReleaseDateValue.forEach((filter) => {
     if (!release_date_value || release_date_value.includes(filter)) {
       selectedItems.push(filterLookup[filter]);
