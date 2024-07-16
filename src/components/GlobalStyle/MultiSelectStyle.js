@@ -169,6 +169,7 @@ const MultiSelectStyle = `
   }
   .p-listbox-item {
     box-shadow: none !important;
+    border: 1px solid rgba(40, 167, 69, 0.1) !important;
   }
 
   .p-float-label .p-placeholder,

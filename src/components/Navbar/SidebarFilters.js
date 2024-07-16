@@ -160,8 +160,15 @@ const SidebarFilters = () => {
                         <label
                           htmlFor={`${item.code}-${itemIndex}`}
                           className="ml-2"
+                          style={{ display: "flex", alignItems: "center" }}
                         >
                           {item.name}
+                          {item.name === "New" && (
+                            <i
+                              className="pi pi-sparkles"
+                              style={{ marginLeft: "7px" }}
+                            ></i>
+                          )}
                         </label>
                       </>
                     )}
