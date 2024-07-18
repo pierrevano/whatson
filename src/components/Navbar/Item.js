@@ -11,9 +11,12 @@ const linkStyle = `
   border-radius: 2rem;
   user-select: none;
   cursor: pointer;
-  margin-right: 0.5rem;
+  margin-right: 0.8rem;
   &:last-child {
     margin-right: -0.75rem;
+  }
+  @media (max-width: 767px) {
+    margin-right: 0.5rem;
   }
 `;
 

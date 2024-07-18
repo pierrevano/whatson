@@ -97,6 +97,17 @@ const Navbar = () => {
     return () => window.removeEventListener("keydown", searchShortcut);
   }, []);
 
+  const [shortcutKey, setShortcutKey] = useState("⌘");
+
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent;
+    if (userAgent.indexOf("Mac") !== -1) {
+      setShortcutKey("⌘");
+    } else {
+      setShortcutKey("Ctrl");
+    }
+  }, []);
+
   return (
     <StickyContainer>
       <Wrapper>
@@ -113,7 +124,7 @@ const Navbar = () => {
               alt="logo"
               width="24px"
               height="24px"
-            ></img>
+            />
           </span>
         </Logo>
         <Menu
@@ -168,7 +179,7 @@ const Navbar = () => {
         <Location>
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
-              <SidebarFilters></SidebarFilters>
+              <SidebarFilters />
               <Item
                 to="/favorites"
                 active={pathname === "/favorites"}
@@ -192,13 +203,20 @@ const Navbar = () => {
                 className="searchItem"
                 title="Shortcut: CMD/CTRL + K"
               >
-                <span title="Shortcut: CMD/CTRL + K">
+                <Flex className="flex-search">
                   <Search
                     filled={pathname === "/search"}
+                    className="search-icon"
                     style={{ transform: "translateY(-1px)" }}
                     aria-label="Search for a movie, tvshow or person"
                   />
-                </span>
+                  <span
+                    className="shortcut-key"
+                    style={{ fontSize: "0.75rem" }}
+                  >
+                    {shortcutKey} + K
+                  </span>
+                </Flex>
               </Item>
             </Flex>
           )}

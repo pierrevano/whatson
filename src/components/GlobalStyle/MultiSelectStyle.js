@@ -209,6 +209,34 @@ const MultiSelectStyle = `
     border-bottom: 1px solid #fff !important;
     cursor: pointer !important;
   }
+
+  .flex-search {
+    padding: 3px;
+    padding-right: 9px;
+    border-radius: 10px;
+    border: 1.4px solid white;
+  }
+  .search-icon {
+    margin-right: "5px";
+  }
+  .shortcut-key {
+    display: inline;
+  }
+
+  @media (max-width: 767px) {
+    .flex-search {
+      padding: initial;
+      padding-right: initial;
+      border-radius: initial;
+      border: initial;
+    }
+    .search-icon {
+      margin-right: initial;
+    }
+    .shortcut-key {
+      display: none;
+    }
+  }
 `;
 
 export default MultiSelectStyle;
