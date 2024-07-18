@@ -223,11 +223,21 @@ const MultiSelectStyle = `
     cursor: pointer !important;
   }
 
+  .filter-icon {
+    cursor: pointer !important;
+  }
+
   .flex-search {
     padding: 3px;
     padding-right: 9px;
     border-radius: 10px;
-    border: 1.4px solid white;
+    border: 1.4px solid #fff;
+  }
+  .menu-icon:hover,
+  .filter-icon:hover,
+  .heart-icon:hover,
+  .flex-search:hover {
+    opacity: 0.8;
   }
   .search-icon {
     margin-right: 5px;

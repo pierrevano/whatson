@@ -8,6 +8,7 @@ const Filter = ({
   ...props
 }) => (
   <svg
+    className="filter-icon"
     viewBox="0 -0.6 24 24"
     stroke="#FFF"
     strokeWidth={1.5}

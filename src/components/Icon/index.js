@@ -1,7 +1,5 @@
 export Arrow from "./Arrow";
 export Calendar from "./Calendar";
-export CheckMark from "./CheckMark";
-export Cross from "./Cross";
 export Eye from "./Eye";
 export Filter from "./Filter";
 export Github from "./Github";
@@ -11,7 +9,6 @@ export Menu from "./Menu";
 export Movie from "./Movie";
 export NumbersFilter from "./NumbersFilter";
 export Person from "./Person";
-export Pin from "./Pin";
 export Screen from "./Screen";
 export Search from "./Search";
 export Star from "./Star";
