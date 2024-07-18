@@ -24,8 +24,17 @@ const MultiSelectStyle = `
   .p-multiselect {
     background: #181818 !important;
     border-color: rgba(255, 255, 255, 0.4) !important;
-    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    font-family:
+      "Roboto",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Helvetica,
+      Arial,
+      sans-serif,
+      "Apple Color Emoji",
+      "Segoe UI Emoji",
       "Segoe UI Symbol" !important;
     min-width: 13rem !important;
     margin: 0 -0.5rem 0 0.5rem !important;
@@ -85,7 +94,9 @@ const MultiSelectStyle = `
     margin-right: 0.75rem !important;
   }
 
-  .p-multiselect-panel .p-multiselect-items .p-multiselect-item-group:first-child {
+  .p-multiselect-panel
+    .p-multiselect-items
+    .p-multiselect-item-group:first-child {
     padding: 0.55rem 1.25rem !important;
   }
 
@@ -108,7 +119,9 @@ const MultiSelectStyle = `
     border-color: transparent !important;
   }
   .p-button:focus {
-    box-shadow: 0 0 0 2px #1c2127, 0 0 0 4px rgb(40 167 69 / 70%),
+    box-shadow:
+      0 0 0 2px #1c2127,
+      0 0 0 4px rgb(40 167 69 / 70%),
       0 1px 2px 0 rgb(0 0 0 / 0%) !important;
   }
 
@@ -142,7 +155,7 @@ const MultiSelectStyle = `
     background: #12a133 !important;
   }
   .p-checkbox .p-checkbox-box {
-    border: 2px solid rgba(40,167,69,0.5) !important;
+    border: 2px solid rgba(40, 167, 69, 0.5) !important;
   }
 
   .p-input-filled .p-checkbox .p-checkbox-box.p-highlight {
@@ -155,8 +168,8 @@ const MultiSelectStyle = `
   }
 
   .p-listbox {
-    background: #181818 !important
-    border: 0.1rem rgba(40,167,69,0.5) !important;
+    background: #181818 !important;
+    border: 0.1rem rgba(40, 167, 69, 0.5) !important;
     box-shadow: 0 0 0 0.1rem rgba(40, 167, 69, 0.5) !important;
     width: 210px;
   }
@@ -217,7 +230,7 @@ const MultiSelectStyle = `
     border: 1.4px solid white;
   }
   .search-icon {
-    margin-right: "5px";
+    margin-right: 5px;
   }
   .shortcut-key {
     display: inline;
