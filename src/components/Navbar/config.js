@@ -20,7 +20,7 @@ const config = {
 
   seasons: "1,2,3,4,5",
 
-  status: "canceled,ended,ongoing,pilot,soon,unknown",
+  status: "canceled,ended,ongoing,pilot,unknown",
 };
 
 export default config;
