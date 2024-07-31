@@ -11,7 +11,6 @@ import { getParameters } from "utils/getParameters";
 import config from "utils/config";
 
 const queryStringParsed = queryString.parse(window.location.search);
-
 const item_type_query = queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const platforms_query = queryStringParsed.platforms;
@@ -104,6 +103,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     "",
   );
   const [status_value, setStatusValue] = useStorageString("status", "");
+
   useEffect(() => {
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
     if (typeof minimum_ratings_query !== "undefined")
@@ -119,7 +119,16 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     if (typeof seasons_number_query !== "undefined")
       setSeasonsNumber(seasons_number_query);
     if (typeof status_query !== "undefined") setStatusValue(status_query);
-  });
+  }, [
+    setItemType,
+    setMinRatingsValue,
+    setPlatformsValue,
+    setPopularityFilters,
+    setRatingsFilters,
+    setReleaseDate,
+    setSeasonsNumber,
+    setStatusValue,
+  ]);
 
   let { loading, data, error } = useFetch(
     getDataURL(
@@ -150,7 +159,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     { title: "I’m sorry Dave.", description: "I’m afraid I can’t do that." },
     { title: "Into exile I must go.", description: "Failed I have." },
     {
-      title: "Well, if I I've made a mistake,",
+      title: "Well, if I've made a mistake,",
       description: "I'm sorry and I hope you'll forgive me.",
     },
   ];
@@ -173,13 +182,17 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     );
 
   if (loading)
-    return Array(20)
-      .fill(0)
-      .map((_x, i) => (
-        <Cell key={i} xs={6} sm={4} md={3} xg={2}>
-          <Card key={i} loading />
-        </Cell>
-      ));
+    return (
+      <Fragment>
+        {Array(20)
+          .fill(0)
+          .map((_x, i) => (
+            <Cell key={i} xs={6} sm={4} md={3} xg={2}>
+              <Card key={i} loading />
+            </Cell>
+          ))}
+      </Fragment>
+    );
 
   if (data && !data?.results?.length && search !== "" && kindURL === "search")
     return (

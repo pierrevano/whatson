@@ -25,7 +25,6 @@ const Searchbar = styled(Search)`
   z-index: 3;
 `;
 
-/* eslint-disable no-mixed-operators */
 /**
  * A component that displays a search bar and a list of cards based on the search query and page number.
  * @param {boolean} [isSearchable=true] - Whether or not the component should display a search bar.
@@ -35,7 +34,6 @@ const Searchbar = styled(Search)`
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
   useCacheBuster();
   consoleMessage();
-
   useScript(config.base_beamanalytics, config.beamanalytics_token);
 
   useEffect(() => {
@@ -44,15 +42,11 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
     }, 100);
   }, []);
 
-  useEffect(
-    () => {
-      document.title = getTitleFromURL(kindURL);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-  const [search, setSearch] = useStorageString("search", "");
+  useEffect(() => {
+    document.title = getTitleFromURL(kindURL);
+  }, [kindURL]);
 
+  const [search, setSearch] = useStorageString("search", "");
   const [pageString, setPage] = useStorageString("page", "1");
   const page = +pageString;
   const pagesArray = [
@@ -77,20 +71,16 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
         <Row
           vertical-gutter
           style={{
-            marginTop:
-              (kindURL === "movies" ||
-                kindURL === "people" ||
-                kindURL === "search" ||
-                kindURL === "tvshows") &&
-              "2rem",
+            marginTop: ["movies", "people", "search", "tvshows"].includes(
+              kindURL,
+            )
+              ? "2rem"
+              : undefined,
             marginBottom: "2rem",
             position: "relative",
-            zIndex:
-              (kindURL === "movies" ||
-                kindURL === "people" ||
-                kindURL === "search" ||
-                kindURL === "tvshows") &&
-              2,
+            zIndex: ["movies", "people", "search", "tvshows"].includes(kindURL)
+              ? 2
+              : undefined,
           }}
         >
           {pagesArray.map((page) => (
@@ -106,10 +96,7 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
         </Row>
       </Container>
       {!search &&
-        (kindURL === "movies" ||
-          kindURL === "people" ||
-          kindURL === "search" ||
-          kindURL === "tvshows") && (
+        ["movies", "people", "search", "tvshows"].includes(kindURL) && (
           <Info
             emoji="☝️"
             kind={kindURL}
@@ -119,6 +106,5 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
     </Wrapper>
   );
 };
-/* eslint-enable no-mixed-operators */
 
 export default SearchView;
