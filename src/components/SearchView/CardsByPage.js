@@ -60,13 +60,15 @@ const getDataURL = (
     kindURL === "people" ||
     kindURL === "search" ||
     kindURL === "tvshows"
-  )
+  ) {
     return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${config.api}&query=${search}&page=${page}`;
+  }
+
   return `${config.cors_url}/${config.base_render_api}/${parameters}&page=${page}`;
 };
 
 const InfiniteScroll = ({ page, setPage }) => {
-  useEffect(() => setPage(page + 1));
+  useEffect(() => setPage(page + 1), [setPage, page]);
   return null;
 };
 
@@ -145,7 +147,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     status_value,
   );
 
-  const initialData = retrieveFromCache(dataUrl);
+  const initialData = kindURL === "search" ? null : retrieveFromCache(dataUrl);
   const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState(null);
@@ -157,7 +159,11 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
         try {
           const response = await fetch(dataUrl);
           const result = await response.json();
-          saveToCache(dataUrl, result);
+
+          if (kindURL !== "search") {
+            saveToCache(dataUrl, result);
+          }
+
           setData(result);
           setLoading(false);
         } catch (error) {
@@ -167,7 +173,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       }
     };
     fetchData();
-  }, [dataUrl, data]);
+  }, [dataUrl, data, kindURL]);
 
   const [ref, inView] = useInView();
 
@@ -193,7 +199,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   const [randomData] = useState(() => getRandomError(errorMessage));
 
-  if (error && search)
+  if (error && search) {
     return (
       <Cell xs={12}>
         <InfoScreen
@@ -203,8 +209,9 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
         />
       </Cell>
     );
+  }
 
-  if (loading)
+  if (loading) {
     return (
       <Fragment>
         {Array(20)
@@ -216,8 +223,9 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
           ))}
       </Fragment>
     );
+  }
 
-  if (data && !data?.results?.length && search !== "" && kindURL === "search")
+  if (data && !data?.results?.length && search !== "" && kindURL === "search") {
     return (
       <Cell xs={12}>
         <InfoScreen
@@ -227,11 +235,13 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
         />
       </Cell>
     );
+  }
 
-  if (!data?.results?.length) return null;
+  if (!data?.results?.length) {
+    return null;
+  }
 
   const totalPages = data?.total_pages;
-
   return (
     <Fragment>
       {data?.results?.map((entry) => (
