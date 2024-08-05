@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useFetch } from "react-hooks-fetch";
 import { useInView } from "react-intersection-observer";
 import { Cell } from "griding";
 import { getKindByURL } from "utils/kind";
@@ -9,9 +8,13 @@ import queryString from "query-string";
 import { useStorageString } from "utils/useStorageString";
 import { getParameters } from "utils/getParameters";
 import config from "utils/config";
+import { retrieveFromCache, saveToCache } from "utils/cacheUtils";
 
 const queryStringParsed = queryString.parse(window.location.search);
-const item_type_query = queryStringParsed.item_type;
+const item_type_query =
+  queryStringParsed.item_type === undefined
+    ? "movie"
+    : queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const platforms_query = queryStringParsed.platforms;
 const popularity_filters_query = queryStringParsed.popularity_filters;
@@ -58,9 +61,7 @@ const getDataURL = (
     kindURL === "search" ||
     kindURL === "tvshows"
   )
-    return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${
-      config.api
-    }&query=${search}&page=${page}`;
+    return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${config.api}&query=${search}&page=${page}`;
   return `${config.cors_url}/${config.base_render_api}/${parameters}&page=${page}`;
 };
 
@@ -130,21 +131,43 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     setStatusValue,
   ]);
 
-  let { loading, data, error } = useFetch(
-    getDataURL(
-      item_type,
-      kindURL,
-      minimum_ratings_value,
-      page,
-      platforms_value,
-      popularity_filters,
-      ratings_filters,
-      release_date,
-      search,
-      seasons_number,
-      status_value,
-    ),
+  const dataUrl = getDataURL(
+    item_type || "movie",
+    kindURL,
+    minimum_ratings_value,
+    page,
+    platforms_value,
+    popularity_filters,
+    ratings_filters,
+    release_date,
+    search,
+    seasons_number,
+    status_value,
   );
+
+  const initialData = retrieveFromCache(dataUrl);
+  const [data, setData] = useState(initialData);
+  const [loading, setLoading] = useState(!initialData);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!data) {
+        setLoading(true);
+        try {
+          const response = await fetch(dataUrl);
+          const result = await response.json();
+          saveToCache(dataUrl, result);
+          setData(result);
+          setLoading(false);
+        } catch (error) {
+          setError(error);
+          setLoading(false);
+        }
+      }
+    };
+    fetchData();
+  }, [dataUrl, data]);
 
   const [ref, inView] = useInView();
 
