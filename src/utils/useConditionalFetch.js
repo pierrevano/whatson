@@ -30,8 +30,11 @@ export const useConditionalFetch = (url, shouldCache) => {
               });
               return;
             } else {
-              localStorage.removeItem(cacheKey);
-              localStorage.removeItem(timestampKey);
+              Object.keys(localStorage).forEach((key) => {
+                if (key.startsWith("cache_")) {
+                  localStorage.removeItem(key);
+                }
+              });
             }
           }
         }
