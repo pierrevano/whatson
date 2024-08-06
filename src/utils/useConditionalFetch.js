@@ -13,11 +13,11 @@ export const useConditionalFetch = (url, shouldCache) => {
       try {
         const currentTime = new Date().getTime();
         const cacheKey = `cache_${url}`;
-        const timestampKey = `${cacheKey}_timestamp`;
+        const timestampKey = `cache_timestamp`;
+        const cachedTimestamp = localStorage.getItem(timestampKey);
 
         if (shouldCache) {
           const cachedData = localStorage.getItem(cacheKey);
-          const cachedTimestamp = localStorage.getItem(timestampKey);
 
           if (cachedData && cachedTimestamp) {
             const cacheAge =
@@ -44,7 +44,10 @@ export const useConditionalFetch = (url, shouldCache) => {
 
         if (shouldCache) {
           localStorage.setItem(cacheKey, JSON.stringify(data));
-          localStorage.setItem(timestampKey, currentTime.toString());
+
+          if (!cachedTimestamp) {
+            localStorage.setItem(timestampKey, currentTime.toString());
+          }
         }
         setState({ loading: false, data, error: null });
       } catch (error) {
