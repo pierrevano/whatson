@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import config from "./config";
 
-export const useConditionalFetch = (url, itemType, page, shouldCache) => {
+export const useConditionalFetch = (url, shouldCache) => {
   const [state, setState] = useState({
     loading: true,
     data: null,
@@ -12,7 +12,7 @@ export const useConditionalFetch = (url, itemType, page, shouldCache) => {
     const fetchData = async () => {
       try {
         const currentTime = new Date().getTime();
-        const cacheKey = `cache_${itemType}_${page}`;
+        const cacheKey = `cache_${url}`;
         const timestampKey = `${cacheKey}_timestamp`;
 
         if (shouldCache) {
@@ -50,7 +50,7 @@ export const useConditionalFetch = (url, itemType, page, shouldCache) => {
     };
 
     fetchData();
-  }, [url, itemType, page, shouldCache]);
+  }, [url, shouldCache]);
 
   return state;
 };
