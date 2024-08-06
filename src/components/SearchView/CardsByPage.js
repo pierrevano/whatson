@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useFetch } from "react-hooks-fetch";
+import { useConditionalFetch } from "utils/useConditionalFetch";
 import { useInView } from "react-intersection-observer";
 import { Cell } from "griding";
 import { getKindByURL } from "utils/kind";
@@ -11,10 +11,7 @@ import { getParameters } from "utils/getParameters";
 import config from "utils/config";
 
 const queryStringParsed = queryString.parse(window.location.search);
-const item_type_query =
-  queryStringParsed.item_type === undefined
-    ? "movie"
-    : queryStringParsed.item_type;
+const item_type_query = queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const platforms_query = queryStringParsed.platforms;
 const popularity_filters_query = queryStringParsed.popularity_filters;
@@ -83,7 +80,7 @@ const InfiniteScroll = ({ page, setPage }) => {
  * @returns The list of cards to be rendered.
  */
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
-  const [item_type, setItemType] = useStorageString("item_type", "");
+  const [item_type, setItemType] = useStorageString("item_type", "movie");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
     "",
@@ -133,20 +130,31 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     setStatusValue,
   ]);
 
-  let { loading, data, error } = useFetch(
-    getDataURL(
-      item_type || "movie",
-      kindURL,
-      minimum_ratings_value,
-      page,
-      platforms_value,
-      popularity_filters,
-      ratings_filters,
-      release_date,
-      search,
-      seasons_number,
-      status_value,
-    ),
+  const fetchUrl = getDataURL(
+    item_type,
+    kindURL,
+    minimum_ratings_value,
+    page,
+    platforms_value,
+    popularity_filters,
+    ratings_filters,
+    release_date,
+    search,
+    seasons_number,
+    status_value,
+  );
+
+  const isKindURLDefined =
+    kindURL === "movies" ||
+    kindURL === "people" ||
+    kindURL === "search" ||
+    kindURL === "tvshows";
+
+  const { loading, data, error } = useConditionalFetch(
+    fetchUrl,
+    item_type,
+    page,
+    !isKindURLDefined,
   );
 
   const [ref, inView] = useInView();
@@ -222,12 +230,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
           <Card
             kindURL={
-              kindURL === "search" ||
-              kindURL === "movies" ||
-              kindURL === "people" ||
-              kindURL === "tvshows"
-                ? kindURL
-                : getDefaultItemType(item_type_query)
+              isKindURLDefined ? kindURL : getDefaultItemType(item_type_query)
             }
             {...entry}
           />
