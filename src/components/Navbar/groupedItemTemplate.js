@@ -61,7 +61,7 @@ export const groupedItemTemplate = (option) => {
         ></Star>
       );
       break;
-    case "Seasons numbers":
+    case "Seasons":
       style = { transform: "translateY(-4px)", marginTop: "-6px" };
       IconComponent = (
         <NumbersFilter

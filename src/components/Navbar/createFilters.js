@@ -48,7 +48,7 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
     items: createItems(config.release_date_names.split(","), "release_date"),
   };
   const seasons = {
-    name: "Seasons numbers",
+    name: "Seasons",
     items: createItems(config.seasons.split(","), "seasons"),
   };
   const status = {
