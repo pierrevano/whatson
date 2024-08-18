@@ -44,9 +44,6 @@ const Logo = styled(Link)`
   font-size: 1.75rem;
   height: 40px;
   width: 40px;
-  &:focus {
-    ${(p) => p.theme.focusShadow}
-  }
 `;
 
 const Flex = styled.div`
