@@ -111,11 +111,15 @@ const Navbar = () => {
   return (
     <StickyContainer>
       <Wrapper>
+        <Menu
+          onClick={() => setVisibleLeft(true)}
+          style={{ transform: "translateY(1px)", cursor: "pointer" }}
+        ></Menu>
         <Logo tabIndex={0} to="/">
           <span
             role="img"
             aria-label="logo"
-            style={{ transform: "translateY(1px)" }}
+            style={{ position: "absolute", left: "45px" }}
             onClick={() => (window.location.href = "/")}
           >
             <img
@@ -127,15 +131,6 @@ const Navbar = () => {
             />
           </span>
         </Logo>
-        <Menu
-          onClick={() => setVisibleLeft(true)}
-          style={{
-            position: "absolute",
-            marginLeft: "35px",
-            transform: "translateY(1px)",
-            cursor: "pointer",
-          }}
-        ></Menu>
         <Sidebar
           visible={visibleLeft}
           onHide={() => setVisibleLeft(false)}
