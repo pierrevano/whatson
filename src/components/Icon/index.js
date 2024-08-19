@@ -1,5 +1,4 @@
 export Arrow from "./Arrow";
-export Calendar from "./Calendar";
 export Eye from "./Eye";
 export Filter from "./Filter";
 export Github from "./Github";
@@ -7,11 +6,7 @@ export Heart from "./Heart";
 export HeartBreak from "./HeartBreak";
 export Menu from "./Menu";
 export Movie from "./Movie";
-export NumbersFilter from "./NumbersFilter";
 export Person from "./Person";
-export Screen from "./Screen";
 export Search from "./Search";
 export Star from "./Star";
-export Trophy from "./Trophy";
 export TVShow from "./TVShow";
-export UpRightArrow from "./UpRightArrow";
