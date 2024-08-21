@@ -1,4 +1,4 @@
-import config from "./config";
+import config from "../../config";
 
 function arePlatformsIncluded(config, originMapper) {
   const configPlatformsArray = config.platforms.split(",");

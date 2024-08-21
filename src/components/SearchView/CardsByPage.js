@@ -8,7 +8,7 @@ import InfoScreen from "components/InfoScreen";
 import queryString from "query-string";
 import { useStorageString } from "utils/useStorageString";
 import { getParameters } from "utils/getParameters";
-import config from "utils/config";
+import config from "config";
 
 const queryStringParsed = queryString.parse(window.location.search);
 const item_type_query = queryStringParsed.item_type;

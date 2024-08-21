@@ -1,3 +1,5 @@
+import { fonts } from "theme";
+
 const MultiSelectStyle = `
   .navbar-div {
     margin-left: 32px !important;
@@ -24,18 +26,7 @@ const MultiSelectStyle = `
   .p-multiselect {
     background: #181818 !important;
     border-color: rgba(255, 255, 255, 0.4) !important;
-    font-family:
-      "Roboto",
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      Helvetica,
-      Arial,
-      sans-serif,
-      "Apple Color Emoji",
-      "Segoe UI Emoji",
-      "Segoe UI Symbol" !important;
+    font-family: ${fonts.default} !important;
     min-width: 13rem !important;
     margin: 0 -0.5rem 0 0.5rem !important;
   }

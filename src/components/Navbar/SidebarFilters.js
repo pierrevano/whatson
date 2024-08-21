@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStorageString } from "utils/useStorageString";
-import config from "./config";
+import config from "../../config";
 import initializeLocalStorage from "./initializeLocalStorage";
 import { createFilters } from "./createFilters";
 import { initializeSelectedItems } from "./initializeSelectedItems";

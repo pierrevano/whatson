@@ -10,7 +10,7 @@ import { ConfirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
-import config from "utils/config";
+import config from "config";
 import SidebarFilters from "./SidebarFilters";
 
 const StickyContainer = styled(Container)`

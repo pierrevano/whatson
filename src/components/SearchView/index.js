@@ -9,7 +9,7 @@ import CardsByPage from "./CardsByPage";
 import Info from "./Info";
 import useCacheBuster from "utils/useCacheBuster";
 import useScript from "utils/useScript";
-import config from "utils/config";
+import config from "config";
 import consoleMessage from "utils/consoleMessage";
 
 const Wrapper = styled.div`

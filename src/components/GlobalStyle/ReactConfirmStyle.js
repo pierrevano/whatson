@@ -1,3 +1,5 @@
+import { fonts } from "theme";
+
 const ReactConfirmStyle = `
   body.react-confirm-alert-body-element {
     overflow: hidden;
@@ -33,7 +35,7 @@ const ReactConfirmStyle = `
   }
 
   .react-confirm-alert-body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: ${fonts.default};
     width: 400px;
     padding: 30px;
     text-align: left;

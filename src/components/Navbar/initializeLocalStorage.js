@@ -1,4 +1,4 @@
-import config from "./config";
+import config from "../../config";
 
 const localStorageItems = {
   minimum_ratings: config.minimum_ratings,

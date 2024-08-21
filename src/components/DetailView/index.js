@@ -18,7 +18,7 @@ import { getLanguage } from "utils/useLanguage";
 import queryString from "query-string";
 import { useStorageString } from "utils/useStorageString";
 import { getParameters } from "utils/getParameters";
-import config from "utils/config";
+import config from "config";
 import { Dialog } from "primereact/dialog";
 import ReactPlayer from "react-player";
 import PlatformLinks from "components/PlatformLinks";
