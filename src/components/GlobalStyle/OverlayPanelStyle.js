@@ -14,7 +14,10 @@ const OverlayPanelStyle = `
   .p-overlaypanel {
     border-color: rgba(255, 255, 255, 0.4) !important;
     &:before {
-      border-bottom-color: rgba(255, 255, 255, 0.4) !important;
+      border-width: 0 !important;
+    }
+    &:after {
+      border-width: 0 !important;
     }
   }
   .p-overlaypanel-flipped {
