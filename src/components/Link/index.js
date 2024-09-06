@@ -1,7 +1,6 @@
 import React from "react";
 import { Link as ReachLink } from "@reach/router";
 
-/* eslint-disable jsx-a11y/anchor-has-content */
 /**
  * A component that renders a link. If the link is an internal link (i.e. starts with "./" or "/"),
  * it will use the ReachLink component from the @reach/router package. Otherwise, it will render

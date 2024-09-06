@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { version } from "../../package.json";
+import packageJson from "../../package.json";
 
 const majorVersion = "2.5.0";
 
@@ -26,22 +26,18 @@ const refreshCacheAndReload = () => {
  */
 const useCacheBuster = () => {
   const parseVersion = (str) => +str.replace(/\D/g, "");
-
   useEffect(() => {
     fetch(`/meta.json?v=${+new Date()}`, { cache: "no-cache" })
       .then((response) => response.json())
       .then((meta) => {
         if (meta?.version) {
           const metaVersion = parseVersion(meta.version);
-          const packageVersion = parseVersion(version);
+          const packageVersion = parseVersion(packageJson.version);
           const targetVersion = parseVersion(majorVersion);
-
           localStorage.setItem("version", metaVersion);
-
           if (packageVersion < targetVersion) {
             localStorage.clear();
           }
-
           if (packageVersion < metaVersion) {
             if (window?.location?.reload) {
               refreshCacheAndReload();
@@ -50,10 +46,9 @@ const useCacheBuster = () => {
         }
       })
       .catch((error) => {
-        console.error("something went wrong fetching meta.json", error);
+        console.error("Something went wrong fetching meta.json", error);
       });
   }, []);
-
   return null;
 };
 
