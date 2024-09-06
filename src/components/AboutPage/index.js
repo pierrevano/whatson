@@ -42,7 +42,7 @@ const AboutPage = () => {
           <Cell xs={12} md={7} lg={6}>
             <Text xs={0} sm={1} style={{ margin: "1em 0" }}>
               The purpose of this app is to help you quickly find the
-              highest-rated movies and TV shows or to explore the information
+              highest-rated movies and TV shows or explore the information
               provided by{" "}
               <Anchor
                 to="https://www.themoviedb.org"
@@ -53,8 +53,8 @@ const AboutPage = () => {
               .
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              The data displayed is fetched solely from the What's on? API, and
-              I have added filters. However, most of the codebase is derived
+              All displayed data is fetched from the What's on? API, and I have
+              implemented additional filters. Most of the codebase is derived
               from{" "}
               <Anchor to="https://vitordino.com" ariaLabel="Vitor Dino website">
                 Vitor Dino
@@ -68,13 +68,13 @@ const AboutPage = () => {
               , to whom all design credits are due.
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              The raw data is sourced from various platforms including AlloCiné,
-              BetaSeries, IMDb, Letterboxd, Metacritic, Rotten Tomatoes,
-              SensCritique, Trakt, and The Movie Database (TMDB). It is
-              extracted using shell and Node.js scripts and then pushed to a
+              The raw data is sourced from multiple platforms, including
+              AlloCiné, BetaSeries, IMDb, Letterboxd, Metacritic, Rotten
+              Tomatoes, SensCritique, Trakt, and The Movie Database (TMDB). This
+              data is extracted using shell and Node.js scripts and stored in a
               MongoDB database. On the client side, the application is built
-              with React.js and accesses data via an Express.js API. For more
-              details, feel free to visit my{" "}
+              with React.js and accesses data through an Express.js API. For
+              more details, feel free to visit my{" "}
               <Anchor
                 to="https://github.com/pierrevano"
                 ariaLabel="My GitHub profile"
@@ -84,8 +84,8 @@ const AboutPage = () => {
               profile.
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              Additionally, this app is ad-free and does not use cookies—only
-              the GDPR-compliant solution,{" "}
+              Additionally, this app is ad-free and does not use cookies. It
+              only employs Beam Analytics, a GDPR-compliant solution,{" "}
               <Anchor to="https://beamanalytics.io" ariaLabel="Beam Analytics">
                 Beam Analytics
               </Anchor>

@@ -2,18 +2,26 @@
 
 https://whatson-app.com
 
+Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
+
+---
+
 ## Homepage
 
-![Homepage](https://github.com/pierrevano/whatson-api/assets/1529169/e93a3277-d62a-4788-b267-ad583d388122)
+![Homepage](https://github.com/user-attachments/assets/db5f5b1d-1c94-4ecc-b72e-f6314310653f)
 
-## Ratings view
+## Ratings
 
-![Ratings](https://github.com/pierrevano/whatson-api/assets/1529169/ec1228dd-9f56-4139-8db8-c1beaaf8829b)
+![Ratings](https://github.com/user-attachments/assets/95347315-ae9d-4920-911f-802e5123a689)
 
-## More details
+## Details
 
-![Details](https://github.com/pierrevano/whatson-api/assets/1529169/ceac2da8-f810-4bf9-933a-119314a7ba3e)
+![Details](https://github.com/user-attachments/assets/1466710d-e3ef-437c-a9f7-d2d73fc238d2)
 
 ## Mobile
 
-![Mobile](https://github.com/pierrevano/whatson-api/assets/1529169/f2c07beb-1e02-4f2d-a940-6f09b8e17952)
+![Mobile](https://github.com/user-attachments/assets/72e54002-6b29-4f09-ac98-ff0037833a44)
+
+## Filters
+
+![Filters](https://github.com/user-attachments/assets/f8ce3694-ca88-4435-b4fe-a40fbabe289a)

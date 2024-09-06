@@ -76,7 +76,7 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
             )
               ? "2rem"
               : undefined,
-            marginBottom: "2rem",
+            marginBottom: "1rem",
             position: "relative",
             zIndex: ["movies", "people", "search", "tvshows"].includes(kindURL)
               ? 2

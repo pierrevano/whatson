@@ -1,7 +1,7 @@
 export const fontStack =
   "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
 
-export const maxWidth = "1180px";
+export const maxWidth = "1200px";
 
 export const colors = {
   red: "#FF4040",
