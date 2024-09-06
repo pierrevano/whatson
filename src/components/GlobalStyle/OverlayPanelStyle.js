@@ -22,6 +22,7 @@ const OverlayPanelStyle = `
   }
   .p-overlaypanel-flipped {
     border-color: rgba(255, 255, 255, 0.4) !important;
+    margin-top: -10px !important;
     &:before {
       border-bottom-color: transparent !important;
       border-top-color: rgba(255, 255, 255, 0.4) !important;
