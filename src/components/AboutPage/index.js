@@ -79,13 +79,13 @@ const AboutPage = () => {
                 to="https://github.com/pierrevano"
                 ariaLabel="My GitHub profile"
               >
-                GitHub
-              </Anchor>{" "}
-              profile.
+                GitHub profile
+              </Anchor>
+              .
             </Text>
             <Text style={{ margin: "1em 0" }}>
               Additionally, this app is ad-free and does not use cookies. It
-              only employs Beam Analytics, a GDPR-compliant solution,{" "}
+              only employs a GDPR-compliant solution,{" "}
               <Anchor to="https://beamanalytics.io" ariaLabel="Beam Analytics">
                 Beam Analytics
               </Anchor>
