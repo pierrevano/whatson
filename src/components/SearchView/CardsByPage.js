@@ -11,6 +11,7 @@ import { getParameters } from "utils/getParameters";
 import config from "config";
 
 const queryStringParsed = queryString.parse(window.location.search);
+const api_key_query = queryStringParsed.api_key;
 const item_type_query = queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const platforms_query = queryStringParsed.platforms;
@@ -21,6 +22,7 @@ const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
 const getDataURL = (
+  api_key,
   item_type,
   kindURL,
   minimum_ratings,
@@ -34,22 +36,24 @@ const getDataURL = (
   status,
 ) => {
   const parameters = getParameters(
-    item_type,
     item_type_query,
-    minimum_ratings,
+    item_type,
     minimum_ratings_query,
-    platforms,
+    minimum_ratings,
     platforms_query,
-    popularity_filters,
+    platforms,
     popularity_filters_query,
-    ratings_filters,
-    ratings_filters_query,
-    release_date,
+    popularity_filters,
     release_date_query,
-    seasons_number,
+    release_date,
     seasons_number_query,
-    status,
+    seasons_number,
     status_query,
+    status,
+    api_key_query,
+    api_key,
+    ratings_filters_query,
+    ratings_filters,
   );
 
   if (
@@ -80,6 +84,7 @@ const InfiniteScroll = ({ page, setPage }) => {
  * @returns The list of cards to be rendered.
  */
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
+  const [api_key, setApiKey] = useStorageString("api_key", "");
   const [item_type, setItemType] = useStorageString("item_type", "movie");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
@@ -105,6 +110,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [status_value, setStatusValue] = useStorageString("status", "");
 
   useEffect(() => {
+    if (typeof api_key_query !== "undefined") setApiKey(api_key_query);
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
     if (typeof minimum_ratings_query !== "undefined")
       setMinRatingsValue(minimum_ratings_query);
@@ -131,6 +137,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   ]);
 
   const fetchUrl = getDataURL(
+    api_key,
     item_type,
     kindURL,
     minimum_ratings_value,

@@ -105,19 +105,21 @@ const DetailView = ({ id, kindURL }) => {
   const kind = getKindByURL(kindURL);
 
   const queryStringParsed = queryString.parse(window.location.search);
+  const api_key_query = queryStringParsed.api_key;
+  const ratings_filters_query = queryStringParsed.ratings_filters;
 
-  let ratings_filters_query = queryStringParsed.ratings_filters;
+  const [api_key, setApiKey] = useStorageString("api_key", "");
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
     "",
   );
   useEffect(() => {
+    if (typeof api_key_query !== "undefined") setApiKey(api_key_query);
     if (typeof ratings_filters_query !== "undefined")
       setRatingsFilters(ratings_filters_query);
   });
 
   const parameters = getParameters(
-    "",
     undefined,
     "",
     undefined,
@@ -127,12 +129,15 @@ const DetailView = ({ id, kindURL }) => {
     undefined,
     "",
     undefined,
-    ratings_filters,
+    "",
+    undefined,
+    "",
+    undefined,
+    "",
+    api_key_query,
+    api_key,
     ratings_filters_query,
-    "",
-    undefined,
-    "",
-    undefined,
+    ratings_filters,
   );
 
   const { data: data_from_render } = useFetch(

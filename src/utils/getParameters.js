@@ -29,22 +29,24 @@ const handlePlatformsAndRatingsFilters = (
 };
 
 export const getParameters = (
-  item_type,
   item_type_query,
-  minimum_ratings,
+  item_type,
   minimum_ratings_query,
-  platforms,
+  minimum_ratings,
   platforms_query,
-  popularity_filters,
+  platforms,
   popularity_filters_query,
-  ratings_filters,
-  ratings_filters_query,
-  release_date,
+  popularity_filters,
   release_date_query,
-  seasons_number,
+  release_date,
   seasons_number_query,
-  status,
+  seasons_number,
   status_query,
+  status,
+  api_key_query,
+  api_key,
+  ratings_filters_query,
+  ratings_filters,
 ) => {
   let parameters = "?";
 
@@ -62,6 +64,8 @@ export const getParameters = (
     "popularity_filters",
   );
 
+  parameters += addParameter(release_date, release_date_query, "release_date");
+
   parameters += addParameter(
     seasons_number,
     seasons_number_query,
@@ -70,7 +74,7 @@ export const getParameters = (
 
   parameters += addParameter(status, status_query, "status");
 
-  parameters += addParameter(release_date, release_date_query, "release_date");
+  parameters += addParameter(api_key, api_key_query, "api_key");
 
   parameters += handlePlatformsAndRatingsFilters(
     platforms,
