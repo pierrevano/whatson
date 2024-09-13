@@ -207,16 +207,19 @@ const DetailView = ({ id, kindURL }) => {
 
   const episodes_details_values = data_from_render?.episodes_details || [];
   const usersRatings = episodes_details_values
-    .map((ep) => ep.users_rating)
+    .map((ep) => ep && ep.users_rating)
     .filter((rating) => rating !== null);
   const episodeDetails = episodes_details_values
     .map((ep) => ({
-      season: ep.season,
-      episode: ep.episode,
+      season: ep && ep.season,
+      episode: ep && ep.episode,
     }))
-    .filter((detail) => detail.season !== null && detail.episode !== null);
+    .filter(
+      (detail) =>
+        detail && detail.season !== null && detail && detail.episode !== null,
+    );
   const titles = episodes_details_values
-    .map((ep) => ep.title)
+    .map((ep) => ep && ep.title)
     .filter((el) => el !== null);
 
   const { error, loading, data } = useFetch(
