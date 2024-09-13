@@ -214,10 +214,7 @@ const DetailView = ({ id, kindURL }) => {
       season: ep && ep.season,
       episode: ep && ep.episode,
     }))
-    .filter(
-      (detail) =>
-        detail && detail.season !== null && detail && detail.episode !== null,
-    );
+    .filter((detail) => detail.season !== null && detail.episode !== null);
   const titles = episodes_details_values
     .map((ep) => ep && ep.title)
     .filter((el) => el !== null);
