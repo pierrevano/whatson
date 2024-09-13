@@ -52,6 +52,8 @@ const getDataURL = (
     status,
     api_key_query,
     api_key,
+    undefined,
+    "",
     ratings_filters_query,
     ratings_filters,
   );
@@ -65,7 +67,7 @@ const getDataURL = (
     return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${config.api}&query=${search}&page=${page}`;
   }
 
-  return `${config.cors_url}/${config.base_render_api}/${parameters}&page=${page}`;
+  return `${config.base_render_api}/${parameters}&page=${page}`;
 };
 
 const InfiniteScroll = ({ page, setPage }) => {

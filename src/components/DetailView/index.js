@@ -9,7 +9,7 @@ import { Arrow, Star } from "components/Icon";
 import Text from "components/Text";
 import Button from "components/Button";
 import ToggleButton from "components/ToggleButton";
-import TrailerButton from "components/TrailerButton";
+import DialogButton from "components/DialogButton";
 import InfoScreen from "components/InfoScreen";
 import Meta from "./Meta";
 import Info from "./Info";
@@ -26,6 +26,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { getRatingsDetails } from "utils/getRatingsDetails";
+import RatingsChart from "./RatingsChart";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -106,15 +107,22 @@ const DetailView = ({ id, kindURL }) => {
 
   const queryStringParsed = queryString.parse(window.location.search);
   const api_key_query = queryStringParsed.api_key;
+  const episodes_details_query = queryStringParsed.episodes_details;
   const ratings_filters_query = queryStringParsed.ratings_filters;
 
   const [api_key, setApiKey] = useStorageString("api_key", "");
+  const [episodes_details, setEpisodesDetails] = useStorageString(
+    "episodes_details",
+    "",
+  );
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
     "",
   );
   useEffect(() => {
     if (typeof api_key_query !== "undefined") setApiKey(api_key_query);
+    if (typeof episodes_details_query !== "undefined")
+      setEpisodesDetails(episodes_details_query);
     if (typeof ratings_filters_query !== "undefined")
       setRatingsFilters(ratings_filters_query);
   });
@@ -136,16 +144,15 @@ const DetailView = ({ id, kindURL }) => {
     "",
     api_key_query,
     api_key,
+    episodes_details_query,
+    episodes_details,
     ratings_filters_query,
     ratings_filters,
   );
 
   const { data: data_from_render } = useFetch(
     [
-      `${config.cors_url}/${config.base_render_api}/${getKindByURL(
-        kindURL,
-        "render",
-      )}/${id}`,
+      `${config.base_render_api}/${getKindByURL(kindURL, "render")}/${id}`,
       `${parameters}`,
     ].join(""),
   );
@@ -198,6 +205,20 @@ const DetailView = ({ id, kindURL }) => {
   const status_value = data_from_render?.status;
   const tagline_from_render = data_from_render?.tagline;
 
+  const episodes_details_values = data_from_render?.episodes_details || [];
+  const usersRatings = episodes_details_values
+    .map((ep) => ep.users_rating)
+    .filter((rating) => rating !== null);
+  const episodeDetails = episodes_details_values
+    .map((ep) => ({
+      season: ep.season,
+      episode: ep.episode,
+    }))
+    .filter((detail) => detail.season !== null && detail.episode !== null);
+  const titles = episodes_details_values
+    .map((ep) => ep.title)
+    .filter((el) => el !== null);
+
   const { error, loading, data } = useFetch(
     [
       `${config.base}/${kind}/${id}`,
@@ -235,20 +256,32 @@ const DetailView = ({ id, kindURL }) => {
   const [randomData] = useState(() => getRandomError(errorMessage));
 
   const [visiblePopup, setVisiblePopup] = useState(false);
+  const [visiblePopupChart, setVisiblePopupChart] = useState(false);
 
-  const dialogMaskBackground = (visibleMask) => {
+  const updateDialogMaskBackground = (dialogId, visibleMask) => {
     setTimeout(() => {
       const parentNodeClasslist =
-        document.getElementById("dialog-player").parentNode.classList;
-      visibleMask
-        ? parentNodeClasslist.add("p-component-overlay-enter")
-        : parentNodeClasslist.remove("p-component-overlay-enter");
+        document.getElementById(dialogId)?.parentNode?.classList;
+      if (parentNodeClasslist) {
+        visibleMask
+          ? parentNodeClasslist.add("p-component-overlay-enter")
+          : parentNodeClasslist.remove("p-component-overlay-enter");
+      }
     }, 100);
   };
 
-  const setVisiblePopupAndDialogMaskBackground = () => {
+  const dialogMaskBackground = (visibleMask) =>
+    updateDialogMaskBackground("dialog-player", visibleMask);
+  const dialogMaskBackgroundChart = (visibleMask) =>
+    updateDialogMaskBackground("dialog-chart", visibleMask);
+
+  const setValues = () => {
     setVisiblePopup(true);
     dialogMaskBackground(true);
+  };
+  const setValuesChart = () => {
+    setVisiblePopupChart(true);
+    dialogMaskBackgroundChart(true);
   };
 
   const itemType = localStorage.getItem("item_type")
@@ -363,12 +396,7 @@ const DetailView = ({ id, kindURL }) => {
                 )}
                 <ToggleButton kindURL={kindURL} id={id} />
                 {!!trailer && (
-                  <TrailerButton
-                    kindURL={kindURL}
-                    setVisiblePopupAndDialogMaskBackground={
-                      setVisiblePopupAndDialogMaskBackground
-                    }
-                  />
+                  <DialogButton setValues={setValues} itemKey="trailer" />
                 )}
                 <Dialog
                   id="dialog-player"
@@ -395,12 +423,39 @@ const DetailView = ({ id, kindURL }) => {
                     />
                   )}
                 </Dialog>
-                {platforms_links?.map((platform) => (
-                  <PlatformLinks
-                    name={platform.name}
-                    linkURL={platform.link_url}
-                  />
-                ))}
+                {platforms_links?.length > 0 &&
+                  platforms_links.map((platform) => (
+                    <PlatformLinks
+                      key={platform.name}
+                      name={platform.name}
+                      linkURL={platform.link_url}
+                    />
+                  ))}
+                {usersRatings?.length > 0 &&
+                  episodeDetails?.length > 0 &&
+                  titles?.length > 0 && (
+                    <>
+                      <DialogButton
+                        setValues={setValuesChart}
+                        itemKey="chart"
+                      />
+                      <Dialog
+                        id="dialog-chart"
+                        header="IMDb episodes users ratings"
+                        visible={visiblePopupChart}
+                        onHide={() => {
+                          setVisiblePopupChart(false);
+                          dialogMaskBackgroundChart(false);
+                        }}
+                      >
+                        <RatingsChart
+                          ratings={usersRatings}
+                          episodeDetails={episodeDetails}
+                          titles={titles}
+                        />
+                      </Dialog>
+                    </>
+                  )}
               </div>
               <Info
                 kind={kind}

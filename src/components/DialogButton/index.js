@@ -42,9 +42,10 @@ const Right = styled.div`
   padding: 0.5rem 0.5rem 0.5rem 0;
 `;
 
-function MovieOrTVShow(props) {
-  const isMovieOrTVShow = props.isMovieOrTVShow;
-  if (isMovieOrTVShow === "tvshow")
+function MovieOrTVShowIcon(props) {
+  const { itemKey } = props;
+
+  if (itemKey === "chart")
     return (
       <TVShow
         style={{ transform: "translateY(-1px)" }}
@@ -52,20 +53,23 @@ function MovieOrTVShow(props) {
         strokeWidth={2.5}
       />
     );
+
   return <Movie size={16} strokeWidth={2.5} />;
 }
 
-const TrailerButton = ({ kindURL, setVisiblePopupAndDialogMaskBackground }) => {
-  return (
-    <Wrapper onClick={setVisiblePopupAndDialogMaskBackground}>
-      <Left>
-        <MovieOrTVShow isMovieOrTVShow={kindURL} size={16} strokeWidth={2.5} />
-      </Left>
-      <Right>
-        <Text weight={500}>Watch trailer</Text>
-      </Right>
-    </Wrapper>
-  );
-};
+const DialogButton = ({ setValues, itemKey }) => (
+  <Wrapper onClick={setValues}>
+    <Left>
+      <MovieOrTVShowIcon itemKey={itemKey} />
+    </Left>
+    <Right>
+      <Text weight={500}>
+        {itemKey === "trailer"
+          ? "Watch trailer"
+          : "Display episodes users ratings"}
+      </Text>
+    </Right>
+  </Wrapper>
+);
 
-export default TrailerButton;
+export default DialogButton;

@@ -1,4 +1,4 @@
-import { fonts } from "theme";
+import { colors, fonts } from "theme";
 
 const MultiSelectStyle = `
   .navbar-div {
@@ -97,6 +97,21 @@ const MultiSelectStyle = `
   }
   .p-dialog-header-icons {
     transform: translateY(2px) !important;
+  }
+
+  #dialog-chart {
+    width: 75% !important;
+    border: 1px solid ${colors.lightGrey} !important;
+  }
+
+  #dialog-chart_header {
+    color: ${colors.lightGrey} !important;
+  }
+
+  .p-chart canvas {
+    padding: 0 10px !important;
+    height: 100% !important;
+    width: 100% !important;
   }
 
   .p-checkbox .p-checkbox-box.p-highlight,

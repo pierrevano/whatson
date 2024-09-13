@@ -45,6 +45,8 @@ export const getParameters = (
   status,
   api_key_query,
   api_key,
+  episodes_details_query,
+  episodes_details,
   ratings_filters_query,
   ratings_filters,
 ) => {
@@ -75,6 +77,12 @@ export const getParameters = (
   parameters += addParameter(status, status_query, "status");
 
   parameters += addParameter(api_key, api_key_query, "api_key");
+
+  parameters += addParameter(
+    episodes_details,
+    episodes_details_query,
+    "episodes_details",
+  );
 
   parameters += handlePlatformsAndRatingsFilters(
     platforms,

@@ -3,7 +3,6 @@ const config = {
   base: "https://api.themoviedb.org/3",
   api: process.env.REACT_APP_TMDB_KEY,
 
-  cors_url: "https://cors-sites-aafe82ad9d0c.fly.dev",
   base_render_api: process.env.REACT_APP_WHATSON_API_URL,
   base_render: "https://whatson.onrender.com",
 
@@ -13,6 +12,8 @@ const config = {
   cache_expiration_duration_milliseconds: 3600000,
 
   // filters specifics
+  episodes_details: "true",
+
   item_type: "movie,tvshow",
 
   minimum_ratings: "4.5,4,3.5,3,2.5,2,1,0",
