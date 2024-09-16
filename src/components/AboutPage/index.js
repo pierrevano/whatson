@@ -6,10 +6,10 @@ import Text from "components/Text";
 import Link from "components/Link";
 
 const Wrapper = styled.div`
-	flex: 1
-	display: flex;
-	flex-direction: column;
-	transition: 0.2s all;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s all;
 `;
 
 const Anchor = styled(Link)`
@@ -30,7 +30,10 @@ const Anchor = styled(Link)`
 const AboutPage = () => {
   useEffect(() => {
     document.title = "About";
-  });
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+  }, []);
 
   return (
     <Wrapper>
@@ -47,6 +50,8 @@ const AboutPage = () => {
               <Anchor
                 to="https://www.themoviedb.org"
                 ariaLabel="The Movie Database (TMDB)"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 The Movie Database (TMDB)
               </Anchor>
@@ -62,6 +67,8 @@ const AboutPage = () => {
               <Anchor
                 to="https://github.com/vitordino/movies"
                 ariaLabel="Vitor Dino GitHub original repository"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 repository
               </Anchor>
@@ -78,6 +85,8 @@ const AboutPage = () => {
               <Anchor
                 to="https://github.com/pierrevano"
                 ariaLabel="My GitHub profile"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 GitHub profile
               </Anchor>
@@ -86,7 +95,12 @@ const AboutPage = () => {
             <Text style={{ margin: "1em 0" }}>
               Additionally, this app is ad-free and does not use cookies. It
               only employs a GDPR-compliant solution,{" "}
-              <Anchor to="https://beamanalytics.io" ariaLabel="Beam Analytics">
+              <Anchor
+                to="https://beamanalytics.io"
+                ariaLabel="Beam Analytics"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Beam Analytics
               </Anchor>
               , to enhance the user experience.

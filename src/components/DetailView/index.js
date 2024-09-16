@@ -27,6 +27,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { getRatingsDetails } from "utils/getRatingsDetails";
 import RatingsChart from "./RatingsChart";
+import { colors } from "../../theme";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -73,8 +74,9 @@ const getDetailTitle = (kindURL, title) =>
   `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
 const Player = ({ src, ...rest }) => {
-  const dailymotionPlayer = "dailymotionPlayer";
+  window.beam(`/custom-events/dailymotion_player_opened/${src}`);
 
+  const dailymotionPlayer = "dailymotionPlayer";
   const dataVideo = rest["data-video"];
 
   useEffect(() => {
@@ -362,8 +364,8 @@ const DetailView = ({ id, kindURL }) => {
                 {!!allocine && (
                   <Button
                     displayRatingsDetails={displayRatingsDetails}
-                    background="#28A745"
-                    logo={<Star size={11} filled={true} color="#181818" />}
+                    background={colors.green}
+                    logo={<Star size={11} filled={true} color={colors.dark} />}
                   >
                     {!!ratings_average && `${ratings_average.toFixed(2)}/5`}
                     <OverlayPanel ref={op}>
@@ -420,6 +422,11 @@ const DetailView = ({ id, kindURL }) => {
                       playsinline={true}
                       width="100%"
                       height="100%"
+                      onPlay={() =>
+                        window.beam(
+                          `/custom-events/native_player_opened/${trailer}`,
+                        )
+                      }
                     />
                   )}
                 </Dialog>
@@ -452,6 +459,7 @@ const DetailView = ({ id, kindURL }) => {
                           ratings={usersRatings}
                           episodeDetails={episodeDetails}
                           titles={titles}
+                          allocineUrl={allocine_url}
                         />
                       </Dialog>
                     </>

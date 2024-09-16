@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Container from "components/Container";
 import Text from "components/Text";
@@ -33,16 +33,22 @@ const InfoText = styled(Text)`
  * @param {object} props - Additional props to pass to the component.
  * @returns A styled wrapper component that displays the given information.
  */
-const InfoScreen = ({ emoji, title, description, ...props }) => (
-  <Wrapper {...props}>
-    {emoji && <Emoji>{emoji}</Emoji>}
-    {title && (
-      <Text xs={1} md={2} weight={600} style={{ margin: "1rem 0 0.5rem" }}>
-        {title}
-      </Text>
-    )}
-    {description && <InfoText>{description}</InfoText>}
-  </Wrapper>
-);
+const InfoScreen = ({ emoji, title, description, ...props }) => {
+  useEffect(() => {
+    window.beam(`/custom-events/info_screen_displayed/${title}`);
+  }, [title]);
+
+  return (
+    <Wrapper {...props}>
+      {emoji && <Emoji>{emoji}</Emoji>}
+      {title && (
+        <Text xs={1} md={2} weight={600} style={{ margin: "1rem 0 0.5rem" }}>
+          {title}
+        </Text>
+      )}
+      {description && <InfoText>{description}</InfoText>}
+    </Wrapper>
+  );
+};
 
 export default InfoScreen;

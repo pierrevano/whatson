@@ -6,14 +6,14 @@ export const maxWidth = "1200px";
 export const colors = {
   red: "#FF4040",
   green: "#28A745",
-  blue: "#007BFF",
+  lightDark: "#181818CC",
   dark: "#181818",
   black: "#000000",
   grey: "#1B2329",
   midGrey: "#353F4C",
   lightGrey: "#7A8C99",
   white: "#FFFFFF",
-  overlay: "#1B2329E6", // grey + 0.9 alpha
+  overlay: "#1B2329E6",
 };
 
 export const fonts = {

@@ -10,6 +10,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { getRatingsDetails } from "utils/getRatingsDetails";
+import { colors } from "../../theme";
 
 const Wrapper = styled.div`
   background: none;
@@ -361,7 +362,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
                 className="rating_details"
                 onClick={displayRatingsDetails}
               >
-                <span style={{ color: "#28A745" }}>★</span>{" "}
+                <span style={{ color: colors.green }}>★</span>{" "}
                 {ratings_average.toFixed(1)}
                 <OverlayPanel ref={op}>
                   <DataTable value={detailsData} size="small">

@@ -80,12 +80,15 @@ const Navbar = () => {
   const toast = useRef(null);
 
   const accept = () => {
+    window.beam(`/custom-events/clear_preferences_accepted`);
+
     toast.current.show({
       severity: "info",
       summary: "Confirmation",
       detail: "Enjoy your fresh start!",
       life: 3000,
     });
+
     setTimeout(clearAndReload, 3000);
   };
 
@@ -141,14 +144,28 @@ const Navbar = () => {
             className="pi pi-ticket"
             style={{ transform: "translateY(2px)", marginRight: "10px" }}
           ></span>
-          <span onClick={() => setItemType("movie")}>Movies</span>
+          <span
+            onClick={() => {
+              setItemType("movie");
+              window.beam(`/custom-events/switch_to_opened/movie`);
+            }}
+          >
+            Movies
+          </span>
           <br />
           <br />
           <span
             className="pi pi-video"
             style={{ transform: "translateY(2px)", marginRight: "10px" }}
           ></span>
-          <span onClick={() => setItemType("tvshow")}>TV Shows</span>
+          <span
+            onClick={() => {
+              setItemType("tvshow");
+              window.beam(`/custom-events/switch_to_opened/tvshow`);
+            }}
+          >
+            TV Shows
+          </span>
           <span
             className="pi pi-trash"
             style={{ position: "absolute", bottom: "22px", left: "20px" }}

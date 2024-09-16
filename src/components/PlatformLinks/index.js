@@ -20,7 +20,7 @@ const Wrapper = styled.button`
   cursor: pointer;
   &:hover {
     color: ${(p) => p.theme.colors.white};
-    background: ${(p) => p.theme.colors.green};
+    background: ${(p) => p.theme.colors.lightDark};
     box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.green};
   }
   &:focus {
@@ -49,8 +49,13 @@ const Right = styled.div`
  * @returns A clickable link to the platform.
  */
 const PlatformLinks = ({ name, linkURL }) => {
+  const handleClick = () => {
+    window.beam(`/custom-events/platform_links_opened/${linkURL}`);
+    window.open(linkURL, "_blank", "noreferrer");
+  };
+
   return (
-    <Wrapper onClick={() => window.open(linkURL, "_blank", "noreferrer")}>
+    <Wrapper onClick={handleClick}>
       <Left>
         <Eye
           style={{ transform: "translateY(-1px)" }}

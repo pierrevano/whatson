@@ -20,11 +20,11 @@ const Wrapper = styled.button`
   cursor: pointer;
   &:hover {
     color: ${(p) => p.theme.colors.white};
-    background: ${(p) => p.theme.colors.blue};
-    box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.blue};
+    background: ${(p) => p.theme.colors.lightDark};
+    box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.green};
   }
   &:focus {
-    box-shadow: inset 0 0 0 0.125rem ${(p) => p.theme.colors.blue};
+    box-shadow: inset 0 0 0 0.125rem ${(p) => p.theme.colors.green};
   }
 `;
 

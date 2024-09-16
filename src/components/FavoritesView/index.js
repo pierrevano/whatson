@@ -30,7 +30,9 @@ const SearchView = () => {
   const [favoritesSet] = useFavorites();
   const favorites = [...favoritesSet] || [];
   useEffect(() => {
-    document.title = "Movies - " + getTitle(favorites.length);
+    window.beam(`/custom-events/favorites_view_opened`);
+
+    document.title = "Favorites - " + getTitle(favorites.length);
   }, [favorites.length]);
 
   return (

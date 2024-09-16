@@ -1,4 +1,5 @@
 import React from "react";
+import { colors } from "../../theme";
 
 const Filter = ({
   size = 31,
@@ -10,7 +11,7 @@ const Filter = ({
   <svg
     className="filter-icon"
     viewBox="0 -0.6 24 24"
-    stroke="#FFF"
+    stroke={colors.white}
     strokeWidth={1.5}
     strokeLinecap="round"
     strokeLinejoin="round"
@@ -20,15 +21,15 @@ const Filter = ({
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path d="M5 12L5 4" stroke="#FFF" strokeLinecap="round" />
-    <path d="M19 20L19 17" stroke="#FFF" strokeLinecap="round" />
-    <path d="M5 20L5 16" stroke="#FFF" strokeLinecap="round" />
-    <path d="M19 13L19 4" stroke="#FFF" strokeLinecap="round" />
-    <path d="M12 7L12 4" stroke="#FFF" strokeLinecap="round" />
-    <path d="M12 20L12 11" stroke="#FFF" strokeLinecap="round" />
-    <circle cx={5} cy={14} r={2} stroke="#FFF" strokeLinecap="round" />
-    <circle cx={12} cy={9} r={2} stroke="#FFF" strokeLinecap="round" />
-    <circle cx={19} cy={15} r={2} stroke="#FFF" strokeLinecap="round" />
+    <path d="M5 12L5 4" />
+    <path d="M19 20L19 17" />
+    <path d="M5 20L5 16" />
+    <path d="M19 13L19 4" />
+    <path d="M12 7L12 4" />
+    <path d="M12 20L12 11" />
+    <circle cx={5} cy={14} r={2} />
+    <circle cx={12} cy={9} r={2} />
+    <circle cx={19} cy={15} r={2} />
   </svg>
 );
 

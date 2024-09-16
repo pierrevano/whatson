@@ -26,30 +26,41 @@ const refreshCacheAndReload = () => {
  */
 const useCacheBuster = () => {
   const parseVersion = (str) => +str.replace(/\D/g, "");
+
   useEffect(() => {
-    fetch(`/meta.json?v=${+new Date()}`, { cache: "no-cache" })
-      .then((response) => response.json())
-      .then((meta) => {
+    const fetchMeta = async () => {
+      try {
+        const response = await fetch(`/meta.json?v=${+new Date()}`, {
+          cache: "no-cache",
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const meta = await response.json();
         if (meta?.version) {
           const metaVersion = parseVersion(meta.version);
           const packageVersion = parseVersion(packageJson.version);
           const targetVersion = parseVersion(majorVersion);
+
           localStorage.setItem("version", metaVersion);
           if (packageVersion < targetVersion) {
             localStorage.clear();
           }
+
           if (packageVersion < metaVersion) {
-            if (window?.location?.reload) {
+            if (window.location.reload) {
               refreshCacheAndReload();
             }
           }
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Something went wrong fetching meta.json", error);
-      });
+      }
+    };
+
+    fetchMeta();
   }, []);
-  return null;
 };
 
 export default useCacheBuster;

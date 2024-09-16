@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { colors } from "../../theme";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -25,7 +26,7 @@ const Loader = () => (
       height="44"
       viewBox="0 0 44 44"
       xmlns="http://www.w3.org/2000/svg"
-      stroke="#fff"
+      stroke={colors.white}
     >
       <g fill="none" fillRule="evenodd" strokeWidth="2">
         <circle cx="22" cy="22" r="1">
