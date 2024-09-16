@@ -31,7 +31,7 @@ const SearchView = () => {
   const [favoritesSet] = useFavorites();
   const favorites = [...favoritesSet] || [];
   useEffect(() => {
-    if (shouldSendCustomEvents) {
+    if (shouldSendCustomEvents()) {
       window.beam(`/custom-events/favorites_view_opened`);
     }
 
