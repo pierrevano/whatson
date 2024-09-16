@@ -33,11 +33,8 @@ const useCacheBuster = () => {
         const response = await fetch(`/meta.json?v=${+new Date()}`, {
           cache: "no-cache",
         });
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
         const meta = await response.json();
+
         if (meta?.version) {
           const metaVersion = parseVersion(meta.version);
           const packageVersion = parseVersion(packageJson.version);
@@ -49,7 +46,7 @@ const useCacheBuster = () => {
           }
 
           if (packageVersion < metaVersion) {
-            if (window.location.reload) {
+            if (window?.location?.reload) {
               refreshCacheAndReload();
             }
           }
@@ -61,6 +58,8 @@ const useCacheBuster = () => {
 
     fetchMeta();
   }, []);
+
+  return null;
 };
 
 export default useCacheBuster;
