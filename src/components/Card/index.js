@@ -11,6 +11,7 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { getRatingsDetails } from "utils/getRatingsDetails";
 import { colors } from "../../theme";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled.div`
   background: none;
@@ -285,9 +286,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const isMounted = useRef(false);
 
   const displayRatingsDetails = (e) => {
-    const beamanalytics = localStorage.getItem("beamanalytics") || "true";
-    if (beamanalytics !== "false")
+    if (shouldSendCustomEvents()) {
       window.beam(`/custom-events/ratings_details_displayed/${allocineID}`);
+    }
 
     if (isMounted.current && detailsData) {
       op.current.hide(e);

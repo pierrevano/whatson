@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Chart } from "primereact/chart";
 import * as theme from "../../theme";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const RatingsChart = ({ ratings, episodeDetails, titles, allocineUrl }) => {
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    window.beam(`/custom-events/ratings_chart_opened/${allocineUrl}`);
+    if (shouldSendCustomEvents()) {
+      window.beam(`/custom-events/ratings_chart_opened/${allocineUrl}`);
+    }
 
     const data = {
       labels: episodeDetails.map((ep) => `S${ep.season}E${ep.episode}`),

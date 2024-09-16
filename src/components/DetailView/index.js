@@ -28,6 +28,7 @@ import { Column } from "primereact/column";
 import { getRatingsDetails } from "utils/getRatingsDetails";
 import RatingsChart from "./RatingsChart";
 import { colors } from "../../theme";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -74,7 +75,9 @@ const getDetailTitle = (kindURL, title) =>
   `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
 const Player = ({ src, ...rest }) => {
-  window.beam(`/custom-events/dailymotion_player_opened/${src}`);
+  if (shouldSendCustomEvents()) {
+    window.beam(`/custom-events/dailymotion_player_opened/${src}`);
+  }
 
   const dailymotionPlayer = "dailymotionPlayer";
   const dataVideo = rest["data-video"];
@@ -422,11 +425,13 @@ const DetailView = ({ id, kindURL }) => {
                       playsinline={true}
                       width="100%"
                       height="100%"
-                      onPlay={() =>
-                        window.beam(
-                          `/custom-events/native_player_opened/${trailer}`,
-                        )
-                      }
+                      onPlay={() => {
+                        if (shouldSendCustomEvents()) {
+                          window.beam(
+                            `/custom-events/native_player_opened/${trailer}`,
+                          );
+                        }
+                      }}
                     />
                   )}
                 </Dialog>

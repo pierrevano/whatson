@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Text from "components/Text";
 import Eye from "components/Icon/Eye";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled.button`
   background: none;
@@ -50,7 +51,9 @@ const Right = styled.div`
  */
 const PlatformLinks = ({ name, linkURL }) => {
   const handleClick = () => {
-    window.beam(`/custom-events/platform_links_opened/${linkURL}`);
+    if (shouldSendCustomEvents()) {
+      window.beam(`/custom-events/platform_links_opened/${linkURL}`);
+    }
     window.open(linkURL, "_blank", "noreferrer");
   };
 

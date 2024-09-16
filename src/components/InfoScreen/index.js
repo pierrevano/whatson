@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Container from "components/Container";
 import Text from "components/Text";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled(Container)`
   flex: 1;
@@ -35,7 +36,9 @@ const InfoText = styled(Text)`
  */
 const InfoScreen = ({ emoji, title, description, ...props }) => {
   useEffect(() => {
-    window.beam(`/custom-events/info_screen_displayed/${title}`);
+    if (shouldSendCustomEvents()) {
+      window.beam(`/custom-events/info_screen_displayed/${title}`);
+    }
   }, [title]);
 
   return (

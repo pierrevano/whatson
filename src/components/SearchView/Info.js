@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import InfoScreen from "components/InfoScreen";
 import Link from "components/Link";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Anchor = styled(Link)`
   border-radius: 0.125rem;
@@ -21,7 +22,9 @@ const Anchor = styled(Link)`
  * @returns An InfoScreen component with a title based on the given kind prop.
  */
 const Info = ({ kind, ...props }) => {
-  window.beam(`/custom-events/search_view_opened/${kind}`);
+  if (shouldSendCustomEvents()) {
+    window.beam(`/custom-events/search_view_opened/${kind}`);
+  }
 
   if (kind === "movies")
     return <InfoScreen title="Search for movies" {...props} />;

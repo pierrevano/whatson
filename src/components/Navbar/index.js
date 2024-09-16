@@ -12,6 +12,7 @@ import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
 import config from "config";
 import SidebarFilters from "./SidebarFilters";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -80,7 +81,9 @@ const Navbar = () => {
   const toast = useRef(null);
 
   const accept = () => {
-    window.beam(`/custom-events/clear_preferences_accepted`);
+    if (shouldSendCustomEvents()) {
+      window.beam(`/custom-events/clear_preferences_accepted`);
+    }
 
     toast.current.show({
       severity: "info",
@@ -147,7 +150,9 @@ const Navbar = () => {
           <span
             onClick={() => {
               setItemType("movie");
-              window.beam(`/custom-events/switch_to_opened/movie`);
+              if (shouldSendCustomEvents()) {
+                window.beam(`/custom-events/switch_to_opened/movie`);
+              }
             }}
           >
             Movies
@@ -161,7 +166,9 @@ const Navbar = () => {
           <span
             onClick={() => {
               setItemType("tvshow");
-              window.beam(`/custom-events/switch_to_opened/tvshow`);
+              if (shouldSendCustomEvents()) {
+                window.beam(`/custom-events/switch_to_opened/tvshow`);
+              }
             }}
           >
             TV Shows

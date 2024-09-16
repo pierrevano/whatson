@@ -7,6 +7,7 @@ import FetchCard from "components/Card/FetchCard";
 import InfoScreen from "components/InfoScreen";
 import Text from "components/Text";
 import { HeartBreak } from "components/Icon";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled.div`
 	flex: 1
@@ -30,7 +31,9 @@ const SearchView = () => {
   const [favoritesSet] = useFavorites();
   const favorites = [...favoritesSet] || [];
   useEffect(() => {
-    window.beam(`/custom-events/favorites_view_opened`);
+    if (shouldSendCustomEvents) {
+      window.beam(`/custom-events/favorites_view_opened`);
+    }
 
     document.title = "Favorites - " + getTitle(favorites.length);
   }, [favorites.length]);
