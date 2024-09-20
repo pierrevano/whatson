@@ -8,10 +8,11 @@ export const getTitleFromURL = (kind) => {
 };
 
 export const getKindByURL = (input, source) => {
-  const tvshowValue = source === "render" ? "tvshow" : "tv";
+  const peopleValue = source !== "render" ? "person" : "";
+  const tvshowValue = source !== "render" ? "tv" : "tvshow";
 
   if (input === "movies") return "movie";
-  if (input === "people") return "person";
+  if (input === "people") return peopleValue;
   if (input === "tvshows") return tvshowValue;
   return "multi";
 };

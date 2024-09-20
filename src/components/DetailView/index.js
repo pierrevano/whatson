@@ -157,7 +157,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const { data: data_from_render } = useFetch(
     [
-      `${config.base_render_api}/${getKindByURL(kindURL, "render")}/${id}`,
+      `${config.base_render_api}/${getKindByURL(kindURL, "render")}${kindURL !== "people" ? `/${id}` : ""}`,
       `${parameters}`,
     ].join(""),
   );
