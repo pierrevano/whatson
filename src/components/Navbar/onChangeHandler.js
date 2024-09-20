@@ -17,6 +17,7 @@ export const onChangeHandler = (
   setSelectedItems,
   setMinRatingsValue,
   setPlatformsValue,
+  setPopularityFilters,
   setRatingsFilters,
   setReleaseDateValue,
   setSeasonsNumber,
@@ -52,6 +53,7 @@ export const onChangeHandler = (
     setMinRatingsValue(originMapper.minimum_ratings.join(","));
   }
 
+  setPopularityFilters(originMapper.popularity.join(","));
   setRatingsFilters(originMapper.ratings.join(","));
   setReleaseDateValue(originMapper.release_date.join(","));
 

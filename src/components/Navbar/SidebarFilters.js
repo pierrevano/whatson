@@ -24,6 +24,10 @@ const SidebarFilters = () => {
     "platforms",
     "",
   );
+  const [popularity_filters, setPopularityFilters] = useStorageString(
+    "popularity_filters",
+    "",
+  );
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
     "",
@@ -38,8 +42,15 @@ const SidebarFilters = () => {
   );
   const [status_value, setStatusValue] = useStorageString("status", "");
 
-  const { minimum_ratings, platforms, ratings, release_date, seasons, status } =
-    createFilters(config, item_type, defaultItemTypeFilters);
+  const {
+    minimum_ratings,
+    platforms,
+    popularity,
+    ratings,
+    release_date,
+    seasons,
+    status,
+  } = createFilters(config, item_type, defaultItemTypeFilters);
 
   const [visibleLeftFilters, setVisibleLeftFilters] = useState(false);
 
@@ -49,6 +60,8 @@ const SidebarFilters = () => {
       minimum_ratings_value,
       platforms,
       platforms_value,
+      popularity,
+      popularity_filters,
       ratings,
       ratings_filters,
       release_date,
@@ -73,6 +86,7 @@ const SidebarFilters = () => {
       setSelectedItems,
       setMinRatingsValue,
       setPlatformsValue,
+      setPopularityFilters,
       setRatingsFilters,
       setReleaseDateValue,
       setSeasonsNumber,
@@ -100,8 +114,16 @@ const SidebarFilters = () => {
 
   const groupedItems =
     item_type && item_type === defaultItemTypeFilters[1]
-      ? [release_date, minimum_ratings, platforms, ratings, seasons, status]
-      : [release_date, minimum_ratings, ratings];
+      ? [
+          release_date,
+          popularity,
+          minimum_ratings,
+          platforms,
+          ratings,
+          seasons,
+          status,
+        ]
+      : [release_date, popularity, minimum_ratings, ratings];
 
   return (
     <span>
@@ -126,8 +148,8 @@ const SidebarFilters = () => {
               </h2>
               {groupedItem.items.map((item, itemIndex) =>
                 (item.origin === "minimum_ratings" && item.code !== "4.5") ||
-                (item.origin === "release_date" &&
-                  item.code === "everything") ||
+                (item.origin === "release_date" && item.code !== "new") ||
+                (item.origin === "popularity" && item.code !== "none") ||
                 (item.origin === "platforms" && item.code === "all") ? null : (
                   <div
                     key={`${groupedItem.name}-${itemIndex}`}

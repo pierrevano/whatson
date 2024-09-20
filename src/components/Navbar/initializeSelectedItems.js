@@ -10,6 +10,8 @@ export const initializeSelectedItems = (
   minimum_ratings_value,
   platforms,
   platforms_value,
+  popularity,
+  popularity_filters,
   ratings,
   ratings_filters,
   release_date,
@@ -38,6 +40,7 @@ export const initializeSelectedItems = (
 
   const filterLookup = createLookup([
     ...platforms.items,
+    ...popularity.items,
     ...ratings.items,
     ...release_date.items,
     ...status.items,
@@ -46,6 +49,15 @@ export const initializeSelectedItems = (
   const defaultPlatformsValue = config.platforms.split(",");
   defaultPlatformsValue.forEach((filter) => {
     if (!platforms_value || platforms_value.includes(filter)) {
+      selectedItems.push(filterLookup[filter]);
+    }
+  });
+
+  const defaultPopularityValue = config.popularity_names
+    .toLowerCase()
+    .split(",");
+  defaultPopularityValue.forEach((filter) => {
+    if (!popularity_filters || popularity_filters.includes(filter)) {
       selectedItems.push(filterLookup[filter]);
     }
   });

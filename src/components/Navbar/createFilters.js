@@ -34,6 +34,10 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
     name: "Platforms",
     items: createItems(config.platforms.split(","), "platforms"),
   };
+  const popularity = {
+    name: "Popularity",
+    items: createItems(config.popularity_names.split(","), "popularity"),
+  };
   const ratings = {
     name: "Ratings",
     items: createItems(
@@ -59,6 +63,7 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   return {
     minimum_ratings,
     platforms,
+    popularity,
     ratings,
     release_date,
     seasons,
