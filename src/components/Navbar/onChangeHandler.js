@@ -53,7 +53,12 @@ export const onChangeHandler = (
     setMinRatingsValue(originMapper.minimum_ratings.join(","));
   }
 
-  setPopularityFilters(originMapper.popularity.join(","));
+  if (value === "enabled" && !checked) {
+    setPopularityFilters("none");
+  } else {
+    setPopularityFilters(config.popularity);
+  }
+
   setRatingsFilters(originMapper.ratings.join(","));
   setReleaseDateValue(originMapper.release_date.join(","));
 

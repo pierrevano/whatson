@@ -149,7 +149,7 @@ const SidebarFilters = () => {
               {groupedItem.items.map((item, itemIndex) =>
                 (item.origin === "minimum_ratings" && item.code !== "4.5") ||
                 (item.origin === "release_date" && item.code !== "new") ||
-                (item.origin === "popularity" && item.code !== "none") ||
+                (item.origin === "popularity" && item.code !== "enabled") ||
                 (item.origin === "platforms" && item.code === "all") ? null : (
                   <div
                     key={`${groupedItem.name}-${itemIndex}`}

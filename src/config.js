@@ -26,8 +26,7 @@ const config = {
   platforms:
     "Canal+ Ciné Séries,Netflix,Prime Video,Canal+,TF1+,Disney+,Paramount+,Apple TV+,Pass Warner,OCS,M6+,Crunchyroll,ADN,Universal+,all",
 
-  popularity: "allocine_popularity,imdb_popularity",
-  popularity_names: "None,allocine_popularity,imdb_popularity",
+  popularity: "enabled,allocine_popularity,imdb_popularity",
 
   ratings:
     "allocine_critics,allocine_users,betaseries_users,imdb_users,letterboxd_users,metacritic_critics,metacritic_users,rottenTomatoes_critics,rottenTomatoes_users,senscritique_users,tmdb_users,trakt_users",

@@ -36,7 +36,7 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   };
   const popularity = {
     name: "Popularity",
-    items: createItems(config.popularity_names.split(","), "popularity"),
+    items: createItems(config.popularity.split(","), "popularity"),
   };
   const ratings = {
     name: "Ratings",

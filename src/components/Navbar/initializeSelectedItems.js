@@ -53,9 +53,7 @@ export const initializeSelectedItems = (
     }
   });
 
-  const defaultPopularityValue = config.popularity_names
-    .toLowerCase()
-    .split(",");
+  const defaultPopularityValue = config.popularity.toLowerCase().split(",");
   defaultPopularityValue.forEach((filter) => {
     if (!popularity_filters || popularity_filters.includes(filter)) {
       selectedItems.push(filterLookup[filter]);
