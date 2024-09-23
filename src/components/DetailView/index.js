@@ -47,9 +47,9 @@ const BackLink = styled.button`
   cursor: pointer;
   border-radius: 0.25rem;
   margin: 0 -0.5rem;
-  padding: 1.925rem 1rem 0.75rem 0.5rem;
+  padding: 1.5rem 1rem 0.75rem 0.5rem;
   @media (max-width: 767px) {
-    padding-top: 1.725rem;
+    padding-top: 1.2rem;
   }
   position: sticky;
   top: 0.25rem;
