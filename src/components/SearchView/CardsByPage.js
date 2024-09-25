@@ -12,6 +12,7 @@ import config from "config";
 
 const queryStringParsed = queryString.parse(window.location.search);
 const api_key_query = queryStringParsed.api_key;
+const genres_query = queryStringParsed.genres;
 const item_type_query = queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const platforms_query = queryStringParsed.platforms;
@@ -23,6 +24,7 @@ const status_query = queryStringParsed.status;
 
 const getDataURL = (
   api_key,
+  genres,
   item_type,
   kindURL,
   minimum_ratings,
@@ -36,6 +38,8 @@ const getDataURL = (
   status,
 ) => {
   const parameters = getParameters(
+    genres_query,
+    genres,
     item_type_query,
     item_type,
     minimum_ratings_query,
@@ -87,6 +91,7 @@ const InfiniteScroll = ({ page, setPage }) => {
  */
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [api_key, setApiKey] = useStorageString("api_key", "");
+  const [genres_value, setGenresValue] = useStorageString("genres", "");
   const [item_type, setItemType] = useStorageString("item_type", "movie");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
@@ -113,6 +118,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   useEffect(() => {
     if (typeof api_key_query !== "undefined") setApiKey(api_key_query);
+    if (typeof genres_query !== "undefined") setGenresValue(genres_query);
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
     if (typeof minimum_ratings_query !== "undefined")
       setMinRatingsValue(minimum_ratings_query);
@@ -128,6 +134,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       setSeasonsNumber(seasons_number_query);
     if (typeof status_query !== "undefined") setStatusValue(status_query);
   }, [
+    setGenresValue,
     setItemType,
     setMinRatingsValue,
     setPlatformsValue,
@@ -140,6 +147,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   const fetchUrl = getDataURL(
     api_key,
+    genres_value,
     item_type,
     kindURL,
     minimum_ratings_value,

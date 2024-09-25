@@ -7,11 +7,7 @@ const addParameter = (queryValue, queryAlternate, paramName) => {
   return "";
 };
 
-const handlePlatformsAndRatingsFilters = (
-  mainQuery,
-  alternateQuery,
-  paramName,
-) => {
+const handleEncodedFilters = (mainQuery, alternateQuery, paramName) => {
   if (mainQuery) {
     return `${paramName}=${
       paramName === "ratings_filters"
@@ -29,6 +25,8 @@ const handlePlatformsAndRatingsFilters = (
 };
 
 export const getParameters = (
+  genres_query,
+  genres,
   item_type_query,
   item_type,
   minimum_ratings_query,
@@ -84,13 +82,11 @@ export const getParameters = (
     "episodes_details",
   );
 
-  parameters += handlePlatformsAndRatingsFilters(
-    platforms,
-    platforms_query,
-    "platforms",
-  );
+  parameters += handleEncodedFilters(genres, genres_query, "genres");
 
-  parameters += handlePlatformsAndRatingsFilters(
+  parameters += handleEncodedFilters(platforms, platforms_query, "platforms");
+
+  parameters += handleEncodedFilters(
     ratings_filters,
     ratings_filters_query,
     "ratings_filters",

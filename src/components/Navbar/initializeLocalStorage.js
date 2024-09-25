@@ -2,6 +2,7 @@ import config from "../../config";
 
 const localStorageItems = {
   episodes_details: config.episodes_details,
+  genres: config.genres,
   minimum_ratings: config.minimum_ratings,
   platforms: config.platforms,
   popularity_filters: config.popularity,

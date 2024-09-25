@@ -1,12 +1,14 @@
 import config from "../../config";
 
-function arePlatformsIncluded(config, originMapper) {
-  const configPlatformsArray = config.platforms.split(",");
-  const filteredConfigPlatforms = configPlatformsArray.filter(
-    (platform) => platform.toLowerCase() !== "all",
+function areNamesIncluded(config, originMapper, source) {
+  const configArray = config[source].split(",");
+  const filteredConfigArray = configArray.filter(
+    (item) =>
+      item.toLowerCase() !== "all" || item.toLowerCase() !== "allgenres",
   );
-  return filteredConfigPlatforms.every((platform) =>
-    originMapper.platforms.includes(platform),
+
+  return filteredConfigArray.every((item) =>
+    originMapper[source].includes(item),
   );
 }
 
@@ -15,6 +17,7 @@ export const onChangeHandler = (
   item_type,
   selectedItems,
   setSelectedItems,
+  setGenresValue,
   setMinRatingsValue,
   setPlatformsValue,
   setPopularityFilters,
@@ -26,6 +29,7 @@ export const onChangeHandler = (
   const { name, value, checked } = e.target;
 
   const originMapper = {
+    genres: [],
     minimum_ratings: [],
     platforms: [],
     popularity: [],
@@ -47,6 +51,16 @@ export const onChangeHandler = (
     }
   });
 
+  if (areNamesIncluded(config, originMapper, "genres")) {
+    setGenresValue(config.genres);
+  } else {
+    setGenresValue(
+      originMapper.genres
+        .filter((genre) => genre.toLowerCase() !== "allgenres")
+        .join(","),
+    );
+  }
+
   if (value && value.origin === "minimum_ratings") {
     setMinRatingsValue(value.code);
   } else {
@@ -63,7 +77,7 @@ export const onChangeHandler = (
   setReleaseDateValue(originMapper.release_date.join(","));
 
   if (item_type && item_type === config.item_type.split(",")[1]) {
-    if (arePlatformsIncluded(config, originMapper)) {
+    if (areNamesIncluded(config, originMapper, "platforms")) {
       setPlatformsValue(config.platforms);
     } else {
       setPlatformsValue(

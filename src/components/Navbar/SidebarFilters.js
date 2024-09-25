@@ -15,6 +15,7 @@ const SidebarFilters = () => {
 
   const defaultItemTypeFilters = config.item_type.split(",");
 
+  const [genres_value, setGenresValue] = useStorageString("genres", "");
   const [item_type] = useStorageString("item_type", "");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
@@ -43,6 +44,7 @@ const SidebarFilters = () => {
   const [status_value, setStatusValue] = useStorageString("status", "");
 
   const {
+    genres,
     minimum_ratings,
     platforms,
     popularity,
@@ -56,6 +58,8 @@ const SidebarFilters = () => {
 
   const [selectedItems, setSelectedItems] = useState(() =>
     initializeSelectedItems(
+      genres,
+      genres_value,
       minimum_ratings,
       minimum_ratings_value,
       platforms,
@@ -84,6 +88,7 @@ const SidebarFilters = () => {
       item_type,
       selectedItems,
       setSelectedItems,
+      setGenresValue,
       setMinRatingsValue,
       setPlatformsValue,
       setPopularityFilters,
@@ -119,11 +124,12 @@ const SidebarFilters = () => {
           popularity,
           minimum_ratings,
           platforms,
+          genres,
           ratings,
           seasons,
           status,
         ]
-      : [release_date, popularity, minimum_ratings, ratings];
+      : [release_date, popularity, minimum_ratings, genres, ratings];
 
   return (
     <span>
@@ -147,10 +153,12 @@ const SidebarFilters = () => {
                 <strong>{groupedItem.name}</strong>
               </h2>
               {groupedItem.items.map((item, itemIndex) =>
+                (item.origin === "genres" && item.code === "allgenres") ||
                 (item.origin === "minimum_ratings" && item.code !== "4.5") ||
-                (item.origin === "release_date" && item.code !== "new") ||
+                (item.origin === "platforms" && item.code === "all") ||
                 (item.origin === "popularity" && item.code !== "enabled") ||
-                (item.origin === "platforms" && item.code === "all") ? null : (
+                (item.origin === "release_date" &&
+                  item.code !== "new") ? null : (
                   <div
                     key={`${groupedItem.name}-${itemIndex}`}
                     className="flex align-items-center"

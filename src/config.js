@@ -12,11 +12,14 @@ const config = {
   cache_expiration_duration_milliseconds: 3600000,
 
   // filters specifics
+  genres:
+    "Drama,Crime,Mystery,Sci-Fi & Fantasy,Action & Adventure,Comedy,War & Politics,Family,Animation,Western,Soap,Reality,allgenres",
+
   episodes_details: "true",
 
   item_type: "movie,tvshow",
 
-  minimum_ratings: "4.5,4,3.5,3,2.5,2,1,0",
+  minimum_ratings: "4.5,4.0,3.5,3.0,2.5,2.0,1.0,0.0",
   minimum_ratings_names:
     "4.5 and more,4 and more,3.5 and more,3 and more,2.5 and more,2 and more,1 and more,0 and more",
 
@@ -24,7 +27,7 @@ const config = {
   release_date_names: "New,Everything",
 
   platforms:
-    "Canal+ Ciné Séries,Netflix,Prime Video,Canal+,TF1+,Disney+,Paramount+,Apple TV+,Pass Warner,OCS,M6+,Crunchyroll,ADN,Universal+,all",
+    "Canal+ Ciné Séries,Netflix,Prime Video,Max,Disney+,Paramount+,Apple TV+,Canal+,OCS,ADN,Crunchyroll,all",
 
   popularity: "enabled,allocine_popularity,imdb_popularity",
 
@@ -34,6 +37,7 @@ const config = {
     "AlloCiné critics,AlloCiné users,BetaSeries users,IMDb users,Letterboxd users,Metacritic critics,Metacritic users,Rotten Tomatoes critics,Rotten Tomatoes users,SensCritique users,TMDB users,Trakt users",
 
   seasons: "1,2,3,4,5",
+  seasons_names: "1,2,3,4,5 and more",
 
   status: "canceled,ended,ongoing,pilot,unknown",
 };

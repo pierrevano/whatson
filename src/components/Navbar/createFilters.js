@@ -2,27 +2,38 @@ function createItems(nameArray, origin) {
   return nameArray
     .map((name) => {
       let processedName;
+      let nameToProcess = name;
 
-      if (origin === "platforms") {
-        processedName = name;
-      } else {
-        processedName = name
+      if (origin !== "genres" && origin !== "platforms") {
+        nameToProcess = name
           .toLowerCase()
           .replaceAll("allociné", "allocine")
-          .replaceAll("rotten tomatoes", "rottenTomatoes")
-          .replaceAll(" and more", "")
-          .replaceAll(" ", "_");
+          .replaceAll("rotten tomatoes", "rottenTomatoes");
+
+        if (nameToProcess.includes(" and more")) {
+          nameToProcess = nameToProcess.replaceAll(" and more", "");
+          if (!nameToProcess.endsWith(".5") && nameToProcess !== "5") {
+            nameToProcess += ".0";
+          }
+        }
+
+        processedName = nameToProcess.replaceAll(" ", "_");
+      } else {
+        processedName = name;
       }
 
       const capitalizedFirstLetterName =
         name.charAt(0).toUpperCase() + name.slice(1);
-
       return { name: capitalizedFirstLetterName, code: processedName, origin };
     })
     .flat();
 }
 
 export const createFilters = (config, item_type, defaultItemTypeFilters) => {
+  const genres = {
+    name: "Genres",
+    items: createItems(config.genres.split(","), "genres"),
+  };
   const minimum_ratings = {
     name: "Minimum ratings",
     items: createItems(
@@ -53,7 +64,7 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   };
   const seasons = {
     name: "Seasons",
-    items: createItems(config.seasons.split(","), "seasons"),
+    items: createItems(config.seasons_names.split(","), "seasons"),
   };
   const status = {
     name: "Status",
@@ -61,6 +72,7 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   };
 
   return {
+    genres,
     minimum_ratings,
     platforms,
     popularity,

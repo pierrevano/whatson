@@ -6,6 +6,8 @@ function createLookup(itemsArray) {
 }
 
 export const initializeSelectedItems = (
+  genres,
+  genres_value,
   minimum_ratings,
   minimum_ratings_value,
   platforms,
@@ -39,12 +41,20 @@ export const initializeSelectedItems = (
   });
 
   const filterLookup = createLookup([
+    ...genres.items,
     ...platforms.items,
     ...popularity.items,
     ...ratings.items,
     ...release_date.items,
     ...status.items,
   ]);
+
+  const defaultGenresValue = config.genres.split(",");
+  defaultGenresValue.forEach((filter) => {
+    if (!genres_value || genres_value.includes(filter)) {
+      selectedItems.push(filterLookup[filter]);
+    }
+  });
 
   const defaultPlatformsValue = config.platforms.split(",");
   defaultPlatformsValue.forEach((filter) => {
