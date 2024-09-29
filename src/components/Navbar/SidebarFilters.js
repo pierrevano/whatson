@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStorageString } from "utils/useStorageString";
 import config from "../../config";
 import initializeLocalStorage from "./initializeLocalStorage";
@@ -9,6 +9,10 @@ import { Checkbox } from "primereact/checkbox";
 import { ListBox } from "primereact/listbox";
 import { Sidebar } from "primereact/sidebar";
 import Filter from "components/Icon/Filter";
+import { clearAndReload } from "utils/clearLocalStorage";
+import { ConfirmDialog } from "primereact/confirmdialog";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { Toast } from "primereact/toast";
 
 const SidebarFilters = () => {
   initializeLocalStorage();
@@ -131,6 +135,25 @@ const SidebarFilters = () => {
         ]
       : [release_date, popularity, minimum_ratings, genres, ratings];
 
+  const [visible, setVisible] = useState(false);
+
+  const toast = useRef(null);
+
+  const accept = () => {
+    if (shouldSendCustomEvents()) {
+      window.beam(`/custom-events/clear_preferences_accepted`);
+    }
+
+    toast.current.show({
+      severity: "info",
+      summary: "Confirmation",
+      detail: "Enjoy your fresh start!",
+      life: 3000,
+    });
+
+    setTimeout(clearAndReload, 3000);
+  };
+
   return (
     <span>
       <Filter
@@ -208,6 +231,18 @@ const SidebarFilters = () => {
               <br />
             </div>
           ))}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span className="pi pi-trash" />
+            <span onClick={() => setVisible(true)}>Reset Preferences</span>
+          </div>
+          <Toast ref={toast} />
+          <ConfirmDialog
+            visible={visible}
+            onHide={() => setVisible(false)}
+            message="Are you sure you want to proceed?"
+            header="Clear my preferences"
+            accept={accept}
+          />
         </div>
       </Sidebar>
     </span>

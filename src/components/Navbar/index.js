@@ -1,13 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Location } from "@reach/router";
 import Link from "components/Link";
 import Container from "components/Container";
 import { Heart, Search } from "components/Icon";
 import Item from "./Item";
-import { clearAndReload } from "utils/clearLocalStorage";
-import { ConfirmDialog } from "primereact/confirmdialog";
-import { Toast } from "primereact/toast";
 import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
 import config from "config";
@@ -75,25 +72,7 @@ const searchShortcut = (event) => {
  * @returns {JSX.Element} - The JSX code that renders the navbar.
  */
 const Navbar = () => {
-  const [visible, setVisible] = useState(false);
   const [visibleLeft, setVisibleLeft] = useState(false);
-
-  const toast = useRef(null);
-
-  const accept = () => {
-    if (shouldSendCustomEvents()) {
-      window.beam(`/custom-events/clear_preferences_accepted`);
-    }
-
-    toast.current.show({
-      severity: "info",
-      summary: "Confirmation",
-      detail: "Enjoy your fresh start!",
-      life: 3000,
-    });
-
-    setTimeout(clearAndReload, 3000);
-  };
 
   useEffect(() => {
     window.addEventListener("keydown", searchShortcut);
@@ -173,24 +152,6 @@ const Navbar = () => {
           >
             TV Shows
           </span>
-          <span
-            className="pi pi-trash"
-            style={{ position: "absolute", bottom: "22px", left: "20px" }}
-          ></span>
-          <span
-            style={{ position: "absolute", bottom: "20px", left: "50px" }}
-            onClick={() => setVisible(true)}
-          >
-            Reset Preferences
-          </span>
-          <Toast ref={toast} />
-          <ConfirmDialog
-            visible={visible}
-            onHide={() => setVisible(false)}
-            message="Are you sure you want to proceed?"
-            header="Clear my preferences"
-            accept={accept}
-          />
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
