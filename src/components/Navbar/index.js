@@ -165,21 +165,25 @@ const Navbar = () => {
           >
             TV Shows
           </span>
-          <span
-            className="pi pi-sign-out"
-            style={{ position: "absolute", bottom: "22px", left: "20px" }}
-          ></span>
-          <span
-            onClick={() => {
-              logout({ returnTo: window.location.origin });
-              if (shouldSendCustomEvents()) {
-                window.beam(`/custom-events/switch_to_opened/logout`);
-              }
-            }}
-            style={{ position: "absolute", bottom: "20px", left: "50px" }}
-          >
-            Logout
-          </span>
+          {isAuthenticated && (
+            <>
+              <span
+                className="pi pi-sign-out"
+                style={{ position: "absolute", bottom: "22px", left: "20px" }}
+              ></span>
+              <span
+                onClick={() => {
+                  logout({ returnTo: window.location.origin });
+                  if (shouldSendCustomEvents()) {
+                    window.beam(`/custom-events/switch_to_opened/logout`);
+                  }
+                }}
+                style={{ position: "absolute", bottom: "20px", left: "50px" }}
+              >
+                Logout
+              </span>
+            </>
+          )}
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
