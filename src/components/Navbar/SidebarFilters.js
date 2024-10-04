@@ -13,8 +13,11 @@ import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 import { Toast } from "primereact/toast";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const SidebarFilters = () => {
+  const { isAuthenticated, user } = useAuth0();
+
   initializeLocalStorage();
 
   const defaultItemTypeFilters = config.item_type.split(",");
@@ -151,8 +154,23 @@ const SidebarFilters = () => {
       life: 3000,
     });
 
-    setTimeout(clearAndReload, 3000);
+    setTimeout(clearAndReload(user), 3000);
   };
+
+  const shouldReload = (updatedAt) => {
+    if (!updatedAt) return true;
+    const currentTime = new Date().getTime();
+    const updatedAtTime = new Date(updatedAt).getTime();
+    const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
+    return currentTime - updatedAtTime > sixHoursInMilliseconds;
+  };
+
+  if (isAuthenticated && shouldReload(localStorage.getItem("updated_at"))) {
+    localStorage.setItem("updated_at", new Date().toISOString());
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  }
 
   return (
     <span>

@@ -1,4 +1,7 @@
 import createStorage from "context-storage";
+import { useAuth0 } from "@auth0/auth0-react";
+import getAllLocalStorageItems from "./getAllLocalStorageItems";
+import postPreferences from "./postPreferences";
 
 /**
  * Creates a storage provider and hook for managing a set of favorites.
@@ -19,9 +22,34 @@ const [Provider, useStorage] = createStorage(
 const useFavorites = () => {
   const [value, setValue] = useStorage();
 
-  const add = (item) => value.add(item) && setValue(new Set(value));
-  const remove = (item) => value.delete(item) && setValue(new Set(value));
-  const toggle = (item) => (value.has(item) ? remove(item) : add(item));
+  const { isAuthenticated, user } = useAuth0();
+
+  const synchronizePreferences = (newValue) => {
+    if (isAuthenticated && user) {
+      const preferences = {
+        ...getAllLocalStorageItems(),
+        favorites: JSON.stringify([...newValue]),
+      };
+      postPreferences(preferences, user);
+    }
+  };
+
+  const add = (item) => {
+    const newValue = new Set(value).add(item);
+    setValue(newValue);
+    synchronizePreferences(newValue);
+  };
+
+  const remove = (item) => {
+    const newValue = new Set(value);
+    newValue.delete(item);
+    setValue(newValue);
+    synchronizePreferences(newValue);
+  };
+
+  const toggle = (item) => {
+    value.has(item) ? remove(item) : add(item);
+  };
 
   return [value, { add, remove, toggle }];
 };

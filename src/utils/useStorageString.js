@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import getAllLocalStorageItems from "./getAllLocalStorageItems";
+import postPreferences from "./postPreferences";
 
 /**
  * A custom React hook that allows for easy access to a value stored in local storage.
@@ -9,7 +12,16 @@ import { useState, useEffect } from "react";
 export const useStorageString = (key = "key", initialValue = "") => {
   const initial = () => window.localStorage.getItem(key) || initialValue;
   const [value, setValue] = useState(initial);
-  useEffect(() => window.localStorage.setItem(key, value), [value]);
+  const { isAuthenticated, user } = useAuth0();
+
+  useEffect(() => {
+    window.localStorage.setItem(key, value);
+
+    if (isAuthenticated && user) {
+      const preferences = { ...getAllLocalStorageItems() };
+      postPreferences(preferences, user);
+    }
+  }, [value, key]);
 
   return [value, setValue];
 };

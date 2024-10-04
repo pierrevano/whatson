@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { hydrate, render } from "react-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
 import "typeface-roboto";
 import { ThemeProvider } from "styled-components";
 import { Provider as GridProvider } from "griding";
@@ -15,16 +16,22 @@ const App = React.lazy(() => import("./App"));
  * @returns The App component wrapped in the necessary context providers and global styles.
  */
 const Wrapper = () => (
-  <ThemeProvider theme={theme}>
-    <GridProvider columns={theme.columns} breakpoints={theme.breakpoints}>
-      <FavoritesProvider>
-        <Suspense fallback={null}>
-          <App />
-        </Suspense>
-        <GlobalStyle />
-      </FavoritesProvider>
-    </GridProvider>
-  </ThemeProvider>
+  <Auth0Provider
+    domain={process.env.REACT_APP_AUTH0_DOMAIN}
+    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+    authorizationParams={{ redirect_uri: window.location.origin }}
+  >
+    <ThemeProvider theme={theme}>
+      <GridProvider columns={theme.columns} breakpoints={theme.breakpoints}>
+        <FavoritesProvider>
+          <Suspense fallback={null}>
+            <App />
+          </Suspense>
+          <GlobalStyle />
+        </FavoritesProvider>
+      </GridProvider>
+    </ThemeProvider>
+  </Auth0Provider>
 );
 
 const rootElement = document.getElementById("root");

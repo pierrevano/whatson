@@ -1,22 +1,41 @@
 import config from "../../config";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import localStorageItems from "utils/localStorageItems";
+import postPreferences from "utils/postPreferences";
+import updateLocalStorage from "utils/updateLocalStorage";
+import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
 
-const localStorageItems = {
-  episodes_details: config.episodes_details,
-  genres: config.genres,
-  minimum_ratings: config.minimum_ratings,
-  platforms: config.platforms,
-  popularity_filters: config.popularity,
-  ratings_filters: config.ratings,
-  release_date: config.release_date,
-  seasons_number: config.seasons,
-  status: config.status,
-};
+/**
+ * Custom hook to initialize localStorage and save user preferences.
+ *
+ * @returns {null} - This hook does not return any values.
+ */
+async function initializeLocalStorage() {
+  const { isAuthenticated, user } = useAuth0();
 
-function initializeLocalStorage() {
-  for (let key in localStorageItems) {
-    if (!localStorage.getItem(key)) {
-      localStorage.setItem(key, localStorageItems[key]);
+  const fetchUrl =
+    isAuthenticated && user && user.email
+      ? `${config.base_render_api}/preferences/${user.email}`
+      : null;
+  const { data, statusCode } = useFetchWithStatusCode(fetchUrl);
+
+  let preferences = { ...localStorageItems };
+
+  useEffect(() => {
+    if (isAuthenticated && user && user.email) {
+      if (data) {
+        preferences = { ...data };
+      } else if (statusCode === 404) {
+        postPreferences(preferences, user);
+      }
+
+      updateLocalStorage(isAuthenticated, preferences);
     }
+  }, [data, isAuthenticated, statusCode, user]);
+
+  if (!isAuthenticated) {
+    updateLocalStorage(isAuthenticated, preferences);
   }
 }
 

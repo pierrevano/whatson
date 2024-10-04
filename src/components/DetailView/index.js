@@ -112,22 +112,15 @@ const DetailView = ({ id, kindURL }) => {
 
   const queryStringParsed = queryString.parse(window.location.search);
   const api_key_query = queryStringParsed.api_key;
-  const episodes_details_query = queryStringParsed.episodes_details;
   const ratings_filters_query = queryStringParsed.ratings_filters;
 
   const [api_key, setApiKey] = useStorageString("api_key", "");
-  const [episodes_details, setEpisodesDetails] = useStorageString(
-    "episodes_details",
-    "",
-  );
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
     "",
   );
   useEffect(() => {
     if (typeof api_key_query !== "undefined") setApiKey(api_key_query);
-    if (typeof episodes_details_query !== "undefined")
-      setEpisodesDetails(episodes_details_query);
     if (typeof ratings_filters_query !== "undefined")
       setRatingsFilters(ratings_filters_query);
   });
@@ -151,8 +144,8 @@ const DetailView = ({ id, kindURL }) => {
     "",
     api_key_query,
     api_key,
-    episodes_details_query,
-    episodes_details,
+    undefined,
+    "true",
     ratings_filters_query,
     ratings_filters,
   );

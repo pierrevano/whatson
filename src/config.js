@@ -12,10 +12,10 @@ const config = {
   cache_expiration_duration_milliseconds: 3600000,
 
   // filters specifics
+  favorites: "",
+
   genres:
     "Drama,Crime,Mystery,Sci-Fi & Fantasy,Action & Adventure,Comedy,War & Politics,Family,Animation,Western,Soap,Reality,allgenres",
-
-  episodes_details: "true",
 
   item_type: "movie,tvshow",
 

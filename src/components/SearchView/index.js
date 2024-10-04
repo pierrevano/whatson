@@ -7,10 +7,6 @@ import Search from "components/Searchbar";
 import Container from "components/Container";
 import CardsByPage from "./CardsByPage";
 import Info from "./Info";
-import useCacheBuster from "utils/useCacheBuster";
-import useScript from "utils/useScript";
-import config from "config";
-import consoleMessage from "utils/consoleMessage";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -32,10 +28,6 @@ const Searchbar = styled(Search)`
  * @returns A React component that displays a search bar and a list of cards based on the search query and page number.
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
-  useCacheBuster();
-  consoleMessage();
-  useScript(config.base_beamanalytics, config.beamanalytics_token);
-
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0);

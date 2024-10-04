@@ -10,6 +10,9 @@ import Menu from "components/Icon/Menu";
 import config from "config";
 import SidebarFilters from "./SidebarFilters";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { useAuth0 } from "@auth0/auth0-react";
+import LoggedIn from "components/Icon/LoggedIn";
+import LoggedOut from "components/Icon/LoggedOut";
 
 const StickyContainer = styled(Container)`
   top: 0;
@@ -90,6 +93,16 @@ const Navbar = () => {
     }
   }, []);
 
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const [showIcon, setShowIcon] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowIcon(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [isAuthenticated]);
+
   return (
     <StickyContainer>
       <Wrapper>
@@ -152,15 +165,53 @@ const Navbar = () => {
           >
             TV Shows
           </span>
+          <span
+            className="pi pi-sign-out"
+            style={{ position: "absolute", bottom: "22px", left: "20px" }}
+          ></span>
+          <span
+            onClick={() => {
+              logout({ returnTo: window.location.origin });
+              if (shouldSendCustomEvents()) {
+                window.beam(`/custom-events/switch_to_opened/logout`);
+              }
+            }}
+            style={{ position: "absolute", bottom: "20px", left: "50px" }}
+          >
+            Logout
+          </span>
         </Sidebar>
         <Location>
           {({ location: { pathname } }) => (
             <Flex className="navbar-div">
+              {showIcon &&
+                (isAuthenticated ? (
+                  <span title="You are connected">
+                    <LoggedIn
+                      style={{
+                        marginRight: "12px",
+                        transform: "translateY(0.75px)",
+                      }}
+                      aria-label="You are connected"
+                    />
+                  </span>
+                ) : (
+                  <span title="Sign in">
+                    <LoggedOut
+                      onClick={() => loginWithRedirect()}
+                      style={{
+                        marginRight: "17px",
+                        transform: "translateY(0.5px)",
+                        cursor: "pointer",
+                      }}
+                      aria-label="Sign in"
+                    />
+                  </span>
+                ))}
               <SidebarFilters />
               <Item
                 to="/favorites"
                 active={pathname === "/favorites"}
-                className="favoritesItem"
                 title="View or edit your favorites"
               >
                 <span title="View or edit your favorites">

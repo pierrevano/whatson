@@ -7,6 +7,10 @@ import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
 import "primereact/resources/themes/lara-dark-teal/theme.css";
+import config from "./config";
+import consoleMessage from "utils/consoleMessage";
+import useCacheBuster from "utils/useCacheBuster";
+import useScript from "utils/useScript";
 
 const SearchView = lazy(() => import("components/SearchView"));
 const FavoritesView = lazy(() => import("components/FavoritesView"));
@@ -18,23 +22,29 @@ const AboutPage = lazy(() => import("components/AboutPage"));
  * of the app using React Router.
  * @returns A React Fragment containing the navbar, main content, and footer.
  */
-const App = () => (
-  <Fragment>
-    <Navbar />
-    <div style={{ flex: 1 }}>
-      <Suspense fallback={<Loader />}>
-        <Router>
-          <SearchView isSearchable={false} path="/" />
-          <SearchView path="/search" kindURL="search" />
-          <FavoritesView path="/favorites" />
-          <AboutPage path="/about" />
-          <SearchView path=":kindURL" />
-          <DetailView path=":kindURL/:id" />
-        </Router>
-      </Suspense>
-    </div>
-    <Footer />
-  </Fragment>
-);
+const App = () => {
+  useCacheBuster();
+  consoleMessage();
+  useScript(config.base_beamanalytics, config.beamanalytics_token);
+
+  return (
+    <Fragment>
+      <Navbar />
+      <div style={{ flex: 1 }}>
+        <Suspense fallback={<Loader />}>
+          <Router>
+            <SearchView isSearchable={false} path="/" />
+            <SearchView path="/search" kindURL="search" />
+            <FavoritesView path="/favorites" />
+            <AboutPage path="/about" />
+            <SearchView path=":kindURL" />
+            <DetailView path=":kindURL/:id" />
+          </Router>
+        </Suspense>
+      </div>
+      <Footer />
+    </Fragment>
+  );
+};
 
 export default App;

@@ -240,6 +240,7 @@ const MultiSelectStyle = `
     border: 1.4px solid #fff;
   }
   .menu-icon:hover,
+  .logged-out-icon:hover,
   .filter-icon:hover,
   .heart-icon:hover,
   .flex-search:hover {
