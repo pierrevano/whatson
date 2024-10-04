@@ -11,7 +11,6 @@ const LoggedIn = ({
   <svg
     width={size}
     height={size}
-    className="logged-in-icon"
     viewBox="0 0 24 24"
     fill="none"
     style={{ display: "block", ...style }}
