@@ -1,6 +1,7 @@
-import config from "../../config";
+import { createHashForEmail } from "utils/createHashForEmail";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
+import config from "../../config";
 import localStorageItems from "utils/localStorageItems";
 import postPreferences from "utils/postPreferences";
 import updateLocalStorage from "utils/updateLocalStorage";
@@ -16,7 +17,13 @@ async function initializeLocalStorage() {
 
   const fetchUrl =
     isAuthenticated && user && user.email
-      ? `${config.base_render_api}/preferences/${user.email}`
+      ? (() => {
+          const emailHash = createHashForEmail(
+            user.email,
+            config.digest_secret_value,
+          );
+          return `${config.base_render_api}/preferences/${user.email}?digest=${emailHash}`;
+        })()
       : null;
   const { data, statusCode } = useFetchWithStatusCode(fetchUrl);
 

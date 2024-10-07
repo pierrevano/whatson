@@ -5,6 +5,7 @@ const config = {
 
   base_render_api: process.env.REACT_APP_WHATSON_API_URL,
   base_render: "https://whatson.onrender.com",
+  digest_secret_value: process.env.REACT_APP_DIGEST_SECRET_VALUE,
 
   base_beamanalytics: "https://beamanalytics.b-cdn.net/beam.min.js",
   beamanalytics_token: "b94aa7d4-c64e-4086-b7e3-d7d5ad700bab",

@@ -1,3 +1,4 @@
+import { createHashForEmail } from "./createHashForEmail";
 import config from "../config";
 
 /**
@@ -10,18 +11,25 @@ import config from "../config";
 async function postPreferences(preferences, user) {
   try {
     if (preferences && user && user.email) {
+      const emailHash = createHashForEmail(
+        user.email,
+        config.digest_secret_value,
+      );
       const updatedPreferences = {
         ...preferences,
         updated_at: new Date().toISOString(),
       };
 
-      await fetch(`${config.base_render_api}/preferences/${user.email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      await fetch(
+        `${config.base_render_api}/preferences/${user.email}?digest=${emailHash}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedPreferences),
         },
-        body: JSON.stringify(updatedPreferences),
-      });
+      );
     }
   } catch (error) {
     console.error("Error posting preferences:", error);
