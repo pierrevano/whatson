@@ -4,6 +4,7 @@ import { Row, Cell } from "griding";
 import Container from "components/Container";
 import Text from "components/Text";
 import Link from "components/Link";
+import { colors } from "../../theme";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -105,6 +106,15 @@ const AboutPage = () => {
               </Anchor>
               , to enhance the user experience.
             </Text>
+            <Anchor
+              to="https://whatson-app.com/privacy-policy.html"
+              ariaLabel="Privacy Policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: colors.lightGrey }}
+            >
+              Privacy Policy
+            </Anchor>
           </Cell>
         </Row>
       </Container>
