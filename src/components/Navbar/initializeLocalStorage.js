@@ -1,11 +1,45 @@
-import { createHashForEmail } from "utils/createHashForEmail";
+import { getPreferences } from "utils/getPreferences";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
-import config from "../../config";
 import localStorageItems from "utils/localStorageItems";
 import postPreferences from "utils/postPreferences";
 import updateLocalStorage from "utils/updateLocalStorage";
-import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
+
+const shouldReload = (data) => {
+  /*
+   * 1. If there is no `updated_at` in localStorage, reload.
+   */
+  const localUpdatedAt = localStorage.getItem("updated_at");
+  if (!localUpdatedAt) return true;
+
+  /*
+   * 2. If the remote `updated_at` is newer than the local `updated_at`
+   * and remote preferences differ from local preferences, reload.
+   */
+  const localTime = new Date(localUpdatedAt).getTime();
+  const remoteTime = new Date(data?.updated_at).getTime();
+
+  for (const key in localStorageItems) {
+    let localValue;
+    setTimeout(() => {
+      localValue = localStorage.getItem(key);
+    }, 100);
+    const remoteValue = data && data[key];
+
+    if (
+      remoteTime > localTime &&
+      localValue &&
+      remoteValue &&
+      localValue !== remoteValue
+    )
+      return true;
+  }
+
+  /*
+   * 3. Else, don't reload.
+   */
+  return false;
+};
 
 /**
  * Custom hook to initialize localStorage and save user preferences.
@@ -15,17 +49,15 @@ import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
 async function initializeLocalStorage() {
   const { isAuthenticated, user } = useAuth0();
 
-  const fetchUrl =
-    isAuthenticated && user && user.email
-      ? (() => {
-          const emailHash = createHashForEmail(
-            user.email,
-            config.digest_secret_value,
-          );
-          return `${config.base_render_api}/preferences/${user.email}?digest=${emailHash}`;
-        })()
-      : null;
-  const { data, statusCode } = useFetchWithStatusCode(fetchUrl);
+  const { data, statusCode } = getPreferences(isAuthenticated, user);
+
+  if (isAuthenticated && shouldReload(data)) {
+    localStorage.setItem("updated_at", new Date().toISOString());
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  }
 
   let preferences = { ...localStorageItems };
 

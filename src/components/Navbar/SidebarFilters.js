@@ -16,7 +16,7 @@ import { Toast } from "primereact/toast";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const SidebarFilters = () => {
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
 
   initializeLocalStorage();
 
@@ -156,21 +156,6 @@ const SidebarFilters = () => {
 
     setTimeout(clearAndReload(user), 3000);
   };
-
-  const shouldReload = (updatedAt) => {
-    if (!updatedAt) return true;
-    const currentTime = new Date().getTime();
-    const updatedAtTime = new Date(updatedAt).getTime();
-    const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
-    return currentTime - updatedAtTime > sixHoursInMilliseconds;
-  };
-
-  if (isAuthenticated && shouldReload(localStorage.getItem("updated_at"))) {
-    localStorage.setItem("updated_at", new Date().toISOString());
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  }
 
   return (
     <span>
