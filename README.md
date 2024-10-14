@@ -8,20 +8,24 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ## Homepage
 
-![Homepage](https://github.com/user-attachments/assets/db5f5b1d-1c94-4ecc-b72e-f6314310653f)
+![Homepage](https://github.com/user-attachments/assets/d7368b36-4aa8-4445-976c-63c49176431b)
 
 ## Ratings
 
-![Ratings](https://github.com/user-attachments/assets/95347315-ae9d-4920-911f-802e5123a689)
+![Ratings](https://github.com/user-attachments/assets/f7a1cb2d-8ef2-419f-bf53-509cd2da2650)
 
-## Details
+## Item details
 
-![Details](https://github.com/user-attachments/assets/1466710d-e3ef-437c-a9f7-d2d73fc238d2)
+![ItemDetails](https://github.com/user-attachments/assets/e7be0a73-b9cf-4656-8fc3-fc96e9d871ef)
 
-## Mobile
+## Episodes details
 
-![Mobile](https://github.com/user-attachments/assets/72e54002-6b29-4f09-ac98-ff0037833a44)
+![EpisodesDetails](https://github.com/user-attachments/assets/2bd87b73-9b59-439d-b141-95d12fa8ae68)
 
 ## Filters
 
-![Filters](https://github.com/user-attachments/assets/f8ce3694-ca88-4435-b4fe-a40fbabe289a)
+![Filters](https://github.com/user-attachments/assets/e7ff0bb1-d38f-4622-92c4-7b300c9101a9)
+
+## Mobile
+
+![Mobile](https://github.com/user-attachments/assets/03b64bbb-b4d2-4804-aeb3-60a3bdc4c76d)
