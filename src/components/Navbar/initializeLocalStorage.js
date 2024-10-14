@@ -13,27 +13,11 @@ const shouldReload = (data) => {
   if (!localUpdatedAt) return true;
 
   /*
-   * 2. If the remote `updated_at` is newer than the local `updated_at`
-   * and remote preferences differ from local preferences, reload.
+   * 2. If the remote `updated_at` is newer than the local `updated_at`, reload.
    */
-  const localTime = new Date(localUpdatedAt).getTime();
   const remoteTime = new Date(data?.updated_at).getTime();
-
-  for (const key in localStorageItems) {
-    let localValue;
-    setTimeout(() => {
-      localValue = localStorage.getItem(key);
-    }, 100);
-    const remoteValue = data && data[key];
-
-    if (
-      remoteTime > localTime &&
-      localValue &&
-      remoteValue &&
-      localValue !== remoteValue
-    )
-      return true;
-  }
+  const localTime = new Date(localUpdatedAt).getTime();
+  if (remoteTime > localTime) return true;
 
   /*
    * 3. Else, don't reload.

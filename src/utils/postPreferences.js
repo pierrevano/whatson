@@ -30,6 +30,8 @@ async function postPreferences(preferences, user) {
           body: JSON.stringify(updatedPreferences),
         },
       );
+
+      localStorage.setItem("updated_at", new Date().toISOString());
     }
   } catch (error) {
     console.error("Error posting preferences:", error);
