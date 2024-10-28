@@ -237,7 +237,7 @@ const MultiSelectStyle = `
     padding: 3px;
     padding-right: 9px;
     border-radius: 10px;
-    border: 1.4px solid #fff;
+    border: 2px solid #fff;
   }
   .menu-icon:hover,
   .logged-out-icon:hover,
