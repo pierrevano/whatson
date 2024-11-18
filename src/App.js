@@ -1,4 +1,4 @@
-import React, { Fragment, lazy, Suspense } from "react";
+import React, { Fragment, lazy, Suspense, useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
@@ -26,6 +26,27 @@ const App = () => {
   useCacheBuster();
   consoleMessage();
   useScript(config.base_beamanalytics, config.beamanalytics_token);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAPIStatus = async () => {
+      try {
+        const response = await fetch(config.base_render_api);
+        if (response.status === 200) {
+          setLoading(false);
+        }
+      } catch (err) {
+        setLoading(false);
+      }
+    };
+
+    checkAPIStatus();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Fragment>

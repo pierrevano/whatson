@@ -10,9 +10,17 @@ const Wrapper = styled.div`
   right: 0;
   bottom: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 16px;
+  color: ${colors.white};
+  font-size: 16px;
+  text-align: center;
 `;
 
 /**
@@ -75,6 +83,7 @@ const Loader = () => (
         </circle>
       </g>
     </svg>
+    <LoadingText>App is loading...</LoadingText>
   </Wrapper>
 );
 
