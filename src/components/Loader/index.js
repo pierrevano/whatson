@@ -16,13 +16,6 @@ const Wrapper = styled.div`
   pointer-events: none;
 `;
 
-const LoadingText = styled.div`
-  margin-top: 16px;
-  color: ${colors.white};
-  font-size: 16px;
-  text-align: center;
-`;
-
 /**
  * A loader component that displays a spinning animation.
  * @returns A React component that displays a spinning animation.
@@ -83,7 +76,6 @@ const Loader = () => (
         </circle>
       </g>
     </svg>
-    <LoadingText>App is loading...</LoadingText>
   </Wrapper>
 );
 

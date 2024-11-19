@@ -32,8 +32,8 @@ const shouldReload = (data) => {
  */
 async function initializeLocalStorage() {
   const { isAuthenticated, user } = useAuth0();
-
   const { data, statusCode } = getPreferences(isAuthenticated, user);
+  let preferences = { ...localStorageItems };
 
   if (isAuthenticated && shouldReload(data)) {
     localStorage.setItem("updated_at", new Date().toISOString());
@@ -43,23 +43,18 @@ async function initializeLocalStorage() {
     }, 500);
   }
 
-  let preferences = { ...localStorageItems };
-
   useEffect(() => {
     if (isAuthenticated && user && user.email) {
-      if (data) {
+      if (statusCode === 200 && data) {
         preferences = { ...data };
+        updateLocalStorage(isAuthenticated, preferences);
       } else if (statusCode === 404) {
         postPreferences(preferences, user);
       }
-
+    } else if (!isAuthenticated) {
       updateLocalStorage(isAuthenticated, preferences);
     }
   }, [data, isAuthenticated, statusCode, user]);
-
-  if (!isAuthenticated) {
-    updateLocalStorage(isAuthenticated, preferences);
-  }
 }
 
 export default initializeLocalStorage;

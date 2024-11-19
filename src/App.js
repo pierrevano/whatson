@@ -3,6 +3,7 @@ import { Router } from "@reach/router";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import Loader from "components/Loader";
+import LoaderIcon from "components/LoaderIcon";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
@@ -45,7 +46,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <Loader />;
+    return <LoaderIcon />;
   }
 
   return (

@@ -11,6 +11,7 @@ const config = {
   beamanalytics_token: "b94aa7d4-c64e-4086-b7e3-d7d5ad700bab",
 
   cache_expiration_duration_milliseconds: 60000, // 1 minute
+  loader_icon_duration_milliseconds: 37250,
 
   // filters specifics
   favorites: "",
