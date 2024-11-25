@@ -20,9 +20,10 @@ const Wrapper = styled.div`
 const ProgressBar = styled.div`
   position: relative;
   width: 100px;
-  height: 7px;
+  height: 0.5rem;
   background-color: ${colors.dark};
-  border-radius: 5px;
+  border-radius: 0.25rem;
+  border: 1px solid ${colors.lightGrey};
   overflow: hidden;
   margin-top: 20px;
 `;
