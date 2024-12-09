@@ -23,7 +23,7 @@ const ProgressBar = styled.div`
   height: 0.5rem;
   background-color: ${colors.dark};
   border-radius: 0.25rem;
-  border: 1px solid ${colors.lightGrey};
+  border: 1px solid ${colors.white};
   overflow: hidden;
   margin-top: 20px;
 `;
