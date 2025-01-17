@@ -23,6 +23,8 @@ export const getRatingsDetails = (
   tmdb_users_rating,
   trakt_url,
   trakt_users_rating,
+  tvtime_url,
+  tvtime_users_rating,
   mojo_rank,
   mojo_url,
   itemType,
@@ -150,6 +152,19 @@ export const getRatingsDetails = (
     });
   }
 
+  if (itemType === "tvshow" || kindURL === "tvshows") {
+    detailsConfig.tvtime = {
+      image: "tvtime-logo.png",
+      name: "TV Time users",
+    };
+
+    detailsData.push({
+      image: detailsConfig.tvtime.image,
+      name: detailsConfig.tvtime.name,
+      rating: tvtime_users_rating,
+    });
+  }
+
   const mojoDetailsData = [
     {
       image: detailsConfig.mojo_box_office.image,
@@ -176,7 +191,8 @@ export const getRatingsDetails = (
       rowData.name === "IMDb users" ||
       rowData.name === "Metacritic users" ||
       rowData.name === "SensCritique users" ||
-      rowData.name === "TMDB users"
+      rowData.name === "TMDB users" ||
+      rowData.name === "TV Time users"
     ) {
       maxRating = 10;
     } else if (
@@ -320,6 +336,12 @@ export const getRatingsDetails = (
     } else if (name === "Trakt users" && rating > 0) {
       link = (
         <a href={trakt_url} target={"_blank"} rel="noopener noreferrer">
+          {name}
+        </a>
+      );
+    } else if (name === "TV Time users" && rating > 0) {
+      link = (
+        <a href={tvtime_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );

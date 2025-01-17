@@ -240,6 +240,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const trakt_url = props?.trakt?.url;
   const trakt_users_rating = props?.trakt?.users_rating;
 
+  const tvtime_url = props?.tv_time?.url;
+  const tvtime_users_rating = props?.tv_time?.users_rating;
+
   const ratings_average = props?.ratings_average;
 
   const itemType = localStorage.getItem("item_type")
@@ -276,6 +279,8 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     tmdb_users_rating,
     trakt_url,
     trakt_users_rating,
+    tvtime_url,
+    tvtime_users_rating,
     mojo_rank,
     mojo_url,
     itemType,
