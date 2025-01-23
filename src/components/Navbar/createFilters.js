@@ -8,7 +8,8 @@ function createItems(nameArray, origin) {
         nameToProcess = name
           .toLowerCase()
           .replaceAll("allociné", "allocine")
-          .replaceAll("rotten tomatoes", "rottenTomatoes");
+          .replaceAll("rotten tomatoes", "rottenTomatoes")
+          .replaceAll("tv time", "tvtime");
 
         if (nameToProcess.includes(" and more")) {
           nameToProcess = nameToProcess.replaceAll(" and more", "");
