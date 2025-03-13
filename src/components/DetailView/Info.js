@@ -57,7 +57,16 @@ const Info = ({
               {next_episode_from_render.season}x
               {next_episode_from_render.episode}
             </span>
-            <span>{next_episode_from_render.title}</span>
+            <span>
+              <a
+                href={next_episode_from_render.url}
+                target={"_blank"}
+                className="imdb-link"
+                rel="noopener noreferrer"
+              >
+                {next_episode_from_render.title}
+              </a>
+            </span>
             <span>
               {
                 new Date(next_episode_from_render.release_date)
@@ -80,7 +89,19 @@ const Info = ({
               {last_episode_from_render.season}x
               {last_episode_from_render.episode}
             </span>
-            <span>{last_episode_from_render.title}</span>
+            <span>
+              <a
+                href={last_episode_from_render.url}
+                target={"_blank"}
+                className="imdb-link"
+                rel="noopener noreferrer"
+              >
+                {last_episode_from_render.title}
+              </a>
+            </span>
+            {last_episode_from_render?.episode_type && (
+              <span>{last_episode_from_render.episode_type}</span>
+            )}
             {last_episode_from_render?.users_rating && (
               <span>
                 {last_episode_from_render.users_rating}

@@ -35,7 +35,8 @@ const OverlayPanelStyle = `
     height: 32px !important;
   }
 
-  .p-datatable-tbody a {
+  .p-datatable-tbody a,
+  .imdb-link {
     color: rgba(255, 255, 255, 0.87) !important;
     text-decoration: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
