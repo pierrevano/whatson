@@ -58,6 +58,13 @@ const Info = ({
               {next_episode_from_render.episode}
             </span>
             <span>{next_episode_from_render.title}</span>
+            <span>
+              {
+                new Date(next_episode_from_render.release_date)
+                  .toISOString()
+                  .split("T")[0]
+              }
+            </span>
           </SeparatedText>
           {next_episode_from_render?.description && (
             <Text style={{ marginTop: "10px" }}>
