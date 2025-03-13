@@ -1,8 +1,19 @@
 import React, { Fragment, useState } from "react";
+import styled from "styled-components";
 import { Row, Cell } from "griding";
 import Section from "./Section";
 import Relation from "./Relation";
 import Toggle from "./Toggle";
+import Text from "components/Text";
+import * as theme from "../../theme";
+
+const SeparatedText = styled(Text)`
+  span + span {
+    &:before {
+      content: " • ";
+    }
+  }
+`;
 
 /**
  * A functional component that displays information about a movie or person.
@@ -10,7 +21,13 @@ import Toggle from "./Toggle";
  * @param {Object} data - An object containing the data to be displayed.
  * @returns A JSX element that displays the information.
  */
-const Info = ({ kind, tagline_from_render, ...data }) => {
+const Info = ({
+  kind,
+  tagline_from_render,
+  next_episode_from_render,
+  last_episode_from_render,
+  ...data
+}) => {
   const [sliceActors, setSliceActors] = useState(4);
   const [sliceDirectors, setSliceDirectors] = useState(4);
 
@@ -31,6 +48,44 @@ const Info = ({ kind, tagline_from_render, ...data }) => {
       {tagline_from_render && (
         <Section title="Tagline">
           <span style={{ fontStyle: "italic" }}>{tagline_from_render}</span>
+        </Section>
+      )}
+      {next_episode_from_render && (
+        <Section title="Next episode">
+          <SeparatedText sm={1} color={(p) => p.theme.colors.white || ""}>
+            <span>
+              {next_episode_from_render.season}x
+              {next_episode_from_render.episode}
+            </span>
+            <span>{next_episode_from_render.title}</span>
+          </SeparatedText>
+          {next_episode_from_render?.description && (
+            <Text style={{ marginTop: "10px" }}>
+              <span>{next_episode_from_render.description}</span>
+            </Text>
+          )}
+        </Section>
+      )}
+      {last_episode_from_render && (
+        <Section title="Last episode">
+          <SeparatedText sm={1} color={(p) => p.theme.colors.white || ""}>
+            <span>
+              {last_episode_from_render.season}x
+              {last_episode_from_render.episode}
+            </span>
+            <span>{last_episode_from_render.title}</span>
+            {last_episode_from_render?.users_rating && (
+              <span>
+                {last_episode_from_render.users_rating}
+                <span style={{ color: `${theme.colors.lightGrey}` }}>/10</span>
+              </span>
+            )}
+          </SeparatedText>
+          {next_episode_from_render?.description && (
+            <Text style={{ marginTop: "10px" }}>
+              <span>{last_episode_from_render.description}</span>
+            </Text>
+          )}
         </Section>
       )}
       {description && <Section title="Plot">{description}</Section>}

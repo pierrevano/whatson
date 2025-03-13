@@ -81,65 +81,33 @@ export const getRatingsDetails = (
     },
   };
 
-  const detailsData = [
-    {
-      image: detailsConfig.allocine_users.image,
-      name: detailsConfig.allocine_users.name,
-      rating: allocine_users_rating,
-    },
-    {
-      image: detailsConfig.allocine_critics.image,
-      name: detailsConfig.allocine_critics.name,
-      rating: allocine_critics_rating,
-    },
-    {
-      image: detailsConfig.betaseries.image,
-      name: detailsConfig.betaseries.name,
-      rating: betaseries_users_rating,
-    },
-    {
-      image: detailsConfig.imdb.image,
-      name: detailsConfig.imdb.name,
-      rating: imdb_users_rating,
-    },
-    {
-      image: detailsConfig.metacritic_users.image,
-      name: detailsConfig.metacritic_users.name,
-      rating: metacritic_users_rating,
-    },
-    {
-      image: detailsConfig.metacritic_critics.image,
-      name: detailsConfig.metacritic_critics.name,
-      rating: metacritic_critics_rating,
-    },
-    {
-      image: detailsConfig.rottenTomatoes_users.image,
-      name: detailsConfig.rottenTomatoes_users.name,
-      rating: rottenTomatoes_users_rating,
-    },
-    {
-      image: detailsConfig.rottenTomatoes_critics.image,
-      name: detailsConfig.rottenTomatoes_critics.name,
-      rating: rottenTomatoes_critics_rating,
-    },
-    {
-      image: detailsConfig.senscritique.image,
-      name: detailsConfig.senscritique.name,
-      rating: senscritique_users_rating,
-    },
-    {
-      image: detailsConfig.tmdb.image,
-      name: detailsConfig.tmdb.name,
-      rating: tmdb_users_rating,
-    },
-    {
-      image: detailsConfig.trakt.image,
-      name: detailsConfig.trakt.name,
-      rating: trakt_users_rating,
-    },
+  const detailsData = [];
+
+  const ratings = [
+    { key: "allocine_users", rating: allocine_users_rating },
+    { key: "allocine_critics", rating: allocine_critics_rating },
+    { key: "betaseries", rating: betaseries_users_rating },
+    { key: "imdb", rating: imdb_users_rating },
+    { key: "metacritic_users", rating: metacritic_users_rating },
+    { key: "metacritic_critics", rating: metacritic_critics_rating },
+    { key: "rottenTomatoes_users", rating: rottenTomatoes_users_rating },
+    { key: "rottenTomatoes_critics", rating: rottenTomatoes_critics_rating },
+    { key: "senscritique", rating: senscritique_users_rating },
+    { key: "tmdb", rating: tmdb_users_rating },
+    { key: "trakt", rating: trakt_users_rating },
   ];
 
-  if (itemType === "movie" || kindURL === "movies") {
+  ratings.forEach(({ key, rating }) => {
+    if (rating && rating > 0) {
+      detailsData.push({
+        image: detailsConfig[key].image,
+        name: detailsConfig[key].name,
+        rating: rating,
+      });
+    }
+  });
+
+  if (letterboxd_users_rating && letterboxd_users_rating > 0) {
     detailsConfig.letterboxd = {
       image: "letterboxd-logo.png",
       name: "Letterboxd users",
@@ -152,7 +120,7 @@ export const getRatingsDetails = (
     });
   }
 
-  if (itemType === "tvshow" || kindURL === "tvshows") {
+  if (tvtime_users_rating && tvtime_users_rating > 0) {
     detailsConfig.tvtime = {
       image: "tvtime-logo.png",
       name: "TV Time users",
@@ -165,13 +133,14 @@ export const getRatingsDetails = (
     });
   }
 
-  const mojoDetailsData = [
-    {
+  let mojoDetailsData = [];
+  if (mojo_rank && mojo_rank > 0) {
+    mojoDetailsData.push({
       image: detailsConfig.mojo_box_office.image,
       name: detailsConfig.mojo_box_office.name,
       rank: mojo_rank,
-    },
-  ];
+    });
+  }
 
   const logoBody = (rowData) => {
     const image = rowData.image;

@@ -222,6 +222,9 @@ const DetailView = ({ id, kindURL }) => {
     .map((ep) => ep && ep.title)
     .filter((el) => el !== null);
 
+  const next_episode_from_render = data_from_render?.next_episode;
+  const last_episode_from_render = data_from_render?.last_episode;
+
   const { error, loading, data } = useFetch(
     [
       `${config.base}/${kind}/${id}`,
@@ -385,7 +388,7 @@ const DetailView = ({ id, kindURL }) => {
                           body={ratingBody}
                         />
                       </DataTable>
-                      {itemType === "movie" && (
+                      {mojoDetailsData.length > 0 && (
                         <DataTable value={mojoDetailsData} size="small">
                           <Column body={logoBody} />
                           <Column
@@ -473,6 +476,8 @@ const DetailView = ({ id, kindURL }) => {
               <Info
                 kind={kind}
                 tagline_from_render={tagline_from_render}
+                next_episode_from_render={next_episode_from_render}
+                last_episode_from_render={last_episode_from_render}
                 {...data}
               />
             </Cell>

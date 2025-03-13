@@ -380,7 +380,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
                     />
                     <Column field="rating" header="Rating" body={ratingBody} />
                   </DataTable>
-                  {itemType === "movie" && (
+                  {mojoDetailsData.length > 0 && (
                     <DataTable value={mojoDetailsData} size="small">
                       <Column body={logoBody} />
                       <Column
