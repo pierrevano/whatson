@@ -54,7 +54,7 @@ const Info = ({
         <Section title="Next episode">
           <SeparatedText sm={1} color={(p) => p.theme.colors.white || ""}>
             <span>
-              {next_episode_from_render.season}x
+              S{next_episode_from_render.season}E
               {next_episode_from_render.episode}
             </span>
             <span>
@@ -86,7 +86,7 @@ const Info = ({
         <Section title="Last episode">
           <SeparatedText sm={1} color={(p) => p.theme.colors.white || ""}>
             <span>
-              {last_episode_from_render.season}x
+              S{last_episode_from_render.season}E
               {last_episode_from_render.episode}
             </span>
             <span>
