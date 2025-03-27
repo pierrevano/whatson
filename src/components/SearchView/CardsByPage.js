@@ -198,7 +198,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   const [randomData] = useState(() => getRandomError(errorMessage));
 
-  if (error && search) {
+  if (error && search && page === 1) {
     return (
       <Cell xs={12}>
         <InfoScreen
