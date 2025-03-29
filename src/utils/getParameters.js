@@ -43,8 +43,8 @@ export const getParameters = (
   status,
   api_key_query,
   api_key,
-  episodes_details_query,
-  episodes_details,
+  append_to_response_query,
+  append_to_response,
   ratings_filters_query,
   ratings_filters,
 ) => {
@@ -77,9 +77,9 @@ export const getParameters = (
   parameters += addParameter(api_key, api_key_query, "api_key");
 
   parameters += addParameter(
-    episodes_details,
-    episodes_details_query,
-    "episodes_details",
+    append_to_response,
+    append_to_response_query,
+    "append_to_response",
   );
 
   parameters += handleEncodedFilters(genres, genres_query, "genres");
