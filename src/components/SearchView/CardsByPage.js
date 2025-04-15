@@ -224,7 +224,13 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     );
   }
 
-  if (data && !data?.results?.length && search !== "" && kindURL === "search") {
+  if (
+    data &&
+    !data?.results?.length &&
+    search !== "" &&
+    kindURL === "search" &&
+    page === 1
+  ) {
     return (
       <Cell xs={12}>
         <InfoScreen
