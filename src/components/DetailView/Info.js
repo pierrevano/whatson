@@ -26,6 +26,8 @@ const Info = ({
   tagline_from_render,
   next_episode_from_render,
   last_episode_from_render,
+  highest_episode_from_render,
+  lowest_episode_from_render,
   ...data
 }) => {
   const [sliceActors, setSliceActors] = useState(4);
@@ -42,6 +44,13 @@ const Info = ({
   const totalDirectors =
     data?.credits?.crew?.filter((x) => x.department === "Directing")?.length ||
     0;
+
+  const formatNumber = (num) => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    return num;
+  };
 
   return (
     <Fragment>
@@ -105,13 +114,102 @@ const Info = ({
             {last_episode_from_render?.users_rating && (
               <span>
                 {last_episode_from_render.users_rating}
-                <span style={{ color: `${theme.colors.lightGrey}` }}>/10</span>
+                <span style={{ color: `${theme.colors.lightGrey}` }}>
+                  /10
+                </span>{" "}
+                <span style={{ color: `${theme.colors.lightGrey}` }}>
+                  ({formatNumber(last_episode_from_render?.users_rating_count)})
+                </span>
               </span>
             )}
           </SeparatedText>
-          {next_episode_from_render?.description && (
+          {last_episode_from_render?.description && (
             <Text style={{ marginTop: "10px" }}>
               <span>{last_episode_from_render.description}</span>
+            </Text>
+          )}
+        </Section>
+      )}
+      {highest_episode_from_render && (
+        <Section title="Highest rated episode">
+          <SeparatedText sm={1} color={(p) => p.theme.colors.white || ""}>
+            <span>
+              S{highest_episode_from_render.season}E
+              {highest_episode_from_render.episode}
+            </span>
+            <span>
+              <a
+                href={highest_episode_from_render.url}
+                target={"_blank"}
+                className="imdb-link"
+                rel="noopener noreferrer"
+              >
+                {highest_episode_from_render.title}
+              </a>
+            </span>
+            {highest_episode_from_render?.episode_type && (
+              <span>{highest_episode_from_render.episode_type}</span>
+            )}
+            {highest_episode_from_render?.users_rating && (
+              <span>
+                {highest_episode_from_render.users_rating}
+                <span style={{ color: `${theme.colors.lightGrey}` }}>
+                  /10
+                </span>{" "}
+                <span style={{ color: `${theme.colors.lightGrey}` }}>
+                  (
+                  {formatNumber(
+                    highest_episode_from_render?.users_rating_count,
+                  )}
+                  )
+                </span>
+              </span>
+            )}
+          </SeparatedText>
+          {highest_episode_from_render?.description && (
+            <Text style={{ marginTop: "10px" }}>
+              <span>{highest_episode_from_render.description}</span>
+            </Text>
+          )}
+        </Section>
+      )}
+      {lowest_episode_from_render && (
+        <Section title="Lowest rated episode">
+          <SeparatedText sm={1} color={(p) => p.theme.colors.white || ""}>
+            <span>
+              S{lowest_episode_from_render.season}E
+              {lowest_episode_from_render.episode}
+            </span>
+            <span>
+              <a
+                href={lowest_episode_from_render.url}
+                target={"_blank"}
+                className="imdb-link"
+                rel="noopener noreferrer"
+              >
+                {lowest_episode_from_render.title}
+              </a>
+            </span>
+            {lowest_episode_from_render?.episode_type && (
+              <span>{lowest_episode_from_render.episode_type}</span>
+            )}
+            {lowest_episode_from_render?.users_rating && (
+              <span>
+                {lowest_episode_from_render.users_rating}
+                <span style={{ color: `${theme.colors.lightGrey}` }}>
+                  /10
+                </span>{" "}
+                <span style={{ color: `${theme.colors.lightGrey}` }}>
+                  (
+                  {formatNumber(lowest_episode_from_render?.users_rating_count)}
+                  )
+                </span>
+              </span>
+            )}
+          </SeparatedText>
+          {lowest_episode_from_render?.description && (
+            <Text style={{ marginTop: "10px" }}>
+              <span>{lowest_episode_from_render.description}</span>
             </Text>
           )}
         </Section>

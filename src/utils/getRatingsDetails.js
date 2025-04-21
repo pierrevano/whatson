@@ -14,9 +14,9 @@ export const getRatingsDetails = (
   metacritic_critics_rating,
   metacritic_url,
   metacritic_users_rating,
-  rottenTomatoes_critics_rating,
-  rottenTomatoes_url,
-  rottenTomatoes_users_rating,
+  rottentomatoes_critics_rating,
+  rottentomatoes_url,
+  rottentomatoes_users_rating,
   senscritique_url,
   senscritique_users_rating,
   tmdb_url,
@@ -55,11 +55,11 @@ export const getRatingsDetails = (
       image: "metacritic-logo.png",
       name: "Metacritic critics",
     },
-    rottenTomatoes_users: {
+    rottentomatoes_users: {
       image: "rotten-tomatoes-logo.png",
       name: "Rotten Tomatoes users",
     },
-    rottenTomatoes_critics: {
+    rottentomatoes_critics: {
       image: "rotten-tomatoes-logo.png",
       name: "Rotten Tomatoes critics",
     },
@@ -90,8 +90,8 @@ export const getRatingsDetails = (
     { key: "imdb", rating: imdb_users_rating },
     { key: "metacritic_users", rating: metacritic_users_rating },
     { key: "metacritic_critics", rating: metacritic_critics_rating },
-    { key: "rottenTomatoes_users", rating: rottenTomatoes_users_rating },
-    { key: "rottenTomatoes_critics", rating: rottenTomatoes_critics_rating },
+    { key: "rottentomatoes_users", rating: rottentomatoes_users_rating },
+    { key: "rottentomatoes_critics", rating: rottentomatoes_critics_rating },
     { key: "senscritique", rating: senscritique_users_rating },
     { key: "tmdb", rating: tmdb_users_rating },
     { key: "trakt", rating: trakt_users_rating },
@@ -273,7 +273,7 @@ export const getRatingsDetails = (
     } else if (name === "Rotten Tomatoes users" && rating > 0) {
       link = (
         <a
-          href={`${rottenTomatoes_url}`}
+          href={`${rottentomatoes_url}`}
           target={"_blank"}
           rel="noopener noreferrer"
         >
@@ -283,7 +283,7 @@ export const getRatingsDetails = (
     } else if (name === "Rotten Tomatoes critics" && rating > 0) {
       link = (
         <a
-          href={`${rottenTomatoes_url}`}
+          href={`${rottentomatoes_url}`}
           target={"_blank"}
           rel="noopener noreferrer"
         >

@@ -227,9 +227,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const metacritic_users_rating = props?.metacritic?.users_rating;
   const metacritic_critics_rating = props?.metacritic?.critics_rating;
 
-  const rottenTomatoes_url = props?.rotten_tomatoes?.url;
-  const rottenTomatoes_users_rating = props?.rotten_tomatoes?.users_rating;
-  const rottenTomatoes_critics_rating = props?.rotten_tomatoes?.critics_rating;
+  const rottentomatoes_url = props?.rotten_tomatoes?.url;
+  const rottentomatoes_users_rating = props?.rotten_tomatoes?.users_rating;
+  const rottentomatoes_critics_rating = props?.rotten_tomatoes?.critics_rating;
 
   const senscritique_url = props?.senscritique?.url;
   const senscritique_users_rating = props?.senscritique?.users_rating;
@@ -270,9 +270,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     metacritic_critics_rating,
     metacritic_url,
     metacritic_users_rating,
-    rottenTomatoes_critics_rating,
-    rottenTomatoes_url,
-    rottenTomatoes_users_rating,
+    rottentomatoes_critics_rating,
+    rottentomatoes_url,
+    rottentomatoes_users_rating,
     senscritique_url,
     senscritique_users_rating,
     tmdb_url,

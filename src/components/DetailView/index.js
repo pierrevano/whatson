@@ -180,10 +180,10 @@ const DetailView = ({ id, kindURL }) => {
   const metacritic_critics_rating =
     data_from_render?.metacritic?.critics_rating;
 
-  const rottenTomatoes_url = data_from_render?.rotten_tomatoes?.url;
-  const rottenTomatoes_users_rating =
+  const rottentomatoes_url = data_from_render?.rotten_tomatoes?.url;
+  const rottentomatoes_users_rating =
     data_from_render?.rotten_tomatoes?.users_rating;
-  const rottenTomatoes_critics_rating =
+  const rottentomatoes_critics_rating =
     data_from_render?.rotten_tomatoes?.critics_rating;
 
   const senscritique_url = data_from_render?.senscritique?.url;
@@ -224,6 +224,8 @@ const DetailView = ({ id, kindURL }) => {
 
   const next_episode_from_render = data_from_render?.next_episode;
   const last_episode_from_render = data_from_render?.last_episode;
+  const highest_episode_from_render = data_from_render?.highest_episode;
+  const lowest_episode_from_render = data_from_render?.lowest_episode;
 
   const { error, loading, data } = useFetch(
     [
@@ -314,9 +316,9 @@ const DetailView = ({ id, kindURL }) => {
     metacritic_critics_rating,
     metacritic_url,
     metacritic_users_rating,
-    rottenTomatoes_critics_rating,
-    rottenTomatoes_url,
-    rottenTomatoes_users_rating,
+    rottentomatoes_critics_rating,
+    rottentomatoes_url,
+    rottentomatoes_users_rating,
     senscritique_url,
     senscritique_users_rating,
     tmdb_url,
@@ -478,6 +480,8 @@ const DetailView = ({ id, kindURL }) => {
                 tagline_from_render={tagline_from_render}
                 next_episode_from_render={next_episode_from_render}
                 last_episode_from_render={last_episode_from_render}
+                highest_episode_from_render={highest_episode_from_render}
+                lowest_episode_from_render={lowest_episode_from_render}
                 {...data}
               />
             </Cell>
