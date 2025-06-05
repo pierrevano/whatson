@@ -145,7 +145,7 @@ const DetailView = ({ id, kindURL }) => {
     api_key_query,
     api_key,
     undefined,
-    "episodes_details",
+    "episodes_details,last_episode,next_episode,highest_episode,lowest_episode",
     ratings_filters_query,
     ratings_filters,
   );
