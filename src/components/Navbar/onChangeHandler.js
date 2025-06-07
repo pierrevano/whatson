@@ -1,15 +1,9 @@
 import config from "../../config";
 
 function areNamesIncluded(config, originMapper, source) {
-  const configArray = config[source].split(",");
-  const filteredConfigArray = configArray.filter(
-    (item) =>
-      item.toLowerCase() !== "all" || item.toLowerCase() !== "allgenres",
-  );
-
-  return filteredConfigArray.every((item) =>
-    originMapper[source].includes(item),
-  );
+  return config[source]
+    .split(",")
+    .every((item) => originMapper[source].includes(item));
 }
 
 export const onChangeHandler = (
@@ -19,6 +13,7 @@ export const onChangeHandler = (
   setSelectedItems,
   setGenresValue,
   setMinRatingsValue,
+  setMustSeeValue,
   setPlatformsValue,
   setPopularityFilters,
   setRatingsFilters,
@@ -31,6 +26,7 @@ export const onChangeHandler = (
   const originMapper = {
     genres: [],
     minimum_ratings: [],
+    must_see: [],
     platforms: [],
     popularity: [],
     ratings: [],
@@ -51,44 +47,65 @@ export const onChangeHandler = (
     }
   });
 
-  if (areNamesIncluded(config, originMapper, "genres")) {
-    setGenresValue(config.genres);
-  } else {
-    setGenresValue(
-      originMapper.genres
-        .filter((genre) => genre.toLowerCase() !== "allgenres")
-        .join(","),
-    );
+  setSelectedItems(updatedItems);
+
+  const sectionHandlers = {
+    genres: () => {
+      if (areNamesIncluded(config, originMapper, "genres")) {
+        setGenresValue(config.genres);
+      } else {
+        setGenresValue(
+          originMapper.genres
+            .filter((genre) => genre.toLowerCase() !== "allgenres")
+            .join(","),
+        );
+      }
+    },
+    must_see: () => {
+      setMustSeeValue(originMapper.must_see.join(","));
+    },
+    platforms: () => {
+      if (item_type === config.item_type.split(",")[1]) {
+        if (areNamesIncluded(config, originMapper, "platforms")) {
+          setPlatformsValue(config.platforms);
+        } else {
+          setPlatformsValue(
+            originMapper.platforms
+              .filter((platform) => platform.toLowerCase() !== "all")
+              .join(","),
+          );
+        }
+      }
+    },
+    popularity: () => {
+      setPopularityFilters(checked ? config.popularity : "none");
+    },
+    ratings: () => {
+      setRatingsFilters(originMapper.ratings.join(","));
+    },
+    release_date: () => {
+      setReleaseDateValue(originMapper.release_date.join(","));
+    },
+    seasons: () => {
+      if (item_type === config.item_type.split(",")[1]) {
+        setSeasonsNumber(originMapper.seasons.join(","));
+      }
+    },
+    status: () => {
+      if (item_type === config.item_type.split(",")[1]) {
+        setStatusValue(originMapper.status.join(","));
+      }
+    },
+  };
+
+  if (sectionHandlers[name]) {
+    sectionHandlers[name]();
+    return;
   }
 
-  if (value && value.origin === "minimum_ratings") {
+  if (value?.origin === "minimum_ratings") {
     setMinRatingsValue(value.code);
   } else {
     setMinRatingsValue(originMapper.minimum_ratings.join(","));
   }
-
-  if (value === "enabled" && !checked) {
-    setPopularityFilters("none");
-  } else {
-    setPopularityFilters(config.popularity);
-  }
-
-  setRatingsFilters(originMapper.ratings.join(","));
-  setReleaseDateValue(originMapper.release_date.join(","));
-
-  if (item_type && item_type === config.item_type.split(",")[1]) {
-    if (areNamesIncluded(config, originMapper, "platforms")) {
-      setPlatformsValue(config.platforms);
-    } else {
-      setPlatformsValue(
-        originMapper.platforms
-          .filter((platform) => platform.toLowerCase() !== "all")
-          .join(","),
-      );
-    }
-    setSeasonsNumber(originMapper.seasons.join(","));
-    setStatusValue(originMapper.status.join(","));
-  }
-
-  setSelectedItems(updatedItems);
 };

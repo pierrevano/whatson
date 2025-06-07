@@ -15,6 +15,7 @@ const api_key_query = queryStringParsed.api_key;
 const genres_query = queryStringParsed.genres;
 const item_type_query = queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
+const must_see_query = queryStringParsed.must_see;
 const platforms_query = queryStringParsed.platforms;
 const popularity_filters_query = queryStringParsed.popularity_filters;
 const ratings_filters_query = queryStringParsed.ratings_filters;
@@ -28,6 +29,7 @@ const getDataURL = (
   item_type,
   kindURL,
   minimum_ratings,
+  must_see,
   page,
   platforms,
   popularity_filters,
@@ -44,6 +46,8 @@ const getDataURL = (
     item_type,
     minimum_ratings_query,
     minimum_ratings,
+    must_see_query,
+    must_see,
     platforms_query,
     platforms,
     popularity_filters_query,
@@ -97,6 +101,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     "minimum_ratings",
     "",
   );
+  const [must_see_value, setMustSeeValue] = useStorageString("must_see", "");
   const [platforms_value, setPlatformsValue] = useStorageString(
     "platforms",
     "",
@@ -122,6 +127,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
     if (typeof minimum_ratings_query !== "undefined")
       setMinRatingsValue(minimum_ratings_query);
+    if (typeof must_see_query !== "undefined") setMustSeeValue(must_see_query);
     if (typeof platforms_query !== "undefined")
       setPlatformsValue(platforms_query);
     if (typeof popularity_filters_query !== "undefined")
@@ -137,6 +143,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     setGenresValue,
     setItemType,
     setMinRatingsValue,
+    setMustSeeValue,
     setPlatformsValue,
     setPopularityFilters,
     setRatingsFilters,
@@ -151,6 +158,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     item_type,
     kindURL,
     minimum_ratings_value,
+    must_see_value,
     page,
     platforms_value,
     popularity_filters,

@@ -28,6 +28,7 @@ const SidebarFilters = () => {
     "minimum_ratings",
     "",
   );
+  const [must_see_value, setMustSeeValue] = useStorageString("must_see", "");
   const [platforms_value, setPlatformsValue] = useStorageString(
     "platforms",
     "",
@@ -53,6 +54,7 @@ const SidebarFilters = () => {
   const {
     genres,
     minimum_ratings,
+    must_see,
     platforms,
     popularity,
     ratings,
@@ -69,6 +71,8 @@ const SidebarFilters = () => {
       genres_value,
       minimum_ratings,
       minimum_ratings_value,
+      must_see,
+      must_see_value,
       platforms,
       platforms_value,
       popularity,
@@ -97,6 +101,7 @@ const SidebarFilters = () => {
       setSelectedItems,
       setGenresValue,
       setMinRatingsValue,
+      setMustSeeValue,
       setPlatformsValue,
       setPopularityFilters,
       setRatingsFilters,
@@ -129,6 +134,7 @@ const SidebarFilters = () => {
       ? [
           release_date,
           popularity,
+          must_see,
           minimum_ratings,
           platforms,
           genres,
@@ -136,7 +142,7 @@ const SidebarFilters = () => {
           seasons,
           status,
         ]
-      : [release_date, popularity, minimum_ratings, genres, ratings];
+      : [release_date, popularity, must_see, minimum_ratings, genres, ratings];
 
   const [visible, setVisible] = useState(false);
 
@@ -181,6 +187,7 @@ const SidebarFilters = () => {
               {groupedItem.items.map((item, itemIndex) =>
                 (item.origin === "genres" && item.code === "allgenres") ||
                 (item.origin === "minimum_ratings" && item.code !== "4.5") ||
+                (item.origin === "must_see" && item.code !== "false") ||
                 (item.origin === "platforms" && item.code === "all") ||
                 (item.origin === "popularity" && item.code !== "enabled") ||
                 (item.origin === "release_date" &&
@@ -211,14 +218,27 @@ const SidebarFilters = () => {
                           checked={selectedItems.some(
                             (selectedItem) => selectedItem.code === item.code,
                           )}
-                          title={item.name}
+                          tooltip={
+                            item.origin === "must_see"
+                              ? "Uncheck to show must-see only"
+                              : null
+                          }
+                          tooltipOptions={
+                            item.origin === "must_see"
+                              ? { position: "bottom", showDelay: 200 }
+                              : null
+                          }
                         />
                         <label
                           htmlFor={`${item.code}-${itemIndex}`}
                           className="ml-2"
                           style={{ display: "flex", alignItems: "center" }}
                         >
-                          {item.name}
+                          {item.name === "False"
+                            ? "All and must-see"
+                            : item.name === "New"
+                              ? "New only"
+                              : item.name}
                           {item.name === "New" && (
                             <i
                               className="pi pi-sparkles"

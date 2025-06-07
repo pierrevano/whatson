@@ -25,6 +25,9 @@ const config = {
   minimum_ratings_names:
     "4.5 and more,4 and more,3.5 and more,3 and more,2.5 and more,2 and more,1 and more,0 and more",
 
+  must_see: "false",
+  must_see_names: "True,False",
+
   release_date: "everything",
   release_date_names: "New,Everything",
 

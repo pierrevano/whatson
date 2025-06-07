@@ -42,6 +42,10 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
       "minimum_ratings",
     ),
   };
+  const must_see = {
+    name: "Metacritic items",
+    items: createItems(config.must_see_names.split(","), "must_see"),
+  };
   const platforms = {
     name: "Platforms",
     items: createItems(config.platforms.split(","), "platforms"),
@@ -75,6 +79,7 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   return {
     genres,
     minimum_ratings,
+    must_see,
     platforms,
     popularity,
     ratings,

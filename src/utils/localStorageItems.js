@@ -4,6 +4,7 @@ const localStorageItems = {
   favorites: config.favorites,
   genres: config.genres,
   minimum_ratings: config.minimum_ratings,
+  must_see: config.must_see,
   platforms: config.platforms,
   popularity_filters: config.popularity,
   ratings_filters: config.ratings,

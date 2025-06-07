@@ -31,6 +31,8 @@ export const getParameters = (
   item_type,
   minimum_ratings_query,
   minimum_ratings,
+  must_see_query,
+  must_see,
   platforms_query,
   platforms,
   popularity_filters_query,
@@ -57,6 +59,8 @@ export const getParameters = (
     minimum_ratings_query,
     "minimum_ratings",
   );
+
+  parameters += addParameter(must_see, must_see_query, "must_see");
 
   parameters += addParameter(
     popularity_filters,

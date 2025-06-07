@@ -10,6 +10,8 @@ export const initializeSelectedItems = (
   genres_value,
   minimum_ratings,
   minimum_ratings_value,
+  must_see,
+  must_see_value,
   platforms,
   platforms_value,
   popularity,
@@ -42,6 +44,7 @@ export const initializeSelectedItems = (
 
   const filterLookup = createLookup([
     ...genres.items,
+    ...must_see.items,
     ...platforms.items,
     ...popularity.items,
     ...ratings.items,
@@ -52,6 +55,13 @@ export const initializeSelectedItems = (
   const defaultGenresValue = config.genres.split(",");
   defaultGenresValue.forEach((filter) => {
     if (!genres_value || genres_value.includes(filter)) {
+      selectedItems.push(filterLookup[filter]);
+    }
+  });
+
+  const defaultMustSeeValue = config.must_see_names.toLowerCase().split(",");
+  defaultMustSeeValue.forEach((filter) => {
+    if (!must_see_value || must_see_value.includes(filter)) {
       selectedItems.push(filterLookup[filter]);
     }
   });
