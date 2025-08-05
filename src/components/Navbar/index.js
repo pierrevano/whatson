@@ -168,12 +168,12 @@ const Navbar = () => {
           <br />
           <br />
           <span
-            className="pi pi-video"
+            className="pi pi-ticket"
             style={{ transform: "translateY(2px)" }}
           ></span>{" "}
           +{" "}
           <span
-            className="pi pi-ticket notEven"
+            className="pi pi-video notEven"
             style={{ transform: "translateY(2px)", marginRight: "10px" }}
           ></span>
           <span
