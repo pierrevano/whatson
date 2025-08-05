@@ -96,7 +96,10 @@ const InfiniteScroll = ({ page, setPage }) => {
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [api_key, setApiKey] = useStorageString("api_key", "");
   const [genres_value, setGenresValue] = useStorageString("genres", "");
-  const [item_type, setItemType] = useStorageString("item_type", "movie");
+  const [item_type, setItemType] = useStorageString(
+    "item_type",
+    "movie,tvshow",
+  );
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
     "",
