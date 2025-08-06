@@ -96,7 +96,10 @@ const InfiniteScroll = ({ page, setPage }) => {
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [api_key, setApiKey] = useStorageString("api_key", "");
   const [genres_value, setGenresValue] = useStorageString("genres", "");
-  const [item_type, setItemType] = useStorageString("item_type", "movie");
+  const [item_type, setItemType] = useStorageString(
+    "item_type",
+    "movie,tvshow",
+  );
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
     "",
@@ -184,10 +187,9 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   const [ref, inView] = useInView();
 
-  const getDefaultItemType = (item_type_query) => {
-    if (item_type === "tvshow" || item_type_query === "tvshow")
-      return "tvshows";
-    if (item_type === "movie" || item_type_query === "movie") return "movies";
+  const getItemType = (item_type) => {
+    if (item_type === "tvshow") return "tvshows";
+    if (item_type === "movie") return "movies";
     return "movies";
   };
 
@@ -260,9 +262,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       {data?.results?.map((entry) => (
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
           <Card
-            kindURL={
-              isKindURLDefined ? kindURL : getDefaultItemType(item_type_query)
-            }
+            kindURL={isKindURLDefined ? kindURL : getItemType(entry.item_type)}
             {...entry}
           />
         </Cell>

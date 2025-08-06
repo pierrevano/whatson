@@ -165,6 +165,28 @@ const Navbar = () => {
           >
             TV Shows
           </span>
+          <br />
+          <br />
+          <span
+            className="pi pi-ticket"
+            style={{ transform: "translateY(2px)" }}
+          ></span>{" "}
+          +{" "}
+          <span
+            className="pi pi-video notEven"
+            style={{ transform: "translateY(2px)", marginRight: "10px" }}
+          ></span>
+          <span
+            className="underlinedSpan"
+            onClick={() => {
+              setItemType("movie,tvshow");
+              if (shouldSendCustomEvents()) {
+                window.beam(`/custom-events/switch_to_opened/movie_and_tvshow`);
+              }
+            }}
+          >
+            All items
+          </span>
           {isAuthenticated && (
             <>
               <span
