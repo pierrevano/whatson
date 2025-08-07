@@ -25,7 +25,11 @@ const AboutPage = lazy(() => import("components/AboutPage"));
  */
 const App = () => {
   useCacheBuster();
-  consoleMessage();
+
+  useEffect(() => {
+    consoleMessage();
+  }, []);
+
   useScript(config.base_beamanalytics, config.beamanalytics_token);
 
   const [loading, setLoading] = useState(true);
