@@ -28,8 +28,8 @@ const config = {
   must_see: "false",
   must_see_names: "True,False",
 
-  release_date: "everything",
-  release_date_names: "New,Everything",
+  release_date: "everything,new",
+  release_date_names: "Everything,New",
 
   platforms:
     "Canal+ Ciné Séries,Netflix,Prime Video,Max,Disney+,Paramount+,Apple TV+,Canal+,OCS,ADN,Crunchyroll,all",

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useConditionalFetch } from "utils/useConditionalFetch";
+import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
 import { useInView } from "react-intersection-observer";
 import { Cell } from "griding";
 import { getKindByURL } from "utils/kind";
@@ -8,7 +8,7 @@ import InfoScreen from "components/InfoScreen";
 import queryString from "query-string";
 import { useStorageString } from "utils/useStorageString";
 import { getParameters } from "utils/getParameters";
-import config from "config";
+import config from "../../config";
 
 const queryStringParsed = queryString.parse(window.location.search);
 const api_key_query = queryStringParsed.api_key;
@@ -98,7 +98,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [genres_value, setGenresValue] = useStorageString("genres", "");
   const [item_type, setItemType] = useStorageString(
     "item_type",
-    "movie,tvshow",
+    config.item_type,
   );
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
     "minimum_ratings",
@@ -117,7 +117,10 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     "ratings_filters",
     "",
   );
-  const [release_date, setReleaseDate] = useStorageString("release_date", "");
+  const [release_date, setReleaseDate] = useStorageString(
+    "release_date",
+    config.release_date,
+  );
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
     "",
@@ -178,12 +181,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     kindURL === "search" ||
     kindURL === "tvshows";
 
-  const { loading, data, error } = useConditionalFetch(
-    fetchUrl,
-    item_type,
-    page,
-    !isKindURLDefined,
-  );
+  const { data, error, isLoading: loading } = useFetchWithStatusCode(fetchUrl);
 
   const [ref, inView] = useInView();
 

@@ -16,7 +16,7 @@ import { Toast } from "primereact/toast";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const SidebarFilters = () => {
-  const { user } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   initializeLocalStorage();
 
@@ -160,7 +160,7 @@ const SidebarFilters = () => {
       life: 3000,
     });
 
-    setTimeout(clearAndReload(user), 3000);
+    setTimeout(clearAndReload(isAuthenticated, user), 3000);
   };
 
   return (

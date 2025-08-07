@@ -7,7 +7,7 @@ import { Heart, Search } from "components/Icon";
 import Item from "./Item";
 import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
-import config from "config";
+import config from "../../config";
 import SidebarFilters from "./SidebarFilters";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 import { useAuth0 } from "@auth0/auth0-react";

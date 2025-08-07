@@ -2,7 +2,7 @@ import React from "react";
 import { useFetch } from "react-hooks-fetch";
 import { getKindByURL } from "utils/kind";
 import Card from "./index";
-import config from "config";
+import config from "../../config";
 
 /**
  * A component that fetches data from a given URL and renders a Card component with the fetched data.
