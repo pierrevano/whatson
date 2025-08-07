@@ -33,9 +33,7 @@ async function postPreferences(preferences, user) {
 
       localStorage.setItem("updated_at", new Date().toISOString());
     }
-  } catch (error) {
-    console.error("Error posting preferences:", error);
-  }
+  } catch (error) {}
 }
 
 export default postPreferences;

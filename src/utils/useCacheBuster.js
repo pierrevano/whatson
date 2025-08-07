@@ -51,9 +51,7 @@ const useCacheBuster = () => {
             }
           }
         }
-      } catch (error) {
-        console.error("Something went wrong fetching meta.json", error);
-      }
+      } catch (error) {}
     };
 
     fetchMeta();
