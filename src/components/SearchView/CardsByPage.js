@@ -13,6 +13,7 @@ import config from "../../config";
 const queryStringParsed = queryString.parse(window.location.search);
 const api_key_query = queryStringParsed.api_key;
 const genres_query = queryStringParsed.genres;
+const is_active_query = queryStringParsed.is_active;
 const item_type_query = queryStringParsed.item_type;
 const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const must_see_query = queryStringParsed.must_see;
@@ -26,6 +27,7 @@ const status_query = queryStringParsed.status;
 const getDataURL = (
   api_key,
   genres,
+  is_active,
   item_type,
   kindURL,
   minimum_ratings,
@@ -42,6 +44,8 @@ const getDataURL = (
   const parameters = getParameters(
     genres_query,
     genres,
+    is_active_query,
+    is_active,
     item_type_query,
     item_type,
     minimum_ratings_query,
@@ -96,6 +100,10 @@ const InfiniteScroll = ({ page, setPage }) => {
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [api_key, setApiKey] = useStorageString("api_key", "");
   const [genres_value, setGenresValue] = useStorageString("genres", "");
+  const [is_active, setIsActive] = useStorageString(
+    "is_active",
+    config.is_active,
+  );
   const [item_type, setItemType] = useStorageString(
     "item_type",
     config.item_type,
@@ -130,6 +138,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   useEffect(() => {
     if (typeof api_key_query !== "undefined") setApiKey(api_key_query);
     if (typeof genres_query !== "undefined") setGenresValue(genres_query);
+    if (typeof is_active_query !== "undefined") setIsActive(is_active_query);
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
     if (typeof minimum_ratings_query !== "undefined")
       setMinRatingsValue(minimum_ratings_query);
@@ -147,6 +156,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     if (typeof status_query !== "undefined") setStatusValue(status_query);
   }, [
     setGenresValue,
+    setIsActive,
     setItemType,
     setMinRatingsValue,
     setMustSeeValue,
@@ -161,6 +171,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const fetchUrl = getDataURL(
     api_key,
     genres_value,
+    is_active,
     item_type,
     kindURL,
     minimum_ratings_value,

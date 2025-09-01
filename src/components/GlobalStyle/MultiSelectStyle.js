@@ -222,7 +222,6 @@ const MultiSelectStyle = `
   .p-sidebar-content span {
     font-size: 1.2em !important;
   }
-  .p-sidebar-content span:nth-child(even):not(.notEven),
   .p-sidebar-content .underlinedSpan {
     background-color: #181818 !important;
     border: none !important;

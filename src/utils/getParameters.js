@@ -27,6 +27,8 @@ const handleEncodedFilters = (mainQuery, alternateQuery, paramName) => {
 export const getParameters = (
   genres_query,
   genres,
+  is_active_query,
+  is_active,
   item_type_query,
   item_type,
   minimum_ratings_query,
@@ -51,6 +53,8 @@ export const getParameters = (
   ratings_filters,
 ) => {
   let parameters = "?";
+
+  parameters += addParameter(is_active, is_active_query, "is_active");
 
   parameters += addParameter(item_type, item_type_query, "item_type");
 

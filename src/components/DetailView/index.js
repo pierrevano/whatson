@@ -144,6 +144,8 @@ const DetailView = ({ id, kindURL }) => {
     "",
     undefined,
     "",
+    undefined,
+    "",
     api_key_query,
     api_key,
     undefined,

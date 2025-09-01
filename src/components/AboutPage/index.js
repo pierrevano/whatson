@@ -46,8 +46,8 @@ const AboutPage = () => {
           <Cell xs={12} md={7} lg={6}>
             <Text xs={0} sm={1} style={{ margin: "1em 0" }}>
               The purpose of this app is to help you quickly find the
-              highest-rated movies and TV shows or explore the information
-              provided by{" "}
+              highest-rated movies and TV shows, or explore information provided
+              by{" "}
               <Anchor
                 to="https://www.themoviedb.org"
                 ariaLabel="The Movie Database (TMDB)"
@@ -59,9 +59,9 @@ const AboutPage = () => {
               .
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              All displayed data is fetched from the What's on? API, and I have
-              implemented additional filters. Most of the codebase is derived
-              from{" "}
+              All displayed data is fetched from the What's on? API, with
+              additional filters that I implemented. Most of the codebase is
+              derived from{" "}
               <Anchor to="https://vitordino.com" ariaLabel="Vitor Dino website">
                 Vitor Dino
               </Anchor>{" "}
@@ -73,16 +73,16 @@ const AboutPage = () => {
               >
                 repository
               </Anchor>
-              , to whom all design credits are due.
+              , to whom all design credit is due.
             </Text>
             <Text style={{ margin: "1em 0" }}>
-              The raw data is sourced from multiple platforms, including
-              AlloCiné, BetaSeries, IMDb, Letterboxd, Metacritic, Rotten
-              Tomatoes, SensCritique, Trakt, TV Time and The Movie Database
-              (TMDB). This data is extracted using shell and Node.js scripts and
-              stored in a MongoDB database. On the client side, the application
-              is built with React.js and accesses data through an Express.js
-              API. For more details, feel free to visit my{" "}
+              The raw data comes from multiple platforms, including AlloCiné,
+              BetaSeries, IMDb, Letterboxd, Metacritic, Rotten Tomatoes,
+              SensCritique, Trakt, TV Time, and TMDB. This data is extracted
+              using shell and Node.js scripts and stored in a MongoDB database.
+              On the client side, the application is built with React.js and
+              accesses the data through an Express.js API. For more details,
+              feel free to visit my{" "}
               <Anchor
                 to="https://github.com/pierrevano"
                 ariaLabel="My GitHub profile"
@@ -95,7 +95,7 @@ const AboutPage = () => {
             </Text>
             <Text style={{ margin: "1em 0" }}>
               Additionally, this app is ad-free and does not use cookies. It
-              only employs a GDPR-compliant solution,{" "}
+              only relies on a GDPR-compliant solution,{" "}
               <Anchor
                 to="https://beamanalytics.io"
                 ariaLabel="Beam Analytics"

@@ -140,6 +140,7 @@ const Navbar = () => {
             style={{ transform: "translateY(2px)", marginRight: "10px" }}
           ></span>
           <span
+            className="underlinedSpan"
             onClick={() => {
               setItemType("movie");
               if (shouldSendCustomEvents()) {
@@ -156,6 +157,7 @@ const Navbar = () => {
             style={{ transform: "translateY(2px)", marginRight: "10px" }}
           ></span>
           <span
+            className="underlinedSpan"
             onClick={() => {
               setItemType("tvshow");
               if (shouldSendCustomEvents()) {
@@ -173,7 +175,7 @@ const Navbar = () => {
           ></span>{" "}
           +{" "}
           <span
-            className="pi pi-video notEven"
+            className="pi pi-video"
             style={{ transform: "translateY(2px)", marginRight: "10px" }}
           ></span>
           <span
@@ -194,6 +196,7 @@ const Navbar = () => {
                 style={{ position: "absolute", bottom: "22px", left: "20px" }}
               ></span>
               <span
+                className="underlinedSpan"
                 onClick={() => {
                   logout({ returnTo: window.location.origin });
                   if (shouldSendCustomEvents()) {
