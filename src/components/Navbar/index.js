@@ -118,7 +118,7 @@ const Navbar = () => {
             onClick={() => (window.location.href = "/")}
           >
             <img
-              style={{ marginTop: "5px", maxWidth: "24px" }}
+              style={{ marginTop: "8px", maxWidth: "24px" }}
               src={config.base_render + "/logo.png"}
               alt="logo"
               width="24px"
