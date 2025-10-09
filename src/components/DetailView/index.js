@@ -168,40 +168,63 @@ const DetailView = ({ id, kindURL }) => {
 
   const allocine_url = data_from_render?.allocine?.url;
   const allocine_users_rating = data_from_render?.allocine?.users_rating;
+  const allocine_users_rating_count =
+    data_from_render?.allocine?.users_rating_count;
   const allocine_critics_rating = data_from_render?.allocine?.critics_rating;
+  const allocine_critics_rating_count =
+    data_from_render?.allocine?.critics_rating_count;
 
   const betaseries_url = data_from_render?.betaseries?.url;
   const betaseries_users_rating = data_from_render?.betaseries?.users_rating;
+  const betaseries_users_rating_count =
+    data_from_render?.betaseries?.users_rating_count;
 
   const imdb_url = data_from_render?.imdb?.url;
   const imdb_users_rating = data_from_render?.imdb?.users_rating;
+  const imdb_users_rating_count = data_from_render?.imdb?.users_rating_count;
 
   const letterboxd_url = data_from_render?.letterboxd?.url;
   const letterboxd_users_rating = data_from_render?.letterboxd?.users_rating;
+  const letterboxd_users_rating_count =
+    data_from_render?.letterboxd?.users_rating_count;
 
   const metacritic_url = data_from_render?.metacritic?.url;
   const metacritic_users_rating = data_from_render?.metacritic?.users_rating;
+  const metacritic_users_rating_count =
+    data_from_render?.metacritic?.users_rating_count;
   const metacritic_critics_rating =
     data_from_render?.metacritic?.critics_rating;
+  const metacritic_critics_rating_count =
+    data_from_render?.metacritic?.critics_rating_count;
 
   const rottentomatoes_url = data_from_render?.rotten_tomatoes?.url;
   const rottentomatoes_users_rating =
     data_from_render?.rotten_tomatoes?.users_rating;
+  const rottentomatoes_users_rating_count =
+    data_from_render?.rotten_tomatoes?.users_rating_count;
   const rottentomatoes_critics_rating =
     data_from_render?.rotten_tomatoes?.critics_rating;
+  const rottentomatoes_critics_rating_count =
+    data_from_render?.rotten_tomatoes?.critics_rating_count;
 
   const senscritique_url = data_from_render?.senscritique?.url;
   const senscritique_users_rating =
     data_from_render?.senscritique?.users_rating;
+  const senscritique_users_rating_count =
+    data_from_render?.senscritique?.users_rating_count;
 
   const tmdb_url = data_from_render?.tmdb?.url;
   const tmdb_users_rating = data_from_render?.tmdb?.users_rating;
+  const tmdb_users_rating_count = data_from_render?.tmdb?.users_rating_count;
 
   const trakt_url = data_from_render?.trakt?.url;
   const trakt_users_rating = data_from_render?.trakt?.users_rating;
+  const trakt_users_rating_count = data_from_render?.trakt?.users_rating_count;
 
   const tvtime_url = data_from_render?.tv_time?.url;
   const tvtime_users_rating = data_from_render?.tv_time?.users_rating;
+  const tvtime_users_rating_count =
+    data_from_render?.tv_time?.users_rating_count;
 
   const mojo_rank = data_from_render?.mojo?.rank;
   const mojo_url = data_from_render?.mojo?.url;
@@ -311,30 +334,41 @@ const DetailView = ({ id, kindURL }) => {
     allocine_critics_rating,
     allocine_url,
     allocine_users_rating,
+    allocine_users_rating_count,
+    allocine_critics_rating_count,
     betaseries_url,
     betaseries_users_rating,
+    betaseries_users_rating_count,
     imdb_url,
     imdb_users_rating,
+    imdb_users_rating_count,
     letterboxd_url,
     letterboxd_users_rating,
+    letterboxd_users_rating_count,
     metacritic_critics_rating,
     metacritic_url,
     metacritic_users_rating,
+    metacritic_users_rating_count,
+    metacritic_critics_rating_count,
     rottentomatoes_critics_rating,
     rottentomatoes_url,
     rottentomatoes_users_rating,
+    rottentomatoes_users_rating_count,
+    rottentomatoes_critics_rating_count,
     senscritique_url,
     senscritique_users_rating,
+    senscritique_users_rating_count,
     tmdb_url,
     tmdb_users_rating,
+    tmdb_users_rating_count,
     trakt_url,
     trakt_users_rating,
+    trakt_users_rating_count,
     tvtime_url,
     tvtime_users_rating,
+    tvtime_users_rating_count,
     mojo_rank,
     mojo_url,
-    itemType,
-    kindURL,
   );
 
   const op = useRef(null);

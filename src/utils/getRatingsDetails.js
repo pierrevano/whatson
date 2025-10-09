@@ -5,30 +5,41 @@ export const getRatingsDetails = (
   allocine_critics_rating,
   allocine_url,
   allocine_users_rating,
+  allocine_users_rating_count,
+  allocine_critics_rating_count,
   betaseries_url,
   betaseries_users_rating,
+  betaseries_users_rating_count,
   imdb_url,
   imdb_users_rating,
+  imdb_users_rating_count,
   letterboxd_url,
   letterboxd_users_rating,
+  letterboxd_users_rating_count,
   metacritic_critics_rating,
   metacritic_url,
   metacritic_users_rating,
+  metacritic_users_rating_count,
+  metacritic_critics_rating_count,
   rottentomatoes_critics_rating,
   rottentomatoes_url,
   rottentomatoes_users_rating,
+  rottentomatoes_users_rating_count,
+  rottentomatoes_critics_rating_count,
   senscritique_url,
   senscritique_users_rating,
+  senscritique_users_rating_count,
   tmdb_url,
   tmdb_users_rating,
+  tmdb_users_rating_count,
   trakt_url,
   trakt_users_rating,
+  trakt_users_rating_count,
   tvtime_url,
   tvtime_users_rating,
+  tvtime_users_rating_count,
   mojo_rank,
   mojo_url,
-  itemType,
-  kindURL,
 ) => {
   const detailsConfig = {
     allocine_users: {
@@ -84,25 +95,78 @@ export const getRatingsDetails = (
   const detailsData = [];
 
   const ratings = [
-    { key: "allocine_users", rating: allocine_users_rating },
-    { key: "allocine_critics", rating: allocine_critics_rating },
-    { key: "betaseries", rating: betaseries_users_rating },
-    { key: "imdb", rating: imdb_users_rating },
-    { key: "metacritic_users", rating: metacritic_users_rating },
-    { key: "metacritic_critics", rating: metacritic_critics_rating },
-    { key: "rottentomatoes_users", rating: rottentomatoes_users_rating },
-    { key: "rottentomatoes_critics", rating: rottentomatoes_critics_rating },
-    { key: "senscritique", rating: senscritique_users_rating },
-    { key: "tmdb", rating: tmdb_users_rating },
-    { key: "trakt", rating: trakt_users_rating },
+    {
+      key: "allocine_users",
+      rating: allocine_users_rating,
+      ratingCount: allocine_users_rating_count,
+    },
+    {
+      key: "allocine_critics",
+      rating: allocine_critics_rating,
+      ratingCount: allocine_critics_rating_count,
+    },
+    {
+      key: "betaseries",
+      rating: betaseries_users_rating,
+      ratingCount: betaseries_users_rating_count,
+    },
+    {
+      key: "imdb",
+      rating: imdb_users_rating,
+      ratingCount: imdb_users_rating_count,
+    },
+    {
+      key: "metacritic_users",
+      rating: metacritic_users_rating,
+      ratingCount: metacritic_users_rating_count,
+    },
+    {
+      key: "metacritic_critics",
+      rating: metacritic_critics_rating,
+      ratingCount: metacritic_critics_rating_count,
+    },
+    {
+      key: "rottentomatoes_users",
+      rating: rottentomatoes_users_rating,
+      ratingCount: rottentomatoes_users_rating_count,
+    },
+    {
+      key: "rottentomatoes_critics",
+      rating: rottentomatoes_critics_rating,
+      ratingCount: rottentomatoes_critics_rating_count,
+    },
+    {
+      key: "senscritique",
+      rating: senscritique_users_rating,
+      ratingCount: senscritique_users_rating_count,
+    },
+    {
+      key: "tmdb",
+      rating: tmdb_users_rating,
+      ratingCount: tmdb_users_rating_count,
+    },
+    {
+      key: "trakt",
+      rating: trakt_users_rating,
+      ratingCount: trakt_users_rating_count,
+    },
   ];
 
-  ratings.forEach(({ key, rating }) => {
+  const formatRatingCount = (count) => {
+    if (typeof count !== "number" || count <= 0) return null;
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(1).replace(/\.0$/, "")}K`;
+    }
+    return `${count}`;
+  };
+
+  ratings.forEach(({ key, rating, ratingCount }) => {
     if (rating && rating > 0) {
       detailsData.push({
         image: detailsConfig[key].image,
         name: detailsConfig[key].name,
         rating: rating,
+        ratingCount: formatRatingCount(ratingCount),
       });
     }
   });
@@ -117,6 +181,7 @@ export const getRatingsDetails = (
       image: detailsConfig.letterboxd.image,
       name: detailsConfig.letterboxd.name,
       rating: letterboxd_users_rating,
+      ratingCount: formatRatingCount(letterboxd_users_rating_count),
     });
   }
 
@@ -130,6 +195,7 @@ export const getRatingsDetails = (
       image: detailsConfig.tvtime.image,
       name: detailsConfig.tvtime.name,
       rating: tvtime_users_rating,
+      ratingCount: formatRatingCount(tvtime_users_rating_count),
     });
   }
 
@@ -155,6 +221,7 @@ export const getRatingsDetails = (
 
   const ratingBody = (rowData) => {
     const rating = rowData.rating;
+    const ratingCount = rowData.ratingCount;
     let maxRating = 5;
     if (
       rowData.name === "IMDb users" ||
@@ -178,6 +245,9 @@ export const getRatingsDetails = (
         <span className="rating_value">
           <span>★</span> {rating}
           <span>/{maxRating}</span>
+          {ratingCount && (
+            <span className="rating_count"> ({ratingCount})</span>
+          )}
         </span>
       );
     return "/";

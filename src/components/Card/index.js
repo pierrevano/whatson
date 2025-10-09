@@ -209,39 +209,56 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const allocine_url = props?.allocine?.url;
   const allocine_users_rating = props?.allocine?.users_rating;
+  const allocine_users_rating_count = props?.allocine?.users_rating_count;
   const allocine_critics_rating = props?.allocine?.critics_rating;
+  const allocine_critics_rating_count = props?.allocine?.critics_rating_count;
 
   const betaseries_url = props?.betaseries?.url;
   const betaseries_users_rating = props?.betaseries?.users_rating;
+  const betaseries_users_rating_count = props?.betaseries?.users_rating_count;
 
   const imdb_url = props?.imdb?.url;
   const imdb_users_rating = props?.imdb?.users_rating;
+  const imdb_users_rating_count = props?.imdb?.users_rating_count;
 
   const letterboxd_url = props?.letterboxd?.url;
   const letterboxd_users_rating = props?.letterboxd?.users_rating;
+  const letterboxd_users_rating_count = props?.letterboxd?.users_rating_count;
 
   const mojo_rank = props?.mojo?.rank;
   const mojo_url = props?.mojo?.url;
 
   const metacritic_url = props?.metacritic?.url;
   const metacritic_users_rating = props?.metacritic?.users_rating;
+  const metacritic_users_rating_count = props?.metacritic?.users_rating_count;
   const metacritic_critics_rating = props?.metacritic?.critics_rating;
+  const metacritic_critics_rating_count =
+    props?.metacritic?.critics_rating_count;
 
   const rottentomatoes_url = props?.rotten_tomatoes?.url;
   const rottentomatoes_users_rating = props?.rotten_tomatoes?.users_rating;
+  const rottentomatoes_users_rating_count =
+    props?.rotten_tomatoes?.users_rating_count;
   const rottentomatoes_critics_rating = props?.rotten_tomatoes?.critics_rating;
+  const rottentomatoes_critics_rating_count =
+    props?.rotten_tomatoes?.critics_rating_count;
 
   const senscritique_url = props?.senscritique?.url;
   const senscritique_users_rating = props?.senscritique?.users_rating;
+  const senscritique_users_rating_count =
+    props?.senscritique?.users_rating_count;
 
   const tmdb_url = props?.tmdb?.url;
   const tmdb_users_rating = props?.tmdb?.users_rating;
+  const tmdb_users_rating_count = props?.tmdb?.users_rating_count;
 
   const trakt_url = props?.trakt?.url;
   const trakt_users_rating = props?.trakt?.users_rating;
+  const trakt_users_rating_count = props?.trakt?.users_rating_count;
 
   const tvtime_url = props?.tv_time?.url;
   const tvtime_users_rating = props?.tv_time?.users_rating;
+  const tvtime_users_rating_count = props?.tv_time?.users_rating_count;
 
   const ratings_average = props?.ratings_average;
 
@@ -261,30 +278,41 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     allocine_critics_rating,
     allocine_url,
     allocine_users_rating,
+    allocine_users_rating_count,
+    allocine_critics_rating_count,
     betaseries_url,
     betaseries_users_rating,
+    betaseries_users_rating_count,
     imdb_url,
     imdb_users_rating,
+    imdb_users_rating_count,
     letterboxd_url,
     letterboxd_users_rating,
+    letterboxd_users_rating_count,
     metacritic_critics_rating,
     metacritic_url,
     metacritic_users_rating,
+    metacritic_users_rating_count,
+    metacritic_critics_rating_count,
     rottentomatoes_critics_rating,
     rottentomatoes_url,
     rottentomatoes_users_rating,
+    rottentomatoes_users_rating_count,
+    rottentomatoes_critics_rating_count,
     senscritique_url,
     senscritique_users_rating,
+    senscritique_users_rating_count,
     tmdb_url,
     tmdb_users_rating,
+    tmdb_users_rating_count,
     trakt_url,
     trakt_users_rating,
+    trakt_users_rating_count,
     tvtime_url,
     tvtime_users_rating,
+    tvtime_users_rating_count,
     mojo_rank,
     mojo_url,
-    itemType,
-    kindURL,
   );
 
   const op = useRef(null);

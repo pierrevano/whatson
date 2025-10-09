@@ -7,7 +7,7 @@ const OverlayPanelStyle = `
   .rating_value span:first-child {
     color: #28a745 !important;
   }
-  .rating_value span:last-child {
+  .rating_value span:not(:first-child) {
     color: rgba(255, 255, 255, 0.4) !important;
   }
   
