@@ -42,15 +42,15 @@ const config = {
   ratings_names:
     "AlloCiné critics,AlloCiné users,BetaSeries users,IMDb users,Letterboxd users,Metacritic critics,Metacritic users,Rotten Tomatoes critics,Rotten Tomatoes users,SensCritique users,TMDB users,Trakt users,TV Time users",
 
-  seasons: "1,2,3,4,5",
-  seasons_names: "1,2,3,4,5 and more",
-
-  status: "canceled,ended,ongoing,pilot,unknown",
-
   runtime: "",
   runtime_min_minutes: 0,
   runtime_max_minutes: 1000,
   runtime_step_minutes: 5,
+
+  seasons: "1,2,3,4,5",
+  seasons_names: "1,2,3,4,5 and more",
+
+  status: "canceled,ended,ongoing,pilot,unknown",
 };
 
 export default config;

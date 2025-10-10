@@ -294,9 +294,7 @@ const SidebarFilters = () => {
       window.beam(`/custom-events/clear_preferences_accepted`);
     }
 
-    setTimeout(() => {
-      clearAndReload(isAuthenticated, user);
-    }, 3000);
+    clearAndReload(isAuthenticated, user);
   };
 
   return (
