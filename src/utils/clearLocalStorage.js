@@ -21,6 +21,7 @@ export const clearAndReload = async (isAuthenticated, user) => {
     popularity_filters: "",
     ratings_filters: "",
     release_date: config.release_date,
+    runtime: "",
     seasons_number: "",
     status: "",
   };

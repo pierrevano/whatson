@@ -46,6 +46,11 @@ const config = {
   seasons_names: "1,2,3,4,5 and more",
 
   status: "canceled,ended,ongoing,pilot,unknown",
+
+  runtime: "",
+  runtime_min_minutes: 0,
+  runtime_max_minutes: 1000,
+  runtime_step_minutes: 5,
 };
 
 export default config;

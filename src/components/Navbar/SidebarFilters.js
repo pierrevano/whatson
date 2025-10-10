@@ -8,12 +8,29 @@ import { onChangeHandler } from "./onChangeHandler";
 import { Checkbox } from "primereact/checkbox";
 import { ListBox } from "primereact/listbox";
 import { Sidebar } from "primereact/sidebar";
+import { Slider } from "primereact/slider";
+import styled from "styled-components";
 import Filter from "components/Icon/Filter";
 import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
-import { Toast } from "primereact/toast";
 import { useAuth0 } from "@auth0/auth0-react";
+
+const RuntimeSlider = styled(Slider)`
+  .p-slider-range {
+    background: #28a745 !important;
+  }
+
+  .p-slider-handle,
+  .p-slider-handle:focus {
+    border-color: #28a745 !important;
+    background: #181818 !important;
+  }
+
+  .p-slider-handle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+  }
+`;
 
 const SidebarFilters = () => {
   const { isAuthenticated, user } = useAuth0();
@@ -45,6 +62,7 @@ const SidebarFilters = () => {
     "release_date",
     "",
   );
+  const [runtime_value, setRuntimeValue] = useStorageString("runtime", "");
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
     "",
@@ -92,6 +110,131 @@ const SidebarFilters = () => {
   );
 
   const [hasChanges, setHasChanges] = useState(false);
+
+  const runtimeBounds = {
+    min: Number.isFinite(config.runtime_min_minutes)
+      ? config.runtime_min_minutes
+      : 0,
+    max: Number.isFinite(config.runtime_max_minutes)
+      ? config.runtime_max_minutes
+      : 1000,
+    step: Number.isFinite(config.runtime_step_minutes)
+      ? config.runtime_step_minutes
+      : 5,
+  };
+
+  const sliderMaxMinutes = Math.min(runtimeBounds.max, 5 * 60);
+  const sliderMinMinutes = runtimeBounds.min;
+
+  const getDefaultRuntimeRange = () => [sliderMinMinutes, sliderMaxMinutes];
+
+  const formatMinutes = (minutes) => {
+    const safeMinutes = Number.isFinite(minutes)
+      ? Math.max(Math.round(minutes), 0)
+      : 0;
+    const cappedMinutes = Math.min(safeMinutes, sliderMaxMinutes);
+    const hours = Math.floor(cappedMinutes / 60);
+    const remainingMinutes = cappedMinutes % 60;
+
+    if (hours === 0) {
+      return `${cappedMinutes} min`;
+    }
+
+    if (remainingMinutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h ${remainingMinutes}m`;
+  };
+
+  const sanitizeRuntimeRange = (range) => {
+    if (!Array.isArray(range) || range.length !== 2) {
+      return getDefaultRuntimeRange();
+    }
+    const rawMin = Number(range[0]);
+    const rawMax = Number(range[1]);
+    const roundedMin = Number.isFinite(rawMin)
+      ? Math.round(rawMin)
+      : runtimeBounds.min;
+    const roundedMax = Number.isFinite(rawMax)
+      ? Math.round(rawMax)
+      : runtimeBounds.max;
+    const clampedMin = Math.min(
+      Math.max(roundedMin, sliderMinMinutes),
+      sliderMaxMinutes,
+    );
+    const clampedMax = Math.min(
+      Math.max(roundedMax, clampedMin),
+      sliderMaxMinutes,
+    );
+    return [clampedMin, clampedMax];
+  };
+
+  const parseRuntimeStorage = (value) => {
+    if (!value) {
+      return getDefaultRuntimeRange();
+    }
+    const [minSeconds, maxSeconds] = value.split(",").map(Number);
+    const minMinutes = Number.isFinite(minSeconds)
+      ? Math.round(minSeconds / 60)
+      : sliderMinMinutes;
+    const maxMinutes = Number.isFinite(maxSeconds)
+      ? Math.round(maxSeconds / 60)
+      : runtimeBounds.max;
+    return sanitizeRuntimeRange([minMinutes, maxMinutes]);
+  };
+
+  const [runtimeRangeMinutes, setRuntimeRangeMinutes] = useState(() =>
+    parseRuntimeStorage(runtime_value),
+  );
+
+  useEffect(() => {
+    const parsedRange = parseRuntimeStorage(runtime_value);
+    if (
+      parsedRange[0] !== runtimeRangeMinutes[0] ||
+      parsedRange[1] !== runtimeRangeMinutes[1]
+    ) {
+      setRuntimeRangeMinutes(parsedRange);
+    }
+  }, [runtime_value]);
+
+  const commitRuntimeSelection = (value) => {
+    const sanitizedRange = sanitizeRuntimeRange(value);
+    setRuntimeRangeMinutes(sanitizedRange);
+    const isDefaultRange =
+      sanitizedRange[0] === sliderMinMinutes &&
+      sanitizedRange[1] === sliderMaxMinutes;
+    const maxMinutesForStorage =
+      sanitizedRange[1] === sliderMaxMinutes &&
+      runtimeBounds.max > sliderMaxMinutes
+        ? runtimeBounds.max
+        : sanitizedRange[1];
+    const nextValue = isDefaultRange
+      ? ""
+      : `${sanitizedRange[0] * 60},${maxMinutesForStorage * 60}`;
+    if (nextValue === runtime_value) {
+      return;
+    }
+    setRuntimeValue(nextValue);
+    setHasChanges(true);
+  };
+
+  const handleRuntimeReset = () => {
+    commitRuntimeSelection(getDefaultRuntimeRange());
+  };
+
+  const handleRuntimeChange = (value) => {
+    setRuntimeRangeMinutes(sanitizeRuntimeRange(value));
+  };
+
+  const handleRuntimeSlideEnd = (value) => {
+    commitRuntimeSelection(value);
+  };
+
+  const isRuntimeFilterActive =
+    runtime_value !== "" ||
+    runtimeRangeMinutes[0] !== sliderMinMinutes ||
+    runtimeRangeMinutes[1] !== sliderMaxMinutes;
 
   const onChangeWrapper = (e) => {
     onChangeHandler(
@@ -146,21 +289,14 @@ const SidebarFilters = () => {
 
   const [visible, setVisible] = useState(false);
 
-  const toast = useRef(null);
-
   const accept = () => {
     if (shouldSendCustomEvents()) {
       window.beam(`/custom-events/clear_preferences_accepted`);
     }
 
-    toast.current.show({
-      severity: "info",
-      summary: "Confirmation",
-      detail: "Enjoy your fresh start!",
-      life: 3000,
-    });
-
-    setTimeout(clearAndReload(isAuthenticated, user), 3000);
+    setTimeout(() => {
+      clearAndReload(isAuthenticated, user);
+    }, 3000);
   };
 
   return (
@@ -251,14 +387,51 @@ const SidebarFilters = () => {
                   </div>
                 ),
               )}
+              {groupedItem.name === "Minimum ratings" && (
+                <div className="flex flex-column gap-3">
+                  <h2 style={{ margin: "15px 0 0 0" }}>
+                    <strong>Runtime</strong>
+                  </h2>
+                  <div className="flex align-items-center justify-content-between">
+                    <span>{formatMinutes(runtimeRangeMinutes[0])}</span>
+                    <span>{formatMinutes(runtimeRangeMinutes[1])}</span>
+                  </div>
+                  <RuntimeSlider
+                    value={runtimeRangeMinutes}
+                    min={sliderMinMinutes}
+                    max={sliderMaxMinutes}
+                    step={runtimeBounds.step}
+                    range
+                    onChange={(e) => handleRuntimeChange(e.value)}
+                    onSlideEnd={(e) => handleRuntimeSlideEnd(e.value)}
+                    style={{
+                      marginLeft: "7px",
+                      background: "rgba(255, 255, 255, 0.5)",
+                    }}
+                  />
+                  {isRuntimeFilterActive && (
+                    <span
+                      onClick={handleRuntimeReset}
+                      style={{
+                        cursor: "pointer",
+                        alignSelf: "flex-end",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      Reset runtime
+                    </span>
+                  )}
+                </div>
+              )}
               <br />
             </div>
           ))}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span className="pi pi-trash" />
-            <span onClick={() => setVisible(true)}>Reset Preferences</span>
+            <span className="underlinedSpan" onClick={() => setVisible(true)}>
+              Reset Preferences
+            </span>
           </div>
-          <Toast ref={toast} />
           <ConfirmDialog
             visible={visible}
             onHide={() => setVisible(false)}

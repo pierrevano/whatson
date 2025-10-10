@@ -21,6 +21,7 @@ const platforms_query = queryStringParsed.platforms;
 const popularity_filters_query = queryStringParsed.popularity_filters;
 const ratings_filters_query = queryStringParsed.ratings_filters;
 const release_date_query = queryStringParsed.release_date;
+const runtime_query = queryStringParsed.runtime;
 const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
@@ -37,6 +38,7 @@ const getDataURL = (
   popularity_filters,
   ratings_filters,
   release_date,
+  runtime,
   search,
   seasons_number,
   status,
@@ -58,6 +60,8 @@ const getDataURL = (
     popularity_filters,
     release_date_query,
     release_date,
+    runtime_query,
+    runtime,
     seasons_number_query,
     seasons_number,
     status_query,
@@ -129,6 +133,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     "release_date",
     config.release_date,
   );
+  const [runtime_value, setRuntimeValue] = useStorageString("runtime", "");
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
     "",
@@ -151,6 +156,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       setRatingsFilters(ratings_filters_query);
     if (typeof release_date_query !== "undefined")
       setReleaseDate(release_date_query);
+    if (typeof runtime_query !== "undefined") setRuntimeValue(runtime_query);
     if (typeof seasons_number_query !== "undefined")
       setSeasonsNumber(seasons_number_query);
     if (typeof status_query !== "undefined") setStatusValue(status_query);
@@ -164,6 +170,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     setPopularityFilters,
     setRatingsFilters,
     setReleaseDate,
+    setRuntimeValue,
     setSeasonsNumber,
     setStatusValue,
   ]);
@@ -181,6 +188,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     popularity_filters,
     ratings_filters,
     release_date,
+    runtime_value,
     search,
     seasons_number,
     status_value,

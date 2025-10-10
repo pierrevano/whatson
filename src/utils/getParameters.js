@@ -41,6 +41,8 @@ export const getParameters = (
   popularity_filters,
   release_date_query,
   release_date,
+  runtime_query,
+  runtime,
   seasons_number_query,
   seasons_number,
   status_query,
@@ -73,6 +75,8 @@ export const getParameters = (
   );
 
   parameters += addParameter(release_date, release_date_query, "release_date");
+
+  parameters += addParameter(runtime, runtime_query, "runtime");
 
   parameters += addParameter(
     seasons_number,

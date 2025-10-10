@@ -31,11 +31,11 @@ import { colors } from "../../theme";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled.div`
-	flex: 1
-	display: flex;
-	flex-direction: column;
-	transition: 0.2s all;
-	margin-bottom: ${(p) => (p.error ? 0 : "6rem")};
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s all;
+  margin-bottom: ${(p) => (p.error ? 0 : "6rem")};
 `;
 
 const BackLink = styled.button`
@@ -126,6 +126,8 @@ const DetailView = ({ id, kindURL }) => {
   });
 
   const parameters = getParameters(
+    undefined,
+    "",
     undefined,
     "",
     undefined,
@@ -266,9 +268,14 @@ const DetailView = ({ id, kindURL }) => {
   const title = data?.title || data?.name;
 
   if (kind === "person" || (image && image.startsWith("/"))) {
-    image = data?.poster_path || data?.profile_path;
-    image = `https://image.tmdb.org/t/p/w1280${image}`;
-    placeholder = `https://image.tmdb.org/t/p/w300${image}`;
+    const fallbackPath = data?.poster_path || data?.profile_path;
+    if (fallbackPath) {
+      image = `https://image.tmdb.org/t/p/w1280${fallbackPath}`;
+      placeholder = `https://image.tmdb.org/t/p/w300${fallbackPath}`;
+    } else {
+      image = undefined;
+      placeholder = undefined;
+    }
   }
 
   useEffect(() => {

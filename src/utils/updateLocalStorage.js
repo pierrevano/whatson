@@ -9,7 +9,11 @@ import localStorageItems from "./localStorageItems";
 function updateLocalStorage(isAuthenticated, preferences) {
   for (const key in localStorageItems) {
     if (isAuthenticated || !localStorage.getItem(key)) {
-      localStorage.setItem(key, preferences[key]);
+      const value =
+        preferences[key] !== undefined && preferences[key] !== null
+          ? preferences[key]
+          : localStorageItems[key];
+      localStorage.setItem(key, value);
     }
   }
 }
