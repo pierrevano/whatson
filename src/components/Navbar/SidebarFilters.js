@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStorageString } from "utils/useStorageString";
 import config from "../../config";
 import initializeLocalStorage from "./initializeLocalStorage";
@@ -212,11 +212,16 @@ const SidebarFilters = () => {
     const nextValue = isDefaultRange
       ? ""
       : `${sanitizedRange[0] * 60},${maxMinutesForStorage * 60}`;
-    if (nextValue === runtime_value) {
-      return;
+    const hasChanged = nextValue !== runtime_value;
+    if (!hasChanged) {
+      return false;
     }
     setRuntimeValue(nextValue);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("runtime", nextValue);
+    }
     setHasChanges(true);
+    return true;
   };
 
   const handleRuntimeReset = () => {
@@ -306,9 +311,10 @@ const SidebarFilters = () => {
       <Sidebar
         visible={visibleLeftFilters}
         onHide={() => {
+          const runtimeChanged = commitRuntimeSelection(runtimeRangeMinutes);
           setVisibleLeftFilters(false);
-          if (hasChanges) {
-            window.location.reload();
+          if (hasChanges || runtimeChanged) {
+            setTimeout(() => window.location.reload(), 0);
           }
         }}
       >
@@ -387,7 +393,7 @@ const SidebarFilters = () => {
               )}
               {groupedItem.name === "Minimum ratings" && (
                 <div className="flex flex-column gap-3">
-                  <h2 style={{ margin: "15px 0 0 0" }}>
+                  <h2 style={{ margin: "15px 0" }}>
                     <strong>Runtime</strong>
                   </h2>
                   <div className="flex align-items-center justify-content-between">
