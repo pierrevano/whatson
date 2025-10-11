@@ -393,10 +393,13 @@ const SidebarFilters = () => {
               )}
               {groupedItem.name === "Minimum ratings" && (
                 <div className="flex flex-column gap-3">
-                  <h2 style={{ margin: "15px 0" }}>
+                  <h2 style={{ marginTop: "15px" }}>
                     <strong>Runtime</strong>
                   </h2>
-                  <div className="flex align-items-center justify-content-between">
+                  <div
+                    className="flex align-items-center justify-content-between"
+                    style={{ marginRight: "7px" }}
+                  >
                     <span>{formatMinutes(runtimeRangeMinutes[0])}</span>
                     <span>{formatMinutes(runtimeRangeMinutes[1])}</span>
                   </div>
@@ -409,7 +412,7 @@ const SidebarFilters = () => {
                     onChange={(e) => handleRuntimeChange(e.value)}
                     onSlideEnd={(e) => handleRuntimeSlideEnd(e.value)}
                     style={{
-                      marginLeft: "7px",
+                      margin: "0 15px 0 7px",
                       background: "rgba(255, 255, 255, 0.5)",
                     }}
                   />
