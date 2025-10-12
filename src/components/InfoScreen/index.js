@@ -37,7 +37,7 @@ const InfoText = styled(Text)`
 const InfoScreen = ({ emoji, title, description, ...props }) => {
   useEffect(() => {
     if (shouldSendCustomEvents()) {
-      window.beam(`/custom-events/info_screen_displayed/${title}`);
+      window.beam?.(`/custom-events/info_screen_displayed/${title}`);
     }
   }, [title]);
 

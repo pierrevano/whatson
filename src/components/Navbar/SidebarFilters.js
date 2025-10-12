@@ -141,6 +141,9 @@ const SidebarFilters = () => {
     }
 
     if (remainingMinutes === 0) {
+      if (hours === 5) {
+        return `${hours}h and more`;
+      }
       return `${hours}h`;
     }
 
@@ -296,7 +299,7 @@ const SidebarFilters = () => {
 
   const accept = () => {
     if (shouldSendCustomEvents()) {
-      window.beam(`/custom-events/clear_preferences_accepted`);
+      window.beam?.(`/custom-events/clear_preferences_accepted`);
     }
 
     clearAndReload(isAuthenticated, user);

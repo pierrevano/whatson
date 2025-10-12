@@ -23,7 +23,7 @@ const Anchor = styled(Link)`
  */
 const Info = ({ kind, ...props }) => {
   if (shouldSendCustomEvents()) {
-    window.beam(`/custom-events/search_view_opened/${kind}`);
+    window.beam?.(`/custom-events/search_view_opened/${kind}`);
   }
 
   if (kind === "movies")

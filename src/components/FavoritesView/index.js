@@ -10,10 +10,10 @@ import { HeartBreak } from "components/Icon";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled.div`
-	flex: 1
-	display: flex;
-	flex-direction: column;
-	transition: 0.2s all;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s all;
 `;
 
 const getTitle = (length) =>
@@ -32,7 +32,7 @@ const SearchView = () => {
   const favorites = [...favoritesSet] || [];
   useEffect(() => {
     if (shouldSendCustomEvents()) {
-      window.beam(`/custom-events/favorites_view_opened`);
+      window.beam?.(`/custom-events/favorites_view_opened`);
     }
 
     document.title = "Favorites - " + getTitle(favorites.length);

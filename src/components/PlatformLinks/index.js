@@ -52,7 +52,7 @@ const Right = styled.div`
 const PlatformLinks = ({ name, linkURL }) => {
   const handleClick = () => {
     if (shouldSendCustomEvents()) {
-      window.beam(`/custom-events/platform_links_opened/${linkURL}`);
+      window.beam?.(`/custom-events/platform_links_opened/${linkURL}`);
     }
     window.open(linkURL, "_blank", "noreferrer");
   };

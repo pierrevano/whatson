@@ -320,7 +320,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const displayRatingsDetails = (e) => {
     if (shouldSendCustomEvents()) {
-      window.beam(`/custom-events/ratings_details_displayed/${allocineID}`);
+      window.beam?.(`/custom-events/ratings_details_displayed/${allocineID}`);
     }
 
     if (isMounted.current && detailsData) {

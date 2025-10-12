@@ -9,7 +9,7 @@ const RatingsChart = ({ ratings, episodeDetails, titles, allocineUrl }) => {
 
   useEffect(() => {
     if (shouldSendCustomEvents()) {
-      window.beam(`/custom-events/ratings_chart_opened/${allocineUrl}`);
+      window.beam?.(`/custom-events/ratings_chart_opened/${allocineUrl}`);
     }
 
     const data = {

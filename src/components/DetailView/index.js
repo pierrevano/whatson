@@ -76,7 +76,7 @@ const getDetailTitle = (kindURL, title) =>
 
 const Player = ({ src, ...rest }) => {
   if (shouldSendCustomEvents()) {
-    window.beam(`/custom-events/dailymotion_player_opened/${src}`);
+    window.beam?.(`/custom-events/dailymotion_player_opened/${src}`);
   }
 
   const dailymotionPlayer = "dailymotionPlayer";
@@ -477,7 +477,7 @@ const DetailView = ({ id, kindURL }) => {
                       height="100%"
                       onPlay={() => {
                         if (shouldSendCustomEvents()) {
-                          window.beam(
+                          window.beam?.(
                             `/custom-events/native_player_opened/${trailer}`,
                           );
                         }

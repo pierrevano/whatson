@@ -144,7 +144,7 @@ const Navbar = () => {
             onClick={() => {
               setItemType("movie");
               if (shouldSendCustomEvents()) {
-                window.beam(`/custom-events/switch_to_opened/movie`);
+                window.beam?.(`/custom-events/switch_to_opened/movie`);
               }
             }}
           >
@@ -161,7 +161,7 @@ const Navbar = () => {
             onClick={() => {
               setItemType("tvshow");
               if (shouldSendCustomEvents()) {
-                window.beam(`/custom-events/switch_to_opened/tvshow`);
+                window.beam?.(`/custom-events/switch_to_opened/tvshow`);
               }
             }}
           >
@@ -183,7 +183,9 @@ const Navbar = () => {
             onClick={() => {
               setItemType("movie,tvshow");
               if (shouldSendCustomEvents()) {
-                window.beam(`/custom-events/switch_to_opened/movie_and_tvshow`);
+                window.beam?.(
+                  `/custom-events/switch_to_opened/movie_and_tvshow`,
+                );
               }
             }}
           >
@@ -200,7 +202,7 @@ const Navbar = () => {
                 onClick={() => {
                   logout({ returnTo: window.location.origin });
                   if (shouldSendCustomEvents()) {
-                    window.beam(`/custom-events/switch_to_opened/logout`);
+                    window.beam?.(`/custom-events/switch_to_opened/logout`);
                   }
                 }}
                 style={{ position: "absolute", bottom: "20px", left: "50px" }}
