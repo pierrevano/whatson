@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { hydrate, render } from "react-dom";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import "typeface-roboto";
 import { ThemeProvider } from "styled-components";
@@ -38,10 +38,14 @@ const Wrapper = () => (
 
 const rootElement = document.getElementById("root");
 
+if (!rootElement) {
+  throw new Error("Root element '#root' not found");
+}
+
 if (rootElement.hasChildNodes()) {
-  hydrate(<Wrapper />, rootElement);
+  hydrateRoot(rootElement, <Wrapper />);
 } else {
-  render(<Wrapper />, rootElement);
+  createRoot(rootElement).render(<Wrapper />);
 }
 
 register();

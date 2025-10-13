@@ -22,10 +22,11 @@ const Searchbar = styled(Search)`
 `;
 
 /**
- * A component that displays a search bar and a list of cards based on the search query and page number.
- * @param {boolean} [isSearchable=true] - Whether or not the component should display a search bar.
- * @param {string} [kindURL="multi"] - The type of content to display (e.g. movies, people, search, tvshow).
- * @returns A React component that displays a search bar and a list of cards based on the search query and page number.
+ * Lists catalog results for the requested kind while keeping pagination state in
+ * localStorage so subsequent visits resume the same page.
+ * @param {boolean} [isSearchable=true] - Whether the search input should be displayed.
+ * @param {string} [kindURL="multi"] - Content category such as `movies`, `people`, `search`, or `tvshows`.
+ * @returns {JSX.Element} Search scaffold with results grid and optional helper text.
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
   useEffect(() => {

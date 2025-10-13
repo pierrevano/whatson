@@ -14,10 +14,7 @@ const Wrapper = styled.button`
   box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.midGrey};
   color: ${(p) => p.theme.colors.lightGrey};
   overflow: hidden;
-  margin: 1rem 0.5rem;
-  @media (max-width: 980px) {
-    margin: 1rem 0.5rem 0 0.5rem;
-  }
+  margin: 4px;
   cursor: pointer;
   &:hover {
     color: ${(p) => p.theme.colors.white};

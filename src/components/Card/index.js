@@ -187,14 +187,15 @@ const getKindURL = (input) => {
 };
 
 /**
- * A functional component that renders a card with information about a movie, tvshow, or person.
- * @param {object} props - The props object containing information about the card.
- * @param {string} props.id - The ID of the movie, tvshow, or person.
- * @param {boolean} props.loading - A boolean indicating whether the card is currently loading.
- * @param {boolean} props.error - A boolean indicating whether there was an error loading the card.
- * @param {boolean} props.loadMore - A boolean indicating whether the card should display a "Load More" button.
- * @param {string} props.media_type - The type of media (movie, tvshow, or person).
- * @param
+ * Renders a media card with artwork, ratings, and optional actions for movies,
+ * TV shows, or people.
+ * @param {Object} props - Source data describing the card contents.
+ * @param {string} props.id - Identifier for the rendered entity.
+ * @param {boolean} [props.loading=false] - When true the card displays a skeleton state.
+ * @param {boolean} [props.error=false] - When true the card shows an error placeholder.
+ * @param {boolean} [props.loadMore=false] - Whether the card should render the “Load more” affordance.
+ * @param {string} [props.media_type] - API media type used to infer routing.
+ * @returns {JSX.Element} Media card layout.
  */
 const Card = ({ id, loading, error, loadMore, ...props }) => {
   const kind = props?.media_type;

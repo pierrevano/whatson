@@ -9,10 +9,7 @@ const Wrapper = styled.div`
   border-radius: 0.25rem;
   box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.midGrey};
   overflow: hidden;
-  margin: 1rem 0.5rem;
-  @media (max-width: 980px) {
-    margin: 1rem 0.5rem 0 0.5rem;
-  }
+  margin: 4px;
   outline: none;
   &:focus {
     box-shadow: inset 0 0 0 0.125rem ${(p) => p.theme.colors.green};

@@ -38,6 +38,15 @@ const Wrapper = styled.div`
   margin-bottom: ${(p) => (p.error ? 0 : "6rem")};
 `;
 
+const PlatformLinksGroup = styled.div.attrs({ className: "platform-links" })`
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 539px;
+  margin: 1rem 0;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+`;
+
 const BackLink = styled.button`
   background: ${(p) => p.theme.colors.dark};
   border: none;
@@ -101,11 +110,12 @@ const Player = ({ src, ...rest }) => {
 };
 
 /**
- * A component that displays detailed information about a movie or tvshow.
- * @param {Object} props - The props object.
- * @param {string} props.id - The ID of the movie or tvshow.
- * @param {string} props.kindURL - The URL of the kind of media (movie or tvshow).
- * @returns A JSX element that displays the detailed information.
+ * Displays an entity detail panel fetched from the render API, including ratings,
+ * trailers, and related platform links for movies, TV shows, or people.
+ * @param {Object} props - Component props.
+ * @param {string} props.id - Identifier of the requested entity.
+ * @param {string} props.kindURL - Route segment describing the entity type.
+ * @returns {JSX.Element} Rich detail view for the selected entity.
  */
 const DetailView = ({ id, kindURL }) => {
   const kind = getKindByURL(kindURL);
@@ -401,15 +411,7 @@ const DetailView = ({ id, kindURL }) => {
               <Text weight={600} xs={2} sm={3} md={4} xg={5}>
                 {title}
               </Text>
-              <div
-                className="platform-links"
-                style={{
-                  display: "flex",
-                  margin: "1rem -0.5rem",
-                  flexWrap: "wrap",
-                  maxWidth: "539px",
-                }}
-              >
+              <PlatformLinksGroup>
                 {!!allocine && (
                   <Button
                     displayRatingsDetails={displayRatingsDetails}
@@ -515,7 +517,7 @@ const DetailView = ({ id, kindURL }) => {
                       </Dialog>
                     </>
                   )}
-              </div>
+              </PlatformLinksGroup>
               <Info
                 kind={kind}
                 tagline_from_render={tagline_from_render}

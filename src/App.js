@@ -19,9 +19,9 @@ const DetailView = lazy(() => import("components/DetailView"));
 const AboutPage = lazy(() => import("components/AboutPage"));
 
 /**
- * The main component of the application. Renders the navbar, footer, and the main content
- * of the app using React Router.
- * @returns A React Fragment containing the navbar, main content, and footer.
+ * Top-level application shell. Renders navigation, footer, and lazily loaded route
+ * content through @reach/router once the API health check succeeds.
+ * @returns {JSX.Element} Layout wrapper for the public routes.
  */
 const App = () => {
   useCacheBuster();
