@@ -79,7 +79,7 @@ const SidebarFilters = () => {
     release_date,
     seasons,
     status,
-  } = createFilters(config, item_type, defaultItemTypeFilters);
+  } = createFilters(config);
 
   const [visibleLeftFilters, setVisibleLeftFilters] = useState(false);
 

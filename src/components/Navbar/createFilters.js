@@ -30,7 +30,7 @@ function createItems(nameArray, origin) {
     .flat();
 }
 
-export const createFilters = (config, item_type, defaultItemTypeFilters) => {
+export const createFilters = (config) => {
   const genres = {
     name: "Genres",
     items: createItems(config.genres.split(","), "genres"),
@@ -56,12 +56,7 @@ export const createFilters = (config, item_type, defaultItemTypeFilters) => {
   };
   const ratings = {
     name: "Ratings",
-    items: createItems(
-      config.ratings_names.split(","),
-      "ratings",
-      item_type,
-      defaultItemTypeFilters,
-    ),
+    items: createItems(config.ratings_names.split(","), "ratings"),
   };
   const release_date = {
     name: "Release date",

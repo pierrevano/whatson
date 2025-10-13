@@ -326,10 +326,6 @@ const DetailView = ({ id, kindURL }) => {
     dialogMaskBackgroundChart(true);
   };
 
-  const itemType = localStorage.getItem("item_type")
-    ? localStorage.getItem("item_type")
-    : "movie";
-
   const {
     detailsData,
     mojoDetailsData,

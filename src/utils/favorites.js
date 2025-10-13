@@ -40,6 +40,47 @@ const useFavorites = () => {
     synchronizePreferences(newValue);
   };
 
+  const addMany = (items) => {
+    if (!items) {
+      return;
+    }
+
+    const entries = Array.isArray(items)
+      ? items
+      : items instanceof Set
+        ? [...items]
+        : [];
+
+    if (!entries.length) {
+      return;
+    }
+
+    const newValue = new Set(value);
+    let hasChanges = false;
+
+    entries.forEach((entry) => {
+      if (typeof entry !== "string" && typeof entry !== "number") {
+        return;
+      }
+
+      const normalized = `${entry}`.trim();
+
+      if (!normalized || newValue.has(normalized)) {
+        return;
+      }
+
+      newValue.add(normalized);
+      hasChanges = true;
+    });
+
+    if (!hasChanges) {
+      return;
+    }
+
+    setValue(newValue);
+    synchronizePreferences(newValue);
+  };
+
   const remove = (item) => {
     const newValue = new Set(value);
     newValue.delete(item);
@@ -51,7 +92,7 @@ const useFavorites = () => {
     value.has(item) ? remove(item) : add(item);
   };
 
-  return [value, { add, remove, toggle }];
+  return [value, { add, addMany, remove, toggle }];
 };
 
 const useFavoriteState = (item) => {

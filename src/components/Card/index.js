@@ -262,10 +262,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
 
   const ratings_average = props?.ratings_average;
 
-  const itemType = localStorage.getItem("item_type")
-    ? localStorage.getItem("item_type")
-    : "movie";
-
   const {
     allocineID,
     detailsData,
