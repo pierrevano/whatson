@@ -467,10 +467,10 @@ const DetailView = ({ id, kindURL }) => {
                     />
                   ) : (
                     <ReactPlayer
-                      url={trailer}
+                      src={trailer}
                       playing={true}
                       controls={true}
-                      playsinline={true}
+                      playsInline={true}
                       width="100%"
                       height="100%"
                       onPlay={() => {

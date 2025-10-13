@@ -8,14 +8,20 @@ const majorVersion = "2.5.0";
  * @returns None
  */
 const refreshCacheAndReload = () => {
-  if (caches) {
-    caches.keys().then((names) => {
+  const cacheStorage =
+    typeof window !== "undefined" && "caches" in window ? window.caches : null;
+
+  if (cacheStorage?.keys) {
+    cacheStorage.keys().then((names) => {
       for (const name of names) {
-        caches.delete(name);
+        cacheStorage.delete(name);
       }
     });
   }
-  window.location.reload(true);
+
+  if (typeof window !== "undefined" && window.location?.reload) {
+    window.location.reload(true);
+  }
 };
 
 /**
