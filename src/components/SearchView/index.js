@@ -30,9 +30,11 @@ const Searchbar = styled(Search)`
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
   useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 100);
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }, 100);
+    }
   }, []);
 
   useEffect(() => {

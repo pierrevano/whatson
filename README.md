@@ -16,7 +16,7 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ## Item details
 
-![ItemDetails](https://github.com/user-attachments/assets/d1831476-0821-4a09-8913-2525aa2c76fa)
+![ItemDetails](https://github.com/user-attachments/assets/95a6f985-899d-498e-b03b-c4eafac2a585)
 
 ## Episodes details
 
@@ -28,11 +28,15 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ## Favorites
 
-![Favorites](https://github.com/user-attachments/assets/334aac69-89ba-45ac-a5bf-543867f724e9)
+![Favorites](https://github.com/user-attachments/assets/42ec50e0-a457-4ece-918f-3a0ff3960fc6)
+
+## IMDb watchlist sync
+
+![IMDb watchlist sync](https://github.com/user-attachments/assets/d1cdc3cf-8f0f-4b70-8892-04e24b77960e)
 
 ## IMDb watchlist import
 
-![IMDb watchlist import](https://github.com/user-attachments/assets/1f924062-ad7a-4aac-bf05-a8f1cc367aeb)
+![IMDb watchlist import](https://github.com/user-attachments/assets/5fbc90ad-5e39-4388-8f7f-05a1095f0468)
 
 ## Mobile
 

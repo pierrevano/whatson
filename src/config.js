@@ -12,6 +12,9 @@ const config = {
 
   loader_icon_duration_milliseconds: 37250,
 
+  imdb_watchlist_proxy: "https://corsproxy.io",
+  imdb_watchlist_url: "imdb_watchlist_url",
+
   // filters specifics
   favorites: "",
 

@@ -1,15 +1,19 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import { Dialog } from "primereact/dialog";
+import { HeartBreak } from "components/Icon";
+import {
+  importImdbWatchlist,
+  syncImdbWatchlist,
+} from "utils/importImdbWatchlist";
 import { Row, Cell } from "griding";
+import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 import { useFavorites } from "utils/favorites";
+import config from "config";
 import Container from "components/Container";
 import FetchCard from "components/Card/FetchCard";
 import InfoScreen from "components/InfoScreen";
+import styled from "styled-components";
 import Text from "components/Text";
-import { HeartBreak } from "components/Icon";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
-import { Dialog } from "primereact/dialog";
-import { importImdbWatchlist } from "utils/importImdbWatchlist";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -204,6 +208,20 @@ const getTitle = (length) =>
 
 const defaultSyncState = { status: "idle", message: "", tone: "info" };
 
+const csvMessages = {
+  successSuffix: "from the CSV file.",
+  duplicateMessage:
+    "Everything from this CSV file is already in your favorites.",
+  emptyMessage: "No matching titles were found in this CSV file.",
+};
+
+const watchlistMessages = {
+  successSuffix: "from this IMDb watchlist.",
+  duplicateMessage:
+    "Everything from this IMDb watchlist is already in your favorites.",
+  emptyMessage: "No matching titles were found in this IMDb watchlist.",
+};
+
 /**
  * A functional component that displays a list of favorite movies, tvshows, or people.
  * @returns A JSX element that displays the list of favorites.
@@ -216,6 +234,110 @@ const SearchView = () => {
   const csvInputRef = useRef(null);
   const isCsvLoading = csvSyncState.status === "loading";
   const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
+  const [isWatchlistDialogOpen, setIsWatchlistDialogOpen] = useState(false);
+  const [watchlistUrl, setWatchlistUrl] = useState("");
+  const [watchlistSyncState, setWatchlistSyncState] =
+    useState(defaultSyncState);
+  const isWatchlistLoading = watchlistSyncState.status === "loading";
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const storedUrl = window.localStorage.getItem(config.imdb_watchlist_url);
+    if (storedUrl) {
+      setWatchlistUrl(storedUrl);
+    }
+  }, []);
+
+  const toFriendlyMessage = (message, fallback) => {
+    if (typeof message === "string" && message.trim()) {
+      if (/failed to fetch/i.test(message)) {
+        return "Something went wrong. Please try again shortly.";
+      }
+      return message;
+    }
+    return fallback;
+  };
+
+  const buildSyncFeedback = ({
+    added,
+    matchedCount,
+    unmatchedIds,
+    totalImported,
+    messages = {},
+  }) => {
+    const {
+      successSuffix = ".",
+      duplicateMessage = "Everything from this source is already in your favorites.",
+      emptyMessage = "No matching titles were found in this source.",
+    } = messages;
+
+    let tone = "info";
+    let status = "success";
+    let messageContent;
+
+    if (added > 0) {
+      tone = "success";
+      let suffix = successSuffix;
+
+      if (!suffix) {
+        suffix = ".";
+      } else if (!suffix.startsWith(" ") && !/^[.,!?]/.test(suffix)) {
+        suffix = ` ${suffix}`;
+      }
+
+      messageContent = `Imported ${added} new favorite${
+        added > 1 ? "s" : ""
+      }${suffix}`.trim();
+    } else if (matchedCount > 0) {
+      tone = "info";
+      messageContent = duplicateMessage;
+    } else {
+      tone = "error";
+      status = "error";
+      messageContent = emptyMessage;
+    }
+
+    const safeUnmatched = Array.isArray(unmatchedIds)
+      ? unmatchedIds.filter(Boolean)
+      : [];
+
+    if (safeUnmatched.length) {
+      const totalNote =
+        typeof totalImported === "number" && totalImported > 0
+          ? ` (${safeUnmatched.length} of ${totalImported})`
+          : "";
+
+      return {
+        status,
+        tone,
+        message: (
+          <>
+            {messageContent} We could not match {safeUnmatched.length} title
+            {safeUnmatched.length > 1 ? "s" : ""}
+            {totalNote} on TMDB. Missing IMDb IDs:{" "}
+            {safeUnmatched.map((id, index) => (
+              <React.Fragment key={id}>
+                {index > 0 ? ", " : ""}
+                <a
+                  href={`https://www.imdb.com/title/${id}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {id}
+                </a>
+              </React.Fragment>
+            ))}
+            .
+          </>
+        ),
+      };
+    }
+
+    return { status, tone, message: messageContent };
+  };
 
   const addFavoritesFromPayload = (items) => {
     if (!items) {
@@ -265,6 +387,16 @@ const SearchView = () => {
     }
   };
 
+  const openWatchlistDialog = () => {
+    setWatchlistSyncState(defaultSyncState);
+    setIsWatchlistDialogOpen(true);
+  };
+
+  const closeWatchlistDialog = () => {
+    setIsWatchlistDialogOpen(false);
+    setWatchlistSyncState(defaultSyncState);
+  };
+
   const handleCsvSubmit = async (event) => {
     event.preventDefault();
 
@@ -272,7 +404,8 @@ const SearchView = () => {
       setCsvSyncState({
         status: "error",
         tone: "error",
-        message: "Please pick an IMDb CSV export before uploading.",
+        message:
+          "Please choose the CSV file you exported from IMDb before importing.",
       });
       return;
     }
@@ -283,7 +416,8 @@ const SearchView = () => {
       setCsvSyncState({
         status: "error",
         tone: "error",
-        message: "The selected file does not look like a CSV export from IMDb.",
+        message:
+          "That file does not look like the IMDb CSV export. Please pick the CSV you downloaded from IMDb.",
       });
       return;
     }
@@ -307,57 +441,15 @@ const SearchView = () => {
         typeof response?.total === "number" ? response.total : null;
       const added = addFavoritesFromPayload(importedFavorites);
       const matchedCount = importedFavorites.length;
-      let tone = "info";
-      let status = "success";
-      let messageContent;
-
-      if (added > 0) {
-        tone = "success";
-        messageContent = `Imported ${added} new favorite${added > 1 ? "s" : ""} from the CSV file.`;
-      } else if (matchedCount > 0) {
-        tone = "info";
-        messageContent =
-          "Everything from this CSV file is already in your favorites.";
-      } else {
-        tone = "error";
-        status = "error";
-        messageContent = "No matching titles were found in this CSV file.";
-      }
-
-      let composedMessage = messageContent;
-
-      if (unmatchedCount > 0) {
-        const totalNote =
-          typeof totalImported === "number" && totalImported > 0
-            ? ` (${unmatchedCount} of ${totalImported})`
-            : "";
-        composedMessage = (
-          <>
-            {messageContent} Unable to resolve {unmatchedCount} title
-            {unmatchedCount > 1 ? "s" : ""}
-            {totalNote} with TMDB. Missing IMDb IDs:{" "}
-            {unmatchedIds.map((id, index) => (
-              <React.Fragment key={id}>
-                {index > 0 ? ", " : ""}
-                <a
-                  href={`https://www.imdb.com/title/${id}/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {id}
-                </a>
-              </React.Fragment>
-            ))}
-            .
-          </>
-        );
-      }
-
-      setCsvSyncState({
-        status,
-        tone,
-        message: composedMessage,
+      const feedback = buildSyncFeedback({
+        added,
+        matchedCount,
+        unmatchedIds,
+        totalImported,
+        messages: csvMessages,
       });
+
+      setCsvSyncState(feedback);
       if (csvInputRef.current) {
         csvInputRef.current.value = "";
       }
@@ -366,9 +458,10 @@ const SearchView = () => {
       setCsvSyncState({
         status: "error",
         tone: "error",
-        message:
-          error?.message ||
-          "Unable to process this CSV file. Please try again later.",
+        message: toFriendlyMessage(
+          error?.message,
+          "Sorry, we could not process that CSV right now. Please try again in a moment.",
+        ),
       });
     }
   };
@@ -378,6 +471,72 @@ const SearchView = () => {
     setCsvFile(file || null);
     setCsvSyncState(defaultSyncState);
   };
+
+  const handleWatchlistSubmit = async (event) => {
+    event.preventDefault();
+
+    const trimmedUrl = (watchlistUrl || "").trim();
+
+    if (!trimmedUrl) {
+      setWatchlistSyncState({
+        status: "error",
+        tone: "error",
+        message: "Please enter the full link to your public IMDb watchlist.",
+      });
+      return;
+    }
+
+    setWatchlistSyncState({ status: "loading", tone: "info", message: "" });
+
+    try {
+      const response = await syncImdbWatchlist({ url: trimmedUrl });
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(config.imdb_watchlist_url, trimmedUrl);
+      }
+      const importedFavorites = Array.isArray(response?.favorites)
+        ? response.favorites
+        : [];
+      const unmatchedIds = Array.isArray(response?.unmatched)
+        ? response.unmatched
+        : [];
+      const totalImported =
+        typeof response?.total === "number" ? response.total : null;
+
+      const added = addFavoritesFromPayload(importedFavorites);
+      const feedback = buildSyncFeedback({
+        added,
+        matchedCount: importedFavorites.length,
+        unmatchedIds,
+        totalImported,
+        messages: watchlistMessages,
+      });
+
+      setWatchlistSyncState(feedback);
+      setWatchlistUrl(trimmedUrl);
+    } catch (error) {
+      setWatchlistSyncState({
+        status: "error",
+        tone: "error",
+        message: toFriendlyMessage(
+          error?.message,
+          "Sorry, we could not sync that watchlist right now. Please try again in a moment.",
+        ),
+      });
+    }
+  };
+
+  const handleWatchlistChange = (event) => {
+    setWatchlistUrl(event?.target?.value || "");
+    setWatchlistSyncState(defaultSyncState);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }, 100);
+    }
+  }, []);
 
   useEffect(() => {
     if (shouldSendCustomEvents()) {
@@ -392,9 +551,12 @@ const SearchView = () => {
       <Container>
         <ActionsBar>
           <ActionLabel weight={500} xs={0}>
-            Import your IMDb watchlist:
+            Sync or import your IMDb watchlist:
           </ActionLabel>
           <ActionsGroup>
+            <ActionButton type="button" onClick={openWatchlistDialog}>
+              Sync watchlist
+            </ActionButton>
             <ActionButton type="button" onClick={openCsvDialog}>
               Import CSV
             </ActionButton>
@@ -440,11 +602,57 @@ const SearchView = () => {
             </Note>
           </DialogContent>
         </Dialog>
+        <Dialog
+          header="Sync your IMDb watchlist"
+          visible={isWatchlistDialogOpen}
+          onHide={closeWatchlistDialog}
+          style={{ width: "32rem", maxWidth: "90vw" }}
+        >
+          <DialogContent>
+            <Note xs={0} weight={400}>
+              Enter the URL of your public IMDb watchlist (for example{" "}
+              <a
+                href="https://www.imdb.com/user"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://www.imdb.com/user/urXXXXXXXX/watchlist
+              </a>
+              ). We store it locally in this browser so you can re-sync quickly
+              next time.
+            </Note>
+            <SyncForm onSubmit={handleWatchlistSubmit}>
+              <Input
+                type="url"
+                value={watchlistUrl}
+                placeholder="https://www.imdb.com/user/urXXXXXXXX/watchlist"
+                onChange={handleWatchlistChange}
+                disabled={isWatchlistLoading}
+              />
+              <SubmitButton type="submit" disabled={isWatchlistLoading}>
+                {isWatchlistLoading ? "Syncing..." : "Sync watchlist"}
+              </SubmitButton>
+            </SyncForm>
+            {watchlistSyncState.message ? (
+              <StatusMessage
+                xs={0}
+                weight={400}
+                $tone={watchlistSyncState.tone}
+              >
+                {watchlistSyncState.message}
+              </StatusMessage>
+            ) : null}
+            <Note xs={0} weight={400}>
+              We try to match all titles with TMDB. Unresolved titles remain in
+              your IMDb watchlist only.
+            </Note>
+          </DialogContent>
+        </Dialog>
         {!favorites.length ? (
           <InfoScreen
             emoji={<HeartBreak size={96} style={{ margin: "1rem" }} />}
-            title="You don't have any favorites yet"
-            description="Add movies, tvshows, or people with the ♥ button, or import your IMDb watchlist above."
+            title="You do not have any favorites yet"
+            description="Add movies, tvshows, or people with the ♥ button, or sync/import your IMDb watchlist above."
           />
         ) : (
           <Fragment>
