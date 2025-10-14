@@ -32,11 +32,11 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ## IMDb watchlist sync
 
-![IMDb watchlist sync](https://github.com/user-attachments/assets/d1cdc3cf-8f0f-4b70-8892-04e24b77960e)
+![IMDb watchlist sync](https://github.com/user-attachments/assets/b4e6e1e9-5eb2-4948-956a-7f87ad0f5203)
 
 ## IMDb watchlist import
 
-![IMDb watchlist import](https://github.com/user-attachments/assets/5fbc90ad-5e39-4388-8f7f-05a1095f0468)
+![IMDb watchlist import](https://github.com/user-attachments/assets/b22acd5b-7149-4efa-a28f-3877445dc2cc)
 
 ## Mobile
 

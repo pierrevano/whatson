@@ -197,6 +197,18 @@ const StatusMessage = styled(Text)`
 const Note = styled(Text)`
   margin-top: 0.5rem;
   color: ${(p) => p.theme.colors.lightGrey};
+
+  a {
+    color: ${(p) => p.theme.colors.white};
+    opacity: 0.65;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+`;
+
+const EmphasisNote = styled(Note)`
+  font-size: 0.9rem;
+  font-style: italic;
 `;
 
 const getTitle = (length) =>
@@ -580,6 +592,10 @@ const SearchView = () => {
               </a>
               ). We only add entries that are not already in your favorites.
             </Note>
+            <EmphasisNote xs={0} weight={400}>
+              If you prefer to keep your watchlist private, please use this
+              import instead.
+            </EmphasisNote>
             <SyncForm onSubmit={handleCsvSubmit}>
               <FileInput
                 ref={csvInputRef}
@@ -621,6 +637,10 @@ const SearchView = () => {
               ). We store it locally in this browser so you can re-sync quickly
               next time.
             </Note>
+            <EmphasisNote xs={0} weight={400}>
+              Your watchlist must be public to be synced. If you prefer to keep
+              it private, please use the CSV import instead.
+            </EmphasisNote>
             <SyncForm onSubmit={handleWatchlistSubmit}>
               <Input
                 type="url"
