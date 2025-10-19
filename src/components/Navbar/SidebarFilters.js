@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useStorageString } from "utils/useStorageString";
-import config from "../../config";
-import initializeLocalStorage from "./initializeLocalStorage";
-import { createFilters } from "./createFilters";
-import { initializeSelectedItems } from "./initializeSelectedItems";
-import { onChangeHandler } from "./onChangeHandler";
 import { Checkbox } from "primereact/checkbox";
-import { ListBox } from "primereact/listbox";
-import { Sidebar } from "primereact/sidebar";
-import { Slider } from "primereact/slider";
-import styled from "styled-components";
-import Filter from "components/Icon/Filter";
 import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
+import { createFilters } from "./createFilters";
+import { Dropdown } from "primereact/dropdown";
+import { initializeSelectedItems } from "./initializeSelectedItems";
+import { ListBox } from "primereact/listbox";
+import { onChangeHandler } from "./onChangeHandler";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { Sidebar } from "primereact/sidebar";
+import { Slider } from "primereact/slider";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useStorageString } from "utils/useStorageString";
+import config from "../../config";
+import Filter from "components/Icon/Filter";
+import initializeLocalStorage from "./initializeLocalStorage";
+import styled from "styled-components";
 
 const RuntimeSlider = styled(Slider)`
   .p-slider-range {
@@ -29,6 +30,55 @@ const RuntimeSlider = styled(Slider)`
 
   .p-slider-handle:focus {
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+  }
+`;
+
+const OrderByDropdown = styled(Dropdown)`
+  &.p-dropdown {
+    border: 1px solid #28a745 !important;
+    color: #28a745 !important;
+    background: rgba(40, 167, 69, 0.12);
+  }
+
+  &.p-dropdown:not(.p-disabled).p-focus {
+    border: 1px solid #28a745 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+  }
+
+  &.p-dropdown:hover,
+  &.p-dropdown.p-focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+  }
+
+  .p-dropdown-label,
+  .p-dropdown-label.p-placeholder {
+    color: ${(p) => p.theme.colors.white} !important;
+    opacity: 0.87 !important;
+    width: 0 !important;
+  }
+
+  .p-dropdown-trigger {
+    color: #28a745 !important;
+    background: ${(p) => p.theme.colors.dark} !important;
+    margin-left: -0.5rem;
+  }
+
+  .p-dropdown-clear-icon {
+    color: #28a745 !important;
+  }
+
+  .p-dropdown-items .p-dropdown-item.p-highlight,
+  .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+    background: rgba(40, 167, 69, 0.2) !important;
+    color: #28a745 !important;
+  }
+`;
+
+const FullWidthListBox = styled(ListBox)`
+  width: 100%;
+
+  &.p-listbox {
+    width: 100%;
   }
 `;
 
@@ -52,6 +102,14 @@ const SidebarFilters = () => {
   );
   const [popularity_filters, setPopularityFilters] = useStorageString(
     "popularity_filters",
+    "",
+  );
+  const [top_ranking_order, setTopRankingOrder] = useStorageString(
+    "top_ranking_order",
+    "",
+  );
+  const [mojo_rank_order, setMojoRankOrder] = useStorageString(
+    "mojo_rank_order",
     "",
   );
   const [ratings_filters, setRatingsFilters] = useStorageString(
@@ -80,6 +138,18 @@ const SidebarFilters = () => {
     seasons,
     status,
   } = createFilters(config);
+
+  const mustSeeToggleItem = must_see.items.find(
+    (item) => item.code === "false",
+  );
+
+  const popularityGroup = {
+    ...popularity,
+    items: [
+      ...popularity.items.filter((item) => item.code === "enabled"),
+      ...(mustSeeToggleItem ? [mustSeeToggleItem] : []),
+    ],
+  };
 
   const [visibleLeftFilters, setVisibleLeftFilters] = useState(false);
 
@@ -244,6 +314,46 @@ const SidebarFilters = () => {
     runtimeRangeMinutes[0] !== sliderMinMinutes ||
     runtimeRangeMinutes[1] !== sliderMaxMinutes;
 
+  const currentOrderBySelection = top_ranking_order
+    ? `top_ranking_order:${top_ranking_order}`
+    : mojo_rank_order
+      ? `mojo_rank_order:${mojo_rank_order}`
+      : null;
+
+  const orderByOptions = [
+    { label: "IMDb top ranking (high → low)", value: "top_ranking_order:asc" },
+    { label: "IMDb top ranking (low → high)", value: "top_ranking_order:desc" },
+    { label: "Mojo rank (high → low)", value: "mojo_rank_order:asc" },
+    { label: "Mojo rank (low → high)", value: "mojo_rank_order:desc" },
+  ];
+
+  const handleOrderByChange = (nextValue) => {
+    const normalizedNext = nextValue || "";
+    const normalizedCurrent = currentOrderBySelection || "";
+
+    if (normalizedCurrent === normalizedNext) {
+      return;
+    }
+
+    if (top_ranking_order) {
+      setTopRankingOrder("");
+    }
+    if (mojo_rank_order) {
+      setMojoRankOrder("");
+    }
+
+    if (nextValue) {
+      const [param, order] = nextValue.split(":");
+      if (param === "top_ranking_order") {
+        setTopRankingOrder(order);
+      } else if (param === "mojo_rank_order") {
+        setMojoRankOrder(order);
+      }
+    }
+
+    setHasChanges(true);
+  };
+
   const onChangeWrapper = (e) => {
     onChangeHandler(
       e,
@@ -267,7 +377,8 @@ const SidebarFilters = () => {
     if (
       hasChanges ||
       (visibleLeftFilters &&
-        localStorage.getItem("minimum_ratings") === config.minimum_ratings)
+        (!localStorage.getItem("minimum_ratings") ||
+          localStorage.getItem("minimum_ratings") === config.minimum_ratings))
     ) {
       setTimeout(() => {
         const listItems = document.querySelectorAll(
@@ -284,8 +395,7 @@ const SidebarFilters = () => {
     item_type && item_type === defaultItemTypeFilters[1]
       ? [
           release_date,
-          popularity,
-          must_see,
+          popularityGroup,
           minimum_ratings,
           platforms,
           genres,
@@ -293,7 +403,7 @@ const SidebarFilters = () => {
           seasons,
           status,
         ]
-      : [release_date, popularity, must_see, minimum_ratings, genres, ratings];
+      : [release_date, popularityGroup, minimum_ratings, genres, ratings];
 
   const [visible, setVisible] = useState(false);
 
@@ -329,7 +439,7 @@ const SidebarFilters = () => {
               </h2>
               {groupedItem.items.map((item, itemIndex) =>
                 (item.origin === "genres" && item.code === "allgenres") ||
-                (item.origin === "minimum_ratings" && item.code !== "4.5") ||
+                (item.origin === "minimum_ratings" && item.code !== "0.0") ||
                 (item.origin === "must_see" && item.code !== "false") ||
                 (item.origin === "platforms" && item.code === "all") ||
                 (item.origin === "popularity" && item.code !== "enabled") ||
@@ -340,7 +450,7 @@ const SidebarFilters = () => {
                     className="flex align-items-center"
                   >
                     {item.origin === "minimum_ratings" ? (
-                      <ListBox
+                      <FullWidthListBox
                         value={
                           selectedItems.find(
                             (selectedItem) =>
@@ -378,10 +488,12 @@ const SidebarFilters = () => {
                           style={{ display: "flex", alignItems: "center" }}
                         >
                           {item.name === "False"
-                            ? "All and must-see"
-                            : item.name === "New"
-                              ? "New only"
-                              : item.name}
+                            ? "All and Metacritic must-see"
+                            : item.name === "Enabled"
+                              ? "AlloCiné and IMDb trends"
+                              : item.name === "New"
+                                ? "New only"
+                                : item.name}
                           {item.name === "New" && (
                             <i
                               className="pi pi-sparkles"
@@ -393,6 +505,20 @@ const SidebarFilters = () => {
                     )}
                   </div>
                 ),
+              )}
+              {groupedItem.name === "Minimum ratings" && (
+                <div className="flex flex-column gap-3">
+                  <h2 style={{ marginTop: "15px" }}>
+                    <strong>Order by</strong>
+                  </h2>
+                  <OrderByDropdown
+                    value={currentOrderBySelection}
+                    options={orderByOptions}
+                    onChange={(e) => handleOrderByChange(e.value)}
+                    placeholder="Default order"
+                    showClear
+                  />
+                </div>
               )}
               {groupedItem.name === "Minimum ratings" && (
                 <div className="flex flex-column gap-3">

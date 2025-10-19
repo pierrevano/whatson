@@ -19,6 +19,8 @@ export const clearAndReload = async (isAuthenticated, user) => {
     must_see: "",
     platforms: "",
     popularity_filters: "",
+    top_ranking_order: "",
+    mojo_rank_order: "",
     ratings_filters: "",
     release_date: config.release_date,
     runtime: "",

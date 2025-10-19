@@ -39,6 +39,10 @@ export const getParameters = (
   platforms,
   popularity_filters_query,
   popularity_filters,
+  top_ranking_order_query,
+  top_ranking_order,
+  mojo_rank_order_query,
+  mojo_rank_order,
   release_date_query,
   release_date,
   runtime_query,
@@ -72,6 +76,18 @@ export const getParameters = (
     popularity_filters,
     popularity_filters_query,
     "popularity_filters",
+  );
+
+  parameters += addParameter(
+    top_ranking_order,
+    top_ranking_order_query,
+    "top_ranking_order",
+  );
+
+  parameters += addParameter(
+    mojo_rank_order,
+    mojo_rank_order_query,
+    "mojo_rank_order",
   );
 
   parameters += addParameter(release_date, release_date_query, "release_date");

@@ -7,6 +7,8 @@ const localStorageItems = {
   must_see: config.must_see,
   platforms: config.platforms,
   popularity_filters: config.popularity,
+  top_ranking_order: config.top_ranking_order,
+  mojo_rank_order: config.mojo_rank_order,
   ratings_filters: config.ratings,
   release_date: config.release_date,
   runtime: config.runtime,

@@ -19,6 +19,8 @@ const minimum_ratings_query = queryStringParsed.minimum_ratings;
 const must_see_query = queryStringParsed.must_see;
 const platforms_query = queryStringParsed.platforms;
 const popularity_filters_query = queryStringParsed.popularity_filters;
+const top_ranking_order_query = queryStringParsed.top_ranking_order;
+const mojo_rank_order_query = queryStringParsed.mojo_rank_order;
 const ratings_filters_query = queryStringParsed.ratings_filters;
 const release_date_query = queryStringParsed.release_date;
 const runtime_query = queryStringParsed.runtime;
@@ -36,6 +38,8 @@ const getDataURL = (
   page,
   platforms,
   popularity_filters,
+  top_ranking_order,
+  mojo_rank_order,
   ratings_filters,
   release_date,
   runtime,
@@ -58,6 +62,10 @@ const getDataURL = (
     platforms,
     popularity_filters_query,
     popularity_filters,
+    top_ranking_order_query,
+    top_ranking_order,
+    mojo_rank_order_query,
+    mojo_rank_order,
     release_date_query,
     release_date,
     runtime_query,
@@ -125,6 +133,14 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     "popularity_filters",
     "",
   );
+  const [top_ranking_order, setTopRankingOrder] = useStorageString(
+    "top_ranking_order",
+    "",
+  );
+  const [mojo_rank_order, setMojoRankOrder] = useStorageString(
+    "mojo_rank_order",
+    "",
+  );
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
     "",
@@ -152,6 +168,10 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       setPlatformsValue(platforms_query);
     if (typeof popularity_filters_query !== "undefined")
       setPopularityFilters(popularity_filters_query);
+    if (typeof top_ranking_order_query !== "undefined")
+      setTopRankingOrder(top_ranking_order_query);
+    if (typeof mojo_rank_order_query !== "undefined")
+      setMojoRankOrder(mojo_rank_order_query);
     if (typeof ratings_filters_query !== "undefined")
       setRatingsFilters(ratings_filters_query);
     if (typeof release_date_query !== "undefined")
@@ -168,6 +188,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     setMustSeeValue,
     setPlatformsValue,
     setPopularityFilters,
+    setTopRankingOrder,
+    setMojoRankOrder,
     setRatingsFilters,
     setReleaseDate,
     setRuntimeValue,
@@ -186,6 +208,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     page,
     platforms_value,
     popularity_filters,
+    top_ranking_order,
+    mojo_rank_order,
     ratings_filters,
     release_date,
     runtime_value,
@@ -273,10 +297,24 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     return null;
   }
 
+  const toPopularityScore = (value) => {
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? value : -Infinity;
+    }
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : -Infinity;
+  };
+
+  const sortedResults = [...data.results].sort(
+    (first, second) =>
+      toPopularityScore(second?.popularity) -
+      toPopularityScore(first?.popularity),
+  );
+
   const totalPages = data?.total_pages;
   return (
     <Fragment>
-      {data?.results?.map((entry) => (
+      {sortedResults.map((entry) => (
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
           <Card
             kindURL={isKindURLDefined ? kindURL : getItemType(entry.item_type)}
