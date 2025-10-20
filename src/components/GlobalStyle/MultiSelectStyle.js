@@ -220,6 +220,9 @@ const MultiSelectStyle = `
     font-size: 1.5em !important;
   }
   .p-sidebar-content span {
+    font-size: 1.2em !important;
+  }
+  .p-slider-component span {
     font-size: 1rem !important;
   }
   .p-sidebar-content .underlinedSpan {

@@ -42,6 +42,10 @@ const OrderByDropdown = styled(Dropdown)`
     background: rgb(24, 24, 24) !important;
   }
 
+  &.p-dropdown span {
+    font-size: 1rem !important;
+  }
+
   &.p-dropdown:not(.p-disabled).p-focus {
     border: 0.1rem solid rgba(40, 167, 69, 0.5) !important;
     box-shadow: rgba(40, 167, 69, 0.5) 0px 0px 0px 0.1rem !important;
@@ -408,7 +412,7 @@ const SidebarFilters = () => {
                 </div>
               )}
               {groupedItem.name === "Minimum ratings" && (
-                <div className="flex flex-column gap-3">
+                <div className="flex flex-column gap-3 p-slider-component">
                   <h2 style={{ marginTop: "15px" }}>
                     <strong>Runtime</strong>
                   </h2>
