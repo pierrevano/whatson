@@ -24,7 +24,7 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ## Filters
 
-![Filters](https://github.com/user-attachments/assets/18ad62b2-b1dd-4729-8766-8dba63b132b6)
+![Filters](https://github.com/user-attachments/assets/28a398c0-cb3a-457e-a098-7c9c319ae529)
 
 ## Favorites
 
