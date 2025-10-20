@@ -59,10 +59,30 @@ export const initializeSelectedItems = (
     }
   });
 
-  const defaultMustSeeValue = config.must_see_names.toLowerCase().split(",");
-  defaultMustSeeValue.forEach((filter) => {
-    if (!must_see_value || must_see_value.includes(filter)) {
-      selectedItems.push(filterLookup[filter]);
+  const parseCodes = (value) =>
+    (value || "")
+      .toLowerCase()
+      .split(",")
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+
+  const storedMustSeeSelections = parseCodes(must_see_value).filter(
+    (code) => code === "true",
+  );
+
+  const defaultMustSeeSelections = parseCodes(config.must_see).filter(
+    (code) => code === "true",
+  );
+
+  const mustSeeSelections =
+    storedMustSeeSelections.length > 0
+      ? storedMustSeeSelections
+      : defaultMustSeeSelections;
+
+  mustSeeSelections.forEach((filter) => {
+    const item = filterLookup[filter];
+    if (item) {
+      selectedItems.push(item);
     }
   });
 

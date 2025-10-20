@@ -62,7 +62,11 @@ export const onChangeHandler = (
       }
     },
     must_see: () => {
-      setMustSeeValue(originMapper.must_see.join(","));
+      if (originMapper.must_see.length === 0) {
+        setMustSeeValue("false");
+      } else {
+        setMustSeeValue(originMapper.must_see.join(","));
+      }
     },
     platforms: () => {
       if (item_type === config.item_type.split(",")[1]) {
@@ -105,6 +109,8 @@ export const onChangeHandler = (
 
   if (value?.origin === "minimum_ratings") {
     setMinRatingsValue(value.code);
+  } else if (e.originalEvent.nativeEvent.target.innerText === "4.5 and more") {
+    setMinRatingsValue("4.5");
   } else {
     setMinRatingsValue(originMapper.minimum_ratings.join(","));
   }

@@ -162,7 +162,7 @@ jest.mock("primereact/confirmdialog", () => {
 
 const filters = createFilters(config);
 const mustSeeToggleItem = filters.must_see.items.find(
-  (item) => item.code === "false",
+  (item) => item.code === "true",
 );
 
 const buildPopularityGroup = () => ({
@@ -202,15 +202,15 @@ const isVisibleCheckboxItem = (item) =>
   !(
     (item.origin === "genres" && item.code === "allgenres") ||
     (item.origin === "minimum_ratings" && item.code !== "0.0") ||
-    (item.origin === "must_see" && item.code !== "false") ||
+    (item.origin === "must_see" && item.code === "false") ||
     (item.origin === "platforms" && item.code === "all") ||
     (item.origin === "popularity" && item.code !== "enabled") ||
     (item.origin === "release_date" && item.code !== "new")
   );
 
 const labelForItem = (item) => {
-  if (item.name === "False") {
-    return "All and Metacritic must-see";
+  if (item.name === "True") {
+    return "Metacritic must-see only";
   }
   if (item.name === "Enabled") {
     return "AlloCiné and IMDb trends";
@@ -244,6 +244,9 @@ const splitValues = (value) =>
     .filter(Boolean);
 
 const visibleCheckboxItemsForTv = getVisibleCheckboxItems("tvshow");
+const visibleCheckboxItemsForTvWithoutMustSee =
+  visibleCheckboxItemsForTv.filter((item) => item.origin !== "must_see");
+const minimumRatingsCodes = config.minimum_ratings.split(",");
 
 const renderSidebar = (initialValues = {}) => {
   window.localStorage.clear();
@@ -267,7 +270,11 @@ const renderSidebar = (initialValues = {}) => {
   const storageState = { ...defaultStorageState, ...initialValues };
 
   Object.entries(storageState).forEach(([key, value]) => {
-    window.localStorage.setItem(key, value);
+    if (value === undefined || value === null) {
+      window.localStorage.removeItem(key);
+    } else {
+      window.localStorage.setItem(key, value);
+    }
   });
 
   return render(
@@ -324,6 +331,16 @@ describe("SidebarFilters", () => {
     );
   });
 
+  it.each(minimumRatingsCodes.map((code) => [code]))(
+    "renders minimum ratings selection when storage contains %s",
+    (code) => {
+      renderSidebar({ minimum_ratings: code });
+
+      const ratingsSelect = screen.getByTestId("minimum-ratings-select");
+      expect(ratingsSelect.value).toBe(code);
+    },
+  );
+
   it("stores minimum ratings selection", () => {
     renderSidebar({
       minimum_ratings: "3.0",
@@ -331,6 +348,16 @@ describe("SidebarFilters", () => {
 
     const ratingsSelect = screen.getByTestId("minimum-ratings-select");
     expect(ratingsSelect.value).toBe("3.0");
+
+    fireEvent.change(ratingsSelect, { target: { value: "4.5" } });
+
+    expect(window.localStorage.getItem("minimum_ratings")).toBe("4.5");
+  });
+
+  it("stores default minimum ratings when none set and user selects 4.5", () => {
+    renderSidebar({ minimum_ratings: undefined });
+
+    const ratingsSelect = screen.getByTestId("minimum-ratings-select");
 
     fireEvent.change(ratingsSelect, { target: { value: "4.5" } });
 
@@ -376,7 +403,11 @@ describe("SidebarFilters", () => {
     visibleCheckboxItemsForTv.forEach((item) => {
       const label = labelForItem(item);
       const checkbox = screen.getByLabelText(label);
-      expect(checkbox).toBeChecked();
+      if (item.origin === "must_see") {
+        expect(checkbox).not.toBeChecked();
+      } else {
+        expect(checkbox).toBeChecked();
+      }
     });
 
     const ratingsSelect = screen.getByTestId("minimum-ratings-select");
@@ -388,24 +419,42 @@ describe("SidebarFilters", () => {
     );
   });
 
-  it.each(visibleCheckboxItemsForTv.map((item) => [labelForItem(item), item]))(
-    "updates localStorage when toggling %s",
-    (label, item) => {
-      const storageKey = storageKeyByOrigin[item.origin];
-      expect(storageKey).toBeDefined();
+  it.each(
+    visibleCheckboxItemsForTvWithoutMustSee.map((item) => [
+      labelForItem(item),
+      item,
+    ]),
+  )("updates localStorage when toggling %s", (label, item) => {
+    const storageKey = storageKeyByOrigin[item.origin];
+    expect(storageKey).toBeDefined();
 
-      renderSidebar({ item_type: "tvshow" });
+    renderSidebar({ item_type: "tvshow" });
 
-      const checkbox = screen.getByLabelText(label);
-      expect(checkbox).toBeChecked();
+    const checkbox = screen.getByLabelText(label);
+    expect(checkbox).toBeChecked();
 
-      fireEvent.click(checkbox);
-      const afterDisable = splitValues(window.localStorage.getItem(storageKey));
-      expect(afterDisable).not.toContain(item.code);
+    fireEvent.click(checkbox);
+    const afterDisable = splitValues(window.localStorage.getItem(storageKey));
+    expect(afterDisable).not.toContain(item.code);
 
-      fireEvent.click(checkbox);
-      const afterEnable = splitValues(window.localStorage.getItem(storageKey));
-      expect(afterEnable).toContain(item.code);
-    },
-  );
+    fireEvent.click(checkbox);
+    const afterEnable = splitValues(window.localStorage.getItem(storageKey));
+    expect(afterEnable).toContain(item.code);
+  });
+
+  it("toggles Metacritic must-see only checkbox and updates storage", () => {
+    renderSidebar({ item_type: "tvshow" });
+
+    const checkbox = screen.getByLabelText("Metacritic must-see only");
+    expect(checkbox).not.toBeChecked();
+    expect(window.localStorage.getItem("must_see")).toBe("false");
+
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+    expect(window.localStorage.getItem("must_see")).toBe("true");
+
+    fireEvent.click(checkbox);
+    expect(checkbox).not.toBeChecked();
+    expect(window.localStorage.getItem("must_see")).toBe("false");
+  });
 });

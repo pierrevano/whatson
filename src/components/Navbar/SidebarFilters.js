@@ -144,7 +144,7 @@ const SidebarFilters = () => {
   } = filters;
 
   const mustSeeToggleItem = useMemo(
-    () => must_see.items.find((item) => item.code === "false"),
+    () => must_see.items.find((item) => item.code === "true"),
     [must_see.items],
   );
 
@@ -337,7 +337,7 @@ const SidebarFilters = () => {
               {groupedItem.items.map((item, itemIndex) =>
                 (item.origin === "genres" && item.code === "allgenres") ||
                 (item.origin === "minimum_ratings" && item.code !== "0.0") ||
-                (item.origin === "must_see" && item.code !== "false") ||
+                (item.origin === "must_see" && item.code === "false") ||
                 (item.origin === "platforms" && item.code === "all") ||
                 (item.origin === "popularity" && item.code !== "enabled") ||
                 (item.origin === "release_date" &&
@@ -368,24 +368,14 @@ const SidebarFilters = () => {
                           checked={selectedItems.some(
                             (selectedItem) => selectedItem.code === item.code,
                           )}
-                          tooltip={
-                            item.origin === "must_see"
-                              ? "Uncheck to show must-see only"
-                              : null
-                          }
-                          tooltipOptions={
-                            item.origin === "must_see"
-                              ? { position: "bottom", showDelay: 200 }
-                              : null
-                          }
                         />
                         <label
                           htmlFor={`${item.code}-${itemIndex}`}
                           className="ml-2"
                           style={{ display: "flex", alignItems: "center" }}
                         >
-                          {item.name === "False"
-                            ? "All and Metacritic must-see"
+                          {item.name === "True"
+                            ? "Metacritic must-see only"
                             : item.name === "Enabled"
                               ? "AlloCiné and IMDb trends"
                               : item.name === "New"
