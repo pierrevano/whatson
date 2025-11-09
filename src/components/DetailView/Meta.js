@@ -3,25 +3,28 @@ import styled from "styled-components";
 import above from "utils/above";
 import Text from "components/Text";
 
-const getRating = (release_dates = {}) =>
-  release_dates?.results?.find((x) => x.iso_3166_1 === "US")?.release_dates[0]
-    ?.certification || null;
+const getDate = ({ release_date, first_air_date, birthday }) =>
+  (first_air_date || birthday || release_date)?.split("-")[0] || null;
 
-const getFirst = ({ release_date, first_air_date, birthday }) => {
-  return (first_air_date || birthday || release_date)?.split("-")[0];
+const getRuntime = (runtime) => {
+  if (!runtime) return null;
+  const minutes = Math.round(Number(runtime) / 60);
+  if (!minutes) return null;
+  return `${minutes} min`;
 };
 
-const getSecond = (status_value, { runtime, last_air_date }) => {
-  if (runtime) return `${runtime} min`;
-  if (status_value) return status_value;
-  if (last_air_date) return last_air_date.split("-")[0];
+const getSeasonsNumber = (seasons_number) =>
+  seasons_number
+    ? `${seasons_number} season${seasons_number > 1 ? "s" : ""}`
+    : null;
+
+const getStatus = (status) => {
+  if (status) return status;
   return null;
 };
 
-const getHighlight = ({ release_dates, number_of_seasons }) => {
-  if (release_dates) return getRating(release_dates);
-  if (number_of_seasons)
-    return `${number_of_seasons} season${number_of_seasons > 1 ? "s" : ""}`;
+const getHighlight = (certification) => {
+  if (certification) return certification;
   return null;
 };
 
@@ -31,6 +34,7 @@ const Wrapper = styled.div`
 `;
 
 const SeparatedText = styled(Text)`
+  color: ${(p) => p.theme.colors.lightGrey};
   span + span {
     &:before {
       content: " • ";
@@ -57,23 +61,41 @@ const Rating = styled(Text)`
 `;
 
 /**
- * A functional component that renders metadata for a given data object.
- * @param {object} props - the properties to render metadata for
- * @returns A JSX element that displays the metadata.
+ * Displays the release year, runtime, season count, status, and certification
+ * badge for the current entity shown in the detail view.
+ * @param {Object} props Component props with render API values.
+ * @param {?string} props.certification_from_render Age rating badge.
+ * @param {?number} props.runtime_from_render Runtime in seconds.
+ * @param {?number} props.seasons_number_from_render Season count for TV shows.
+ * @param {?string} props.status_from_render Production status label.
+ * @returns {JSX.Element} Inline metadata row.
  */
-const Meta = ({ status_value, ...data }) => (
-  <Wrapper style={{ margin: "1.5rem 0" }}>
-    <SeparatedText sm={1} color={(p) => p.theme.colors.lightGrey || ""}>
-      {getFirst(data) && <span>{getFirst(data)}</span>}
-      {getSecond(status_value, data) &&
-        getSecond(status_value, data) !== getFirst(data) && (
-          <span>{getSecond(status_value, data)}</span>
-        )}
-      {(getFirst(data) || getSecond(status_value, data)) &&
-        getHighlight(data) && <span />}
-    </SeparatedText>
-    {getHighlight(data) && <Rating>{getHighlight(data)}</Rating>}
-  </Wrapper>
-);
+const Meta = ({
+  certification_from_render,
+  runtime_from_render,
+  seasons_number_from_render,
+  status_from_render,
+  ...data
+}) => {
+  const date = getDate(data);
+  const certificationValue = getHighlight(certification_from_render);
+  const runtimeValue = getRuntime(runtime_from_render);
+  const seasonsValue = getSeasonsNumber(seasons_number_from_render);
+  const statusValue = getStatus(status_from_render);
+
+  return (
+    <Wrapper style={{ margin: "1.5rem 0" }}>
+      <SeparatedText sm={1}>
+        {date && <span>{date}</span>}
+        {runtimeValue && <span>{runtimeValue}</span>}
+        {seasonsValue && <span>{seasonsValue}</span>}
+        {statusValue && <span>{statusValue}</span>}
+        {(date || runtimeValue || seasonsValue || statusValue) &&
+          certificationValue && <span />}
+      </SeparatedText>
+      {certificationValue && <Rating>{certificationValue}</Rating>}
+    </Wrapper>
+  );
+};
 
 export default Meta;

@@ -245,11 +245,14 @@ const DetailView = ({ id, kindURL }) => {
   const mojo_rank = data_from_render?.mojo?.rank;
   const mojo_url = data_from_render?.mojo?.url;
 
-  const ratings_average = data_from_render?.ratings_average;
-  const trailer = data_from_render?.trailer;
+  const certification_from_render = data_from_render?.certification;
   const platforms_links = data_from_render?.platforms_links;
-  const status_value = data_from_render?.status;
+  const ratings_average = data_from_render?.ratings_average;
+  const runtime_from_render = data_from_render?.runtime;
+  const seasons_number_from_render = data_from_render?.seasons_number;
+  const status_from_render = data_from_render?.status;
   const tagline_from_render = data_from_render?.tagline;
+  const trailer = data_from_render?.trailer;
 
   const episodes_details_values = data_from_render?.episodes_details || [];
   const usersRatings = episodes_details_values
@@ -411,7 +414,13 @@ const DetailView = ({ id, kindURL }) => {
               <BackLink onClick={() => window.history.back()}>
                 <Arrow />
               </BackLink>
-              <Meta status_value={status_value} {...data} />
+              <Meta
+                certification_from_render={certification_from_render}
+                runtime_from_render={runtime_from_render}
+                seasons_number_from_render={seasons_number_from_render}
+                status_from_render={status_from_render}
+                {...data}
+              />
               <Text weight={600} xs={2} sm={3} md={4} xg={5}>
                 {title}
               </Text>
