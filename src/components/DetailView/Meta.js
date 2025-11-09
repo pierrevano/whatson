@@ -3,8 +3,7 @@ import styled from "styled-components";
 import above from "utils/above";
 import Text from "components/Text";
 
-const getDate = ({ release_date, first_air_date, birthday }) =>
-  (first_air_date || birthday || release_date)?.split("-")[0] || null;
+const getReleaseDate = (release_date) => release_date?.split("-")[0] || null;
 
 const getRuntime = (runtime) => {
   if (!runtime) return null;
@@ -28,7 +27,7 @@ const getHighlight = (certification) => {
   return null;
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs({ "data-testid": "meta-wrapper" })`
   display: flex;
   align-items: center;
 `;
@@ -65,33 +64,38 @@ const Rating = styled(Text)`
  * badge for the current entity shown in the detail view.
  * @param {Object} props Component props with render API values.
  * @param {?string} props.certification_from_render Age rating badge.
+ * @param {?string} props.release_date_from_render ISO release date string.
  * @param {?number} props.runtime_from_render Runtime in seconds.
  * @param {?number} props.seasons_number_from_render Season count for TV shows.
  * @param {?string} props.status_from_render Production status label.
  * @returns {JSX.Element} Inline metadata row.
  */
 const Meta = ({
-  certification_from_render,
-  runtime_from_render,
-  seasons_number_from_render,
-  status_from_render,
-  ...data
+  certification_from_render: certificationFromRender,
+  release_date_from_render: releaseDateFromRender,
+  runtime_from_render: runtimeFromRender,
+  seasons_number_from_render: seasonsNumberFromRender,
+  status_from_render: statusFromRender,
 }) => {
-  const date = getDate(data);
-  const certificationValue = getHighlight(certification_from_render);
-  const runtimeValue = getRuntime(runtime_from_render);
-  const seasonsValue = getSeasonsNumber(seasons_number_from_render);
-  const statusValue = getStatus(status_from_render);
+  const certificationValue = getHighlight(certificationFromRender);
+  const releaseDateValue = getReleaseDate(releaseDateFromRender);
+  const runtimeValue = getRuntime(runtimeFromRender);
+  const seasonsValue = getSeasonsNumber(seasonsNumberFromRender);
+  const statusValue = getStatus(statusFromRender);
+  const hasInlineMeta =
+    releaseDateValue || runtimeValue || seasonsValue || statusValue;
+  const hasMeta = hasInlineMeta || certificationValue;
+
+  if (!hasMeta) return null;
 
   return (
     <Wrapper style={{ margin: "1.5rem 0" }}>
       <SeparatedText sm={1}>
-        {date && <span>{date}</span>}
+        {releaseDateValue && <span>{releaseDateValue}</span>}
         {runtimeValue && <span>{runtimeValue}</span>}
         {seasonsValue && <span>{seasonsValue}</span>}
         {statusValue && <span>{statusValue}</span>}
-        {(date || runtimeValue || seasonsValue || statusValue) &&
-          certificationValue && <span />}
+        {hasInlineMeta && certificationValue && <span />}
       </SeparatedText>
       {certificationValue && <Rating>{certificationValue}</Rating>}
     </Wrapper>
