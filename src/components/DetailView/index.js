@@ -287,7 +287,7 @@ const DetailView = ({ id, kindURL }) => {
     [
       `${config.base}/${kind}/${id}`,
       `?api_key=${config.api}`,
-      `&append_to_response=release_dates,external_ids,credits,content_ratings`,
+      `&append_to_response=release_dates,external_ids,credits,combined_credits,content_ratings`,
       `&language=${getLanguage()}`,
     ].join(""),
   );

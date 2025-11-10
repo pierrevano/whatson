@@ -15,6 +15,20 @@ const SeparatedText = styled(Text)`
   }
 `;
 
+const sortByPopularityUnique = (items) => {
+  if (!Array.isArray(items)) return items;
+  const seenIds = new Set();
+  return [...items]
+    .sort((a, b) => (b?.popularity || 0) - (a?.popularity || 0))
+    .filter((item) => {
+      const id = item?.id;
+      if (!id) return true;
+      if (seenIds.has(id)) return false;
+      seenIds.add(id);
+      return true;
+    });
+};
+
 /**
  * A functional component that displays information about a movie or person.
  * @param {string} kind - The type of information being displayed (movie or person).
@@ -35,15 +49,16 @@ const Info = ({
 
   const description = data?.overview || data?.biography;
   const genres = data?.genres?.map((x) => x.name) || [];
-  const actors = data?.credits?.cast?.slice(0, sliceActors) || [];
-  const totalActors = data?.credits?.cast?.length || 0;
-  const directors =
-    data?.credits?.crew
-      ?.filter((x) => x.department === "Directing")
-      .slice(0, sliceDirectors) || [];
-  const totalDirectors =
-    data?.credits?.crew?.filter((x) => x.department === "Directing")?.length ||
-    0;
+  const castCredits =
+    kind === "person" ? data?.combined_credits?.cast : data?.credits?.cast;
+  const normalizedCastCredits = sortByPopularityUnique(castCredits);
+  const actors = normalizedCastCredits?.slice(0, sliceActors) || [];
+  const totalActors = normalizedCastCredits?.length || 0;
+  const directorCredits =
+    data?.credits?.crew?.filter((x) => x.department === "Directing") || [];
+  const normalizedDirectorCredits = sortByPopularityUnique(directorCredits);
+  const directors = normalizedDirectorCredits?.slice(0, sliceDirectors) || [];
+  const totalDirectors = normalizedDirectorCredits?.length || 0;
 
   const formatNumber = (num) => {
     if (num >= 1000) {

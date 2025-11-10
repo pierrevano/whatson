@@ -43,8 +43,11 @@ const Main = styled.div`
   margin-right: 0.5rem;
 `;
 
-const getURL = (kind, id) => {
-  if (kind === "person") return `/movies/${id}`;
+const getURL = (kind, id, mediaType) => {
+  if (kind === "person") {
+    if (mediaType === "tv") return `/tvshows/${id}`;
+    return `/movies/${id}`;
+  }
   return `/people/${id}`;
 };
 
@@ -67,9 +70,10 @@ const Relation = ({
   profile_path,
   character,
   title,
+  media_type,
   ...props
 }) => {
-  const url = getURL(kind, id);
+  const url = getURL(kind, id, media_type);
   const image = profile_path || poster_path;
   const main = name || title || character;
   return (
