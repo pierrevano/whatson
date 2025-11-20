@@ -1,6 +1,14 @@
-# What's on?
+<p align="center">
+  <a href="https://whatson-app.com">
+    <img src="https://github.com/user-attachments/assets/698bc6b6-e89f-4269-a9aa-49f9e5476005" alt="What's on? logo" width="90" />
+  </a>
+</p>
 
-https://whatson-app.com
+<h1 align="center">
+  <a href="https://whatson-app.com">What's on?</a>
+</h1>
+
+<p align="center"><a href="https://whatson-app.com">whatson-app.com</a></p>
 
 Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
