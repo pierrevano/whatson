@@ -6,7 +6,7 @@ import { ThemeProvider } from "styled-components";
 import { Provider as GridProvider } from "griding";
 import GlobalStyle from "components/GlobalStyle";
 import * as theme from "./theme";
-import { register } from "serviceWorker";
+import { unregister } from "serviceWorker";
 import { Provider as FavoritesProvider } from "utils/favorites";
 
 const App = React.lazy(() => import("./App"));
@@ -48,4 +48,4 @@ if (rootElement.hasChildNodes()) {
   createRoot(rootElement).render(<Wrapper />);
 }
 
-register();
+unregister();
