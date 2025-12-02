@@ -32,13 +32,13 @@ const config = {
   must_see: "false",
   must_see_names: "True,False",
 
-  release_date: "everything,new",
+  release_date: "everything",
   release_date_names: "Everything,New",
 
   platforms:
     "Canal+ Ciné Séries,Netflix,Prime Video,Max,Disney+,Paramount+,Apple TV+,Canal+,OCS,ADN,Crunchyroll,all",
 
-  popularity: "enabled,allocine_popularity,imdb_popularity",
+  popularity: "enabled,allocine_popularity,imdb_popularity,tmdb_popularity",
 
   ratings:
     "allocine_critics,allocine_users,betaseries_users,imdb_users,metacritic_critics,metacritic_users,rottentomatoes_critics,rottentomatoes_users,letterboxd_users,senscritique_users,tmdb_users,trakt_users,tvtime_users",
