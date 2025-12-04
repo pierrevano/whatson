@@ -381,7 +381,7 @@ const SidebarFilters = () => {
                           {item.name === "True"
                             ? "Metacritic must-see only"
                             : item.name === "Enabled"
-                              ? "AlloCiné and IMDb trends"
+                              ? "Include major platform trends"
                               : item.name === "New"
                                 ? "New only"
                                 : item.name}

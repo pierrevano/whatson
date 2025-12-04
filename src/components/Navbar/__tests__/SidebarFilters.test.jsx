@@ -213,7 +213,7 @@ const labelForItem = (item) => {
     return "Metacritic must-see only";
   }
   if (item.name === "Enabled") {
-    return "AlloCiné and IMDb trends";
+    return "Include major platform trends";
   }
   if (item.name === "New") {
     return "New only";
@@ -246,6 +246,9 @@ const splitValues = (value) =>
 const visibleCheckboxItemsForTv = getVisibleCheckboxItems("tvshow");
 const visibleCheckboxItemsForTvWithoutMustSee =
   visibleCheckboxItemsForTv.filter((item) => item.origin !== "must_see");
+const checkboxToggleCasesForTv = visibleCheckboxItemsForTvWithoutMustSee.map(
+  (item) => [labelForItem(item), item, item.origin !== "release_date"],
+);
 const minimumRatingsCodes = config.minimum_ratings.split(",");
 
 const renderSidebar = (initialValues = {}) => {
@@ -321,7 +324,9 @@ describe("SidebarFilters", () => {
       popularity_filters: "none",
     });
 
-    const trendsCheckbox = screen.getByLabelText(/AlloCiné and IMDb trends/i);
+    const trendsCheckbox = screen.getByLabelText(
+      /Include major platform trends/i,
+    );
     expect(trendsCheckbox).not.toBeChecked();
 
     fireEvent.click(trendsCheckbox);
@@ -403,7 +408,7 @@ describe("SidebarFilters", () => {
     visibleCheckboxItemsForTv.forEach((item) => {
       const label = labelForItem(item);
       const checkbox = screen.getByLabelText(label);
-      if (item.origin === "must_see") {
+      if (item.origin === "must_see" || item.origin === "release_date") {
         expect(checkbox).not.toBeChecked();
       } else {
         expect(checkbox).toBeChecked();
@@ -419,28 +424,42 @@ describe("SidebarFilters", () => {
     );
   });
 
-  it.each(
-    visibleCheckboxItemsForTvWithoutMustSee.map((item) => [
-      labelForItem(item),
-      item,
-    ]),
-  )("updates localStorage when toggling %s", (label, item) => {
-    const storageKey = storageKeyByOrigin[item.origin];
-    expect(storageKey).toBeDefined();
+  it.each(checkboxToggleCasesForTv)(
+    "updates localStorage when toggling %s",
+    (label, item, isCheckedByDefault) => {
+      const storageKey = storageKeyByOrigin[item.origin];
+      expect(storageKey).toBeDefined();
 
-    renderSidebar({ item_type: "tvshow" });
+      renderSidebar({ item_type: "tvshow" });
 
-    const checkbox = screen.getByLabelText(label);
-    expect(checkbox).toBeChecked();
+      const checkbox = screen.getByLabelText(label);
+      if (isCheckedByDefault) {
+        expect(checkbox).toBeChecked();
+      } else {
+        expect(checkbox).not.toBeChecked();
+      }
 
-    fireEvent.click(checkbox);
-    const afterDisable = splitValues(window.localStorage.getItem(storageKey));
-    expect(afterDisable).not.toContain(item.code);
+      fireEvent.click(checkbox);
+      const afterFirstToggle = splitValues(
+        window.localStorage.getItem(storageKey),
+      );
+      if (isCheckedByDefault) {
+        expect(afterFirstToggle).not.toContain(item.code);
+      } else {
+        expect(afterFirstToggle).toContain(item.code);
+      }
 
-    fireEvent.click(checkbox);
-    const afterEnable = splitValues(window.localStorage.getItem(storageKey));
-    expect(afterEnable).toContain(item.code);
-  });
+      fireEvent.click(checkbox);
+      const afterSecondToggle = splitValues(
+        window.localStorage.getItem(storageKey),
+      );
+      if (isCheckedByDefault) {
+        expect(afterSecondToggle).toContain(item.code);
+      } else {
+        expect(afterSecondToggle).not.toContain(item.code);
+      }
+    },
+  );
 
   it("toggles Metacritic must-see only checkbox and updates storage", () => {
     renderSidebar({ item_type: "tvshow" });
