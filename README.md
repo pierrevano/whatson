@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://whatson-app.com">
-    <img src="https://github.com/user-attachments/assets/698bc6b6-e89f-4269-a9aa-49f9e5476005" alt="What's on? logo" width="90" />
+    <img src="./public/logo_readme.png" alt="What's on? logo" width="90" />
   </a>
 </p>
 
@@ -16,36 +16,36 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ## Homepage
 
-![Homepage](https://github.com/user-attachments/assets/17b1b2c1-8996-43ec-b283-05d5cf656f5e)
+![Homepage](./public/homepage.png)
 
 ## Ratings
 
-![Ratings](https://github.com/user-attachments/assets/89853ba0-0a44-4dae-929f-f3cf0bfc3481)
+![Ratings](./public/ratings.png)
 
 ## Item details
 
-![ItemDetails](https://github.com/user-attachments/assets/95a6f985-899d-498e-b03b-c4eafac2a585)
+![ItemDetails](./public/item_details.png)
 
 ## Episodes details
 
-![EpisodesDetails](https://github.com/user-attachments/assets/949208cc-1789-4a5f-b936-5d36353cf6bb)
+![EpisodesDetails](./public/episodes_details.png)
 
 ## Filters
 
-![Filters](https://github.com/user-attachments/assets/28a398c0-cb3a-457e-a098-7c9c319ae529)
+![Filters](./public/filters.png)
 
 ## Favorites
 
-![Favorites](https://github.com/user-attachments/assets/42ec50e0-a457-4ece-918f-3a0ff3960fc6)
+![Favorites](./public/favorites.png)
 
 ## IMDb watchlist sync
 
-![IMDb watchlist sync](https://github.com/user-attachments/assets/b4e6e1e9-5eb2-4948-956a-7f87ad0f5203)
+![IMDb watchlist sync](./public/watchlist_sync.png)
 
 ## IMDb watchlist import
 
-![IMDb watchlist import](https://github.com/user-attachments/assets/b22acd5b-7149-4efa-a28f-3877445dc2cc)
+![IMDb watchlist import](./public/watchlist_import.png)
 
 ## Mobile
 
-![Mobile](https://github.com/user-attachments/assets/23a72302-48e3-4913-adba-632cc96cfb20)
+![Mobile](./public/mobile.png)
