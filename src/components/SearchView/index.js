@@ -50,6 +50,27 @@ const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
       .map((_x, i) => i + 1),
   ];
 
+  useEffect(() => {
+    if (!isSearchable || typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const queryParam = params.get("q");
+    if (queryParam !== null) {
+      setSearch(queryParam);
+      setPage(1);
+    }
+  }, [isSearchable, setSearch, setPage]);
+
+  useEffect(() => {
+    if (!isSearchable || typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (search) {
+      url.searchParams.set("q", search);
+    } else {
+      url.searchParams.delete("q");
+    }
+    window.history.replaceState({}, "", url.toString());
+  }, [isSearchable, search]);
+
   return (
     <Wrapper>
       {isSearchable && (

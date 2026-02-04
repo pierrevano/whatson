@@ -204,7 +204,7 @@ const fetchWithCorsFallback = async (url) => {
   try {
     return await performFetch(url);
   } catch (initialError) {
-    const proxiedUrl = `${config.imdb_watchlist_proxy}/?${encodeURIComponent(url)}`;
+    const proxiedUrl = `${config.imdb_watchlist_proxy}/${url}`;
 
     if (url === proxiedUrl) {
       throw initialError;
