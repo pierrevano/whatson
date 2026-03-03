@@ -264,20 +264,6 @@ const DetailView = ({ id, kindURL }) => {
     status_from_render,
   };
 
-  const episodes_details_values = data_from_render?.episodes_details || [];
-  const usersRatings = episodes_details_values
-    .map((ep) => ep && ep.users_rating)
-    .filter((rating) => rating !== null);
-  const episodeDetails = episodes_details_values
-    .map((ep) => ({
-      season: ep && ep.season,
-      episode: ep && ep.episode,
-    }))
-    .filter((detail) => detail.season !== null && detail.episode !== null);
-  const titles = episodes_details_values
-    .map((ep) => ep && ep.title)
-    .filter((el) => el !== null);
-
   const next_episode_from_render = data_from_render?.next_episode;
   const last_episode_from_render = data_from_render?.last_episode;
   const highest_episode_from_render = data_from_render?.highest_episode;
@@ -508,32 +494,26 @@ const DetailView = ({ id, kindURL }) => {
                       linkURL={platform.link_url}
                     />
                   ))}
-                {usersRatings?.length > 0 &&
-                  episodeDetails?.length > 0 &&
-                  titles?.length > 0 && (
-                    <>
-                      <DialogButton
-                        setValues={setValuesChart}
-                        itemKey="chart"
+                {seasons_number_from_render > 0 && (
+                  <>
+                    <DialogButton setValues={setValuesChart} itemKey="chart" />
+                    <Dialog
+                      id="dialog-chart"
+                      header="Season ratings insights"
+                      visible={visiblePopupChart}
+                      onHide={() => {
+                        setVisiblePopupChart(false);
+                        dialogMaskBackgroundChart(false);
+                      }}
+                    >
+                      <RatingsChart
+                        tvshowId={id}
+                        allocineUrl={allocine_url}
+                        pageTitle={title}
                       />
-                      <Dialog
-                        id="dialog-chart"
-                        header="IMDb episodes users ratings"
-                        visible={visiblePopupChart}
-                        onHide={() => {
-                          setVisiblePopupChart(false);
-                          dialogMaskBackgroundChart(false);
-                        }}
-                      >
-                        <RatingsChart
-                          ratings={usersRatings}
-                          episodeDetails={episodeDetails}
-                          titles={titles}
-                          allocineUrl={allocine_url}
-                        />
-                      </Dialog>
-                    </>
-                  )}
+                    </Dialog>
+                  </>
+                )}
               </PlatformLinksGroup>
               <Info
                 kind={kind}

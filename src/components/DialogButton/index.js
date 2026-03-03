@@ -7,7 +7,6 @@ const Wrapper = styled.button`
   background: none;
   border: none;
   display: inline-flex;
-  color: currentColor;
   text-decoration: none;
   border-radius: 0.25rem;
   box-shadow: inset 0 0 0 1px ${(p) => p.theme.colors.midGrey};
@@ -61,9 +60,7 @@ const DialogButton = ({ setValues, itemKey }) => (
     </Left>
     <Right>
       <Text weight={500}>
-        {itemKey === "trailer"
-          ? "Watch trailer"
-          : "Display episodes users ratings"}
+        {itemKey === "trailer" ? "Watch trailer" : "Season ratings insights"}
       </Text>
     </Right>
   </Wrapper>

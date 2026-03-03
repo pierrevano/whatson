@@ -175,7 +175,7 @@ const MultiSelectStyle = `
 
   .p-listbox {
     background: #181818 !important;
-    border: 0.1rem rgba(40, 167, 69, 0.5) !important;
+    border: 0.1rem solid rgba(40, 167, 69, 0.5) !important;
     box-shadow: 0 0 0 0.1rem rgba(40, 167, 69, 0.5) !important;
     width: 210px;
   }
