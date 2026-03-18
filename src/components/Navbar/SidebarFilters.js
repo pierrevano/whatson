@@ -1,12 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Checkbox } from "primereact/checkbox";
+import React, { useCallback, useMemo, useState } from "react";
 import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { createFilters } from "./createFilters";
-import { Dropdown } from "primereact/dropdown";
 import { initializeSelectedItems } from "./initializeSelectedItems";
-import { ListBox } from "primereact/listbox";
-import { onChangeHandler } from "./onChangeHandler";
 import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 import { Sidebar } from "primereact/sidebar";
 import { Slider } from "primereact/slider";
@@ -18,6 +14,14 @@ import config from "../../config";
 import Filter from "components/Icon/Filter";
 import initializeLocalStorage from "./initializeLocalStorage";
 import styled from "styled-components";
+import {
+  buildGroupedItems,
+  buildPopularityGroup,
+  getFilterItemLabel,
+  isVisibleFilterItem,
+} from "./sidebarFilterUtils";
+import { useSidebarChipSelection } from "./useSidebarChipSelection";
+import { useTouchEndNormalization } from "./useTouchEndNormalization";
 
 const RuntimeSlider = styled(Slider)`
   .p-slider-range {
@@ -35,56 +39,35 @@ const RuntimeSlider = styled(Slider)`
   }
 `;
 
-const OrderByDropdown = styled(Dropdown)`
-  &.p-dropdown {
-    border: 0.125rem solid rgba(40, 167, 69, 0.5) !important;
-    color: #28a745 !important;
-    background: rgb(24, 24, 24) !important;
-  }
-
-  &.p-dropdown span {
-    font-size: 1rem !important;
-  }
-
-  &.p-dropdown:not(.p-disabled).p-focus {
-    border: 0.1rem solid rgba(40, 167, 69, 0.5) !important;
-    box-shadow: rgba(40, 167, 69, 0.5) 0px 0px 0px 0.1rem !important;
-  }
-
-  &.p-dropdown:hover,
-  &.p-dropdown.p-focus {
-    box-shadow: rgba(40, 167, 69, 0.5) 0px 0px 0px 0.1rem !important;
-  }
-
-  .p-dropdown-label,
-  .p-dropdown-label.p-placeholder {
-    color: ${(p) => p.theme.colors.white} !important;
-    opacity: 0.87 !important;
-    width: 0 !important;
-  }
-
-  .p-dropdown-trigger {
-    color: #28a745 !important;
-    background: ${(p) => p.theme.colors.dark} !important;
-    margin-left: -0.5rem;
-  }
-
-  .p-dropdown-clear-icon {
-    color: #28a745 !important;
-  }
-
-  .p-dropdown-items .p-dropdown-item.p-highlight,
-  .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
-    background: rgba(40, 167, 69, 0.2) !important;
-    color: #28a745 !important;
-  }
+const SectionStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 `;
 
-const FullWidthListBox = styled(ListBox)`
-  width: 100%;
+const ChipGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
 
-  &.p-listbox {
-    width: 100%;
+const Chip = styled.button`
+  background: ${(p) =>
+    p.$active ? p.theme.colors.green : p.theme.colors.grey};
+  border: 1px solid
+    ${(p) => (p.$active ? p.theme.colors.green : "rgb(53, 63, 76)")};
+  color: ${(p) => p.theme.colors.white};
+  border-radius: 999px;
+  padding: ${(p) => (p.$compact ? "0.5rem 0.75rem" : "0.55rem 0.875rem")};
+  cursor: pointer;
+  line-height: 1.2;
+  font-size: ${(p) => (p.$compact ? "0.95rem" : "1rem")};
+  text-align: center;
+  white-space: normal;
+
+  &:focus {
+    outline: none;
+    box-shadow: ${(p) => p.theme.focusShadow};
   }
 `;
 
@@ -153,13 +136,7 @@ const SidebarFilters = () => {
   );
 
   const popularityGroup = useMemo(
-    () => ({
-      ...popularity,
-      items: [
-        ...popularity.items.filter((item) => item.code === "enabled"),
-        ...(mustSeeToggleItem ? [mustSeeToggleItem] : []),
-      ],
-    }),
+    () => buildPopularityGroup(popularity, mustSeeToggleItem),
     [mustSeeToggleItem, popularity],
   );
 
@@ -183,9 +160,6 @@ const SidebarFilters = () => {
       status_value,
       seasons,
       seasons_number,
-      config,
-      item_type,
-      defaultItemTypeFilters,
     ),
   );
 
@@ -193,35 +167,37 @@ const SidebarFilters = () => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
+  useTouchEndNormalization();
+
   const markAsChanged = useCallback(() => setHasChanges(true), [setHasChanges]);
 
-  const groupedItems = useMemo(() => {
-    if (item_type && item_type === defaultItemTypeFilters[1]) {
-      return [
-        release_date,
+  const groupedItems = useMemo(
+    () =>
+      buildGroupedItems({
+        itemType: item_type,
+        defaultItemTypeFilters,
+        releaseDate: release_date,
         popularityGroup,
-        minimum_ratings,
+        minimumRatings: minimum_ratings,
         platforms,
         genres,
         ratings,
         seasons,
         status,
-      ];
-    }
-
-    return [release_date, popularityGroup, minimum_ratings, genres, ratings];
-  }, [
-    defaultItemTypeFilters,
-    genres,
-    item_type,
-    minimum_ratings,
-    platforms,
-    popularityGroup,
-    ratings,
-    release_date,
-    seasons,
-    status,
-  ]);
+      }),
+    [
+      defaultItemTypeFilters,
+      genres,
+      item_type,
+      minimum_ratings,
+      platforms,
+      popularityGroup,
+      ratings,
+      release_date,
+      seasons,
+      status,
+    ],
+  );
 
   const {
     runtimeRangeMinutes,
@@ -250,63 +226,75 @@ const SidebarFilters = () => {
       markAsChanged,
     });
 
-  const onChangeWrapper = useCallback(
-    (e) => {
-      onChangeHandler(
-        e,
-        item_type,
-        selectedItems,
-        setSelectedItems,
-        setGenresValue,
-        setMinRatingsValue,
-        setMustSeeValue,
-        setPlatformsValue,
-        setPopularityFilters,
-        setRatingsFilters,
-        setReleaseDateValue,
-        setSeasonsNumber,
-        setStatusValue,
-      );
-      markAsChanged();
-    },
-    [
-      item_type,
-      markAsChanged,
-      selectedItems,
-      setGenresValue,
-      setMinRatingsValue,
-      setMustSeeValue,
-      setPlatformsValue,
-      setPopularityFilters,
-      setRatingsFilters,
-      setReleaseDateValue,
-      setSeasonsNumber,
-      setStatusValue,
-    ],
+  const orderByChipOptions = useMemo(
+    () => [{ label: "Default order", value: "" }, ...orderByOptions],
+    [orderByOptions],
   );
 
-  useEffect(() => {
-    if (
-      hasChanges ||
-      (visibleLeftFilters &&
-        (!localStorage.getItem("minimum_ratings") ||
-          localStorage.getItem("minimum_ratings") === config.minimum_ratings))
-    ) {
-      const timeout = setTimeout(() => {
-        const listItems = document.querySelectorAll(
-          ".p-listbox-list .p-highlight",
+  const {
+    handleChipToggle,
+    handleMinimumRatingsChip,
+    handleOrderByChipClick,
+    isItemSelected,
+    isOrderChipSelected,
+  } = useSidebarChipSelection({
+    itemType: item_type,
+    selectedItems,
+    setSelectedItems,
+    setGenresValue,
+    setMinRatingsValue,
+    setMustSeeValue,
+    setPlatformsValue,
+    setPopularityFilters,
+    setRatingsFilters,
+    setReleaseDateValue,
+    setSeasonsNumber,
+    setStatusValue,
+    markAsChanged,
+    popularityFilters: popularity_filters,
+    currentOrderBySelection,
+    handleOrderByChange,
+  });
+
+  const renderFilterChips = useCallback(
+    (groupedItem) => {
+      if (groupedItem.name === "Minimum ratings") {
+        return (
+          <ChipGroup>
+            {groupedItem.items.map((item) => (
+              <Chip
+                key={item.code}
+                type="button"
+                $active={isItemSelected(item)}
+                aria-pressed={isItemSelected(item)}
+                onClick={() => handleMinimumRatingsChip(item)}
+              >
+                {item.name}
+              </Chip>
+            ))}
+          </ChipGroup>
         );
+      }
 
-        if (listItems) {
-          listItems.forEach((item) => item.classList.remove("p-highlight"));
-        }
-      }, 100);
-
-      return () => clearTimeout(timeout);
-    }
-
-    return undefined;
-  }, [config.minimum_ratings, hasChanges, visibleLeftFilters]);
+      return (
+        <ChipGroup>
+          {groupedItem.items.filter(isVisibleFilterItem).map((item) => (
+            <Chip
+              key={`${groupedItem.name}-${item.code}`}
+              type="button"
+              $compact={groupedItem.name === "Seasons"}
+              $active={isItemSelected(item)}
+              aria-pressed={isItemSelected(item)}
+              onClick={() => handleChipToggle(item)}
+            >
+              {getFilterItemLabel(item)}
+            </Chip>
+          ))}
+        </ChipGroup>
+      );
+    },
+    [handleChipToggle, handleMinimumRatingsChip, isItemSelected],
+  );
 
   const handleSidebarHide = useCallback(() => {
     const runtimeChanged = commitRuntimeSelection(runtimeRangeMinutes);
@@ -334,85 +322,33 @@ const SidebarFilters = () => {
       <Sidebar visible={visibleLeftFilters} onHide={handleSidebarHide}>
         <div className="card">
           {groupedItems.map((groupedItem, groupIndex) => (
-            <div key={`group-${groupIndex}`} className="flex flex-column gap-3">
+            <SectionStack key={`group-${groupIndex}`}>
               <h2>
                 <strong>{groupedItem.name}</strong>
               </h2>
-              {groupedItem.items.map((item, itemIndex) =>
-                (item.origin === "genres" && item.code === "allgenres") ||
-                (item.origin === "minimum_ratings" && item.code !== "0.0") ||
-                (item.origin === "must_see" && item.code === "false") ||
-                (item.origin === "platforms" && item.code === "all") ||
-                (item.origin === "popularity" && item.code !== "enabled") ||
-                (item.origin === "release_date" &&
-                  item.code !== "new") ? null : (
-                  <div
-                    key={`${groupedItem.name}-${itemIndex}`}
-                    className="flex align-items-center"
-                  >
-                    {item.origin === "minimum_ratings" ? (
-                      <FullWidthListBox
-                        value={
-                          selectedItems.find(
-                            (selectedItem) =>
-                              selectedItem.origin === "minimum_ratings",
-                          ) || null
-                        }
-                        onChange={onChangeWrapper}
-                        options={groupedItem.items}
-                        optionLabel="name"
-                      />
-                    ) : (
-                      <>
-                        <Checkbox
-                          inputId={`${item.code}-${itemIndex}`}
-                          name={item.origin}
-                          value={item.code}
-                          onChange={onChangeWrapper}
-                          checked={selectedItems.some(
-                            (selectedItem) => selectedItem.code === item.code,
-                          )}
-                        />
-                        <label
-                          htmlFor={`${item.code}-${itemIndex}`}
-                          className="ml-2"
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          {item.name === "True"
-                            ? "Metacritic must-see only"
-                            : item.name === "Enabled"
-                              ? "Include major platform trends"
-                              : item.name === "New"
-                                ? "New only"
-                                : item.name}
-                          {item.name === "New" && (
-                            <i
-                              className="pi pi-sparkles"
-                              style={{ marginLeft: "7px" }}
-                            ></i>
-                          )}
-                        </label>
-                      </>
-                    )}
-                  </div>
-                ),
-              )}
+              {renderFilterChips(groupedItem)}
               {groupedItem.name === "Minimum ratings" && (
-                <div className="flex flex-column gap-3">
+                <SectionStack>
                   <h2 style={{ marginTop: "15px" }}>
                     <strong>Order by</strong>
                   </h2>
-                  <OrderByDropdown
-                    value={currentOrderBySelection}
-                    options={orderByOptions}
-                    onChange={(e) => handleOrderByChange(e.value)}
-                    placeholder="Default order"
-                    showClear
-                  />
-                </div>
+                  <ChipGroup>
+                    {orderByChipOptions.map((option) => (
+                      <Chip
+                        key={option.value || "default-order"}
+                        type="button"
+                        $active={isOrderChipSelected(option.value)}
+                        aria-pressed={isOrderChipSelected(option.value)}
+                        onClick={() => handleOrderByChipClick(option.value)}
+                      >
+                        {option.label}
+                      </Chip>
+                    ))}
+                  </ChipGroup>
+                </SectionStack>
               )}
               {groupedItem.name === "Minimum ratings" && (
-                <div className="flex flex-column gap-3 p-slider-component">
+                <SectionStack className="p-slider-component">
                   <h2 style={{ marginTop: "15px" }}>
                     <strong>Runtime</strong>
                   </h2>
@@ -448,10 +384,10 @@ const SidebarFilters = () => {
                       Reset runtime
                     </span>
                   )}
-                </div>
+                </SectionStack>
               )}
               <br />
-            </div>
+            </SectionStack>
           ))}
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span className="pi pi-trash" />

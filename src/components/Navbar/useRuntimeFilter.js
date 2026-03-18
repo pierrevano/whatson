@@ -81,7 +81,14 @@ export const useRuntimeFilter = ({
         return getDefaultRuntimeRange();
       }
 
-      const [minSeconds, maxSeconds] = value.split(",").map(Number);
+      const runtimeValues = value
+        .split(",")
+        .map((entry) => Number(entry))
+        .filter((entry) => Number.isFinite(entry));
+      const [minSeconds, maxSeconds] =
+        runtimeValues.length > 1
+          ? runtimeValues
+          : [sliderMinMinutes * 60, runtimeValues[0]];
       const minMinutes = Number.isFinite(minSeconds)
         ? Math.round(minSeconds / 60)
         : sliderMinMinutes;
@@ -152,7 +159,9 @@ export const useRuntimeFilter = ({
 
       const nextValue = isDefaultRange
         ? ""
-        : `${sanitizedRange[0] * 60},${maxMinutesForStorage * 60}`;
+        : sanitizedRange[0] === sliderMinMinutes
+          ? `${maxMinutesForStorage * 60}`
+          : `${sanitizedRange[0] * 60},${maxMinutesForStorage * 60}`;
       const hasChanged = nextValue !== runtimeValue;
 
       if (!hasChanged) {

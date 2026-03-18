@@ -30,91 +30,6 @@ jest.mock("utils/getPreferences", () => ({
 
 jest.mock("utils/postPreferences", () => jest.fn());
 
-jest.mock("primereact/checkbox", () => {
-  const React = require("react");
-  return {
-    Checkbox: ({ inputId, name, value, checked, onChange }) =>
-      React.createElement("input", {
-        type: "checkbox",
-        id: inputId,
-        checked: !!checked,
-        onChange: (event) =>
-          onChange({
-            target: {
-              name,
-              value,
-              checked: event.target.checked,
-            },
-          }),
-      }),
-  };
-});
-
-jest.mock("primereact/dropdown", () => {
-  const React = require("react");
-  return {
-    Dropdown: ({ value, options, onChange, placeholder }) =>
-      React.createElement(
-        "select",
-        {
-          "data-testid": "order-by-dropdown",
-          value: value || "",
-          onChange: (event) =>
-            onChange({
-              value: event.target.value || null,
-            }),
-        },
-        [
-          React.createElement(
-            "option",
-            { key: "placeholder", value: "" },
-            placeholder || "Select",
-          ),
-          ...options.map((option) =>
-            React.createElement(
-              "option",
-              { key: option.value, value: option.value },
-              option.label,
-            ),
-          ),
-        ],
-      ),
-  };
-});
-
-jest.mock("primereact/listbox", () => {
-  const React = require("react");
-  return {
-    ListBox: ({ value, options, onChange }) =>
-      React.createElement(
-        "select",
-        {
-          "data-testid": "minimum-ratings-select",
-          value: value?.code || "",
-          onChange: (event) => {
-            const selected = options.find(
-              (option) => option.code === event.target.value,
-            );
-            onChange({
-              target: {
-                name: "minimum_ratings",
-                value: selected,
-                checked: true,
-              },
-            });
-          },
-        },
-        options.map((option) =>
-          React.createElement(
-            "option",
-            { key: option.code, value: option.code },
-            option.name,
-          ),
-        ),
-      ),
-  };
-});
-
 jest.mock("primereact/sidebar", () => {
   const React = require("react");
   return {
@@ -160,6 +75,12 @@ jest.mock("primereact/confirmdialog", () => {
   };
 });
 
+if (!String.prototype.replaceAll) {
+  String.prototype.replaceAll = function replaceAll(searchValue, replaceValue) {
+    return this.split(searchValue).join(replaceValue);
+  };
+}
+
 const filters = createFilters(config);
 const mustSeeToggleItem = filters.must_see.items.find(
   (item) => item.code === "true",
@@ -198,7 +119,7 @@ const getGroupsForItemType = (itemType = "movie") => {
   ];
 };
 
-const isVisibleCheckboxItem = (item) =>
+const isVisibleFilterItem = (item) =>
   !(
     (item.origin === "genres" && item.code === "allgenres") ||
     (item.origin === "minimum_ratings" && item.code !== "0.0") ||
@@ -216,14 +137,14 @@ const labelForItem = (item) => {
     return "Include major platform trends";
   }
   if (item.name === "New") {
-    return "New only";
+    return "Recent items only";
   }
   return item.name;
 };
 
-const getVisibleCheckboxItems = (itemType) =>
+const getVisibleFilterItems = (itemType) =>
   getGroupsForItemType(itemType)
-    .flatMap((group) => group.items.filter(isVisibleCheckboxItem))
+    .flatMap((group) => group.items.filter(isVisibleFilterItem))
     .filter((item) => item.origin !== "minimum_ratings");
 
 const storageKeyByOrigin = {
@@ -243,28 +164,33 @@ const splitValues = (value) =>
     .map((entry) => entry.trim())
     .filter(Boolean);
 
-const visibleCheckboxItemsForTv = getVisibleCheckboxItems("tvshow");
-const visibleCheckboxItemsForTvWithoutMustSee =
-  visibleCheckboxItemsForTv.filter((item) => item.origin !== "must_see");
-const checkboxToggleCasesForTv = visibleCheckboxItemsForTvWithoutMustSee.map(
-  (item) => [labelForItem(item), item, item.origin !== "release_date"],
+const visibleFilterItemsForTv = getVisibleFilterItems("tvshow");
+const visibleFilterItemsForTvWithoutMustSee = visibleFilterItemsForTv.filter(
+  (item) => item.origin !== "must_see",
 );
-const minimumRatingsCodes = config.minimum_ratings.split(",");
+const chipToggleCasesForTv = visibleFilterItemsForTvWithoutMustSee.map(
+  (item) => [labelForItem(item), item],
+);
+const minimumRatingsItems = filters.minimum_ratings.items;
+const defaultPopularityFilters = config.popularity
+  .split(",")
+  .filter((code) => code !== "enabled")
+  .join(",");
 
 const renderSidebar = (initialValues = {}) => {
   window.localStorage.clear();
 
   const defaultStorageState = {
-    genres: config.genres,
-    minimum_ratings: config.minimum_ratings,
-    must_see: config.must_see,
-    platforms: config.platforms,
-    popularity_filters: config.popularity,
-    ratings_filters: config.ratings,
-    release_date: config.release_date,
+    genres: "",
+    minimum_ratings: "",
+    must_see: "",
+    platforms: "",
+    popularity_filters: defaultPopularityFilters,
+    ratings_filters: "",
+    release_date: "",
     runtime: config.runtime,
-    seasons_number: config.seasons,
-    status: config.status,
+    seasons_number: "",
+    status: "",
     top_ranking_order: config.top_ranking_order,
     mojo_rank_order: config.mojo_rank_order,
     item_type: "",
@@ -298,51 +224,85 @@ describe("SidebarFilters", () => {
       genres: "Comedy",
     });
 
-    const dramaCheckbox = screen.getByLabelText("Drama");
-    expect(dramaCheckbox).not.toBeChecked();
+    const dramaChip = screen.getByRole("button", { name: "Drama" });
+    expect(dramaChip).toHaveAttribute("aria-pressed", "false");
 
-    fireEvent.click(dramaCheckbox);
+    fireEvent.click(dramaChip);
 
     expect(window.localStorage.getItem("genres")).toContain("Drama");
   });
 
   it("stores release date preference when selecting new content", () => {
     renderSidebar({
-      release_date: "everything",
+      release_date: "",
     });
 
-    const newOnlyCheckbox = screen.getByLabelText("New only");
-    expect(newOnlyCheckbox).not.toBeChecked();
+    const newOnlyChip = screen.getByRole("button", {
+      name: "Recent items only",
+    });
+    expect(newOnlyChip).toHaveAttribute("aria-pressed", "false");
 
-    fireEvent.click(newOnlyCheckbox);
+    fireEvent.click(newOnlyChip);
 
-    expect(window.localStorage.getItem("release_date")).toBe("everything,new");
+    expect(window.localStorage.getItem("release_date")).toBe("new");
   });
 
   it("stores popularity filters when enabling trends", () => {
     renderSidebar({
-      popularity_filters: "none",
+      popularity_filters: "",
     });
 
-    const trendsCheckbox = screen.getByLabelText(
-      /Include major platform trends/i,
-    );
-    expect(trendsCheckbox).not.toBeChecked();
+    const trendsChip = screen.getByRole("button", {
+      name: /Include major platform trends/i,
+    });
+    expect(trendsChip).toHaveAttribute("aria-pressed", "false");
 
-    fireEvent.click(trendsCheckbox);
+    fireEvent.click(trendsChip);
 
     expect(window.localStorage.getItem("popularity_filters")).toBe(
-      config.popularity,
+      config.popularity
+        .split(",")
+        .filter((code) => code !== "enabled")
+        .join(","),
     );
   });
 
-  it.each(minimumRatingsCodes.map((code) => [code]))(
+  it("keeps the trends chip selected when popularity filters are stored without enabled", () => {
+    renderSidebar({
+      popularity_filters: config.popularity
+        .split(",")
+        .filter((code) => code !== "enabled")
+        .join(","),
+    });
+
+    expect(
+      screen.getByRole("button", {
+        name: /Include major platform trends/i,
+      }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("keeps the trends chip selected when popularity filters are stored with the legacy enabled token", () => {
+    renderSidebar({
+      popularity_filters: "enabled,allocine_popularity,imdb_popularity",
+    });
+
+    expect(
+      screen.getByRole("button", {
+        name: /Include major platform trends/i,
+      }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it.each(minimumRatingsItems.map((item) => [item.name, item.code]))(
     "renders minimum ratings selection when storage contains %s",
-    (code) => {
+    (label, code) => {
       renderSidebar({ minimum_ratings: code });
 
-      const ratingsSelect = screen.getByTestId("minimum-ratings-select");
-      expect(ratingsSelect.value).toBe(code);
+      expect(screen.getByRole("button", { name: label })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
     },
   );
 
@@ -351,10 +311,12 @@ describe("SidebarFilters", () => {
       minimum_ratings: "3.0",
     });
 
-    const ratingsSelect = screen.getByTestId("minimum-ratings-select");
-    expect(ratingsSelect.value).toBe("3.0");
+    expect(screen.getByRole("button", { name: "3 and more" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
 
-    fireEvent.change(ratingsSelect, { target: { value: "4.5" } });
+    fireEvent.click(screen.getByRole("button", { name: "4.5 and more" }));
 
     expect(window.localStorage.getItem("minimum_ratings")).toBe("4.5");
   });
@@ -362,9 +324,7 @@ describe("SidebarFilters", () => {
   it("stores default minimum ratings when none set and user selects 4.5", () => {
     renderSidebar({ minimum_ratings: undefined });
 
-    const ratingsSelect = screen.getByTestId("minimum-ratings-select");
-
-    fireEvent.change(ratingsSelect, { target: { value: "4.5" } });
+    fireEvent.click(screen.getByRole("button", { name: "4.5 and more" }));
 
     expect(window.localStorage.getItem("minimum_ratings")).toBe("4.5");
   });
@@ -372,13 +332,25 @@ describe("SidebarFilters", () => {
   it("stores order by preference", () => {
     renderSidebar();
 
-    const dropdown = screen.getByTestId("order-by-dropdown");
-
-    fireEvent.change(dropdown, {
-      target: { value: "top_ranking_order:asc" },
+    const defaultOrderChip = screen.getByRole("button", {
+      name: "Default order",
     });
 
+    expect(defaultOrderChip).toHaveAttribute("aria-pressed", "false");
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "IMDb top ranking (high → low)",
+      }),
+    );
+
     expect(window.localStorage.getItem("top_ranking_order")).toBe("asc");
+    expect(window.localStorage.getItem("mojo_rank_order")).toBe("");
+
+    fireEvent.click(defaultOrderChip);
+
+    expect(defaultOrderChip).toHaveAttribute("aria-pressed", "true");
+    expect(window.localStorage.getItem("top_ranking_order")).toBe("");
     expect(window.localStorage.getItem("mojo_rank_order")).toBe("");
   });
 
@@ -391,7 +363,7 @@ describe("SidebarFilters", () => {
     fireEvent.mouseUp(slider, { target: { value: "120" } });
 
     await waitFor(() =>
-      expect(window.localStorage.getItem("runtime")).toBe("0,7200"),
+      expect(window.localStorage.getItem("runtime")).toBe("7200"),
     );
 
     const resetButton = await screen.findByText("Reset runtime");
@@ -402,78 +374,114 @@ describe("SidebarFilters", () => {
     );
   });
 
-  it("renders all configured filters checked by default for tv shows", () => {
+  it("renders only major platform trends selected by default for tv shows", () => {
     renderSidebar({ item_type: "tvshow" });
 
-    visibleCheckboxItemsForTv.forEach((item) => {
+    visibleFilterItemsForTv.forEach((item) => {
       const label = labelForItem(item);
-      const checkbox = screen.getByLabelText(label);
-      if (item.origin === "must_see" || item.origin === "release_date") {
-        expect(checkbox).not.toBeChecked();
-      } else {
-        expect(checkbox).toBeChecked();
-      }
+      const chip = screen.getByRole("button", { name: label });
+      expect(chip).toHaveAttribute(
+        "aria-pressed",
+        item.origin === "popularity" ? "true" : "false",
+      );
     });
 
-    const ratingsSelect = screen.getByTestId("minimum-ratings-select");
-    const optionLabels = Array.from(ratingsSelect.options).map(
-      (option) => option.textContent,
-    );
-    expect(optionLabels).toEqual(
-      filters.minimum_ratings.items.map((item) => item.name),
-    );
+    filters.minimum_ratings.items.forEach((item) => {
+      expect(
+        screen.getByRole("button", { name: item.name }),
+      ).toBeInTheDocument();
+    });
   });
 
-  it.each(checkboxToggleCasesForTv)(
+  it.each(chipToggleCasesForTv)(
     "updates localStorage when toggling %s",
-    (label, item, isCheckedByDefault) => {
+    (label, item) => {
       const storageKey = storageKeyByOrigin[item.origin];
       expect(storageKey).toBeDefined();
 
       renderSidebar({ item_type: "tvshow" });
 
-      const checkbox = screen.getByLabelText(label);
-      if (isCheckedByDefault) {
-        expect(checkbox).toBeChecked();
-      } else {
-        expect(checkbox).not.toBeChecked();
-      }
+      const chip = screen.getByRole("button", { name: label });
+      expect(chip).toHaveAttribute(
+        "aria-pressed",
+        item.origin === "popularity" ? "true" : "false",
+      );
 
-      fireEvent.click(checkbox);
+      fireEvent.click(chip);
       const afterFirstToggle = splitValues(
         window.localStorage.getItem(storageKey),
       );
-      if (isCheckedByDefault) {
-        expect(afterFirstToggle).not.toContain(item.code);
+      if (item.origin === "popularity") {
+        expect(afterFirstToggle).toEqual(["none"]);
       } else {
         expect(afterFirstToggle).toContain(item.code);
       }
 
-      fireEvent.click(checkbox);
+      fireEvent.click(chip);
       const afterSecondToggle = splitValues(
         window.localStorage.getItem(storageKey),
       );
-      if (isCheckedByDefault) {
-        expect(afterSecondToggle).toContain(item.code);
+      if (item.origin === "popularity") {
+        expect(afterSecondToggle).toEqual(
+          config.popularity.split(",").filter((code) => code !== "enabled"),
+        );
       } else {
         expect(afterSecondToggle).not.toContain(item.code);
       }
     },
   );
 
-  it("toggles Metacritic must-see only checkbox and updates storage", () => {
+  it("stores genres as all when every visible genre chip is selected", () => {
+    renderSidebar();
+
+    filters.genres.items
+      .filter((item) => item.code !== "allgenres")
+      .forEach((item) => {
+        fireEvent.click(screen.getByRole("button", { name: item.name }));
+      });
+
+    expect(window.localStorage.getItem("genres")).toBe("all");
+  });
+
+  it("stores platforms as all when every visible platform chip is selected", () => {
     renderSidebar({ item_type: "tvshow" });
 
-    const checkbox = screen.getByLabelText("Metacritic must-see only");
-    expect(checkbox).not.toBeChecked();
-    expect(window.localStorage.getItem("must_see")).toBe("false");
+    filters.platforms.items
+      .filter((item) => item.code !== "all")
+      .forEach((item) => {
+        fireEvent.click(screen.getByRole("button", { name: item.name }));
+      });
 
-    fireEvent.click(checkbox);
-    expect(checkbox).toBeChecked();
+    expect(window.localStorage.getItem("platforms")).toBe("all");
+  });
+
+  it("toggles Metacritic must-see only chip and updates storage", () => {
+    renderSidebar({ item_type: "tvshow" });
+
+    const chip = screen.getByRole("button", {
+      name: "Metacritic must-see only",
+    });
+    expect(chip).toHaveAttribute("aria-pressed", "false");
+    expect(window.localStorage.getItem("must_see")).toBe("");
+
+    fireEvent.click(chip);
+    expect(chip).toHaveAttribute("aria-pressed", "true");
     expect(window.localStorage.getItem("must_see")).toBe("true");
 
-    fireEvent.click(checkbox);
-    expect(checkbox).not.toBeChecked();
-    expect(window.localStorage.getItem("must_see")).toBe("false");
+    fireEvent.click(chip);
+    expect(chip).toHaveAttribute("aria-pressed", "false");
+    expect(window.localStorage.getItem("must_see")).toBe("");
+  });
+
+  it("normalizes legacy false-only must-see storage when selecting the chip", () => {
+    renderSidebar({ item_type: "tvshow", must_see: "false" });
+
+    const chip = screen.getByRole("button", {
+      name: "Metacritic must-see only",
+    });
+
+    fireEvent.click(chip);
+
+    expect(window.localStorage.getItem("must_see")).toBe("true");
   });
 });

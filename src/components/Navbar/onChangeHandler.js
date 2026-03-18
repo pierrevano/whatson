@@ -1,9 +1,22 @@
 import config from "../../config";
 
+const popularityFilterValue = config.popularity
+  .split(",")
+  .filter((code) => code !== "enabled")
+  .join(",");
+
 function areNamesIncluded(config, originMapper, source) {
   return config[source]
     .split(",")
     .every((item) => originMapper[source].includes(item));
+}
+
+function areVisibleNamesIncluded(originMapper, source, hiddenValues = []) {
+  const visibleValues = config[source]
+    .split(",")
+    .filter((item) => !hiddenValues.includes(item));
+
+  return visibleValues.every((item) => originMapper[source].includes(item));
 }
 
 export const onChangeHandler = (
@@ -51,8 +64,8 @@ export const onChangeHandler = (
 
   const sectionHandlers = {
     genres: () => {
-      if (areNamesIncluded(config, originMapper, "genres")) {
-        setGenresValue(config.genres);
+      if (areVisibleNamesIncluded(originMapper, "genres", ["allgenres"])) {
+        setGenresValue("all");
       } else {
         setGenresValue(
           originMapper.genres
@@ -62,16 +75,20 @@ export const onChangeHandler = (
       }
     },
     must_see: () => {
-      if (originMapper.must_see.length === 0) {
-        setMustSeeValue("false");
+      const mustSeeSelections = originMapper.must_see.filter(
+        (code) => code === "true",
+      );
+
+      if (mustSeeSelections.length === 0) {
+        setMustSeeValue("");
       } else {
-        setMustSeeValue(originMapper.must_see.join(","));
+        setMustSeeValue(mustSeeSelections.join(","));
       }
     },
     platforms: () => {
       if (item_type === config.item_type.split(",")[1]) {
-        if (areNamesIncluded(config, originMapper, "platforms")) {
-          setPlatformsValue(config.platforms);
+        if (areVisibleNamesIncluded(originMapper, "platforms", ["all"])) {
+          setPlatformsValue("all");
         } else {
           setPlatformsValue(
             originMapper.platforms
@@ -82,7 +99,7 @@ export const onChangeHandler = (
       }
     },
     popularity: () => {
-      setPopularityFilters(checked ? config.popularity : "none");
+      setPopularityFilters(checked ? popularityFilterValue : "none");
     },
     ratings: () => {
       setRatingsFilters(originMapper.ratings.join(","));

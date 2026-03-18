@@ -18,11 +18,14 @@ export const clearAndReload = async (isAuthenticated, user) => {
     minimum_ratings: "",
     must_see: "",
     platforms: "",
-    popularity_filters: "",
+    popularity_filters: config.popularity
+      .split(",")
+      .filter((code) => code !== "enabled")
+      .join(","),
     top_ranking_order: "",
     mojo_rank_order: "",
     ratings_filters: "",
-    release_date: config.release_date,
+    release_date: "",
     runtime: "",
     seasons_number: "",
     status: "",
