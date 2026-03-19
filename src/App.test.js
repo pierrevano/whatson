@@ -12,13 +12,13 @@ jest.mock("./config", () => ({
   __esModule: true,
   default: {
     base_render_api: "https://health.test",
-    base_beamanalytics: "",
-    beamanalytics_token: "",
+    umami_script_url: "",
+    umami_website_id: "",
   },
 }));
 
 jest.mock("utils/useCacheBuster", () => jest.fn());
-jest.mock("utils/useScript", () => jest.fn());
+jest.mock("utils/useAnalyticsScript", () => jest.fn());
 jest.mock("utils/consoleMessage", () => jest.fn());
 
 jest.mock("components/Navbar", () => ({

@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import RatingsChart from "../RatingsChart";
 
-jest.mock("utils/shouldSendCustomEvents", () => ({
-  shouldSendCustomEvents: jest.fn(() => false),
+jest.mock("utils/analytics", () => ({
+  trackAnalyticsEvent: jest.fn(),
 }));
 
 jest.mock("react-hooks-fetch", () => ({

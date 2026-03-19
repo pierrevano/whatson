@@ -5,6 +5,10 @@ import { useStorageString } from "utils/useStorageString";
 import { getTitleFromURL } from "utils/kind";
 import Search from "components/Searchbar";
 import Container from "components/Container";
+import {
+  getCurrentLocationKey,
+  restoreDetailReturnScroll,
+} from "utils/detailNavigationScroll";
 import CardsByPage from "./CardsByPage";
 import Info from "./Info";
 
@@ -29,13 +33,7 @@ const Searchbar = styled(Search)`
  * @returns {JSX.Element} Search scaffold with results grid and optional helper text.
  */
 const SearchView = ({ isSearchable = true, kindURL = "multi" }) => {
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.setTimeout(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      }, 100);
-    }
-  }, []);
+  useEffect(() => restoreDetailReturnScroll(getCurrentLocationKey()), []);
 
   useEffect(() => {
     document.title = getTitleFromURL(kindURL);

@@ -99,12 +99,12 @@ const AboutPage = () => {
               Additionally, this app is ad-free and does not use cookies. It
               only relies on a GDPR-compliant solution,{" "}
               <Anchor
-                to="https://beamanalytics.io"
-                ariaLabel="Beam Analytics"
+                to="https://umami.is"
+                ariaLabel="Umami"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Beam Analytics
+                Umami
               </Anchor>
               , to enhance the user experience.
             </Text>

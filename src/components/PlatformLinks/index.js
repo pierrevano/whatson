@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Text from "components/Text";
 import Eye from "components/Icon/Eye";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { trackAnalyticsEvent } from "utils/analytics";
 
 const Wrapper = styled.button`
   background: none;
@@ -48,9 +48,7 @@ const Right = styled.div`
  */
 const PlatformLinks = ({ name, linkURL }) => {
   const handleClick = () => {
-    if (shouldSendCustomEvents()) {
-      window.beam?.(`/custom-events/platform_links_opened/${linkURL}`);
-    }
+    trackAnalyticsEvent("platform_link_opened", { name, url: linkURL });
     window.open(linkURL, "_blank", "noreferrer");
   };
 

@@ -6,7 +6,7 @@ import {
   syncImdbWatchlist,
 } from "utils/importImdbWatchlist";
 import { Row, Cell } from "griding";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { trackAnalyticsEvent } from "utils/analytics";
 import { useFavorites } from "utils/favorites";
 import config from "config";
 import Container from "components/Container";
@@ -551,9 +551,7 @@ const SearchView = () => {
   }, []);
 
   useEffect(() => {
-    if (shouldSendCustomEvents()) {
-      window.beam?.(`/custom-events/favorites_view_opened`);
-    }
+    trackAnalyticsEvent("favorites_view_opened");
 
     document.title = "Favorites - " + getTitle(favorites.length);
   }, [favorites.length]);

@@ -26,9 +26,9 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ![ItemDetails](./public/item_details.png)
 
-## Episodes details
+## Season ratings insights
 
-![EpisodesDetails](./public/episodes_details.png)
+![SeasonRatingsInsights](./public/season_ratings_insights.png)
 
 ## Filters
 

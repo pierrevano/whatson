@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Container from "components/Container";
 import Text from "components/Text";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { trackAnalyticsEvent } from "utils/analytics";
 
 const Wrapper = styled(Container)`
   flex: 1;
@@ -36,8 +36,8 @@ const InfoText = styled(Text)`
  */
 const InfoScreen = ({ emoji, title, description, ...props }) => {
   useEffect(() => {
-    if (shouldSendCustomEvents()) {
-      window.beam?.(`/custom-events/info_screen_displayed/${title}`);
+    if (typeof title === "string" && title) {
+      trackAnalyticsEvent("info_screen_displayed", { title });
     }
   }, [title]);
 

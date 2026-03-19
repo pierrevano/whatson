@@ -9,7 +9,7 @@ import { Sidebar } from "primereact/sidebar";
 import Menu from "components/Icon/Menu";
 import config from "../../config";
 import SidebarFilters from "./SidebarFilters";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { trackAnalyticsEvent } from "utils/analytics";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoggedIn from "components/Icon/LoggedIn";
 import LoggedOut from "components/Icon/LoggedOut";
@@ -143,9 +143,7 @@ const Navbar = () => {
             className="underlinedSpan"
             onClick={() => {
               setItemType("movie");
-              if (shouldSendCustomEvents()) {
-                window.beam?.(`/custom-events/switch_to_opened/movie`);
-              }
+              trackAnalyticsEvent("switch_to_opened", { item_type: "movie" });
             }}
           >
             Movies
@@ -160,9 +158,7 @@ const Navbar = () => {
             className="underlinedSpan"
             onClick={() => {
               setItemType("tvshow");
-              if (shouldSendCustomEvents()) {
-                window.beam?.(`/custom-events/switch_to_opened/tvshow`);
-              }
+              trackAnalyticsEvent("switch_to_opened", { item_type: "tvshow" });
             }}
           >
             TV Shows
@@ -182,11 +178,9 @@ const Navbar = () => {
             className="underlinedSpan"
             onClick={() => {
               setItemType("movie,tvshow");
-              if (shouldSendCustomEvents()) {
-                window.beam?.(
-                  `/custom-events/switch_to_opened/movie_and_tvshow`,
-                );
-              }
+              trackAnalyticsEvent("switch_to_opened", {
+                item_type: "movie,tvshow",
+              });
             }}
           >
             All items
@@ -201,9 +195,7 @@ const Navbar = () => {
                 className="underlinedSpan"
                 onClick={() => {
                   logout({ returnTo: window.location.origin });
-                  if (shouldSendCustomEvents()) {
-                    window.beam?.(`/custom-events/switch_to_opened/logout`);
-                  }
+                  trackAnalyticsEvent("logout_clicked");
                 }}
                 style={{ position: "absolute", bottom: "20px", left: "50px" }}
               >

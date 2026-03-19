@@ -16,8 +16,8 @@ jest.mock("@auth0/auth0-react", () => ({
 
 jest.mock("../initializeLocalStorage", () => jest.fn());
 
-jest.mock("utils/shouldSendCustomEvents", () => ({
-  shouldSendCustomEvents: jest.fn(() => false),
+jest.mock("utils/analytics", () => ({
+  trackAnalyticsEvent: jest.fn(),
 }));
 
 jest.mock("utils/clearLocalStorage", () => ({
@@ -453,6 +453,20 @@ describe("SidebarFilters", () => {
       });
 
     expect(window.localStorage.getItem("platforms")).toBe("all");
+  });
+
+  it("replaces the old reset link with action buttons and opens the reset confirmation", () => {
+    renderSidebar();
+
+    expect(
+      screen.getByRole("button", { name: "Apply filters" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+    expect(screen.queryByText("Reset Preferences")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+
+    expect(screen.getByTestId("confirm-dialog")).toBeInTheDocument();
   });
 
   it("toggles Metacritic must-see only chip and updates storage", () => {

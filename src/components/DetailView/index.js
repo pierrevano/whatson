@@ -26,9 +26,9 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { getRatingsDetails } from "utils/getRatingsDetails";
+import { trackAnalyticsEvent } from "utils/analytics";
 import RatingsChart from "./RatingsChart";
 import { colors } from "../../theme";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -84,9 +84,7 @@ const getDetailTitle = (kindURL, title) =>
   `${getTitleFromURL(kindURL)} ${title ? ` - ${title}` : ""}`;
 
 const Player = ({ src, ...rest }) => {
-  if (shouldSendCustomEvents()) {
-    window.beam?.(`/custom-events/dailymotion_player_opened/${src}`);
-  }
+  trackAnalyticsEvent("dailymotion_player_opened", { src });
 
   const dailymotionPlayer = "dailymotionPlayer";
   const dataVideo = rest["data-video"];
@@ -477,11 +475,9 @@ const DetailView = ({ id, kindURL }) => {
                       width="100%"
                       height="100%"
                       onPlay={() => {
-                        if (shouldSendCustomEvents()) {
-                          window.beam?.(
-                            `/custom-events/native_player_opened/${trailer}`,
-                          );
-                        }
+                        trackAnalyticsEvent("native_player_opened", {
+                          url: trailer,
+                        });
                       }}
                     />
                   )}

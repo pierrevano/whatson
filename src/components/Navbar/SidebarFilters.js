@@ -3,7 +3,7 @@ import { clearAndReload } from "utils/clearLocalStorage";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { createFilters } from "./createFilters";
 import { initializeSelectedItems } from "./initializeSelectedItems";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { trackAnalyticsEvent } from "utils/analytics";
 import { Sidebar } from "primereact/sidebar";
 import { Slider } from "primereact/slider";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -64,6 +64,33 @@ const Chip = styled.button`
   font-size: ${(p) => (p.$compact ? "0.95rem" : "1rem")};
   text-align: center;
   white-space: normal;
+
+  &:focus {
+    outline: none;
+    box-shadow: ${(p) => p.theme.focusShadow};
+  }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+`;
+
+const ActionButton = styled.button`
+  background: ${(p) =>
+    p.$variant === "primary" ? p.theme.colors.green : p.theme.colors.grey};
+  color: ${(p) => p.theme.colors.white};
+  border: 1px solid
+    ${(p) =>
+      p.$variant === "primary" ? p.theme.colors.green : "rgb(53, 63, 76)"};
+  min-height: 2.8rem;
+  padding: 0.65rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
 
   &:focus {
     outline: none;
@@ -306,9 +333,7 @@ const SidebarFilters = () => {
   }, [commitRuntimeSelection, hasChanges, runtimeRangeMinutes]);
 
   const accept = useCallback(() => {
-    if (shouldSendCustomEvents()) {
-      window.beam?.(`/custom-events/clear_preferences_accepted`);
-    }
+    trackAnalyticsEvent("clear_preferences_accepted");
 
     clearAndReload(isAuthenticated, user);
   }, [isAuthenticated, user]);
@@ -389,15 +414,18 @@ const SidebarFilters = () => {
               <br />
             </SectionStack>
           ))}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span className="pi pi-trash" />
-            <span
-              className="underlinedSpan"
-              onClick={() => setConfirmVisible(true)}
+          <Actions>
+            <ActionButton
+              type="button"
+              $variant="primary"
+              onClick={handleSidebarHide}
             >
-              Reset Preferences
-            </span>
-          </div>
+              Apply filters
+            </ActionButton>
+            <ActionButton type="button" onClick={() => setConfirmVisible(true)}>
+              Reset
+            </ActionButton>
+          </Actions>
           <ConfirmDialog
             visible={confirmVisible}
             onHide={() => setConfirmVisible(false)}

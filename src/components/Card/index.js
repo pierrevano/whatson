@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import LazyImage from "react-lazy-progressive-image";
 import { useFavoriteState } from "utils/favorites";
 import Link from "components/Link";
@@ -10,8 +10,9 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { getRatingsDetails } from "utils/getRatingsDetails";
+import { trackAnalyticsEvent } from "utils/analytics";
 import { colors } from "../../theme";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { saveDetailReturnScroll } from "utils/detailNavigationScroll";
 
 const Wrapper = styled.div`
   background: none;
@@ -20,9 +21,40 @@ const Wrapper = styled.div`
   flex: 1;
   display: flex;
   position: relative;
-  background: ${(p) => (p.error ? p.theme.colors.red : p.theme.colors.grey)};
+  background: ${(p) =>
+    p.$error
+      ? p.theme.colors.red
+      : p.$loading
+        ? p.theme.colors.midGrey
+        : p.theme.colors.grey};
   border-radius: 0.1875rem;
   cursor: pointer;
+
+  ${(p) =>
+    p.$loading &&
+    css`
+      overflow: hidden;
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.08) 50%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: shimmer 1.6s infinite;
+      }
+    `}
+
+  @keyframes shimmer {
+    to {
+      transform: translateX(100%);
+    }
+  }
 `;
 
 const fill = `position: absolute; top: 0; bottom: 0; left: 0; right: 0;`;
@@ -316,9 +348,9 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const isMounted = useRef(false);
 
   const displayRatingsDetails = (e) => {
-    if (shouldSendCustomEvents()) {
-      window.beam?.(`/custom-events/ratings_details_displayed/${allocineID}`);
-    }
+    trackAnalyticsEvent("ratings_details_displayed", {
+      allocine_id: allocineID,
+    });
 
     if (isMounted.current && detailsData) {
       op.current.hide(e);
@@ -330,13 +362,14 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   };
 
   return (
-    <Wrapper error={error} {...props}>
+    <Wrapper $error={error} $loading={loading} {...props}>
       <AspectRatio ratio={0.75} />
       {!(loading || error || loadMore) && (
         <Anchor
           to={`/${kindURL}/${id}`}
           tabIndex={0}
           ariaLabel={`poster for: ${title}`}
+          onClick={saveDetailReturnScroll}
         />
       )}
       <OverflowHidden>

@@ -6,7 +6,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import config from "../../config";
 import * as theme from "../../theme";
-import { shouldSendCustomEvents } from "utils/shouldSendCustomEvents";
+import { trackAnalyticsEvent } from "utils/analytics";
 import ExportableChart from "./ExportableChart";
 
 const Wrapper = styled.div`
@@ -272,8 +272,10 @@ const RatingsChart = ({ tvshowId, allocineUrl, pageTitle }) => {
   const { data, loading, error } = useFetch(endpoint);
 
   useEffect(() => {
-    if (shouldSendCustomEvents() && allocineUrl) {
-      window.beam?.(`/custom-events/ratings_chart_opened/${allocineUrl}`);
+    if (allocineUrl) {
+      trackAnalyticsEvent("ratings_chart_opened", {
+        allocine_url: allocineUrl,
+      });
     }
   }, [allocineUrl]);
 
