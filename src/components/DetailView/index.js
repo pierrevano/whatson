@@ -166,6 +166,10 @@ const DetailView = ({ id, kindURL }) => {
     "episodes_details,last_episode,next_episode,highest_episode,lowest_episode,platforms_links",
     ratings_filters_query,
     ratings_filters,
+    undefined,
+    "",
+    undefined,
+    "",
   );
 
   const { data: data_from_render } = useFetch(

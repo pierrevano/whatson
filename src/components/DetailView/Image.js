@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import LazyImage from "react-lazy-progressive-image";
+import LazyImage from "components/LazyImage";
 import { Movie, TVShow, Person } from "components/Icon";
 import AspectRatio from "components/AspectRatio";
 
@@ -25,7 +25,7 @@ const Img = styled.img`
   min-height: 100%;
   object-fit: cover;
   transition: 0.2s filter;
-  ${(p) => p.loading && `filter: blur(0.5px)`}
+  ${(p) => p.$loading && `filter: blur(0.5px)`}
 `;
 
 const NoImage = styled.div`
@@ -66,7 +66,8 @@ const Image = ({ placeholder, image, kind }) => {
               src={src}
               width={width}
               height={height}
-              loading={+loading}
+              $loading={loading}
+              loading="lazy"
             />
           )}
         </LazyImage>

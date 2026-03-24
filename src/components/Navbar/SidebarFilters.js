@@ -98,6 +98,26 @@ const ActionButton = styled.button`
   }
 `;
 
+const TextFilterInput = styled.input`
+  width: 100%;
+  background: ${(p) => p.theme.colors.grey};
+  border: 1px solid rgb(53, 63, 76);
+  color: ${(p) => p.theme.colors.white};
+  border-radius: 0.25rem;
+  padding: 0.75rem 0.875rem;
+  font-family: inherit;
+  font-size: 1rem;
+
+  &::placeholder {
+    color: ${(p) => p.theme.colors.lightGrey};
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: ${(p) => p.theme.focusShadow};
+  }
+`;
+
 const SidebarFilters = () => {
   const { isAuthenticated, user } = useAuth0();
 
@@ -105,6 +125,10 @@ const SidebarFilters = () => {
 
   const defaultItemTypeFilters = useMemo(() => config.item_type.split(","), []);
 
+  const [directors_value, setDirectorsValue] = useStorageString(
+    "directors",
+    "",
+  );
   const [genres_value, setGenresValue] = useStorageString("genres", "");
   const [item_type] = useStorageString("item_type", "");
   const [minimum_ratings_value, setMinRatingsValue] = useStorageString(
@@ -128,6 +152,8 @@ const SidebarFilters = () => {
     "mojo_rank_order",
     "",
   );
+  const [production_companies_value, setProductionCompaniesValue] =
+    useStorageString("production_companies", "");
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
     "",
@@ -197,6 +223,14 @@ const SidebarFilters = () => {
   useTouchEndNormalization();
 
   const markAsChanged = useCallback(() => setHasChanges(true), [setHasChanges]);
+
+  const handleTextFilterChange = useCallback(
+    (setter) => (event) => {
+      setter(event.target.value);
+      markAsChanged();
+    },
+    [markAsChanged],
+  );
 
   const groupedItems = useMemo(
     () =>
@@ -414,6 +448,32 @@ const SidebarFilters = () => {
               <br />
             </SectionStack>
           ))}
+          <SectionStack>
+            <h2>
+              <strong>Directors</strong>
+            </h2>
+            <TextFilterInput
+              type="text"
+              value={directors_value}
+              aria-label="Directors"
+              placeholder="Christopher Nolan, Greta Gerwig"
+              onChange={handleTextFilterChange(setDirectorsValue)}
+            />
+            <br />
+          </SectionStack>
+          <SectionStack>
+            <h2>
+              <strong>Production companies</strong>
+            </h2>
+            <TextFilterInput
+              type="text"
+              value={production_companies_value}
+              aria-label="Production companies"
+              placeholder="A24, Studio Ghibli"
+              onChange={handleTextFilterChange(setProductionCompaniesValue)}
+            />
+            <br />
+          </SectionStack>
           <Actions>
             <ActionButton
               type="button"

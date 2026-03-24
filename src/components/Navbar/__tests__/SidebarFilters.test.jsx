@@ -181,11 +181,13 @@ const renderSidebar = (initialValues = {}) => {
   window.localStorage.clear();
 
   const defaultStorageState = {
+    directors: "",
     genres: "",
     minimum_ratings: "",
     must_see: "",
     platforms: "",
     popularity_filters: defaultPopularityFilters,
+    production_companies: "",
     ratings_filters: "",
     release_date: "",
     runtime: config.runtime,
@@ -245,6 +247,27 @@ describe("SidebarFilters", () => {
     fireEvent.click(newOnlyChip);
 
     expect(window.localStorage.getItem("release_date")).toBe("new");
+  });
+
+  it("stores directors and production companies text filters", () => {
+    renderSidebar();
+
+    fireEvent.change(screen.getByRole("textbox", { name: "Directors" }), {
+      target: { value: "Christopher Nolan, Greta Gerwig" },
+    });
+    fireEvent.change(
+      screen.getByRole("textbox", { name: "Production companies" }),
+      {
+        target: { value: "A24, Studio Ghibli" },
+      },
+    );
+
+    expect(window.localStorage.getItem("directors")).toBe(
+      "Christopher Nolan, Greta Gerwig",
+    );
+    expect(window.localStorage.getItem("production_companies")).toBe(
+      "A24, Studio Ghibli",
+    );
   });
 
   it("stores popularity filters when enabling trends", () => {

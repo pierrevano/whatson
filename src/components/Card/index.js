@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import styled, { css } from "styled-components";
-import LazyImage from "react-lazy-progressive-image";
 import { useFavoriteState } from "utils/favorites";
 import Link from "components/Link";
 import AspectRatio from "components/AspectRatio";
@@ -374,15 +373,7 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
       )}
       <OverflowHidden>
         {image && (
-          <LazyImage placeholder={image} src={image}>
-            {(src, loading) => (
-              <Image
-                src={src}
-                alt={`poster for: ${title}`}
-                loading={+loading}
-              />
-            )}
-          </LazyImage>
+          <Image src={image} alt={`poster for: ${title}`} loading="lazy" />
         )}
       </OverflowHidden>
       {loadMore && (

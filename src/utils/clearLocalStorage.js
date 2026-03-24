@@ -13,6 +13,7 @@ import postPreferences from "./postPreferences";
  */
 export const clearAndReload = async (isAuthenticated, user) => {
   const defaults = {
+    directors: "",
     genres: "",
     item_type: config.item_type,
     minimum_ratings: "",
@@ -24,6 +25,7 @@ export const clearAndReload = async (isAuthenticated, user) => {
       .join(","),
     top_ranking_order: "",
     mojo_rank_order: "",
+    production_companies: "",
     ratings_filters: "",
     release_date: "",
     runtime: "",

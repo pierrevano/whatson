@@ -12,6 +12,7 @@ import config from "../../config";
 
 const queryStringParsed = queryString.parse(window.location.search);
 const api_key_query = queryStringParsed.api_key;
+const directors_query = queryStringParsed.directors;
 const genres_query = queryStringParsed.genres;
 const is_active_query = queryStringParsed.is_active;
 const item_type_query = queryStringParsed.item_type;
@@ -23,12 +24,14 @@ const top_ranking_order_query = queryStringParsed.top_ranking_order;
 const mojo_rank_order_query = queryStringParsed.mojo_rank_order;
 const ratings_filters_query = queryStringParsed.ratings_filters;
 const release_date_query = queryStringParsed.release_date;
+const production_companies_query = queryStringParsed.production_companies;
 const runtime_query = queryStringParsed.runtime;
 const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
 const getDataURL = (
   api_key,
+  directors,
   genres,
   is_active,
   item_type,
@@ -42,6 +45,7 @@ const getDataURL = (
   mojo_rank_order,
   ratings_filters,
   release_date,
+  production_companies,
   runtime,
   search,
   seasons_number,
@@ -80,6 +84,10 @@ const getDataURL = (
     "",
     ratings_filters_query,
     ratings_filters,
+    directors_query,
+    directors,
+    production_companies_query,
+    production_companies,
   );
 
   if (
@@ -111,6 +119,10 @@ const InfiniteScroll = ({ page, setPage }) => {
  */
 const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
   const [api_key, setApiKey] = useStorageString("api_key", "");
+  const [directors_value, setDirectorsValue] = useStorageString(
+    "directors",
+    "",
+  );
   const [genres_value, setGenresValue] = useStorageString("genres", "");
   const [is_active, setIsActive] = useStorageString(
     "is_active",
@@ -149,6 +161,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     "release_date",
     config.release_date,
   );
+  const [production_companies_value, setProductionCompaniesValue] =
+    useStorageString("production_companies", "");
   const [runtime_value, setRuntimeValue] = useStorageString("runtime", "");
   const [seasons_number, setSeasonsNumber] = useStorageString(
     "seasons_number",
@@ -158,6 +172,8 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   useEffect(() => {
     if (typeof api_key_query !== "undefined") setApiKey(api_key_query);
+    if (typeof directors_query !== "undefined")
+      setDirectorsValue(directors_query);
     if (typeof genres_query !== "undefined") setGenresValue(genres_query);
     if (typeof is_active_query !== "undefined") setIsActive(is_active_query);
     if (typeof item_type_query !== "undefined") setItemType(item_type_query);
@@ -176,11 +192,14 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       setRatingsFilters(ratings_filters_query);
     if (typeof release_date_query !== "undefined")
       setReleaseDate(release_date_query);
+    if (typeof production_companies_query !== "undefined")
+      setProductionCompaniesValue(production_companies_query);
     if (typeof runtime_query !== "undefined") setRuntimeValue(runtime_query);
     if (typeof seasons_number_query !== "undefined")
       setSeasonsNumber(seasons_number_query);
     if (typeof status_query !== "undefined") setStatusValue(status_query);
   }, [
+    setDirectorsValue,
     setGenresValue,
     setIsActive,
     setItemType,
@@ -192,6 +211,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     setMojoRankOrder,
     setRatingsFilters,
     setReleaseDate,
+    setProductionCompaniesValue,
     setRuntimeValue,
     setSeasonsNumber,
     setStatusValue,
@@ -199,6 +219,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   const fetchUrl = getDataURL(
     api_key,
+    directors_value,
     genres_value,
     is_active,
     item_type,
@@ -212,6 +233,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
     mojo_rank_order,
     ratings_filters,
     release_date,
+    production_companies_value,
     runtime_value,
     search,
     seasons_number,
@@ -249,7 +271,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
 
   const [randomData] = useState(() => getRandomError(errorMessage));
 
-  if (error && search && page === 1) {
+  if (error && page === 1) {
     return (
       <Cell xs={12}>
         <InfoScreen

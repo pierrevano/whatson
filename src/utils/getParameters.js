@@ -7,18 +7,28 @@ const addParameter = (queryValue, queryAlternate, paramName) => {
   return "";
 };
 
+const normalizeFilterValue = (value) =>
+  (value || "")
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .join(",");
+
 const handleEncodedFilters = (mainQuery, alternateQuery, paramName) => {
-  if (mainQuery) {
+  const normalizedMainQuery = normalizeFilterValue(mainQuery);
+  const normalizedAlternateQuery = normalizeFilterValue(alternateQuery);
+
+  if (normalizedMainQuery) {
     return `${paramName}=${
       paramName === "ratings_filters"
-        ? mainQuery
-        : encodeURIComponent(mainQuery)
+        ? normalizedMainQuery
+        : encodeURIComponent(normalizedMainQuery)
     }&`;
-  } else if (typeof alternateQuery !== "undefined") {
+  } else if (normalizedAlternateQuery) {
     return `${paramName}=${
       paramName === "ratings_filters"
-        ? alternateQuery
-        : encodeURIComponent(alternateQuery)
+        ? normalizedAlternateQuery
+        : encodeURIComponent(normalizedAlternateQuery)
     }&`;
   }
   return `${paramName}=all&`;
@@ -57,6 +67,10 @@ export const getParameters = (
   append_to_response,
   ratings_filters_query,
   ratings_filters,
+  directors_query,
+  directors,
+  production_companies_query,
+  production_companies,
 ) => {
   let parameters = "?";
 
@@ -118,6 +132,14 @@ export const getParameters = (
     ratings_filters,
     ratings_filters_query,
     "ratings_filters",
+  );
+
+  parameters += handleEncodedFilters(directors, directors_query, "directors");
+
+  parameters += handleEncodedFilters(
+    production_companies,
+    production_companies_query,
+    "production_companies",
   );
 
   parameters = parameters.replace(/&$/, "");

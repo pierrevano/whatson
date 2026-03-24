@@ -7,13 +7,28 @@ function useFetchWithStatusCode(url) {
   const [statusCode, setStatusCode] = useState(null);
 
   useEffect(() => {
-    if (!url) return;
+    if (!url) {
+      setData(null);
+      setError(null);
+      setStatusCode(null);
+      setIsLoading(false);
+      return;
+    }
+
+    let ignore = false;
 
     const fetchData = async () => {
-      setIsLoading(true);
+      if (!ignore) {
+        setData(null);
+        setError(null);
+        setStatusCode(null);
+        setIsLoading(true);
+      }
 
       try {
         const response = await fetch(url);
+        if (ignore) return;
+
         setStatusCode(response.status);
 
         if (!response.ok) {
@@ -21,15 +36,26 @@ function useFetchWithStatusCode(url) {
         }
 
         const result = await response.json();
+        if (ignore) return;
+
         setData(result);
+        setError(null);
       } catch (error) {
+        if (ignore) return;
+
         setError(error);
       } finally {
-        setIsLoading(false);
+        if (!ignore) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchData();
+
+    return () => {
+      ignore = true;
+    };
   }, [url]);
 
   return { data, error, isLoading, statusCode };
