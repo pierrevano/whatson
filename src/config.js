@@ -12,9 +12,6 @@ const config = {
 
   loader_icon_duration_milliseconds: 37250,
 
-  imdb_watchlist_proxy: "https://cors-sites-aafe82ad9d0c.fly.dev",
-  imdb_watchlist_url: "imdb_watchlist_url",
-
   // filters specifics
   favorites: "",
 

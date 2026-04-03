@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+set -euo pipefail
+
+node scripts/checkStaticUsage.js

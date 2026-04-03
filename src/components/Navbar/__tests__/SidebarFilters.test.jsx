@@ -1,4 +1,3 @@
-import React from "react";
 import { ThemeProvider } from "styled-components";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";

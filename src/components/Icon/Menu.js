@@ -1,14 +1,6 @@
-import React from "react";
 import { colors } from "../../theme";
 
-const Menu = ({
-  size = 30,
-  filled = false,
-  color = "currentColor",
-  strokeWidth = 0.1,
-  style,
-  ...props
-}) => (
+const Menu = ({ size = 30, strokeWidth = 0.1, style, ...props }) => (
   <svg
     className="menu-icon"
     viewBox="0 0 24 24"

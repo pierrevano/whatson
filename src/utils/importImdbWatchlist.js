@@ -155,7 +155,7 @@ const resolveImdbIdToFavorites = async (imdbId) => {
 const resolveImdbIdsCollection = async (imdbIds = []) => {
   if (!Array.isArray(imdbIds) || !imdbIds.length) {
     throw new Error(
-      "We could not find any titles in that watchlist. Please double-check the link.",
+      "We could not find any titles in that CSV. Please double-check the file.",
     );
   }
 
@@ -173,7 +173,7 @@ const resolveImdbIdsCollection = async (imdbIds = []) => {
             unmatchedIds.add(imdbId);
           }
           return matches;
-        } catch (error) {
+        } catch {
           unmatchedIds.add(imdbId);
           return [];
         }
@@ -188,152 +188,6 @@ const resolveImdbIdsCollection = async (imdbIds = []) => {
     unmatched: [...unmatchedIds],
     total: uniqueIds.length,
   };
-};
-
-const fetchWithCorsFallback = async (url) => {
-  const performFetch = async (input) => {
-    const response = await fetch(input, { credentials: "omit" });
-    if (!response.ok) {
-      throw new Error(
-        "We could not load that page just now. Please try again in a moment.",
-      );
-    }
-    return response.text();
-  };
-
-  try {
-    return await performFetch(url);
-  } catch (initialError) {
-    const proxiedUrl = `${config.imdb_watchlist_proxy}/${url}`;
-
-    if (url === proxiedUrl) {
-      throw initialError;
-    }
-
-    try {
-      return await performFetch(proxiedUrl);
-    } catch (proxyError) {
-      throw initialError;
-    }
-  }
-};
-
-const decodeHtmlEntities = (value) => {
-  if (typeof window !== "undefined") {
-    const textarea = document.createElement("textarea");
-    textarea.innerHTML = value;
-    return textarea.value;
-  }
-
-  return value
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#x27;/g, "'")
-    .replace(/&#39;/g, "'");
-};
-
-const extractNextDataJson = (html) => {
-  if (typeof DOMParser !== "undefined") {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const script = doc?.getElementById?.("__NEXT_DATA__");
-    const raw = script?.textContent || script?.innerHTML;
-
-    if (!raw) {
-      throw new Error(
-        "We could not read any titles from that watchlist page. Please make sure it is public and try again.",
-      );
-    }
-
-    return JSON.parse(raw);
-  }
-
-  const match = html.match(
-    /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/,
-  );
-
-  if (!match || !match[1]) {
-    throw new Error(
-      "We could not read any titles from that watchlist page. Please make sure it is public and try again.",
-    );
-  }
-
-  const decoded = decodeHtmlEntities(match[1]);
-  return JSON.parse(decoded);
-};
-
-const extractImdbIdsFromNextData = (payload) => {
-  if (!payload || typeof payload !== "object") {
-    return [];
-  }
-
-  const edges =
-    payload?.props?.pageProps?.mainColumnData?.predefinedList
-      ?.titleListItemSearch?.edges;
-
-  const ids = [];
-
-  if (Array.isArray(edges)) {
-    edges.forEach((edge) => {
-      const rawId =
-        edge?.listItem?.id ||
-        edge?.node?.listItem?.id ||
-        edge?.node?.listItem?.title?.id;
-      const normalized =
-        typeof rawId === "string" && /^tt\d+$/i.test(rawId)
-          ? rawId.toLowerCase()
-          : null;
-      if (normalized) {
-        ids.push(normalized);
-      }
-    });
-  }
-
-  if (!ids.length) {
-    const fallbackItems =
-      payload?.props?.pageProps?.data?.list?.items ||
-      payload?.props?.pageProps?.preloadedListData?.list?.items;
-
-    if (Array.isArray(fallbackItems)) {
-      fallbackItems.forEach((item) => {
-        const rawId = item?.const || item?.id;
-        const normalized =
-          typeof rawId === "string" && /^tt\d+$/i.test(rawId)
-            ? rawId.toLowerCase()
-            : null;
-        if (normalized) {
-          ids.push(normalized);
-        }
-      });
-    }
-  }
-
-  return [...new Set(ids)];
-};
-
-export const syncImdbWatchlist = async ({ url }) => {
-  if (typeof url !== "string" || !url.trim()) {
-    throw new Error(
-      "Please enter the full link to your public IMDb watchlist.",
-    );
-  }
-
-  const trimmedUrl = url.trim();
-  const isValidUrl = /^https?:\/\//i.test(trimmedUrl);
-
-  if (!isValidUrl) {
-    throw new Error(
-      "The watchlist link should start with http:// or https://. Please update it and try again.",
-    );
-  }
-
-  const html = await fetchWithCorsFallback(trimmedUrl);
-  const nextData = extractNextDataJson(html);
-  const imdbIds = extractImdbIdsFromNextData(nextData);
-
-  return resolveImdbIdsCollection(imdbIds);
 };
 
 export const importImdbWatchlist = async ({ file }) => {

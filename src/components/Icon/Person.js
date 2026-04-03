@@ -1,8 +1,5 @@
-import React from "react";
-
 const Person = ({
   size = 48,
-  filled = false,
   color = "currentColor",
   strokeWidth = 2,
   style,

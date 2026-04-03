@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
 import { useInView } from "react-intersection-observer";
 import { Cell } from "griding";

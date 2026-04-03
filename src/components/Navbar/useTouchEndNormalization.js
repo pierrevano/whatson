@@ -22,7 +22,7 @@ export const useTouchEndNormalization = () => {
             configurable: true,
             value: event.changedTouches,
           });
-        } catch (error) {
+        } catch {
           // Ignore read-only event implementations and let the browser continue.
         }
       }

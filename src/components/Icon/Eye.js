@@ -1,13 +1,4 @@
-import * as React from "react";
-
-const Eye = ({
-  size = 48,
-  filled = false,
-  color = "currentColor",
-  strokeWidth = 2,
-  style,
-  ...props
-}) => (
+const Eye = ({ size = 48, color = "currentColor", style, ...props }) => (
   <svg
     viewBox="0 0 520 442"
     stroke={color}

@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import above from "utils/above";
 import Container from "components/Container";

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useFetch } from "react-hooks-fetch";
 import { Row, Cell } from "griding";

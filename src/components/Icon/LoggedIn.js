@@ -1,8 +1,5 @@
-import * as React from "react";
-
 const LoggedIn = ({
   size = 34,
-  filled = false,
   color = "currentColor",
   strokeWidth = "1.5",
   style,

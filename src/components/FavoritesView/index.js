@@ -1,14 +1,10 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { HeartBreak } from "components/Icon";
-import {
-  importImdbWatchlist,
-  syncImdbWatchlist,
-} from "utils/importImdbWatchlist";
+import { importImdbWatchlist } from "utils/importImdbWatchlist";
 import { Row, Cell } from "griding";
 import { trackAnalyticsEvent } from "utils/analytics";
 import { useFavorites } from "utils/favorites";
-import config from "config";
 import Container from "components/Container";
 import FetchCard from "components/Card/FetchCard";
 import InfoScreen from "components/InfoScreen";
@@ -91,13 +87,13 @@ const DialogContent = styled.div`
   max-width: 28rem;
 `;
 
-const SyncForm = styled.form`
+const ImportForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 `;
 
-const Input = styled.input`
+const FileInput = styled.input.attrs({ type: "file" })`
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
@@ -124,9 +120,6 @@ const Input = styled.input`
     border-color: ${(p) => p.theme.colors.green};
     box-shadow: 0 0 0 0.125rem rgba(40, 167, 69, 0.35);
   }
-`;
-
-const FileInput = styled(Input).attrs({ type: "file" })`
   padding: 0.65rem 0.75rem;
 
   &::file-selector-button {
@@ -206,11 +199,6 @@ const Note = styled(Text)`
   }
 `;
 
-const EmphasisNote = styled(Note)`
-  font-size: 0.9rem;
-  font-style: italic;
-`;
-
 const getTitle = (length) =>
   `${
     !length
@@ -218,20 +206,13 @@ const getTitle = (length) =>
       : `${length} ${length > 1 ? `favorites` : `favorite`}`
   }`;
 
-const defaultSyncState = { status: "idle", message: "", tone: "info" };
+const defaultImportState = { status: "idle", message: "", tone: "info" };
 
 const csvMessages = {
   successSuffix: "from the CSV file.",
   duplicateMessage:
     "Everything from this CSV file is already in your favorites.",
   emptyMessage: "No matching titles were found in this CSV file.",
-};
-
-const watchlistMessages = {
-  successSuffix: "from this IMDb watchlist.",
-  duplicateMessage:
-    "Everything from this IMDb watchlist is already in your favorites.",
-  emptyMessage: "No matching titles were found in this IMDb watchlist.",
 };
 
 /**
@@ -241,27 +222,11 @@ const watchlistMessages = {
 const SearchView = () => {
   const [favoritesSet, favoritesActions] = useFavorites();
   const favorites = [...favoritesSet];
-  const [csvSyncState, setCsvSyncState] = useState(defaultSyncState);
+  const [csvImportState, setCsvImportState] = useState(defaultImportState);
   const [csvFile, setCsvFile] = useState(null);
   const csvInputRef = useRef(null);
-  const isCsvLoading = csvSyncState.status === "loading";
+  const isCsvLoading = csvImportState.status === "loading";
   const [isCsvDialogOpen, setIsCsvDialogOpen] = useState(false);
-  const [isWatchlistDialogOpen, setIsWatchlistDialogOpen] = useState(false);
-  const [watchlistUrl, setWatchlistUrl] = useState("");
-  const [watchlistSyncState, setWatchlistSyncState] =
-    useState(defaultSyncState);
-  const isWatchlistLoading = watchlistSyncState.status === "loading";
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    const storedUrl = window.localStorage.getItem(config.imdb_watchlist_url);
-    if (storedUrl) {
-      setWatchlistUrl(storedUrl);
-    }
-  }, []);
 
   const toFriendlyMessage = (message, fallback) => {
     if (typeof message === "string" && message.trim()) {
@@ -273,7 +238,7 @@ const SearchView = () => {
     return fallback;
   };
 
-  const buildSyncFeedback = ({
+  const buildImportFeedback = ({
     added,
     matchedCount,
     unmatchedIds,
@@ -382,7 +347,7 @@ const SearchView = () => {
   };
 
   const openCsvDialog = () => {
-    setCsvSyncState(defaultSyncState);
+    setCsvImportState(defaultImportState);
     setCsvFile(null);
     if (csvInputRef.current) {
       csvInputRef.current.value = "";
@@ -392,28 +357,18 @@ const SearchView = () => {
 
   const closeCsvDialog = () => {
     setIsCsvDialogOpen(false);
-    setCsvSyncState(defaultSyncState);
+    setCsvImportState(defaultImportState);
     setCsvFile(null);
     if (csvInputRef.current) {
       csvInputRef.current.value = "";
     }
   };
 
-  const openWatchlistDialog = () => {
-    setWatchlistSyncState(defaultSyncState);
-    setIsWatchlistDialogOpen(true);
-  };
-
-  const closeWatchlistDialog = () => {
-    setIsWatchlistDialogOpen(false);
-    setWatchlistSyncState(defaultSyncState);
-  };
-
   const handleCsvSubmit = async (event) => {
     event.preventDefault();
 
     if (!csvFile) {
-      setCsvSyncState({
+      setCsvImportState({
         status: "error",
         tone: "error",
         message:
@@ -425,7 +380,7 @@ const SearchView = () => {
     const hasCsvExtension = /\.csv$/i.test(csvFile.name || "");
 
     if (!hasCsvExtension) {
-      setCsvSyncState({
+      setCsvImportState({
         status: "error",
         tone: "error",
         message:
@@ -434,7 +389,7 @@ const SearchView = () => {
       return;
     }
 
-    setCsvSyncState({ status: "loading", tone: "info", message: "" });
+    setCsvImportState({ status: "loading", tone: "info", message: "" });
 
     try {
       const response = await importImdbWatchlist({
@@ -448,12 +403,11 @@ const SearchView = () => {
             .map((id) => (typeof id === "string" ? id.trim() : ""))
             .filter(Boolean)
         : [];
-      const unmatchedCount = unmatchedIds.length;
       const totalImported =
         typeof response?.total === "number" ? response.total : null;
       const added = addFavoritesFromPayload(importedFavorites);
       const matchedCount = importedFavorites.length;
-      const feedback = buildSyncFeedback({
+      const feedback = buildImportFeedback({
         added,
         matchedCount,
         unmatchedIds,
@@ -461,13 +415,13 @@ const SearchView = () => {
         messages: csvMessages,
       });
 
-      setCsvSyncState(feedback);
+      setCsvImportState(feedback);
       if (csvInputRef.current) {
         csvInputRef.current.value = "";
       }
       setCsvFile(null);
     } catch (error) {
-      setCsvSyncState({
+      setCsvImportState({
         status: "error",
         tone: "error",
         message: toFriendlyMessage(
@@ -481,65 +435,7 @@ const SearchView = () => {
   const handleCsvChange = (event) => {
     const file = event?.target?.files?.[0];
     setCsvFile(file || null);
-    setCsvSyncState(defaultSyncState);
-  };
-
-  const handleWatchlistSubmit = async (event) => {
-    event.preventDefault();
-
-    const trimmedUrl = (watchlistUrl || "").trim();
-
-    if (!trimmedUrl) {
-      setWatchlistSyncState({
-        status: "error",
-        tone: "error",
-        message: "Please enter the full link to your public IMDb watchlist.",
-      });
-      return;
-    }
-
-    setWatchlistSyncState({ status: "loading", tone: "info", message: "" });
-
-    try {
-      const response = await syncImdbWatchlist({ url: trimmedUrl });
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem(config.imdb_watchlist_url, trimmedUrl);
-      }
-      const importedFavorites = Array.isArray(response?.favorites)
-        ? response.favorites
-        : [];
-      const unmatchedIds = Array.isArray(response?.unmatched)
-        ? response.unmatched
-        : [];
-      const totalImported =
-        typeof response?.total === "number" ? response.total : null;
-
-      const added = addFavoritesFromPayload(importedFavorites);
-      const feedback = buildSyncFeedback({
-        added,
-        matchedCount: importedFavorites.length,
-        unmatchedIds,
-        totalImported,
-        messages: watchlistMessages,
-      });
-
-      setWatchlistSyncState(feedback);
-      setWatchlistUrl(trimmedUrl);
-    } catch (error) {
-      setWatchlistSyncState({
-        status: "error",
-        tone: "error",
-        message: toFriendlyMessage(
-          error?.message,
-          "Sorry, we could not sync that watchlist right now. Please try again in a moment.",
-        ),
-      });
-    }
-  };
-
-  const handleWatchlistChange = (event) => {
-    setWatchlistUrl(event?.target?.value || "");
-    setWatchlistSyncState(defaultSyncState);
+    setCsvImportState(defaultImportState);
   };
 
   useEffect(() => {
@@ -561,12 +457,9 @@ const SearchView = () => {
       <Container>
         <ActionsBar>
           <ActionLabel weight={500} xs={0}>
-            Sync or import your IMDb watchlist:
+            Import your IMDb watchlist:
           </ActionLabel>
           <ActionsGroup>
-            <ActionButton type="button" onClick={openWatchlistDialog}>
-              Sync watchlist
-            </ActionButton>
             <ActionButton type="button" onClick={openCsvDialog}>
               Import CSV
             </ActionButton>
@@ -580,7 +473,15 @@ const SearchView = () => {
         >
           <DialogContent>
             <Note xs={0} weight={400}>
-              Upload the CSV exported from IMDb (you can find it under{" "}
+              Open your IMDb watchlist at{" "}
+              <a
+                href="https://www.imdb.com/list/watchlist"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://www.imdb.com/list/watchlist
+              </a>
+              , then download the CSV export from{" "}
               <a
                 href="https://www.imdb.com/exports"
                 target="_blank"
@@ -588,13 +489,9 @@ const SearchView = () => {
               >
                 https://www.imdb.com/exports
               </a>
-              ). We only add entries that are not already in your favorites.
+              . We only add entries that are not already in your favorites.
             </Note>
-            <EmphasisNote xs={0} weight={400}>
-              If you prefer to keep your watchlist private, please use this
-              import instead.
-            </EmphasisNote>
-            <SyncForm onSubmit={handleCsvSubmit}>
+            <ImportForm onSubmit={handleCsvSubmit}>
               <FileInput
                 ref={csvInputRef}
                 accept=".csv,text/csv"
@@ -604,10 +501,10 @@ const SearchView = () => {
               <SubmitButton type="submit" disabled={isCsvLoading}>
                 {isCsvLoading ? "Importing..." : "Import CSV"}
               </SubmitButton>
-            </SyncForm>
-            {csvSyncState.message ? (
-              <StatusMessage xs={0} weight={400} $tone={csvSyncState.tone}>
-                {csvSyncState.message}
+            </ImportForm>
+            {csvImportState.message ? (
+              <StatusMessage xs={0} weight={400} $tone={csvImportState.tone}>
+                {csvImportState.message}
               </StatusMessage>
             ) : null}
             <Note xs={0} weight={400}>
@@ -616,61 +513,11 @@ const SearchView = () => {
             </Note>
           </DialogContent>
         </Dialog>
-        <Dialog
-          header="Sync your IMDb watchlist"
-          visible={isWatchlistDialogOpen}
-          onHide={closeWatchlistDialog}
-          style={{ width: "32rem", maxWidth: "90vw" }}
-        >
-          <DialogContent>
-            <Note xs={0} weight={400}>
-              Enter the URL of your public IMDb watchlist (for example{" "}
-              <a
-                href="https://www.imdb.com/user"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                https://www.imdb.com/user/urXXXXXXXX/watchlist
-              </a>
-              ). We store it locally in this browser so you can re-sync quickly
-              next time.
-            </Note>
-            <EmphasisNote xs={0} weight={400}>
-              Your watchlist must be public to be synced. If you prefer to keep
-              it private, please use the CSV import instead.
-            </EmphasisNote>
-            <SyncForm onSubmit={handleWatchlistSubmit}>
-              <Input
-                type="url"
-                value={watchlistUrl}
-                placeholder="https://www.imdb.com/user/urXXXXXXXX/watchlist"
-                onChange={handleWatchlistChange}
-                disabled={isWatchlistLoading}
-              />
-              <SubmitButton type="submit" disabled={isWatchlistLoading}>
-                {isWatchlistLoading ? "Syncing..." : "Sync watchlist"}
-              </SubmitButton>
-            </SyncForm>
-            {watchlistSyncState.message ? (
-              <StatusMessage
-                xs={0}
-                weight={400}
-                $tone={watchlistSyncState.tone}
-              >
-                {watchlistSyncState.message}
-              </StatusMessage>
-            ) : null}
-            <Note xs={0} weight={400}>
-              We try to match all titles with TMDB. Unresolved titles remain in
-              your IMDb watchlist only.
-            </Note>
-          </DialogContent>
-        </Dialog>
         {!favorites.length ? (
           <InfoScreen
             emoji={<HeartBreak size={96} style={{ margin: "1rem" }} />}
             title="You do not have any favorites yet"
-            description="Add movies, tvshows, or people with the ♥ button, or sync/import your IMDb watchlist above."
+            description="Add movies, tvshows, or people with the ♥ button, or import your IMDb watchlist above."
           />
         ) : (
           <Fragment>

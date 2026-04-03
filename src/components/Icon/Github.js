@@ -1,6 +1,4 @@
-import React from "react";
-
-const Github = ({ size = 24, color = "currentColor", style, ...props }) => (
+const Github = ({ size = 24, color = "currentColor", style }) => (
   <svg
     width={size}
     height={size}

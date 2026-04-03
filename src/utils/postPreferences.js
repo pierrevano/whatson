@@ -33,7 +33,7 @@ async function postPreferences(preferences, user) {
 
       localStorage.setItem("updated_at", new Date().toISOString());
     }
-  } catch (error) {}
+  } catch {}
 }
 
 export default postPreferences;

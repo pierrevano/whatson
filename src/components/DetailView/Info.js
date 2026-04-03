@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 import styled from "styled-components";
 import { Row, Cell } from "griding";
 import Section from "./Section";

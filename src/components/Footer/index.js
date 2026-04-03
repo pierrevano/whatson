@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Container from "components/Container";
 import Link from "components/Link";

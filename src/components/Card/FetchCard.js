@@ -1,4 +1,3 @@
-import React from "react";
 import { useFetch } from "react-hooks-fetch";
 import { getKindByURL } from "utils/kind";
 import Card from "./index";

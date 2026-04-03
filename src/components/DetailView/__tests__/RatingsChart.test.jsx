@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import RatingsChart from "../RatingsChart";
@@ -32,7 +31,6 @@ jest.mock("primereact/chart", () => {
 });
 
 jest.mock("primereact/tabview", () => {
-  const React = require("react");
   return {
     TabView: ({ children }) => <div>{children}</div>,
     TabPanel: ({ header, children }) => (

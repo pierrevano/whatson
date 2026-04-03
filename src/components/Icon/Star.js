@@ -1,13 +1,6 @@
-import React from "react";
 import { colors } from "../../theme";
 
-const Star = ({
-  size = 16,
-  filled = false,
-  color = "currentColor",
-  style,
-  ...props
-}) => (
+const Star = ({ size = 16, filled = false, style, ...props }) => (
   <svg
     viewBox={filled ? "-0.5 1.5 23 23" : "10 1 1 23"}
     stroke={colors.white}

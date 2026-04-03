@@ -1,5 +1,3 @@
-import React from "react";
-
 const Search = ({
   size = 31,
   filled = false,

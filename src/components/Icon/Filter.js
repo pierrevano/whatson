@@ -1,13 +1,6 @@
-import React from "react";
 import { colors } from "../../theme";
 
-const Filter = ({
-  size = 31,
-  filled = false,
-  color = "currentColor",
-  style,
-  ...props
-}) => (
+const Filter = ({ size = 31, style, ...props }) => (
   <svg
     className="filter-icon"
     viewBox="0 -0.6 24 24"

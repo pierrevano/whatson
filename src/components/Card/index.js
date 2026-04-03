@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import styled, { css } from "styled-components";
 import { useFavoriteState } from "utils/favorites";
 import Link from "components/Link";

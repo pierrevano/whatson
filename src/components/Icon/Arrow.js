@@ -1,12 +1,4 @@
-import React from "react";
-
-const Arrow = ({
-  size = 24,
-  filled = false,
-  color = "currentColor",
-  style,
-  ...props
-}) => (
+const Arrow = ({ size = 24, color = "currentColor", style, ...props }) => (
   <svg
     viewBox="0 0 24 24"
     strokeLinecap="round"

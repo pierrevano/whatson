@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
@@ -39,7 +39,7 @@ const App = () => {
         if (response.status === 200) {
           setLoading(false);
         }
-      } catch (err) {
+      } catch {
         setLoading(false);
       }
     };

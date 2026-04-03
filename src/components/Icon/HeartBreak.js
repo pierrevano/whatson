@@ -1,5 +1,3 @@
-import React from "react";
-
 const HeartBreak = ({ size = 24, color = "currentColor", style, ...props }) => (
   <svg
     viewBox="0 0 24 24"

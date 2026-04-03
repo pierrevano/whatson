@@ -38,10 +38,6 @@ Companion to [What's on? API](https://github.com/pierrevano/whatson-api)
 
 ![Favorites](./public/favorites.png)
 
-## IMDb watchlist sync
-
-![IMDb watchlist sync](./public/watchlist_sync.png)
-
 ## IMDb watchlist import
 
 ![IMDb watchlist import](./public/watchlist_import.png)

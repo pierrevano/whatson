@@ -57,7 +57,7 @@ const useCacheBuster = () => {
             }
           }
         }
-      } catch (error) {}
+      } catch {}
     };
 
     fetchMeta();

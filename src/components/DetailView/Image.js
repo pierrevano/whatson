@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import LazyImage from "components/LazyImage";
 import { Movie, TVShow, Person } from "components/Icon";
