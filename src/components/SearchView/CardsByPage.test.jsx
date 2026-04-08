@@ -1,7 +1,18 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
 import CardsByPage from "./CardsByPage";
+import config from "../../config";
+import tmdbSearchResponse from "./__fixtures__/tmdbSearchResponse.json";
+import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
+import whatsonApiImdbResponse from "./__fixtures__/whatsonApiImdbResponse.json";
+
+jest.mock("../../config", () => ({
+  __esModule: true,
+  default: {
+    ...jest.requireActual("../../config").default,
+    api: "test-tmdb-key",
+  },
+}));
 
 jest.mock("query-string", () => ({
   __esModule: true,
@@ -43,6 +54,52 @@ describe("CardsByPage", () => {
 
   afterEach(() => {
     Math.random = originalRandom;
+  });
+
+  it("calls the What's on? API when search is an IMDb ID and renders one result", () => {
+    useFetchWithStatusCode.mockReturnValue({
+      data: whatsonApiImdbResponse,
+      error: null,
+      isLoading: false,
+    });
+
+    render(
+      <CardsByPage
+        search="tt0903747"
+        page={1}
+        setPage={jest.fn()}
+        isLastPage={true}
+        kindURL="search"
+      />,
+    );
+
+    expect(useFetchWithStatusCode).toHaveBeenCalledWith(
+      `${config.base_render_api}/?imdbId=tt0903747`,
+    );
+    expect(screen.getAllByText("Card")).toHaveLength(1);
+  });
+
+  it("calls the TMDB API for a regular search term and renders multiple results", () => {
+    useFetchWithStatusCode.mockReturnValue({
+      data: tmdbSearchResponse,
+      error: null,
+      isLoading: false,
+    });
+
+    render(
+      <CardsByPage
+        search="breaking bad"
+        page={1}
+        setPage={jest.fn()}
+        isLastPage={true}
+        kindURL="search"
+      />,
+    );
+
+    expect(useFetchWithStatusCode).toHaveBeenCalledWith(
+      expect.stringContaining("api.themoviedb.org"),
+    );
+    expect(screen.getAllByText("Card")).toHaveLength(3);
   });
 
   it("shows the error message on the first page when filters return 404 without a search term", () => {

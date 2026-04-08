@@ -385,7 +385,7 @@ describe("SidebarFilters", () => {
     fireEvent.mouseUp(slider, { target: { value: "120" } });
 
     await waitFor(() =>
-      expect(window.localStorage.getItem("runtime")).toBe("7200"),
+      expect(window.localStorage.getItem("runtime")).toBe("0,7200"),
     );
 
     const resetButton = await screen.findByText("Reset runtime");
@@ -394,6 +394,26 @@ describe("SidebarFilters", () => {
     await waitFor(() =>
       expect(window.localStorage.getItem("runtime")).toBe(""),
     );
+  });
+
+  it("initializes slider from new two-value storage format with explicit zero minimum", () => {
+    renderSidebar({ runtime: "0,7200" });
+
+    const slider = screen.getByTestId("runtime-slider");
+    expect(slider).toHaveValue("120");
+    expect(screen.getByText("0 min")).toBeInTheDocument();
+    expect(screen.getByText("2h")).toBeInTheDocument();
+    expect(screen.getByText("Reset runtime")).toBeInTheDocument();
+  });
+
+  it("parses legacy single-value runtime storage the same as the new two-value format", () => {
+    renderSidebar({ runtime: "7200" });
+
+    const slider = screen.getByTestId("runtime-slider");
+    expect(slider).toHaveValue("120");
+    expect(screen.getByText("0 min")).toBeInTheDocument();
+    expect(screen.getByText("2h")).toBeInTheDocument();
+    expect(screen.getByText("Reset runtime")).toBeInTheDocument();
   });
 
   it("renders only major platform trends selected by default for tv shows", () => {

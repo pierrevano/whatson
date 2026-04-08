@@ -5,9 +5,17 @@ package-lock.json
 # production
 /build
 
-# misc
-.DS_Store
+# environment
 .env
+
+# editors & OS
+.claude
+.DS_Store
 .vscode
+
+# scripts
 scripts
 update-dependencies.sh
+
+# test fixtures
+src/components/SearchView/__fixtures__

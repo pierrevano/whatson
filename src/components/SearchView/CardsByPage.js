@@ -29,6 +29,8 @@ const runtime_query = queryStringParsed.runtime;
 const seasons_number_query = queryStringParsed.seasons_number;
 const status_query = queryStringParsed.status;
 
+const isImdbId = (value) => /^tt\d+$/i.test(value?.trim());
+
 const getDataURL = (
   api_key,
   directors,
@@ -51,6 +53,10 @@ const getDataURL = (
   seasons_number,
   status,
 ) => {
+  if (isImdbId(search)) {
+    return `${config.base_render_api}/?imdbId=${search.trim()}`;
+  }
+
   const parameters = getParameters(
     genres_query,
     genres,
@@ -339,7 +345,11 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
       {sortedResults.map((entry) => (
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
           <Card
-            kindURL={isKindURLDefined ? kindURL : getItemType(entry.item_type)}
+            kindURL={
+              isImdbId(search) || !isKindURLDefined
+                ? getItemType(entry.item_type)
+                : kindURL
+            }
             {...entry}
           />
         </Cell>

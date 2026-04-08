@@ -159,9 +159,7 @@ export const useRuntimeFilter = ({
 
       const nextValue = isDefaultRange
         ? ""
-        : sanitizedRange[0] === sliderMinMinutes
-          ? `${maxMinutesForStorage * 60}`
-          : `${sanitizedRange[0] * 60},${maxMinutesForStorage * 60}`;
+        : `${sanitizedRange[0] * 60},${maxMinutesForStorage * 60}`;
       const hasChanged = nextValue !== runtimeValue;
 
       if (!hasChanged) {

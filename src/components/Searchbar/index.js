@@ -61,7 +61,7 @@ const getPlaceholder = (kindURL) => {
   if (kindURL === "movies") return "movies";
   if (kindURL === "people") return "people";
   if (kindURL === "tvshows") return "tvshows";
-  return "movies, tvshows or people";
+  return "movies, tvshows, people or an IMDb ID";
 };
 
 /**
