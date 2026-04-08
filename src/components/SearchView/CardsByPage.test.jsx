@@ -102,6 +102,28 @@ describe("CardsByPage", () => {
     expect(screen.getAllByText("Card")).toHaveLength(3);
   });
 
+  it("does not use the What's on? API for an IMDb ID on the main view", () => {
+    useFetchWithStatusCode.mockReturnValue({
+      data: null,
+      error: null,
+      isLoading: true,
+    });
+
+    render(
+      <CardsByPage
+        search="tt0903747"
+        page={1}
+        setPage={jest.fn()}
+        isLastPage={true}
+        kindURL="multi"
+      />,
+    );
+
+    expect(useFetchWithStatusCode).not.toHaveBeenCalledWith(
+      `${config.base_render_api}/?imdbId=tt0903747`,
+    );
+  });
+
   it("shows the error message on the first page when filters return 404 without a search term", () => {
     useFetchWithStatusCode.mockReturnValue({
       data: null,

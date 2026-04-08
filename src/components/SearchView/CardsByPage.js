@@ -53,7 +53,7 @@ const getDataURL = (
   seasons_number,
   status,
 ) => {
-  if (isImdbId(search)) {
+  if (kindURL === "search" && isImdbId(search)) {
     return `${config.base_render_api}/?imdbId=${search.trim()}`;
   }
 
@@ -346,7 +346,7 @@ const CardsByPage = ({ search, page, setPage, isLastPage, kindURL }) => {
         <Cell key={entry.id} xs={6} sm={4} md={3} xg={2}>
           <Card
             kindURL={
-              isImdbId(search) || !isKindURLDefined
+              (kindURL === "search" && isImdbId(search)) || !isKindURLDefined
                 ? getItemType(entry.item_type)
                 : kindURL
             }
