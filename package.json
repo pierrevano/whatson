@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "dependencies": {
     "@auth0/auth0-react": "^2.16.2",
     "chart.js": "^4.5.1",
@@ -43,6 +43,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "acorn": "^8.14.0",
     "@babel/plugin-proposal-export-default-from": "^7.27.1",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
@@ -62,7 +63,6 @@
     }
   },
   "overrides": {
-    "acorn": "^8.14.0",
     "lodash": "^4.18.1",
     "tmp": "^0.2.5",
     "underscore": "^1.13.8",
