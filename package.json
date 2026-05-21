@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "dependencies": {
     "@auth0/auth0-react": "^2.16.2",
     "chart.js": "^4.5.1",
@@ -62,6 +62,7 @@
     }
   },
   "overrides": {
+    "acorn": "^8.14.0",
     "lodash": "^4.18.1",
     "tmp": "^0.2.5",
     "underscore": "^1.13.8",
