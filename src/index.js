@@ -1,12 +1,13 @@
 import React, { Suspense } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import "typeface-roboto";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "components/GlobalStyle";
 import GridProvider from "components/GridProvider";
 import * as theme from "./theme";
-import { unregister } from "serviceWorker";
+import { register } from "serviceWorker";
 import { Provider as FavoritesProvider } from "utils/favorites";
 
 const App = React.lazy(() => import("./App"));
@@ -16,24 +17,26 @@ const App = React.lazy(() => import("./App"));
  * @returns The App component wrapped in the necessary context providers and global styles.
  */
 const Wrapper = () => (
-  <Auth0Provider
-    domain={process.env.REACT_APP_AUTH0_DOMAIN}
-    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-    authorizationParams={{ redirect_uri: window.location.origin }}
-    useRefreshTokens={true}
-    cacheLocation="localstorage"
-  >
-    <ThemeProvider theme={theme}>
-      <GridProvider columns={theme.columns} breakpoints={theme.breakpoints}>
-        <FavoritesProvider>
-          <Suspense fallback={null}>
-            <App />
-          </Suspense>
-          <GlobalStyle />
-        </FavoritesProvider>
-      </GridProvider>
-    </ThemeProvider>
-  </Auth0Provider>
+  <BrowserRouter>
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      authorizationParams={{ redirect_uri: window.location.origin }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
+    >
+      <ThemeProvider theme={theme}>
+        <GridProvider columns={theme.columns} breakpoints={theme.breakpoints}>
+          <FavoritesProvider>
+            <Suspense fallback={null}>
+              <App />
+            </Suspense>
+            <GlobalStyle />
+          </FavoritesProvider>
+        </GridProvider>
+      </ThemeProvider>
+    </Auth0Provider>
+  </BrowserRouter>
 );
 
 const rootElement = document.getElementById("root");
@@ -48,4 +51,4 @@ if (rootElement.hasChildNodes()) {
   createRoot(rootElement).render(<Wrapper />);
 }
 
-unregister();
+register();

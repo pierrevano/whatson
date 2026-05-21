@@ -1,5 +1,5 @@
-import { Fragment, useState, useEffect } from "react";
-import { Router } from "@reach/router";
+import { useState, useEffect } from "react";
+import { Routes, Route, useParams } from "react-router-dom";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import LoaderIcon from "components/LoaderIcon";
@@ -16,9 +16,19 @@ import consoleMessage from "utils/consoleMessage";
 import useCacheBuster from "utils/useCacheBuster";
 import useAnalyticsScript from "utils/useAnalyticsScript";
 
+const SearchViewRoute = () => {
+  const { kindURL } = useParams();
+  return <SearchView kindURL={kindURL} />;
+};
+
+const DetailViewRoute = () => {
+  const { kindURL, id } = useParams();
+  return <DetailView kindURL={kindURL} id={id} />;
+};
+
 /**
  * Top-level application shell. Renders navigation, footer, and route
- * content through @reach/router once the API health check succeeds.
+ * content through react-router-dom once the API health check succeeds.
  * @returns {JSX.Element} Layout wrapper for the public routes.
  */
 const App = () => {
@@ -52,20 +62,20 @@ const App = () => {
   }
 
   return (
-    <Fragment>
+    <>
       <Navbar />
       <div style={{ flex: 1 }}>
-        <Router>
-          <SearchView isSearchable={false} path="/" />
-          <SearchView path="/search" kindURL="search" />
-          <FavoritesView path="/favorites" />
-          <AboutPage path="/about" />
-          <SearchView path=":kindURL" />
-          <DetailView path=":kindURL/:id" />
-        </Router>
+        <Routes>
+          <Route path="/" element={<SearchView isSearchable={false} />} />
+          <Route path="/search" element={<SearchView kindURL="search" />} />
+          <Route path="/favorites" element={<FavoritesView />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/:kindURL" element={<SearchViewRoute />} />
+          <Route path="/:kindURL/:id" element={<DetailViewRoute />} />
+        </Routes>
       </div>
       <Footer />
-    </Fragment>
+    </>
   );
 };
 

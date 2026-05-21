@@ -1,8 +1,8 @@
-import { Link as ReachLink } from "@reach/router";
+import { Link as RouterLink } from "react-router-dom";
 
 /**
  * A component that renders a link. If the link is an internal link (i.e. starts with "./" or "/"),
- * it will use the ReachLink component from the @reach/router package. Otherwise, it will render
+ * it will use RouterLink from react-router-dom. Otherwise, it will render
  * a standard HTML anchor tag with the target attribute set to "_blank" and the rel attribute set
  * to "noopener noreferrer".
  * @param {object} props - The props object.
@@ -23,7 +23,7 @@ const Link = ({
   const href = (to || {}).pathname || (typeof to === "string" ? to : "/");
   const props = { className, style, children, target, ...rest };
   if (/^[./]/.test(href))
-    return <ReachLink {...props} to={to} aria-label={ariaLabel} />;
+    return <RouterLink {...props} to={to} aria-label={ariaLabel} />;
   return (
     <a
       {...props}

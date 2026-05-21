@@ -21,7 +21,7 @@ describe("GridProvider", () => {
       <ThemeProvider theme={{ colors: { red: "#f00" } }}>
         <GridProvider
           columns={12}
-          breakpoints={{ md: { gutter: 20, width: "48rem" } }}
+          breakpoints={{ md: { gutter: 20, width: 768 } }}
         >
           <ThemeProbe />
         </GridProvider>

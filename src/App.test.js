@@ -1,10 +1,6 @@
 import "@testing-library/jest-dom";
-import { render, screen, waitFor, cleanup } from "@testing-library/react";
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from "@reach/router";
+import { render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 
 jest.mock("./config", () => ({
@@ -56,7 +52,11 @@ describe("App bootstrap", () => {
   it("keeps the loader visible when the health check is not 200 (navigation freeze)", async () => {
     mockFetch.mockResolvedValueOnce({ status: 500 });
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalled());
     expect(screen.getByAltText(/Loading/i)).toBeInTheDocument();
@@ -66,37 +66,33 @@ describe("App bootstrap", () => {
   it("renders routes after a successful health check", async () => {
     mockFetch.mockResolvedValueOnce({ status: 200 });
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
 
     await waitFor(() =>
       expect(screen.getByText("SearchView")).toBeInTheDocument(),
     );
   });
 
-  it("renders each public route when navigating", async () => {
-    const routes = [
-      { path: "/", text: "SearchView" },
-      { path: "/search", text: "SearchView" },
-      { path: "/favorites", text: "FavoritesView" },
-      { path: "/about", text: "AboutPage" },
-      { path: "/movies", text: "SearchView" },
-      { path: "/movies/123", text: "DetailView" },
-    ];
+  it.each([
+    ["/", "SearchView"],
+    ["/search", "SearchView"],
+    ["/favorites", "FavoritesView"],
+    ["/about", "AboutPage"],
+    ["/movies", "SearchView"],
+    ["/movies/123", "DetailView"],
+  ])("renders route %s", async (path, text) => {
+    mockFetch.mockResolvedValueOnce({ status: 200 });
 
-    for (const { path, text } of routes) {
-      mockFetch.mockReset();
-      mockFetch.mockResolvedValue({ status: 200 });
-      const history = createHistory(createMemorySource(path));
+    render(
+      <MemoryRouter initialEntries={[path]}>
+        <App />
+      </MemoryRouter>,
+    );
 
-      render(
-        <LocationProvider history={history}>
-          <App />
-        </LocationProvider>,
-      );
-
-      await waitFor(() => expect(screen.getByText(text)).toBeInTheDocument());
-
-      cleanup();
-    }
+    await waitFor(() => expect(screen.getByText(text)).toBeInTheDocument());
   });
 });

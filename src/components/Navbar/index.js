@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Location } from "@reach/router";
+import { useLocation } from "react-router-dom";
 import Link from "components/Link";
 import Container from "components/Container";
 import { Heart, Search } from "components/Icon";
@@ -75,6 +75,7 @@ const searchShortcut = (event) => {
  * @returns {JSX.Element} - The JSX code that renders the navbar.
  */
 const Navbar = () => {
+  const { pathname } = useLocation();
   const [visibleLeft, setVisibleLeft] = useState(false);
 
   useEffect(() => {
@@ -204,74 +205,67 @@ const Navbar = () => {
             </>
           )}
         </Sidebar>
-        <Location>
-          {({ location: { pathname } }) => (
-            <Flex className="navbar-div">
-              {showIcon &&
-                (isAuthenticated ? (
-                  <span title="You are connected">
-                    <LoggedIn
-                      style={{
-                        marginRight: "12px",
-                        transform: "translateY(0.75px)",
-                      }}
-                      aria-label="You are connected"
-                    />
-                  </span>
-                ) : (
-                  <span title="Sign in">
-                    <LoggedOut
-                      onClick={() => loginWithRedirect()}
-                      style={{
-                        marginRight: "17px",
-                        transform: "translateY(0.5px)",
-                        cursor: "pointer",
-                      }}
-                      aria-label="Sign in"
-                    />
-                  </span>
-                ))}
-              <SidebarFilters />
-              <Item
-                to="/favorites"
-                active={pathname === "/favorites"}
-                title="View or edit your favorites"
-              >
-                <span title="View or edit your favorites">
-                  <Heart
-                    filled={pathname === "/favorites"}
-                    style={{
-                      marginRight: "-7px",
-                      transform: "translateY(1px)",
-                    }}
-                    aria-label="View or edit your favorites"
-                  />
-                </span>
-              </Item>
-              <Item
-                to="/search"
-                active={pathname === "/search"}
-                className="searchItem"
-                title="Shortcut: CMD/CTRL + K"
-              >
-                <Flex className="flex-search">
-                  <Search
-                    filled={pathname === "/search"}
-                    className="search-icon"
-                    style={{ transform: "translateY(-1px)" }}
-                    aria-label="Search for a movie, tvshow or person"
-                  />
-                  <span
-                    className="shortcut-key"
-                    style={{ fontSize: "0.75rem" }}
-                  >
-                    {shortcutKey} + K
-                  </span>
-                </Flex>
-              </Item>
+        <Flex className="navbar-div">
+          {showIcon &&
+            (isAuthenticated ? (
+              <span title="You are connected">
+                <LoggedIn
+                  style={{
+                    marginRight: "12px",
+                    transform: "translateY(0.75px)",
+                  }}
+                  aria-label="You are connected"
+                />
+              </span>
+            ) : (
+              <span title="Sign in">
+                <LoggedOut
+                  onClick={() => loginWithRedirect()}
+                  style={{
+                    marginRight: "17px",
+                    transform: "translateY(0.5px)",
+                    cursor: "pointer",
+                  }}
+                  aria-label="Sign in"
+                />
+              </span>
+            ))}
+          <SidebarFilters />
+          <Item
+            to="/favorites"
+            active={pathname === "/favorites"}
+            title="View or edit your favorites"
+          >
+            <span title="View or edit your favorites">
+              <Heart
+                filled={pathname === "/favorites"}
+                style={{
+                  marginRight: "-7px",
+                  transform: "translateY(1px)",
+                }}
+                aria-label="View or edit your favorites"
+              />
+            </span>
+          </Item>
+          <Item
+            to="/search"
+            active={pathname === "/search"}
+            className="searchItem"
+            title="Shortcut: CMD/CTRL + K"
+          >
+            <Flex className="flex-search">
+              <Search
+                filled={pathname === "/search"}
+                className="search-icon"
+                style={{ transform: "translateY(-1px)" }}
+                aria-label="Search for a movie, tvshow or person"
+              />
+              <span className="shortcut-key" style={{ fontSize: "0.75rem" }}>
+                {shortcutKey} + K
+              </span>
             </Flex>
-          )}
-        </Location>
+          </Item>
+        </Flex>
       </Wrapper>
     </StickyContainer>
   );

@@ -80,11 +80,11 @@ const AboutPage = () => {
             <Text style={{ margin: "1em 0" }}>
               The raw data comes from multiple platforms, including AlloCiné,
               BetaSeries, IMDb, Letterboxd, Metacritic, Rotten Tomatoes,
-              SensCritique, Trakt, TV Time, and TMDB. This data is extracted
-              using shell and Node.js scripts and stored in a MongoDB database.
-              On the client side, the application is built with React.js and
-              accesses the data through an Express.js API. For more details,
-              feel free to visit my{" "}
+              SensCritique, The Movie Database, Trakt, and TV Time. This data is
+              extracted using shell and Node.js scripts and stored in a MongoDB
+              database. On the client side, the application is built with
+              React.js and accesses the data through an Express.js API. For more
+              details, feel free to visit my{" "}
               <Anchor
                 to="https://github.com/pierrevano"
                 ariaLabel="My GitHub profile"

@@ -32,11 +32,11 @@ export const typography = {
 export const columns = 12;
 
 export const breakpoints = {
-  xs: { width: "0rem", gutter: 16 },
-  sm: { width: "30rem", gutter: 20 },
-  md: { width: "48rem", gutter: 20 },
-  lg: { width: "62rem", gutter: 20 },
-  xg: { width: "80rem", gutter: 20 },
+  xs: { width: 0, gutter: 16 },
+  sm: { width: 480, gutter: 20 },
+  md: { width: 768, gutter: 20 },
+  lg: { width: 992, gutter: 20 },
+  xg: { width: 1280, gutter: 20 },
 };
 
 export const focusShadow = `
