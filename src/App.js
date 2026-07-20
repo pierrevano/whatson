@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useParams } from "react-router-dom";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import LoaderIcon from "components/LoaderIcon";
 import SearchView from "components/SearchView";
-import FavoritesView from "components/FavoritesView";
-import DetailView from "components/DetailView";
-import AboutPage from "components/AboutPage";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
@@ -15,6 +12,10 @@ import config from "./config";
 import consoleMessage from "utils/consoleMessage";
 import useCacheBuster from "utils/useCacheBuster";
 import useAnalyticsScript from "utils/useAnalyticsScript";
+
+const FavoritesView = lazy(() => import("components/FavoritesView"));
+const DetailView = lazy(() => import("components/DetailView"));
+const AboutPage = lazy(() => import("components/AboutPage"));
 
 const SearchViewRoute = () => {
   const { kindURL } = useParams();
@@ -65,14 +66,16 @@ const App = () => {
     <>
       <Navbar />
       <div style={{ flex: 1 }}>
-        <Routes>
-          <Route path="/" element={<SearchView isSearchable={false} />} />
-          <Route path="/search" element={<SearchView kindURL="search" />} />
-          <Route path="/favorites" element={<FavoritesView />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/:kindURL" element={<SearchViewRoute />} />
-          <Route path="/:kindURL/:id" element={<DetailViewRoute />} />
-        </Routes>
+        <Suspense fallback={<LoaderIcon />}>
+          <Routes>
+            <Route path="/" element={<SearchView isSearchable={false} />} />
+            <Route path="/search" element={<SearchView kindURL="search" />} />
+            <Route path="/favorites" element={<FavoritesView />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/:kindURL" element={<SearchViewRoute />} />
+            <Route path="/:kindURL/:id" element={<DetailViewRoute />} />
+          </Routes>
+        </Suspense>
       </div>
       <Footer />
     </>

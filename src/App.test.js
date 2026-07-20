@@ -53,7 +53,9 @@ describe("App bootstrap", () => {
     mockFetch.mockResolvedValueOnce({ status: 500 });
 
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+      >
         <App />
       </MemoryRouter>,
     );
@@ -67,7 +69,9 @@ describe("App bootstrap", () => {
     mockFetch.mockResolvedValueOnce({ status: 200 });
 
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+      >
         <App />
       </MemoryRouter>,
     );
@@ -88,7 +92,10 @@ describe("App bootstrap", () => {
     mockFetch.mockResolvedValueOnce({ status: 200 });
 
     render(
-      <MemoryRouter initialEntries={[path]}>
+      <MemoryRouter
+        initialEntries={[path]}
+        future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
+      >
         <App />
       </MemoryRouter>,
     );

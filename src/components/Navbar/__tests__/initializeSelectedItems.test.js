@@ -94,6 +94,17 @@ describe("initializeSelectedItems regressions", () => {
     expect(selectedMap.release_date).not.toContain("new");
   });
 
+  it("ignores a stale TV Time ratings filter from stored user preferences", () => {
+    const selectedMap = buildSelectedMap({
+      ratings_filters: "imdb_users,tvtime_users,trakt_users",
+    });
+
+    expect(selectedMap.ratings).toEqual(
+      expect.arrayContaining(["imdb_users", "trakt_users"]),
+    );
+    expect(selectedMap.ratings).not.toContain("tvtime_users");
+  });
+
   it("keeps recent-items release date storage compatible with the new chip UI", () => {
     const selectedMap = buildSelectedMap({
       release_date: "everything,new",

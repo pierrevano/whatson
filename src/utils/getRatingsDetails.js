@@ -34,9 +34,6 @@ export const getRatingsDetails = (
   trakt_url,
   trakt_users_rating,
   trakt_users_rating_count,
-  tvtime_url,
-  tvtime_users_rating,
-  tvtime_users_rating_count,
   mojo_rank,
   mojo_url,
 ) => {
@@ -184,20 +181,6 @@ export const getRatingsDetails = (
     });
   }
 
-  if (tvtime_users_rating && tvtime_users_rating > 0) {
-    detailsConfig.tvtime = {
-      image: "tvtime-logo.png",
-      name: "TV Time users",
-    };
-
-    detailsData.push({
-      image: detailsConfig.tvtime.image,
-      name: detailsConfig.tvtime.name,
-      rating: tvtime_users_rating,
-      ratingCount: formatRatingCount(tvtime_users_rating_count),
-    });
-  }
-
   let mojoDetailsData = [];
   if (mojo_rank && mojo_rank > 0) {
     mojoDetailsData.push({
@@ -226,8 +209,7 @@ export const getRatingsDetails = (
       rowData.name === "IMDb users" ||
       rowData.name === "Metacritic users" ||
       rowData.name === "SensCritique users" ||
-      rowData.name === "TMDB users" ||
-      rowData.name === "TV Time users"
+      rowData.name === "TMDB users"
     ) {
       maxRating = 10;
     } else if (
@@ -374,12 +356,6 @@ export const getRatingsDetails = (
     } else if (name === "Trakt users" && rating > 0) {
       link = (
         <a href={trakt_url} target={"_blank"} rel="noopener noreferrer">
-          {name}
-        </a>
-      );
-    } else if (name === "TV Time users" && rating > 0) {
-      link = (
-        <a href={tvtime_url} target={"_blank"} rel="noopener noreferrer">
           {name}
         </a>
       );

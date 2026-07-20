@@ -239,11 +239,6 @@ const DetailView = ({ id, kindURL }) => {
   const trakt_users_rating = data_from_render?.trakt?.users_rating;
   const trakt_users_rating_count = data_from_render?.trakt?.users_rating_count;
 
-  const tvtime_url = data_from_render?.tv_time?.url;
-  const tvtime_users_rating = data_from_render?.tv_time?.users_rating;
-  const tvtime_users_rating_count =
-    data_from_render?.tv_time?.users_rating_count;
-
   const mojo_rank = data_from_render?.mojo?.rank;
   const mojo_url = data_from_render?.mojo?.url;
 
@@ -382,9 +377,6 @@ const DetailView = ({ id, kindURL }) => {
     trakt_url,
     trakt_users_rating,
     trakt_users_rating_count,
-    tvtime_url,
-    tvtime_users_rating,
-    tvtime_users_rating_count,
     mojo_rank,
     mojo_url,
   );

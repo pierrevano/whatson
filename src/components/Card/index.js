@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useFavoriteState } from "utils/favorites";
 import Link from "components/Link";
@@ -288,10 +288,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   const trakt_users_rating = props?.trakt?.users_rating;
   const trakt_users_rating_count = props?.trakt?.users_rating_count;
 
-  const tvtime_url = props?.tv_time?.url;
-  const tvtime_users_rating = props?.tv_time?.users_rating;
-  const tvtime_users_rating_count = props?.tv_time?.users_rating_count;
-
   const ratings_average = props?.ratings_average;
 
   const {
@@ -336,9 +332,6 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
     trakt_url,
     trakt_users_rating,
     trakt_users_rating_count,
-    tvtime_url,
-    tvtime_users_rating,
-    tvtime_users_rating_count,
     mojo_rank,
     mojo_url,
   );
@@ -450,4 +443,4 @@ const Card = ({ id, loading, error, loadMore, ...props }) => {
   );
 };
 
-export default Card;
+export default memo(Card);
