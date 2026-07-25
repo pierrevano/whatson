@@ -1,7 +1,7 @@
 {
   "name": "whatson",
   "description": "What's on?",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "dependencies": {
     "@auth0/auth0-react": "^2.22.0",
     "chart.js": "^4.5.1",
