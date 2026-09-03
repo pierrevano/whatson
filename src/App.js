@@ -1,17 +1,18 @@
-import { useState, useEffect, lazy, Suspense } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
-import Navbar from "components/Navbar";
+import config from "./config";
+import consoleMessage from "utils/consoleMessage";
 import Footer from "components/Footer";
+import { getWhatsonApiUrl } from "utils/getWhatsonApiUrl";
+import { lazy, Suspense, useEffect, useState } from "react";
 import LoaderIcon from "components/LoaderIcon";
+import Navbar from "components/Navbar";
+import { Route, Routes, useParams } from "react-router-dom";
 import SearchView from "components/SearchView";
+import useAnalyticsScript from "utils/useAnalyticsScript";
+import useCacheBuster from "utils/useCacheBuster";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
 import "primereact/resources/themes/lara-dark-teal/theme.css";
-import config from "./config";
-import consoleMessage from "utils/consoleMessage";
-import useCacheBuster from "utils/useCacheBuster";
-import useAnalyticsScript from "utils/useAnalyticsScript";
 
 const FavoritesView = lazy(() => import("components/FavoritesView"));
 const DetailView = lazy(() => import("components/DetailView"));
@@ -46,7 +47,7 @@ const App = () => {
   useEffect(() => {
     const checkAPIStatus = async () => {
       try {
-        const response = await fetch(config.base_render_api);
+        const response = await fetch(getWhatsonApiUrl(config.base_render_api));
         if (response.status === 200) {
           setLoading(false);
         }

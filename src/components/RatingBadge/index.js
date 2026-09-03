@@ -1,14 +1,15 @@
 import { colors } from "../../theme";
 import { Column } from "primereact/column";
+import config from "../../config";
 import { DataTable } from "primereact/datatable";
 import { getKindByURL } from "utils/kind";
 import { getRatingsDetails } from "utils/getRatingsDetails";
+import { getWhatsonApiUrl } from "utils/getWhatsonApiUrl";
 import { OverlayPanel } from "primereact/overlaypanel";
-import { trackAnalyticsEvent } from "utils/analytics";
-import { useRef } from "react";
-import config from "../../config";
 import styled from "styled-components";
+import { trackAnalyticsEvent } from "utils/analytics";
 import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
+import { useRef } from "react";
 
 const InfoRatings = styled.div`
   color: currentColor;
@@ -39,7 +40,9 @@ const RatingBadge = ({ id, kindURL, ...props }) => {
     !(props?.ratings_average > 0) &&
       id &&
       (renderKind === "movie" || renderKind === "tvshow")
-      ? `${config.base_render_api}/${renderKind}/${id}?ratings_filters=all`
+      ? getWhatsonApiUrl(
+          `${config.base_render_api}/${renderKind}/${id}?ratings_filters=all`,
+        )
       : null,
   );
   const item = fetched?.ratings_average > 0 ? fetched : props;

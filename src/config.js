@@ -1,10 +1,10 @@
 const config = {
   // base urls information
-  base: "https://api.themoviedb.org/3",
   api: process.env.REACT_APP_TMDB_KEY,
-
+  base_render_api_key: process.env.REACT_APP_WHATSON_API_KEY,
   base_render_api: process.env.REACT_APP_WHATSON_API_URL,
   base_render: "https://whatson.onrender.com",
+  base: "https://api.themoviedb.org/3",
   digest_secret_value: process.env.REACT_APP_DIGEST_SECRET_VALUE,
 
   umami_script_url: "https://cloud.umami.is/script.js",

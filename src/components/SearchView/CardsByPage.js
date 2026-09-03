@@ -1,14 +1,15 @@
-import { Fragment, useEffect, useState } from "react";
-import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
-import { useInView } from "react-intersection-observer";
-import { Cell } from "griding";
-import { getKindByURL } from "utils/kind";
 import Card from "components/Card";
+import { Cell } from "griding";
+import config from "../../config";
+import { Fragment, useEffect, useState } from "react";
+import { getKindByURL } from "utils/kind";
+import { getParameters } from "utils/getParameters";
+import { getWhatsonApiUrl } from "utils/getWhatsonApiUrl";
 import InfoScreen from "components/InfoScreen";
 import queryString from "query-string";
+import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
+import { useInView } from "react-intersection-observer";
 import { useStorageString } from "utils/useStorageString";
-import { getParameters } from "utils/getParameters";
-import config from "../../config";
 
 const queryStringParsed = queryString.parse(window.location.search);
 const api_key_query = queryStringParsed.api_key;
@@ -54,7 +55,9 @@ const getDataURL = (
   status,
 ) => {
   if (kindURL === "search" && isImdbId(search)) {
-    return `${config.base_render_api}/?imdbId=${search.trim()}`;
+    return getWhatsonApiUrl(
+      `${config.base_render_api}/?imdbId=${search.trim()}`,
+    );
   }
 
   const parameters = getParameters(
@@ -105,7 +108,9 @@ const getDataURL = (
     return `${config.base}/search/${getKindByURL(kindURL)}?api_key=${config.api}&query=${search}&page=${page}`;
   }
 
-  return `${config.base_render_api}/${parameters}&page=${page}`;
+  return getWhatsonApiUrl(
+    `${config.base_render_api}/${parameters}&page=${page}`,
+  );
 };
 
 const InfiniteScroll = ({ page, setPage }) => {

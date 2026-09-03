@@ -1,13 +1,14 @@
-import React, { useEffect, useMemo } from "react";
-import styled from "styled-components";
-import { useFetch } from "react-hooks-fetch";
-import { TabView, TabPanel } from "primereact/tabview";
-import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import config from "../../config";
+import { DataTable } from "primereact/datatable";
+import ExportableChart from "./ExportableChart";
+import { getWhatsonApiUrl } from "utils/getWhatsonApiUrl";
+import React, { useEffect, useMemo } from "react";
+import styled from "styled-components";
+import { TabPanel, TabView } from "primereact/tabview";
 import * as theme from "../../theme";
 import { trackAnalyticsEvent } from "utils/analytics";
-import ExportableChart from "./ExportableChart";
+import { useFetch } from "react-hooks-fetch";
 
 const Wrapper = styled.div`
   color: ${theme.colors.lightGrey};
@@ -268,7 +269,9 @@ const hasEpisodeEvolutionData = (season) =>
   season.episodeEvolutionRows.length > 0;
 
 const RatingsChart = ({ tvshowId, allocineUrl, pageTitle }) => {
-  const endpoint = `${config.base_render_api}/tvshow/${tvshowId}/seasons?append_to_response=highest_episode,last_episode,lowest_episode,next_episode,rating_distribution,rating_distribution_episodes`;
+  const endpoint = getWhatsonApiUrl(
+    `${config.base_render_api}/tvshow/${tvshowId}/seasons?append_to_response=highest_episode,last_episode,lowest_episode,next_episode,rating_distribution,rating_distribution_episodes`,
+  );
   const { data, loading, error } = useFetch(endpoint);
 
   useEffect(() => {

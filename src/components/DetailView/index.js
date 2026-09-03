@@ -1,34 +1,35 @@
-import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { useFetch } from "react-hooks-fetch";
-import { Row, Cell } from "griding";
-import { getTitleFromURL, getKindByURL } from "utils/kind";
-import Container from "components/Container";
-import Loader from "components/Loader";
 import { Arrow, Star } from "components/Icon";
-import Text from "components/Text";
 import Button from "components/Button";
-import ToggleButton from "components/ToggleButton";
-import DialogButton from "components/DialogButton";
-import InfoScreen from "components/InfoScreen";
-import Meta from "./Meta";
-import Info from "./Info";
-import Image from "./Image";
-import { getLanguage } from "utils/useLanguage";
-import queryString from "query-string";
-import { useStorageString } from "utils/useStorageString";
-import { getParameters } from "utils/getParameters";
-import config from "../../config";
-import { Dialog } from "primereact/dialog";
-import ReactPlayer from "react-player";
-import PlatformLinks from "components/PlatformLinks";
-import { OverlayPanel } from "primereact/overlaypanel";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { getRatingsDetails } from "utils/getRatingsDetails";
-import { trackAnalyticsEvent } from "utils/analytics";
-import RatingsChart from "./RatingsChart";
+import { Cell, Row } from "griding";
 import { colors } from "../../theme";
+import { Column } from "primereact/column";
+import config from "../../config";
+import Container from "components/Container";
+import { DataTable } from "primereact/datatable";
+import { Dialog } from "primereact/dialog";
+import DialogButton from "components/DialogButton";
+import { getKindByURL, getTitleFromURL } from "utils/kind";
+import { getLanguage } from "utils/useLanguage";
+import { getParameters } from "utils/getParameters";
+import { getRatingsDetails } from "utils/getRatingsDetails";
+import { getWhatsonApiUrl } from "utils/getWhatsonApiUrl";
+import Image from "./Image";
+import Info from "./Info";
+import InfoScreen from "components/InfoScreen";
+import Loader from "components/Loader";
+import Meta from "./Meta";
+import { OverlayPanel } from "primereact/overlaypanel";
+import PlatformLinks from "components/PlatformLinks";
+import queryString from "query-string";
+import RatingsChart from "./RatingsChart";
+import ReactPlayer from "react-player";
+import styled from "styled-components";
+import Text from "components/Text";
+import ToggleButton from "components/ToggleButton";
+import { trackAnalyticsEvent } from "utils/analytics";
+import { useEffect, useRef, useState } from "react";
+import { useFetch } from "react-hooks-fetch";
+import { useStorageString } from "utils/useStorageString";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -173,10 +174,12 @@ const DetailView = ({ id, kindURL }) => {
   );
 
   const { data: data_from_render } = useFetch(
-    [
-      `${config.base_render_api}/${getKindByURL(kindURL, "render")}${kindURL !== "people" ? `/${id}` : ""}`,
-      `${parameters}`,
-    ].join(""),
+    getWhatsonApiUrl(
+      [
+        `${config.base_render_api}/${getKindByURL(kindURL, "render")}${kindURL !== "people" ? `/${id}` : ""}`,
+        `${parameters}`,
+      ].join(""),
+    ),
   );
 
   let image = data_from_render?.image;
