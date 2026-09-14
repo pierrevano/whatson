@@ -56,7 +56,7 @@ describe("CardsByPage", () => {
     Math.random = originalRandom;
   });
 
-  it("calls the What's on? API when search is an IMDb ID and renders one result", () => {
+  it("normalizes an IMDb ID and renders one result", () => {
     useFetchWithStatusCode.mockReturnValue({
       data: whatsonApiImdbResponse,
       error: null,
@@ -65,7 +65,7 @@ describe("CardsByPage", () => {
 
     render(
       <CardsByPage
-        search="tt0903747"
+        search="TT0903747"
         page={1}
         setPage={jest.fn()}
         isLastPage={true}
@@ -74,7 +74,7 @@ describe("CardsByPage", () => {
     );
 
     expect(useFetchWithStatusCode).toHaveBeenCalledWith(
-      `${config.base_render_api}/?imdbId=tt0903747`,
+      `${config.base_render_api}/?imdbId=tt0903747&page=1`,
     );
     expect(screen.getAllByText("Card")).toHaveLength(1);
   });
@@ -120,7 +120,7 @@ describe("CardsByPage", () => {
     );
 
     expect(useFetchWithStatusCode).not.toHaveBeenCalledWith(
-      `${config.base_render_api}/?imdbId=tt0903747`,
+      `${config.base_render_api}/?imdbId=tt0903747&page=1`,
     );
   });
 

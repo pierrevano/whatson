@@ -56,7 +56,7 @@ const getDataURL = (
 ) => {
   if (kindURL === "search" && isImdbId(search)) {
     return getWhatsonApiUrl(
-      `${config.base_render_api}/?imdbId=${search.trim()}`,
+      `${config.base_render_api}/?imdbId=${search.trim().toLowerCase()}&page=${page}`,
     );
   }
 

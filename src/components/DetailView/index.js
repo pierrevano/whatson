@@ -16,9 +16,13 @@ import { getWhatsonApiUrl } from "utils/getWhatsonApiUrl";
 import Image from "./Image";
 import Info from "./Info";
 import InfoScreen from "components/InfoScreen";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { trackAnalyticsEvent } from "utils/analytics";
+import { useEffect, useRef, useState } from "react";
+import { useFetch } from "react-hooks-fetch";
+import { useStorageString } from "utils/useStorageString";
 import Loader from "components/Loader";
 import Meta from "./Meta";
-import { OverlayPanel } from "primereact/overlaypanel";
 import PlatformLinks from "components/PlatformLinks";
 import queryString from "query-string";
 import RatingsChart from "./RatingsChart";
@@ -26,10 +30,7 @@ import ReactPlayer from "react-player";
 import styled from "styled-components";
 import Text from "components/Text";
 import ToggleButton from "components/ToggleButton";
-import { trackAnalyticsEvent } from "utils/analytics";
-import { useEffect, useRef, useState } from "react";
-import { useFetch } from "react-hooks-fetch";
-import { useStorageString } from "utils/useStorageString";
+import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -173,13 +174,12 @@ const DetailView = ({ id, kindURL }) => {
     "",
   );
 
-  const { data: data_from_render } = useFetch(
-    getWhatsonApiUrl(
-      [
-        `${config.base_render_api}/${getKindByURL(kindURL, "render")}${kindURL !== "people" ? `/${id}` : ""}`,
-        `${parameters}`,
-      ].join(""),
-    ),
+  const { data: data_from_render } = useFetchWithStatusCode(
+    kindURL === "people"
+      ? null
+      : getWhatsonApiUrl(
+          `${config.base_render_api}/${getKindByURL(kindURL, "render")}/${id}${parameters}`,
+        ),
   );
 
   let image = data_from_render?.image;
