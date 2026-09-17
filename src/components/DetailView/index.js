@@ -10,7 +10,6 @@ import { Dialog } from "primereact/dialog";
 import DialogButton from "components/DialogButton";
 import { getKindByURL, getTitleFromURL } from "utils/kind";
 import { getLanguage } from "utils/useLanguage";
-import { getParameters } from "utils/getParameters";
 import { getRatingsDetails } from "utils/getRatingsDetails";
 import { getWhatsonApiUrl } from "utils/getWhatsonApiUrl";
 import Image from "./Image";
@@ -124,7 +123,7 @@ const DetailView = ({ id, kindURL }) => {
   const api_key_query = queryStringParsed.api_key;
   const ratings_filters_query = queryStringParsed.ratings_filters;
 
-  const [api_key, setApiKey] = useStorageString("api_key", "");
+  const [, setApiKey] = useStorageString("api_key", "");
   const [ratings_filters, setRatingsFilters] = useStorageString(
     "ratings_filters",
     "",
@@ -135,50 +134,17 @@ const DetailView = ({ id, kindURL }) => {
       setRatingsFilters(ratings_filters_query);
   });
 
-  const parameters = getParameters(
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    undefined,
-    "",
-    api_key_query,
-    api_key,
-    undefined,
-    "episodes_details,last_episode,next_episode,highest_episode,lowest_episode,platforms_links",
-    ratings_filters_query,
-    ratings_filters,
-    undefined,
-    "",
-    undefined,
-    "",
-  );
+  const parameters = new URLSearchParams({
+    append_to_response:
+      "episodes_details,last_episode,next_episode,highest_episode,lowest_episode,platforms_links",
+    ratings_filters: ratings_filters_query || ratings_filters || "all",
+  });
 
   const { data: data_from_render } = useFetchWithStatusCode(
     kindURL === "people"
       ? null
       : getWhatsonApiUrl(
-          `${config.base_render_api}/${getKindByURL(kindURL, "render")}/${id}${parameters}`,
+          `${config.base_render_api}/${getKindByURL(kindURL, "render")}/${id}?${parameters}`,
         ),
   );
 

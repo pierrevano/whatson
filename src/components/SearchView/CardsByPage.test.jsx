@@ -124,6 +124,38 @@ describe("CardsByPage", () => {
     );
   });
 
+  it("builds the main view request with supported query parameters", () => {
+    useFetchWithStatusCode.mockReturnValue({
+      data: null,
+      error: null,
+      isLoading: true,
+    });
+
+    render(
+      <CardsByPage
+        search=""
+        page={1}
+        setPage={jest.fn()}
+        isLastPage={true}
+        kindURL="multi"
+      />,
+    );
+
+    const requestUrl = new URL(useFetchWithStatusCode.mock.calls[0][0]);
+    requestUrl.searchParams.delete("api_key");
+    expect(Object.fromEntries(requestUrl.searchParams)).toEqual({
+      directors: "all",
+      genres: "all",
+      is_active: "true,false",
+      item_type: "movie,tvshow",
+      page: "1",
+      platforms: "all",
+      production_companies: "all",
+      ratings_filters: "all",
+      release_date: "everything",
+    });
+  });
+
   it("shows the error message on the first page when filters return 404 without a search term", () => {
     useFetchWithStatusCode.mockReturnValue({
       data: null,
