@@ -59,12 +59,13 @@ export const initializeSelectedItems = (
       });
   };
 
+  const allGenresSelected = parseCodes(genres_value, {
+    lowercase: false,
+  }).some((code) => code === "all" || code === "allgenres");
+
   addSelections(
-    genres_value === "all"
-      ? genres.items
-          .filter((item) => item.code !== "allgenres")
-          .map((item) => item.code)
-          .join(",")
+    allGenresSelected
+      ? genres.items.map((item) => item.code).join(",")
       : genres_value,
     undefined,
     { lowercase: false },

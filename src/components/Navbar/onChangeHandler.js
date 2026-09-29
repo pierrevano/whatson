@@ -64,14 +64,10 @@ export const onChangeHandler = (
 
   const sectionHandlers = {
     genres: () => {
-      if (areVisibleNamesIncluded(originMapper, "genres", ["allgenres"])) {
+      if (areVisibleNamesIncluded(originMapper, "genres")) {
         setGenresValue("all");
       } else {
-        setGenresValue(
-          originMapper.genres
-            .filter((genre) => genre.toLowerCase() !== "allgenres")
-            .join(","),
-        );
+        setGenresValue(originMapper.genres.join(","));
       }
     },
     must_see: () => {

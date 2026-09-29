@@ -6,6 +6,8 @@ import tmdbSearchResponse from "./__fixtures__/tmdbSearchResponse.json";
 import useFetchWithStatusCode from "utils/useFetchWithStatusCode";
 import whatsonApiImdbResponse from "./__fixtures__/whatsonApiImdbResponse.json";
 
+const mockStoredFilters = {};
+
 jest.mock("../../config", () => ({
   __esModule: true,
   default: {
@@ -39,16 +41,33 @@ jest.mock("components/InfoScreen", () => ({ title, description }) => (
 ));
 
 jest.mock("utils/useStorageString", () => ({
-  useStorageString: (_key, initialValue = "") => [initialValue, jest.fn()],
+  useStorageString: (key, initialValue = "") => [
+    mockStoredFilters[key] ?? initialValue,
+    jest.fn(),
+  ],
 }));
 
 jest.mock("utils/useFetchWithStatusCode", () => jest.fn());
 
 describe("CardsByPage", () => {
   const originalRandom = Math.random;
+  const defaultMainViewParams = {
+    directors: "all",
+    genres: "all",
+    is_active: "true,false",
+    item_type: "movie,tvshow",
+    page: "1",
+    platforms: "all",
+    production_companies: "all",
+    ratings_filters: "all",
+    release_date: "everything",
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
+    Object.keys(mockStoredFilters).forEach(
+      (key) => delete mockStoredFilters[key],
+    );
     Math.random = jest.fn(() => 0);
   });
 
@@ -143,18 +162,51 @@ describe("CardsByPage", () => {
 
     const requestUrl = new URL(useFetchWithStatusCode.mock.calls[0][0]);
     requestUrl.searchParams.delete("api_key");
-    expect(Object.fromEntries(requestUrl.searchParams)).toEqual({
-      directors: "all",
-      genres: "all",
-      is_active: "true,false",
-      item_type: "movie,tvshow",
-      page: "1",
-      platforms: "all",
-      production_companies: "all",
-      ratings_filters: "all",
-      release_date: "everything",
-    });
+    expect(Object.fromEntries(requestUrl.searchParams)).toEqual(
+      defaultMainViewParams,
+    );
   });
+
+  it.each([
+    ["all genres with selected platforms", "all", "Netflix,Disney+", "all"],
+    ["selected genres with all platforms", "Drama,Crime", "all", "Drama,Crime"],
+    [
+      "selected genres and platforms",
+      "Drama,Crime",
+      "Netflix,Disney+",
+      "Drama,Crime",
+    ],
+    ["legacy allgenres with selected platforms", "allgenres", "Netflix", "all"],
+  ])(
+    "builds the main view request for %s",
+    (_name, genres, platforms, expectedGenres) => {
+      mockStoredFilters.genres = genres;
+      mockStoredFilters.platforms = platforms;
+      useFetchWithStatusCode.mockReturnValue({
+        data: null,
+        error: null,
+        isLoading: true,
+      });
+
+      render(
+        <CardsByPage
+          search=""
+          page={1}
+          setPage={jest.fn()}
+          isLastPage={true}
+          kindURL="multi"
+        />,
+      );
+
+      const requestUrl = new URL(useFetchWithStatusCode.mock.calls[0][0]);
+      requestUrl.searchParams.delete("api_key");
+      expect(Object.fromEntries(requestUrl.searchParams)).toEqual({
+        ...defaultMainViewParams,
+        genres: expectedGenres,
+        platforms,
+      });
+    },
+  );
 
   it("shows the error message on the first page when filters return 404 without a search term", () => {
     useFetchWithStatusCode.mockReturnValue({

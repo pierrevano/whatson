@@ -120,7 +120,6 @@ const getGroupsForItemType = (itemType = "movie") => {
 
 const isVisibleFilterItem = (item) =>
   !(
-    (item.origin === "genres" && item.code === "allgenres") ||
     (item.origin === "minimum_ratings" && item.code !== "0.0") ||
     (item.origin === "must_see" && item.code === "false") ||
     (item.origin === "platforms" && item.code === "all") ||
@@ -476,13 +475,39 @@ describe("SidebarFilters", () => {
   it("stores genres as all when every visible genre chip is selected", () => {
     renderSidebar();
 
+    filters.genres.items.forEach((item) => {
+      fireEvent.click(screen.getByRole("button", { name: item.name }));
+    });
+
+    expect(window.localStorage.getItem("genres")).toBe("all");
+  });
+
+  it("keeps platform selections when switching between individual and all genres", () => {
+    renderSidebar({ item_type: "tvshow", platforms: "all" });
+
+    fireEvent.click(screen.getByRole("button", { name: "Drama" }));
+    expect(window.localStorage.getItem("genres")).toBe("Drama");
+    expect(window.localStorage.getItem("platforms")).toBe("all");
+
     filters.genres.items
-      .filter((item) => item.code !== "allgenres")
+      .filter((item) => item.code !== "Drama")
       .forEach((item) => {
         fireEvent.click(screen.getByRole("button", { name: item.name }));
       });
 
     expect(window.localStorage.getItem("genres")).toBe("all");
+    expect(window.localStorage.getItem("platforms")).toBe("all");
+
+    fireEvent.click(screen.getByRole("button", { name: "Comedy" }));
+    const selectedGenres = splitValues(window.localStorage.getItem("genres"));
+    expect(selectedGenres).toContain("Drama");
+    expect(selectedGenres).not.toContain("Comedy");
+    expect(selectedGenres).not.toContain("all");
+    expect(window.localStorage.getItem("platforms")).toBe("all");
+    expect(screen.getByRole("button", { name: "Netflix" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
   });
 
   it("stores platforms as all when every visible platform chip is selected", () => {

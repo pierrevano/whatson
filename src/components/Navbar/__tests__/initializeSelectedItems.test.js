@@ -135,11 +135,7 @@ describe("initializeSelectedItems regressions", () => {
     });
 
     expect(selectedMap.genres).toEqual(
-      expect.arrayContaining(
-        filters.genres.items
-          .filter((item) => item.code !== "allgenres")
-          .map((item) => item.code),
-      ),
+      expect.arrayContaining(filters.genres.items.map((item) => item.code)),
     );
     expect(selectedMap.platforms).toEqual(
       expect.arrayContaining(

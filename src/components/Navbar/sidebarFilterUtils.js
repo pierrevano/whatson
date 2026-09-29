@@ -28,7 +28,6 @@ export const getFilterItemLabel = (item) => {
  */
 export const isVisibleFilterItem = (item) =>
   !(
-    (item.origin === "genres" && item.code === "allgenres") ||
     (item.origin === "must_see" && item.code === "false") ||
     (item.origin === "platforms" && item.code === "all") ||
     (item.origin === "popularity" && item.code !== "enabled") ||

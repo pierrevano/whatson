@@ -16,7 +16,7 @@ const config = {
   favorites: "",
 
   genres:
-    "Drama,Crime,Mystery,Sci-Fi & Fantasy,Action & Adventure,Comedy,War & Politics,Family,Animation,Western,Soap,Reality,allgenres",
+    "Drama,Crime,Mystery,Sci-Fi & Fantasy,Action & Adventure,Comedy,War & Politics,Family,Animation,Western,Soap,Reality",
 
   is_active: "true,false",
 

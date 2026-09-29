@@ -7,16 +7,24 @@ const addParameter = (queryValue, queryAlternate, paramName) => {
   return "";
 };
 
-const normalizeFilterValue = (value) =>
+const normalizeFilterValue = (value, paramName) =>
   (value || "")
     .split(",")
-    .map((entry) => entry.trim())
+    .map((entry) => {
+      const trimmed = entry.trim();
+      return paramName === "genres" && trimmed === "allgenres"
+        ? "all"
+        : trimmed;
+    })
     .filter(Boolean)
     .join(",");
 
 const handleEncodedFilters = (mainQuery, alternateQuery, paramName) => {
-  const normalizedMainQuery = normalizeFilterValue(mainQuery);
-  const normalizedAlternateQuery = normalizeFilterValue(alternateQuery);
+  const normalizedMainQuery = normalizeFilterValue(mainQuery, paramName);
+  const normalizedAlternateQuery = normalizeFilterValue(
+    alternateQuery,
+    paramName,
+  );
 
   if (normalizedMainQuery) {
     return `${paramName}=${
