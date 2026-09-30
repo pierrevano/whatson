@@ -79,6 +79,8 @@ export const getParameters = (
   directors,
   production_companies_query,
   production_companies,
+  sort_by_query,
+  order_query,
 ) => {
   let parameters = "?";
 
@@ -100,17 +102,17 @@ export const getParameters = (
     "popularity_filters",
   );
 
-  parameters += addParameter(
-    top_ranking_order,
-    top_ranking_order_query,
-    "top_ranking_order",
-  );
+  const topRankingOrder = top_ranking_order || top_ranking_order_query;
+  const mojoRankOrder = mojo_rank_order || mojo_rank_order_query;
 
-  parameters += addParameter(
-    mojo_rank_order,
-    mojo_rank_order_query,
-    "mojo_rank_order",
-  );
+  const sortBy =
+    sort_by_query ||
+    (topRankingOrder ? "top_ranking" : mojoRankOrder ? "mojo_rank" : undefined);
+  const order =
+    order_query || (!sort_by_query && (topRankingOrder || mojoRankOrder));
+
+  parameters += addParameter(sortBy, undefined, "sort_by");
+  parameters += addParameter(order, undefined, "order");
 
   parameters += addParameter(release_date, release_date_query, "release_date");
 

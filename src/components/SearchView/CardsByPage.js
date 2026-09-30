@@ -23,6 +23,8 @@ const platforms_query = queryStringParsed.platforms;
 const popularity_filters_query = queryStringParsed.popularity_filters;
 const top_ranking_order_query = queryStringParsed.top_ranking_order;
 const mojo_rank_order_query = queryStringParsed.mojo_rank_order;
+const sort_by_query = queryStringParsed.sort_by;
+const order_query = queryStringParsed.order;
 const ratings_filters_query = queryStringParsed.ratings_filters;
 const release_date_query = queryStringParsed.release_date;
 const production_companies_query = queryStringParsed.production_companies;
@@ -97,6 +99,8 @@ const getDataURL = (
     directors,
     production_companies_query,
     production_companies,
+    sort_by_query,
+    order_query,
   );
 
   if (
