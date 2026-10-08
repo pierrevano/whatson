@@ -143,7 +143,8 @@ describe("RatingBadge", () => {
   it("fetches the full per-source ratings for a TMDB-only item", () => {
     useFetchWithStatusCode.mockImplementation((url) => ({
       data:
-        url === `${config.base_render_api}/movie/123?ratings_filters=all`
+        url ===
+        `${config.base_render_api}/movie/123?ratings_filters=all&append_to_response=mojo`
           ? {
               ratings_average: 4.3,
               allocine: {

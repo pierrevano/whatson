@@ -52,6 +52,7 @@ jest.mock("utils/useFetchWithStatusCode", () => jest.fn());
 describe("CardsByPage", () => {
   const originalRandom = Math.random;
   const defaultMainViewParams = {
+    append_to_response: "mojo",
     directors: "all",
     genres: "all",
     is_active: "true,false",
@@ -93,7 +94,7 @@ describe("CardsByPage", () => {
     );
 
     expect(useFetchWithStatusCode).toHaveBeenCalledWith(
-      `${config.base_render_api}/?imdbId=tt0903747&page=1`,
+      `${config.base_render_api}/?imdbId=tt0903747&append_to_response=mojo&page=1`,
     );
     expect(screen.getAllByText("Card")).toHaveLength(1);
   });
@@ -139,7 +140,7 @@ describe("CardsByPage", () => {
     );
 
     expect(useFetchWithStatusCode).not.toHaveBeenCalledWith(
-      `${config.base_render_api}/?imdbId=tt0903747&page=1`,
+      `${config.base_render_api}/?imdbId=tt0903747&append_to_response=mojo&page=1`,
     );
   });
 

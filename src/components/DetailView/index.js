@@ -136,7 +136,7 @@ const DetailView = ({ id, kindURL }) => {
 
   const parameters = new URLSearchParams({
     append_to_response:
-      "episodes_details,last_episode,next_episode,highest_episode,lowest_episode,platforms_links",
+      "episodes_details,highest_episode,last_episode,lowest_episode,mojo,next_episode,platforms_links,tagline,trailer",
     ratings_filters: ratings_filters_query || ratings_filters || "all",
   });
 

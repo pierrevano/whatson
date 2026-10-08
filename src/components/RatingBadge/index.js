@@ -41,7 +41,7 @@ const RatingBadge = ({ id, kindURL, ...props }) => {
       id &&
       (renderKind === "movie" || renderKind === "tvshow")
       ? getWhatsonApiUrl(
-          `${config.base_render_api}/${renderKind}/${id}?ratings_filters=all`,
+          `${config.base_render_api}/${renderKind}/${id}?ratings_filters=all&append_to_response=mojo`,
         )
       : null,
   );

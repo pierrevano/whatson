@@ -58,7 +58,7 @@ const getDataURL = (
 ) => {
   if (kindURL === "search" && isImdbId(search)) {
     return getWhatsonApiUrl(
-      `${config.base_render_api}/?imdbId=${search.trim().toLowerCase()}&page=${page}`,
+      `${config.base_render_api}/?imdbId=${search.trim().toLowerCase()}&append_to_response=mojo&page=${page}`,
     );
   }
 
@@ -92,7 +92,7 @@ const getDataURL = (
     api_key_query,
     api_key,
     undefined,
-    "",
+    "mojo",
     ratings_filters_query,
     ratings_filters,
     directors_query,

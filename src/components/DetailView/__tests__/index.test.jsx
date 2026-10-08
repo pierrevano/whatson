@@ -38,7 +38,7 @@ describe("DetailView", () => {
     const requestUrl = new URL(useFetchWithStatusCode.mock.calls[0][0]);
     expect(requestUrl.pathname).toBe("/movie/550");
     expect(requestUrl.searchParams.get("append_to_response")).toBe(
-      "episodes_details,last_episode,next_episode,highest_episode,lowest_episode,platforms_links",
+      "episodes_details,highest_episode,last_episode,lowest_episode,mojo,next_episode,platforms_links,tagline,trailer",
     );
     expect(requestUrl.searchParams.get("ratings_filters")).toBe("all");
     expect(requestUrl.searchParams.get("api_key")).toBe("website-key");
